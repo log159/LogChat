@@ -1,7 +1,7 @@
 # Log_Chat
 # VITS语音模型ChatGPT客户端
 
-#------------source code 架构 & 使用------------ 
+#------------source code 架构 & 使用------------  
 #------------source code 1.0.0------------------  
 1、ui使用qt creator 搭建  
 2、用到了openai的python脚本，需要python环境和openai库，需要key  
