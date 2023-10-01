@@ -1,7 +1,6 @@
 # Log_Chat
 # VITS语音模型ChatGPT客户端
-# 一个带语音的ChatGPT客户端
-#演示视频【ChatGPT聊天接入vits-api测试】 https://www.bilibili.com/video/BV1eH4y1U7fT  
+演示视频【ChatGPT聊天接入vits-api测试】 https://www.bilibili.com/video/BV1eH4y1U7fT  
 #------------source code 架构 & 使用------------  
 #------------source code 1.0.0------------------  
 1、ui使用qt creator 搭建  
