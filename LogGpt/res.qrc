@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/">
+        <file>res/ChatIcon.png</file>
+        <file>res/PushImg.png</file>
+        <file>res/u8.svg</file>
+        <file>res/u9.svg</file>
+        <file>res/u10.svg</file>
+        <file>res/u13.svg</file>
+        <file>res/u31.svg</file>
+        <file>res/u36.svg</file>
+        <file>res/u37.svg</file>
+        <file>res/u55.svg</file>
+        <file>res/u76.svg</file>
+        <file>res/u77.svg</file>
+        <file>res/UserIcon.png</file>
+    </qresource>
+</RCC>
