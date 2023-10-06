@@ -11,4 +11,4 @@
 3、需要 VITS-simple-api 链接 https://github.com/Artrajz/vits-simple-api/tree/main  
 4、配置 VITS模型并成功启动端口  
 5、如果VITS模型不支持对话语言，需要借助百度翻译api，申请链接 https://fanyi-api.baidu.com/  
-6、运行chatGPT.exe  
+6、运行.exe  
