@@ -12,6 +12,6 @@
 4、配置 VITS模型并成功启动端口  
 5、如果VITS模型不支持对话语言，需要借助百度翻译api，申请链接 https://fanyi-api.baidu.com/  
 6、运行.exe  
-#附：免科学上网使用此项目方式
+#附：免科学上网使用此项目方式  
 1、修改openpy/qtopenai.py 加一行 openai.api_base = "https://api.chatanywhere.com.cn/v1"  
 2、申请密钥(无需科学上网，国内中转) 链接：https://github.com/chatanywhere/GPT_API_free
