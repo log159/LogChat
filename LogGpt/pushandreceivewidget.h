@@ -22,13 +22,15 @@
 #include <QFrame>
 #include <QMessageBox>
 
-
 #include "listitemswidget.h"
 #include "botitemswidget.h"
 #include "useritemswidget.h"
 #include "config.h"
 #include "baiduapi.h"
 #include "usertextedit.h"
+#include "nettcp.h"
+#include "configwindow.h"
+#include "configwindow.h"
 
 namespace Ui {
 class PushAndReceiveWidget;
@@ -41,8 +43,6 @@ class PushAndReceiveWidget : public QWidget
     typedef void (QProcess::*FinishedFunc)(int,QProcess::ExitStatus);
     typedef void (BaiduApi::*ReplyFinishedData)(QString);
 private:
-    const int _Width    =840;
-    const int _Height   =600;
 
     QList<QString>    m_OldUserTextList;
     QList<QString>    m_OldRobotTextList;
@@ -50,10 +50,14 @@ private:
     QListWidget*      m_ListWidget             =nullptr;
     UserTextEdit*     m_UserTextEdit           =nullptr;
     QPushButton*      m_PushButtonSend         =nullptr;
+    QFrame*           m_Frame                  =nullptr;
+    NetTcp*           m_NetTcp                 =nullptr;
 
 public:
     explicit PushAndReceiveWidget(QWidget *parent = nullptr);
     ~PushAndReceiveWidget();
+
+    void setAdapt();//调整大小
 
     void clearHistory();        //清除历史
 private:
@@ -63,6 +67,7 @@ private:
 
     void addCharacterConfig();  //角色设定配置
     void moveHistory();         //移除部分历史记忆
+
 signals:
     void sendIs();
     void receiveIs();

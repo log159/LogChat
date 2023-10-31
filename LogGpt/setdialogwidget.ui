@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>500</height>
+    <width>900</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -35,7 +35,14 @@
          <item>
           <widget class="QLabel" name="label_vits">
            <property name="text">
-            <string>VITS端口(默认23456):</string>
+            <string>VITS配置:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_vits_select">
+           <property name="text">
+            <string>语音模型配置:</string>
            </property>
           </widget>
          </item>
@@ -75,9 +82,16 @@
           </widget>
          </item>
          <item>
+          <widget class="QLabel" name="label_baidu_set">
+           <property name="text">
+            <string>百度翻译配置:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QLabel" name="label_baidu_enable">
            <property name="text">
-            <string>启用百度翻译auto-&gt;jp:</string>
+            <string>启用百度翻译:</string>
            </property>
           </widget>
          </item>
@@ -109,8 +123,63 @@
             <enum>QFrame::Raised</enum>
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_9">
+            <property name="leftMargin">
+             <number>11</number>
+            </property>
             <item>
-             <widget class="QLineEdit" name="lineEdit_vits"/>
+             <widget class="QLabel" name="label_vits_address">
+              <property name="text">
+               <string>地址:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="lineEdit_vits_address"/>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_vits_port">
+              <property name="text">
+               <string>端口:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="lineEdit_vits_port"/>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QFrame" name="frame_vits_select">
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_10">
+            <item>
+             <widget class="QComboBox" name="comboBox_vits_select"/>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_speaker_id">
+              <property name="text">
+               <string>speaker id:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="lineEdit_speaker_id"/>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_speaker_emotion">
+              <property name="text">
+               <string>emotion：</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="lineEdit_speaker_emotion"/>
             </item>
            </layout>
           </widget>
@@ -208,6 +277,38 @@
                <string>NO</string>
               </property>
              </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QFrame" name="frame_baidu_key_2">
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_11">
+            <item>
+             <widget class="QLabel" name="label_baidu_from">
+              <property name="text">
+               <string>language from:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="comboBox_baidu_from"/>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_baidu_to">
+              <property name="text">
+               <string>language to:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="comboBox_baidu_to"/>
             </item>
            </layout>
           </widget>

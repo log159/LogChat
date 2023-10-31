@@ -8,7 +8,7 @@ QT       += core gui network multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = LogGpt
+TARGET = LogGPT
 RC_ICONS = gpt.ico
 TEMPLATE = app
 
@@ -29,8 +29,10 @@ SOURCES += \
         baiduapi.cpp \
         botitemswidget.cpp \
         config.cpp \
+        configwindow.cpp \
         listitemswidget.cpp \
         main.cpp \
+        nettcp.cpp \
         pushandreceivewidget.cpp \
         setconfigdialogwidget.cpp \
         setdialogwidget.cpp \
@@ -44,7 +46,9 @@ HEADERS += \
         baiduapi.h \
         botitemswidget.h \
         config.h \
+        configwindow.h \
         listitemswidget.h \
+        nettcp.h \
         pushandreceivewidget.h \
         setconfigdialogwidget.h \
         setdialogwidget.h \

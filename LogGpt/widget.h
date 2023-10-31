@@ -6,7 +6,10 @@
 #include <QString>
 #include <QMouseEvent>
 #include <QDebug>
+#include <QResizeEvent>
+#include <QRect>
 
+#include "configwindow.h"
 #include "pushandreceivewidget.h"
 #include "setselectwidget.h"
 #include "setdialogwidget.h"
@@ -23,8 +26,6 @@ class Widget : public QWidget
 
 private:
     const QString   _WindowTitle  ="Log_Chat";
-    const int       _Width        =840;
-    const int       _Height       =600;
 
     PushAndReceiveWidget* m_PushAndReceiveWidget    =nullptr;
     SetSelectWidget*      m_SetSelectWidget         =nullptr;
@@ -36,6 +37,7 @@ public:
 private:
     void init();
     void initConnect();
+    void resizeEvent(QResizeEvent*event);
 
 
 private:

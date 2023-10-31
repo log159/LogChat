@@ -1,5 +1,7 @@
 #include "config.h"
 
+const QVector<QString>   Config::VITS_ALL_V ={"vits","bert-vits2","w2v2-vits"};                 //全部VITS模型
+const QVector<QString>   Config::LANGUAGE_V ={"auto","jp","zh","en"};                           //全部百度翻译语种
 const QString Config::PY_INTERPRETER_WAY    ="/python/python.exe";                              //python解释器路径
 const QString Config::PY_CHAT_SCRIPT_WAY    ="/openpy/qtopenai.py";                             //openai脚本路径
 const QString Config::OUTPUT_WAV_WAY        ="/wav/%1.wav";                                     //音频文件输出路径
@@ -9,6 +11,7 @@ const QString Config::BAIDU_APID_WAY        ="/baiduapi/ID.txt";                
 const QString Config::BAIDU_KEY_WAY         ="/baiduapi/KEY.txt";                               //百度翻译密匙文件路径
 
 QString       Config::OPENAI_KEY            ="";                                                //配置openai_key(need file)
+QString       Config::URL_ADDRESS           ="127.0.0.1";                                       //VITS Url地址
 QString       Config::URL_PORT              ="23456";                                           //VITS Url地址
 int           Config::MAX_SPEAK             =0;                                                 //上文联系最大保留
 QString       Config::BAIDU_APID            ="";                                                //百度翻译开发账号(need file)
@@ -18,7 +21,11 @@ bool          Config::ENABLE_SOUND          =false;                             
 bool          Config::ENABLE_BAIDUFANYI     =false;                                             //是否启用百度翻译
 bool          Config::ENABLE_LATERLANGUAGE  =false;                                             //是否启用翻译后的语言用来显示
 
-QPair<QString,QString>   Config::LANGUAGE_FROM_TO   =QPair<QString,QString>("auto","jp");       //sound语言转换 默认from auto to jp
+int           Config::VITS_ID               =0;                                                 //vits模型ID
+int           Config::SPEAKER_ID            =0;                                                 //讲述人ID
+int           Config::EMOTION_ID            =0;                                                 //情感控制ID
+int           Config::BAIDU_FROM_ID         =0;                                                 //原语种ID
+int           Config::BAIDU_TO_ID           =1;                                                 //翻译后语种ID
 
 void Config::init()
 {
@@ -157,18 +164,44 @@ const QString Config::get_BAIDU_KEY_WAY()
     return  QCoreApplication::applicationDirPath()+Config::BAIDU_KEY_WAY;
 }
 
+QVector<QString> Config::get_VITS_ALL_V()
+{
+    return Config::VITS_ALL_V;
+}
+
+QVector<QString> Config::get_LANGUAGE_V()
+{
+    return Config::LANGUAGE_V;
+}
+
 const QString Config::get_OPENAI_KEY()
 {
     return Config::OPENAI_KEY;
+}
+
+const QString Config::get_URL_ADDRESSS()
+{
+    return Config::URL_ADDRESS;
 }
 
 const QString Config::get_URL_PATH()
 {
     return Config::URL_PORT;
 }
-const QString Config::get_URL_ADDRESS()
+const QString Config::get_URL_ADDRESS_ALL()
 {
-    return QString("http://127.0.0.1:"+Config::URL_PORT+"/voice/vits?text=%1&id=0");
+   QString str = QString("http://"
+                   +Config::URL_ADDRESS+":"
+                   +Config::URL_PORT
+                   +"/voice/"
+                   +Config::get_VITS_ALL_V().at(Config::get_VITS_ID())
+                   +"?text=%1&id="
+                   +QString::number(Config::get_SPEAKER_ID())
+                   );
+   if(Config::get_VITS_ALL_V().at(Config::get_VITS_ID()).compare("w2v2-vits")==0){
+       str+=QString("&emotion="+QString::number(Config::get_EMOTION_ID()));
+   }
+   return str;
 }
 void Config::set_MAX_SPEAK(const int &num)
 {
@@ -198,7 +231,7 @@ const QString Config::get_CHARACTER_CONFIG()
     //读取角色配置信息
     QFile file(Config::get_CHARACTER_CONFIG_WAY());
     if(!file.open(QIODevice::ReadOnly|QIODevice::Text)){
-        return QString("你好");
+        return QString("");
     }
     QTextStream in(&file);
     in.setCodec("UTF-8");
@@ -227,15 +260,40 @@ bool Config::get_ENABLE_LATERLANGUAGE()
     return Config::ENABLE_LATERLANGUAGE;
 }
 
-const QPair<QString, QString> Config::get_LANGUAGE_FROM_TO()
+int Config::get_VITS_ID()
 {
-    return Config::LANGUAGE_FROM_TO;
+    return Config::VITS_ID;
+}
+
+int Config::get_SPEAKER_ID()
+{
+    return Config::SPEAKER_ID;
+}
+
+int Config::get_EMOTION_ID()
+{
+    return Config::EMOTION_ID;
+}
+
+int Config::get_BAIDU_FROM_ID()
+{
+    return Config::BAIDU_FROM_ID;
+}
+
+int Config::get_BAIDU_TO_ID()
+{
+    return Config::BAIDU_TO_ID;
 }
 
 void Config::set_OPENAI_KEY(const QString &str)
 {
     output_OPENAI_KEY(str);
     Config::OPENAI_KEY=str;
+}
+
+void Config::set_URL_ADDRESS(const QString &str)
+{
+    Config::URL_ADDRESS=str;
 }
 
 void Config::set_URL_PORT(const QString &str)
@@ -287,8 +345,28 @@ void Config::set_ENABLE_LATERLANGUAGE(const bool &bo)
     Config::ENABLE_LATERLANGUAGE=bo;
 }
 
-void Config::set_LANGUAGE_FROM_TO(const QPair<QString, QString> &pair)
+void Config::set_VITS_ID(int id)
 {
-    Config::LANGUAGE_FROM_TO.first=pair.first;
-    Config::LANGUAGE_FROM_TO.second=pair.second;
+    Config::VITS_ID=id;
 }
+
+void Config::set_SPEAKER_ID(int id)
+{
+    Config::SPEAKER_ID=id;
+}
+
+void Config::set_EMOTION_ID(int id)
+{
+    Config::EMOTION_ID=id;
+}
+
+void Config::set_BAIDU_FROM_ID(int id)
+{
+    Config::BAIDU_FROM_ID=id;
+}
+
+void Config::set_BAIDU_TO_ID(int id)
+{
+    Config::BAIDU_TO_ID=id;
+}
+

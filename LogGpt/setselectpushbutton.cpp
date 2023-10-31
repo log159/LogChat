@@ -7,7 +7,7 @@ SetSelectPushButton::SetSelectPushButton(QWidget *parent) : QPushButton(parent)
 
 void SetSelectPushButton::init()
 {
-    this->setFixedSize(30,80);
+    this->setFixedSize(20,80);
     this->setText(">>");
 }
 

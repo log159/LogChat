@@ -12,6 +12,7 @@
 #include <QTextEdit>
 #include <QDebug>
 
+#include "configwindow.h"
 enum ItemEnum{
   User,Bot
 };
@@ -23,14 +24,16 @@ class ListItemsWidget;
 class ListItemsWidget : public QWidget
 {
     Q_OBJECT
+
 private:
-    const int _Width        =415;
-    const int _Height       =50;
+
+    const int _Height       =40;
     const int _IconWidth    =35;
     const int _IconHeight   =35;
 protected:
     QLabel*     m_IconLab      =nullptr;
     QTextEdit*  m_TitleEdit    =nullptr;
+    ItemEnum    m_ItemEnum;
     QFont       m_Font;
 
 public:
@@ -38,10 +41,10 @@ public:
     ~ListItemsWidget();
 
     void initItem(const QString& strTitle,const ItemEnum& ItEn,int line);
+    void setAdapt();//调整大小
 private:
 
     void init();
-    void paintEvent(QPaintEvent*e);
     void setItemTitle(const QString & strTitle);
     void setItemHeight(const QString & strTitle);
 

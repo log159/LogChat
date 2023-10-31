@@ -15,9 +15,11 @@ SetSelectWidget::~SetSelectWidget()
     delete ui;
 }
 
+
+
 void SetSelectWidget::init()
 {
-    this->setFixedSize(_Width,_Height);
+    this->setFixedSize(_Width,ConfigWindow::getStaticHeight());
 
     m_ListWidget=new QListWidget(this);
     m_ListWidget->setStyleSheet(
@@ -28,8 +30,9 @@ void SetSelectWidget::init()
                 "QScrollBar::sub-line:vertical {height: 0 px;subcontrol-position: top; subcontrol-origin: margin;}"
                 "QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {background-color: #F5F5F5;border-radius: 5px;}"
                 );
-    // 禁止水平滚动条显示
-    m_ListWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+    m_ListWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);       //禁止水平滚动条显示
+    m_ListWidget->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);   //平滑效果
     m_ListWidget->setFixedSize(this->size());
     m_ListWidget->move(0,0);
 
@@ -38,7 +41,7 @@ void SetSelectWidget::init()
     m_PushButtonSet->setText("基本设置");
     m_ButtonVector.push_back(m_PushButtonSet);
     m_PushButtonConfig=new QPushButton();
-    m_PushButtonConfig->setText("文本设定");
+    m_PushButtonConfig->setText("聊天设置");
     m_ButtonVector.push_back(m_PushButtonConfig);
     m_PushButtonClear=new QPushButton();
     m_PushButtonClear->setText("清除聊天");
@@ -58,6 +61,11 @@ void SetSelectWidget::init()
 
 }
 
+void SetSelectWidget::setAdapt()
+{
+    this->setFixedSize(_Width,ConfigWindow::getStaticHeight());
+    m_ListWidget->setFixedSize(this->size());
+}
 void SetSelectWidget::initConnect()
 {
     connect(m_PushButtonSet,&QPushButton::clicked,[=](){
@@ -74,16 +82,6 @@ void SetSelectWidget::initConnect()
     });
 }
 
-void SetSelectWidget::paintEvent(QPaintEvent *e)
-{
-    Q_UNUSED(e)
-    QPainter painter(this);
-    QBrush brush;
-    brush.setColor(QColor(0,0,0,200));
-    brush.setStyle(Qt::SolidPattern);
-    painter.setBrush(brush);
-    painter.drawRect(0,0,this->width(),this->height());
-}
 
 void SetSelectWidget::zoom()
 {

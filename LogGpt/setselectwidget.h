@@ -13,6 +13,8 @@
 #include <QListWidgetItem>
 #include <QVector>
 
+#include "configwindow.h"
+
 namespace Ui {
 class SetSelectWidget;
 }
@@ -22,7 +24,6 @@ class SetSelectWidget : public QWidget
     Q_OBJECT
 private:
     const int _Width      =100;
-    const int _Height     =600;
 
     bool                  m_ZoomId           =false;
     QVector<QPushButton*> m_ButtonVector;
@@ -34,6 +35,8 @@ public:
     explicit SetSelectWidget(QWidget *parent = nullptr);
     ~SetSelectWidget();
 
+    void setAdapt();
+
     void zoom();
     void setNoPass();
     void setCanPass();
@@ -44,7 +47,6 @@ private:
     void zoom1();
     void zoom2();
 
-    void paintEvent(QPaintEvent*e);
 
 signals:
     void setWidgetShow();

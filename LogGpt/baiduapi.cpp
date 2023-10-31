@@ -17,17 +17,21 @@ void BaiduApi::initConnect()
 }
 int BaiduApi::functionData(const QString &str)
 {
+    QString cText=removeInvalid(str);
+    qDebug()<<"百度翻译处理前："<<cText;
     QString MD5;
     char salt[60];
     sprintf(salt,"%d",rand());  //获取随机数
-    QString cText=str;
     QString sign=QString("%1%2%3%4").arg(Config::get_BAIDU_APID()).arg(cText).arg(salt).arg(Config::get_BAIDU_KEY());//连接加密文件 宏MY_APID 是你的开发账号 宏MY_APID_KEY 是你的开发者密匙
 
     QByteArray strByteArray = QCryptographicHash::hash(sign.toUtf8(),QCryptographicHash::Md5);
     MD5.append(strByteArray.toHex());//生成md5加密文件
     QString myurl=QString("http://api.fanyi.baidu.com/api/trans/vip/translate?"
            "q=%1&from=%2&to=%3&appid=%4""&salt=%5&sign=%6")
-           .arg(cText).arg(Config::get_LANGUAGE_FROM_TO().first).arg(Config::get_LANGUAGE_FROM_TO().second).arg(Config::get_BAIDU_APID()).arg(salt).arg(MD5);//连接上传文本 MY_APID 是你的开发账号
+           .arg(cText)
+           .arg(Config::get_LANGUAGE_V().at(Config::get_BAIDU_FROM_ID()))
+           .arg(Config::get_LANGUAGE_V().at(Config::get_BAIDU_TO_ID()))
+           .arg(Config::get_BAIDU_APID()).arg(salt).arg(MD5);//连接上传文本 MY_APID 是你的开发账号
     m_Manager->get(QNetworkRequest(QUrl(myurl)));//发送上传；
 
     return 1;
@@ -97,5 +101,13 @@ int BaiduApi::replyFinished(QNetworkReply *reply)
     emit replyFinishedData(cResult);
     reply->deleteLater();
     return 1;
+
+}
+
+QString BaiduApi::removeInvalid(const QString &str)
+{
+    QString handleStr=str;
+    handleStr.remove(QChar('\n'), Qt::CaseInsensitive);
+    return handleStr;
 
 }

@@ -25,6 +25,7 @@ private:
     void initConnect();
 private:
     int replyFinished(QNetworkReply *reply);
+    QString removeInvalid(const QString& str);
 signals:
     void replyFinishedData(QString);
 

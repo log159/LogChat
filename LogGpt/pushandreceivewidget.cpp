@@ -17,11 +17,11 @@ PushAndReceiveWidget::~PushAndReceiveWidget()
 
 void PushAndReceiveWidget::init()
 {
-    this->setFixedSize(_Width,_Height);
+    this->setFixedSize(ConfigWindow::getStaticWidth(),ConfigWindow::getStaticHeight());
+
+    m_NetTcp=new NetTcp(this);
 
     m_ListWidget=new QListWidget(this);
-    m_ListWidget->setFixedSize(840,520);
-    m_ListWidget->move(0,0);
     m_ListWidget->setStyleSheet(
                 "QScrollBar:vertical {width: 10px;background-color: #F5F5F5;margin: 0px 0px 0px 0px;border-radius: 5px;}"
                 "QScrollBar::handle:vertical {background-color: #CCCCCC;min-height: 20px;border-radius: 5px;}"
@@ -30,39 +30,36 @@ void PushAndReceiveWidget::init()
                 "QScrollBar::sub-line:vertical {height: 0 px;subcontrol-position: top; subcontrol-origin: margin;}"
                 "QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {background-color: #F5F5F5;border-radius: 5px;}"
                 );
-    m_ListWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);         // 禁止编辑
+    m_ListWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);         //禁止编辑
+    m_ListWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);       //禁用水平滑动条
     m_ListWidget->setSelectionMode(QAbstractItemView::NoSelection);           //禁止选中
     m_ListWidget->setFocusPolicy(Qt::NoFocus);                                //禁止获取焦点
     m_ListWidget->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);   //平滑效果
+
+
     m_ListWidget->show();
 
     m_UserTextEdit=new UserTextEdit(this);
-    m_UserTextEdit->setFixedSize(730,80);
-    m_UserTextEdit->move(30,520);
     m_UserTextEdit->setPlaceholderText("来说点什么吧( Shift+Enter换行 Enter发送 )");
     m_UserTextEdit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_UserTextEdit->show();
 
-    QFrame* frame=new QFrame(this);
-    frame->setFixedSize(80,80);
-    frame->move(760,520);
-    frame->setStyleSheet("background-color:white;");
-
+    m_Frame=new QFrame(this);
+    m_Frame->setStyleSheet("background-color:white;");
 
     m_PushButtonSend=new QPushButton(this);
     m_PushButtonSend->setFixedSize(55,55);
-    m_PushButtonSend->move(775,535);
     m_PushButtonSend->setStyleSheet("background-color: transparent;");
     QPixmap sendbutton_img;
     sendbutton_img.load(":/res/PushImg.png");
     sendbutton_img = sendbutton_img.scaled(m_PushButtonSend->width(),m_PushButtonSend->height(), Qt::KeepAspectRatio);
     m_PushButtonSend->setIcon(QIcon(sendbutton_img));
     m_PushButtonSend->setIconSize(sendbutton_img.size()*0.7);
-    m_PushButtonSend->setFixedSize(sendbutton_img.size()*0.7);
     m_PushButtonSend->setCursor(Qt::PointingHandCursor);
     m_PushButtonSend->show();
 
 
+    setAdapt();
     addCharacterConfig();
     m_UserTextEdit->setFocus();
 }
@@ -113,6 +110,8 @@ void PushAndReceiveWidget::moveHistory()
 
 void PushAndReceiveWidget::clearHistory()
 {
+    //历史记录清除
+    qDebug()<<"聊天记录清除";
     m_OldUserTextList.clear();
     m_OldRobotTextList.clear();
     if(Config::get_ENABLE_ROLE()){
@@ -289,7 +288,7 @@ void PushAndReceiveWidget::add_bot_information(const QString &str)
 void PushAndReceiveWidget::handle_bot_sound(const QString &str)
 {
 
-    QString url = Config::get_URL_ADDRESS().arg(str);
+    QString url = Config::get_URL_ADDRESS_ALL().arg(str);
     qDebug()<<"向 vits-api 端发送请求"<<url;
     QNetworkAccessManager *manager = new QNetworkAccessManager(this);
 
@@ -329,6 +328,7 @@ void PushAndReceiveWidget::play_sound(const QString &str)
     QSound * startGameSound=new QSound(str);
     startGameSound->setParent(this);
     startGameSound->play();
+//    m_NetTcp->sendHandle(str);
 
 }
 
@@ -340,4 +340,21 @@ void PushAndReceiveWidget::pushbutton_send_clicked()
     m_InformationComing=true;
     handle_user_information();
     handle_bot_information();
+}
+
+void PushAndReceiveWidget::setAdapt()
+{
+    this->setFixedSize(ConfigWindow::getStaticWidth(),ConfigWindow::getStaticHeight());
+    m_ListWidget->move(0,0);
+    m_ListWidget->setFixedSize(this->width()-1,int(this->height()*0.867));
+    m_UserTextEdit->move(0,m_ListWidget->height());
+    m_UserTextEdit->setFixedSize(int(this->width()*0.867),this->height()-m_ListWidget->height());
+    m_Frame->move(m_UserTextEdit->width(),m_ListWidget->height());
+    m_Frame->setFixedSize(this->width()-m_Frame->x(),this->height()-m_Frame->y());
+    m_PushButtonSend->move(m_Frame->x()+int((m_Frame->width()-m_PushButtonSend->width())*0.5),m_Frame->y()+int((m_Frame->height()-m_PushButtonSend->height())*0.5));
+
+    for(int i=0;i<m_ListWidget->count();++i){
+        QListWidgetItem* listWidgetItem=m_ListWidget->item(i);
+        (static_cast<ListItemsWidget*>(m_ListWidget->itemWidget(listWidgetItem)))->setAdapt();
+    }
 }

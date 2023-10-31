@@ -16,12 +16,12 @@ ListItemsWidget::~ListItemsWidget()
 }
 void ListItemsWidget::init()
 {
-    this->setFixedSize(820,40);
+    this->setFixedSize(ConfigWindow::getStaticWidth()-10,_Height);
     this->m_Font.setPixelSize(20);
 
     m_IconLab=new QLabel(this);
     m_TitleEdit=new QTextEdit(this);
-    m_TitleEdit->setFixedSize(int(this->width()*0.85),int(this->height()*0.9));
+    m_TitleEdit->setFixedSize(int(this->width()*0.85),this->height()-10);
     m_TitleEdit->move(int((this->width()-m_TitleEdit->width())*0.5),int((this->height()-m_TitleEdit->height())*0.5));
     m_TitleEdit->setFont(this->m_Font);
     m_TitleEdit->show();
@@ -46,26 +46,39 @@ void ListItemsWidget::init()
 
 }
 
-void ListItemsWidget::paintEvent(QPaintEvent *e)
-{
-    Q_UNUSED(e)
-//    QPainter painter(this);
-//    painter.drawRect(0,0,this->width()-1,this->height()-1);
-
-}
 
 
 void ListItemsWidget::initItem(const QString &strTitle,const ItemEnum& ItEn,int line)
 {
+    m_ItemEnum=ItEn;
     this->setItemTitle(strTitle);
     this->setItemHeight(strTitle);
     int linePx=this->height()*line;
     if(linePx>300){linePx=300;}
     this->setFixedSize(this->width(),linePx);
-    this->m_TitleEdit->setFixedSize(this->m_TitleEdit->width(),linePx-5);
+    this->m_TitleEdit->setFixedSize(int(this->width()*0.85),linePx-5);
+
     if(ItEn==ItemEnum::User){m_TitleEdit->move(10,m_TitleEdit->y());}
     else if(ItEn==ItemEnum::Bot){m_TitleEdit->move(this->width()-10-m_TitleEdit->width(),m_TitleEdit->y());}
     else {}
+}
+
+void ListItemsWidget::setAdapt()
+{
+    this->setFixedSize(ConfigWindow::getStaticWidth()-10,this->height());
+    this->m_TitleEdit->setFixedSize(int(this->width()*0.85),this->m_TitleEdit->height());
+
+    if(ItemEnum::User==m_ItemEnum){
+        this->m_IconLab->move(this->width()-m_IconLab->width()-3,3);
+        this->m_TitleEdit->move(10,m_TitleEdit->y());
+    }
+    else if(ItemEnum::Bot==m_ItemEnum){
+        this->m_IconLab->move(3,3);
+        this->m_TitleEdit->move(this->width()-10-m_TitleEdit->width(),m_TitleEdit->y());
+    }
+    else {
+
+    }
 }
 
 void ListItemsWidget::setItemTitle(const QString &strTitle){
