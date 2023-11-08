@@ -1,4 +1,5 @@
-# By bilibili:@LearningLog  
+# 可连接到VITS的Chat客户端，支持ChatGPT
+#By bilibili:@LearningLog  
 
 #Version-3.0  
 +设置界面优化  
