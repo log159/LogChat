@@ -9,7 +9,7 @@
   
 # ------------relese 使用-----------------------  
 1、需要python环境和openai库，需要申请openai密钥(Key)  
-2、使用ChatGPT官方key需要科学上网，设置base url 可通过自己的url设置直连
+2、使用ChatGPT官方key需要科学上网，设置base url 可通过自己的url设置直连  
 3、需要 VITS-simple-api： https://github.com/Artrajz/vits-simple-api/tree/main  
 4、配置 VITS模型并成功启动端口  
 5、如果VITS模型不支持对话语言，需要借助百度翻译api，申请链接 https://fanyi-api.baidu.com/  
