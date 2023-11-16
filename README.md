@@ -2,17 +2,17 @@
   
 # ------------source code 架构------------------  
 1、ui使用qt creator 搭建  
-2、ChatGPT的LLM模型交互使用openai的python脚本，需要python环境和安装openai库  
-3、讯飞星火大模型使用官方windows SDK  
+2、ChatGPT api  
+3、讯飞星火大模型官方windows SDK  
 4、VITS-simple-api：	https://github.com/Artrajz/vits-simple-api/tree/main  
 5、百度翻译api：	https://fanyi-api.baidu.com/  
   
 # ------------relese 使用-----------------------  
-1、需要python环境和openai库，需要申请openai密钥(Key)  
+1、不再需要任何环境，直接可用于window  
 2、使用ChatGPT官方key需要科学上网，设置base url 可通过自己的url设置直连  
 3、需要 VITS-simple-api： https://github.com/Artrajz/vits-simple-api/tree/main  
 4、配置 VITS模型并成功启动端口  
-5、如果VITS模型不支持对话语言，需要借助百度翻译api，申请链接 https://fanyi-api.baidu.com/  
+5、如果 VITS模型不支持对话语言，需要百度翻译api，申请链接 https://fanyi-api.baidu.com/  
 6、*免科学上网方式，获取base url以及key：https://github.com/chatanywhere/GPT_API_free  
 7、运行LogChat.exe  
   
