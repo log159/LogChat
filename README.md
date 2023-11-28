@@ -18,7 +18,7 @@
   
 # ------------借鉴&引用--------------------------  
 #VITS-simple-api：  
-#https://github.com/Artrajz/vits-simple-api/releases/tag/v0.2.0  
+#https://github.com/Artrajz/vits-simple-api/tree/v0.2.0  
 #VITS-simple-api配置：  
 #https://www.bilibili.com/video/BV1ku4y1R73r  
 #可用于VITS-api的模型：  
