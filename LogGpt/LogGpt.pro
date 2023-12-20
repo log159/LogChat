@@ -8,7 +8,7 @@ QT       += core gui network multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = LogGPT
+TARGET = LogChat
 RC_ICONS = gpt.ico
 TEMPLATE = app
 
@@ -26,44 +26,71 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+        aboutsoftwaredialogwidget.cpp \
         baiduapi.cpp \
         botitemswidget.cpp \
+        changelive2dwidget.cpp \
+        chatgptapi.cpp \
         config.cpp \
         configwindow.cpp \
         listitemswidget.cpp \
+        live2dlistitemswidget.cpp \
+        llmbase.cpp \
+        llmfactory.cpp \
         main.cpp \
-        nettcp.cpp \
+        modelconfigitem.cpp \
+        netlive2d.cpp \
         pushandreceivewidget.cpp \
         setconfigdialogwidget.cpp \
         setdialogwidget.cpp \
+        setlive2ddialogwidget.cpp \
+        setpushbutton.cpp \
         setselectpushbutton.cpp \
         setselectwidget.cpp \
         useritemswidget.cpp \
         usertextedit.cpp \
-        widget.cpp
+        vitsapi.cpp \
+        widget.cpp \
+        xfxhapi.cpp
 
 HEADERS += \
+        aboutsoftwaredialogwidget.h \
         baiduapi.h \
         botitemswidget.h \
+        changelive2dwidget.h \
+        chatgptapi.h \
         config.h \
         configwindow.h \
         listitemswidget.h \
-        nettcp.h \
+        live2dlistitemswidget.h \
+        llmbase.h \
+        llmfactory.h \
+        modelconfigitem.h \
+        netlive2d.h \
         pushandreceivewidget.h \
         setconfigdialogwidget.h \
         setdialogwidget.h \
+        setlive2ddialogwidget.h \
+        setpushbutton.h \
         setselectpushbutton.h \
         setselectwidget.h \
         singletonbase.h \
         useritemswidget.h \
         usertextedit.h \
-        widget.h
+        vitsapi.h \
+        widget.h \
+        xfxhapi.h
 
 FORMS += \
+        aboutsoftwaredialogwidget.ui \
         botitemswidget.ui \
+        changelive2dwidget.ui \
         listitemswidget.ui \
+        live2dlistitemswidget.ui \
         pushandreceivewidget.ui \
+        setconfigdialogwidget.ui \
         setdialogwidget.ui \
+        setlive2ddialogwidget.ui \
         setselectwidget.ui \
         useritemswidget.ui \
         widget.ui

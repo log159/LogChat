@@ -1,0 +1,65 @@
+#ifndef SETLIVE2DDIALOGWIDGET_H
+#define SETLIVE2DDIALOGWIDGET_H
+
+#include <QDialog>
+#include <QProcess>
+#include <QFileDialog>
+#include <QCoreApplication>
+#include <QProcess>
+#include <QResizeEvent>
+#include <QString>
+#include <QVector>
+#include <QString>
+#include <QMessageBox>
+#include <QSlider>
+#include <QVector>
+#include <QMap>
+#include <QTimer>
+
+#include "config.h"
+#include "configwindow.h"
+#include "live2dlistitemswidget.h"
+#include "changelive2dwidget.h"
+
+class ModelConfigItem;
+
+namespace Ui {
+class SetLive2DDialogWidget;
+}
+
+class SetLive2DDialogWidget : public QDialog
+{
+    Q_OBJECT
+    typedef void (Live2DListItemsWidget::*SendPass)(ModelConfigItem);
+    typedef void (QSlider::*SliderChange)(int);
+public:
+    static bool live2DIsOpen;
+private:
+    const int _Width      =1200;
+    const int _Height     =800;
+private:
+    static QProcess*   m_Live2dProcess;
+    int                m_Live2dOpenId      =-1;
+
+public:
+    explicit SetLive2DDialogWidget(QWidget *parent = nullptr);
+    ~SetLive2DDialogWidget();
+
+
+private:
+    void init();
+    void initConnect();
+    void changeConfig();
+    void addListItem(const ModelConfigItem& modItem);
+    void resizeEvent(QResizeEvent*event);
+    void updateListWidget();
+    void updateLineEdit();
+    void updateForLive2dNet();
+
+signals:
+    void sendModelHandle(QString);
+private:
+    Ui::SetLive2DDialogWidget *ui;
+};
+
+#endif // SETLIVE2DDIALOGWIDGET_H

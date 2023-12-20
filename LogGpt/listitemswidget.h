@@ -11,6 +11,7 @@
 #include <QPixmap>
 #include <QTextEdit>
 #include <QDebug>
+#include <QPainter>
 
 #include "configwindow.h"
 enum ItemEnum{
@@ -27,7 +28,7 @@ class ListItemsWidget : public QWidget
 
 private:
 
-    const int _Height       =40;
+    const int _Height       =50;
     const int _IconWidth    =35;
     const int _IconHeight   =35;
 protected:
@@ -40,14 +41,15 @@ public:
     explicit ListItemsWidget(QWidget *parent = nullptr);
     ~ListItemsWidget();
 
-    void initItem(const QString& strTitle,const ItemEnum& ItEn,int line);
+    void initItem(const QString& strTitle,const ItemEnum& ItEn);
     void setAdapt();//调整大小
 private:
 
     void init();
-    void setItemTitle(const QString & strTitle);
-    void setItemHeight(const QString & strTitle);
+    void initConnect();
 
+private slots:
+    void slot_text_change();
 private:
     Ui::ListItemsWidget *ui;
 };

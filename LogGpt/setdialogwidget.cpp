@@ -18,9 +18,11 @@ SetDialogWidget::~SetDialogWidget()
 void SetDialogWidget::init()
 {
     this->resize(_Width,_Height);
-    this->setWindowTitle("设置");
+    this->setWindowTitle("基本设置");
     this->setWindowIcon(QIcon(":/res/u77.svg"));
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
+
+    ui->tabWidget->setCurrentIndex(0);
 
     ui->lineEdit_vits_address->setText(Config::get_URL_ADDRESSS());
     ui->lineEdit_vits_port->setText(Config::get_URL_PATH());
@@ -30,7 +32,23 @@ void SetDialogWidget::init()
     ui->comboBox_vits_select->setCurrentIndex(Config::get_VITS_ID());
     ui->lineEdit_speaker_id->setText(QString::number(Config::get_SPEAKER_ID()));
     ui->lineEdit_speaker_emotion->setText(QString::number(Config::get_EMOTION_ID()));
-    ui->lineEdit_gpt_key->setText(Config::get_OPENAI_KEY());
+
+    if(Config::get_LLM_MODEL_ID()==0){ui->radioButton_llm_chatgpt->setChecked(true);}
+    else {ui->radioButton_llm_xfxh->setChecked(true);}
+
+    for(int i=0;i<Config::get_CHATGPT_MODEL_V().size();++i){
+        ui->comboBox_llm_chatgpt->addItem(Config::get_CHATGPT_MODEL_V().at(i));
+    }
+    for(int i=0;i<Config::get_XFXH_MODEL_V().size();++i){
+        ui->comboBox_llm_xfxh->addItem(Config::get_XFXH_MODEL_V().at(i));
+    }
+    ui->comboBox_llm_xfxh->setCurrentIndex(Config::get_XFXH_MODEL_ID());
+
+    ui->lineEdit_gpt_key->setText(Config::get_CHATGPT_KEY());
+    ui->lineEdit_gpt_url->setText(Config::get_CHATGPT_BASEAPI());
+    ui->lineEdit_xfxh_appid->setText(Config::get_XFXH_APPID());
+    ui->lineEdit_xfxh_apikey->setText(Config::get_XFXH_KEY());
+    ui->lineEdit_xfxh_apisecret->setText(Config::get_XFXH_SECRET());
     ui->lineEdit_baidu_key->setText(Config::get_BAIDU_KEY());
     ui->lineEdit_baidu_appid->setText(Config::get_BAIDU_APID());
 
@@ -60,8 +78,24 @@ void SetDialogWidget::initConnect()
 
     CurrentIndexChanged currentIndexChanged_vits_select=&QComboBox::currentIndexChanged;
     QObject::connect(ui->comboBox_vits_select, currentIndexChanged_vits_select, this,[=](int index){
-        qDebug()<<"设置模型为："<<Config::get_VITS_ALL_V().at(index);
+        qDebug()<<"设置VITS模型为:"<<Config::get_VITS_ALL_V().at(index);
         Config::set_VITS_ID(index);
+    });
+
+    QObject::connect(ui->radioButton_llm_chatgpt, &QRadioButton::toggled, [&](){
+        qDebug()<<"设置LLM模型为:";
+        if (ui->radioButton_llm_chatgpt->isChecked()) {
+            qDebug()<<"ChatGPT";
+            Config::set_LLM_MODEL_ID(0);
+        } else {
+            qDebug()<<"讯飞星火";
+            Config::set_LLM_MODEL_ID(1);
+        }
+    });
+    CurrentIndexChanged currentIndexChanged_llm_xfxh=&QComboBox::currentIndexChanged;
+    QObject::connect(ui->comboBox_llm_xfxh,currentIndexChanged_llm_xfxh,this,[=](int index){
+        qDebug()<<"设置讯飞星火模型为："<<Config::get_XFXH_MODEL_V().at(index);
+        Config::set_XFXH_MODEL_ID(index);
     });
 
     QObject::connect(ui->radioButton_config_enable_yes, &QRadioButton::toggled, [&](){
@@ -122,12 +156,16 @@ void SetDialogWidget::initConnect()
 void SetDialogWidget::closeEvent(QCloseEvent *event)
 {
     Q_UNUSED(event)
-    qDebug()<<"配置更新成功！";
+    qDebug()<<"基本配置更新成功！";
     Config::set_URL_ADDRESS(ui->lineEdit_vits_address->text());
     Config::set_URL_PORT(ui->lineEdit_vits_port->text());
     Config::set_SPEAKER_ID(ui->lineEdit_speaker_id->text().toInt());
     Config::set_EMOTION_ID(ui->lineEdit_speaker_emotion->text().toInt());
-    Config::set_OPENAI_KEY(ui->lineEdit_gpt_key->text());
+    Config::set_CHATGPT_KEY(ui->lineEdit_gpt_key->text());
+    Config::set_CHATGPT_BASEAPI(ui->lineEdit_gpt_url->text());
+    Config::set_XFXH_APPID(ui->lineEdit_xfxh_appid->text());
+    Config::set_XFXH_KEY(ui->lineEdit_xfxh_apikey->text());
+    Config::set_XFXH_SECRET(ui->lineEdit_xfxh_apisecret->text());
     Config::set_BAIDU_KEY(ui->lineEdit_baidu_key->text());
     Config::set_BAIDU_APID(ui->lineEdit_baidu_appid->text());
 

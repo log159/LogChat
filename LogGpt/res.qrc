@@ -13,5 +13,8 @@
         <file>res/u76.svg</file>
         <file>res/u77.svg</file>
         <file>res/UserIcon.png</file>
+        <file>res/KeyboardImg.png</file>
+        <file>res/SetImg.png</file>
+        <file>res/SoundImg.png</file>
     </qresource>
 </RCC>

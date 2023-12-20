@@ -17,7 +17,7 @@ UserItemsWidget::~UserItemsWidget()
 
 void UserItemsWidget::init()
 {
-    this->m_IconLab->move(this->width()-m_IconLab->width()-3,3);
+    this->m_IconLab->move(this->width()-m_IconLab->width()-10,3);
     QPixmap img;
     img.load(":/res/UserIcon.png");
     img = img.scaled(this->m_IconLab->width(),this->m_IconLab->height(),Qt::KeepAspectRatio, Qt::SmoothTransformation);

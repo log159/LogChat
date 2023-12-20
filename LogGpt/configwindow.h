@@ -6,10 +6,17 @@
 #include <QRect>
 #include <QDebug>
 #include <QScreen>
+#include <QString>
+
 #include "singletonbase.h"
 
 class ConfigWindow:public SingletonBase{
 
+public:
+    static QWidget*         _WindowPointer;
+    static const QString    _WindowTitle;
+    static const int        _StaticMinWidth;
+    static const int        _StaticMinHeight;
 private:
     static int _StaticPosX;
     static int _StaticPosY;

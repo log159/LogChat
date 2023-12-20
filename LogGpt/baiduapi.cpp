@@ -78,7 +78,7 @@ int BaiduApi::replyFinished(QNetworkReply *reply)
             cResult ="58002 服务关闭";
             break;
         default:
-            cResult ="其他错误";
+            cResult ="百度翻译其他错误";
             break;
         }
     }
