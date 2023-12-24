@@ -1,5 +1,6 @@
-# 可连接到VITS的Chat客户端，支持ChatGPT、讯飞星火  
-  
+# 可连接到VITS的Chat客户端  
+# 支持ChatGPT、讯飞星火  
+# 支持Live2D  
 # ------------source code 架构------------------  
 1、ui使用qt creator 搭建  
 2、ChatGPT api  
