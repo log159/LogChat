@@ -19,23 +19,16 @@
 7、运行LogChat.exe  
   
 # ------------借鉴&引用--------------------------  
-#VITS-simple-api：  
-#https://github.com/Artrajz/vits-simple-api/tree/v0.2.0  
-#VITS-simple-api配置：  
-#https://www.bilibili.com/video/BV1ku4y1R73r  
-#可用于VITS-api的模型：  
-#https://github.com/luoyily/MoeTTS  
+#VITS-simple-api https://github.com/Artrajz/vits-simple-api/tree/v0.2.0  
+#VITS-simple-api配置 https://www.bilibili.com/video/BV1ku4y1R73r  
+#可用于VITS-api的模型  
+https://github.com/luoyily/MoeTTS  
 #https://github.com/Ikaros-521/emotional-vits/releases  
 #https://github.com/CjangCjengh/TTSModels  
-#其它文档，以及一些VITS常见问题：  
-#https://luna.docs.ie.cx/  
-#openai官网：  
-#https://openai.com/  
-#openai-api文档：  
-#https://platform.openai.com/docs/api-reference/introduction  
-#百度翻译-api文档：  
-#https://fanyi-api.baidu.com/doc/11  
-#讯飞星火-api：  
-#https://xinghuo.xfyun.cn/sparkapi  
+#其它文档，以及一些VITS常见问题 https://luna.docs.ie.cx/  
+#openai官网 https://openai.com/  
+#openai-api文档 https://platform.openai.com/docs/api-reference/introduction  
+#百度翻译-api文档 https://fanyi-api.baidu.com/doc/11  
+#讯飞星火-api https://xinghuo.xfyun.cn/sparkapi  
 #Live2D SDK手册 https://docs.live2d.com/zh-CHS/cubism-sdk-manual/top/  
 #Live2D 中文文档 https://github.com/gtf35/live2d_unity_sdk_chinese_document  
