@@ -22,7 +22,7 @@
 #VITS-simple-api https://github.com/Artrajz/vits-simple-api/tree/v0.2.0  
 #VITS-simple-api配置 https://www.bilibili.com/video/BV1ku4y1R73r  
 #可用于VITS-api的模型  
-https://github.com/luoyily/MoeTTS  
+#https://github.com/luoyily/MoeTTS  
 #https://github.com/Ikaros-521/emotional-vits/releases  
 #https://github.com/CjangCjengh/TTSModels  
 #其它文档，以及一些VITS常见问题 https://luna.docs.ie.cx/  
