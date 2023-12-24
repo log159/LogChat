@@ -7,6 +7,7 @@
 3、讯飞星火大模型官方windows SDK  
 4、VITS-simple-api：	https://github.com/Artrajz/vits-simple-api/tree/main  
 5、百度翻译api：	https://fanyi-api.baidu.com/  
+6、Live2D基于Unity  
   
 # ------------relese 使用-----------------------  
 1、不再需要任何环境，直接可用于window  
@@ -36,3 +37,5 @@
 #https://fanyi-api.baidu.com/doc/11  
 #讯飞星火-api：  
 #https://xinghuo.xfyun.cn/sparkapi  
+#Live2D SDK手册 https://docs.live2d.com/zh-CHS/cubism-sdk-manual/top/  
+#Live2D 中文文档 https://github.com/gtf35/live2d_unity_sdk_chinese_document  
