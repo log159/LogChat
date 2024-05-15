@@ -1,6 +1,6 @@
 # 可连接到VITS的Chat客户端  
-# 支持ChatGPT、讯飞星火  
-# 支持Live2D  
+#支持ChatGPT、讯飞星火  
+#支持Live2D  
 # ------------source code 架构------------------  
 1、ui使用qt creator 搭建  
 2、ChatGPT api  
@@ -10,7 +10,7 @@
 6、Live2D基于Unity  
   
 # ------------relese 使用-----------------------  
-1、不再需要任何环境，直接可用于window  
+1、不再需要任何环境，直接可用于window，请不要有空格路径！  
 2、使用ChatGPT官方key需要科学上网，设置base url 可通过自己的url设置直连  
 3、需要 VITS-simple-api： https://github.com/Artrajz/vits-simple-api/tree/main  
 4、配置 VITS模型并成功启动端口  
