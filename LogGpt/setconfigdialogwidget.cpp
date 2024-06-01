@@ -17,6 +17,14 @@ SetConfigDialogWidget::~SetConfigDialogWidget()
 }
 void SetConfigDialogWidget::init()
 {
+    /*读取qss文件*/
+    QFile file(":/main.qss");
+    if(file.open(QFile::ReadOnly)){
+        QString styleSheet = QLatin1String(file.readAll());
+        this->setStyleSheet(styleSheet);
+        file.close();
+    }
+
     this->resize(_Width,_Height);
     this->setWindowTitle("聊天设置");
     this->setWindowIcon(QIcon(":/res/u77.svg"));

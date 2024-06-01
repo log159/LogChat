@@ -66,8 +66,13 @@ void Widget::init()
     m_TrayMenu->addAction(m_QuitAction);
     m_Tray->setContextMenu(m_TrayMenu);
 
-
-
+    /*读取qss文件*/
+    QFile file(":/main.qss");
+    if(file.open(QFile::ReadOnly)){
+        QString styleSheet = QLatin1String(file.readAll());
+        this->setStyleSheet(styleSheet);
+        file.close();
+    }
 }
 
 void Widget::initConnect()
@@ -192,3 +197,4 @@ void Widget::hideEvent(QHideEvent *event)
         event->ignore(); //忽略事件
     }
 }
+

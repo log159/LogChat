@@ -13,6 +13,14 @@ SetLive2DDialogWidget::SetLive2DDialogWidget(QWidget *parent) :
 
     init();
     initConnect();
+
+    /*读取qss文件*/
+    QFile file(":/main.qss");
+    if(file.open(QFile::ReadOnly)){
+        QString styleSheet = QLatin1String(file.readAll());
+        this->setStyleSheet(styleSheet);
+        file.close();
+    }
 }
 
 SetLive2DDialogWidget::~SetLive2DDialogWidget()
