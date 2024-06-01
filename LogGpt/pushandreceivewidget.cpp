@@ -465,7 +465,6 @@ void PushAndReceiveWidget::slot_text_change()
     }
 
     m_UserTextEdit->move(int(this->width()*0.15),this->height()-m_UserTextEdit->height());
-    m_UserTextEdit->moveCursor(QTextCursor::End);
 }
 
 
