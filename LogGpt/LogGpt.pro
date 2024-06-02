@@ -33,6 +33,7 @@ SOURCES += \
         chatgptapi.cpp \
         config.cpp \
         configwindow.cpp \
+        galdialog.cpp \
         listitemswidget.cpp \
         live2ddrawitemswidget.cpp \
         live2dlistitemswidget.cpp \
@@ -65,6 +66,7 @@ HEADERS += \
         chatgptapi.h \
         config.h \
         configwindow.h \
+        galdialog.h \
         listitemswidget.h \
         live2ddrawitemswidget.h \
         live2dlistitemswidget.h \
@@ -93,6 +95,7 @@ FORMS += \
         aboutsoftwaredialogwidget.ui \
         botitemswidget.ui \
         changelive2dwidget.ui \
+        galdialog.ui \
         listitemswidget.ui \
         live2ddrawitemswidget.ui \
         live2dlistitemswidget.ui \
