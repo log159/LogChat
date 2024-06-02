@@ -1,10 +1,11 @@
 # 可连接到VITS的Chat客户端
 
+预览
+- <img src="https://github.com/log159/LogChat/assets/121474554/cf2db233-3b19-4ca3-8123-491bdcbab51a" width="400" alt="预览">
+
 支持的聊天模型:
 - ChatGPT
 - 讯飞星火
-  
-- ![屏幕截图 2024-06-02 170019](https://github.com/log159/LogChat/assets/121474554/cf2db233-3b19-4ca3-8123-491bdcbab51a)
 
 支持的技术:
 - Live2D
