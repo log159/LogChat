@@ -67,7 +67,6 @@ void Widget::init()
     m_Tray->setContextMenu(m_TrayMenu);
 
 
-
 }
 
 void Widget::initConnect()
@@ -104,6 +103,14 @@ void Widget::initConnect()
 
         });
         dialog.exec();
+    });
+    /*点击Gal视窗按钮*/
+    connect(m_SetSelectWidget,&SetSelectWidget::setGalDialogShow,[=](){
+
+        new_GalDialog = new GalDialog;
+        new_GalDialog->show();
+        //Gal视口发送信息传递过来
+        connect(new_GalDialog, SIGNAL(send_data_from_gal_to_main(QString)), this, SLOT(receive_data_from_gal(QString)));
     });
     connect(m_SetSelectWidget,&SetSelectWidget::clearChat,[=](){
         m_PushAndReceiveWidget->clearHistory();
@@ -194,3 +201,17 @@ void Widget::hideEvent(QHideEvent *event)
         event->ignore(); //忽略事件
     }
 }
+
+/*信息通过主界面传递*/
+void Widget::receive_data_from_gal(QString data)
+{
+    qDebug()<<"Widget接受到来自Gal视窗信息"<<data;     //获取传递过来的数据
+    connect(m_PushAndReceiveWidget, SIGNAL(send_data_from_llm_to_main(QString)), this, SLOT(receive_data_from_llm(QString)));
+    m_PushAndReceiveWidget->send_data_from_main_to_llm(data);
+}
+void Widget::receive_data_from_llm(QString data)
+{
+    qDebug()<<"Widget接受到来自llm信息"<<data;     //获取传递过来的数据
+    new_GalDialog->receive_data_from_widget(data);
+}
+

@@ -50,9 +50,14 @@ void SetSelectWidget::init()
     m_PushButtonClear->setText("清除聊天");
     m_ButtonVector.push_back(m_PushButtonClear);
 
+    /*创建Gal对话框item*/
     m_PushButtonLive2D=new SetPushButton();
     m_PushButtonLive2D->setText("Live2D");
     m_ButtonVector.push_back(m_PushButtonLive2D);
+
+    m_PushButtonGalDialog=new SetPushButton();
+    m_PushButtonGalDialog->setText("Gal对话框");
+    m_ButtonVector.push_back(m_PushButtonGalDialog);
 
     m_PushButtonAbout=new SetPushButton();
     m_PushButtonAbout->setText("关于");
@@ -103,6 +108,10 @@ void SetSelectWidget::initConnect()
     connect(m_PushButtonLive2D,&QPushButton::clicked,[=](){
         qDebug()<<"Live2D设置界面展示";
         emit setLive2DShow();
+    });
+    connect(m_PushButtonGalDialog,&QPushButton::clicked,[=](){
+        qDebug()<<"GalDialog设置界面展示";
+        emit setGalDialogShow();
     });
     connect(m_PushButtonAbout,&QPushButton::clicked,[=](){
         qDebug()<<"关于界面展示";

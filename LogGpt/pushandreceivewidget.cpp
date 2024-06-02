@@ -1,6 +1,5 @@
 #include "pushandreceivewidget.h"
 #include "ui_pushandreceivewidget.h"
-
 PushAndReceiveWidget::PushAndReceiveWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::PushAndReceiveWidget)
@@ -418,6 +417,12 @@ void PushAndReceiveWidget::add_bot_information(const QString &str)
     QString receivedData=str;
     QListWidgetItem *item = new QListWidgetItem();
     ListItemsWidget * widget=new BotItemsWidget;
+
+    emit send_data_from_llm_to_main(str);
+    qDebug()<<"尝试发送信息到Widget";
+
+
+
     widget->initItem(receivedData,ItemEnum::Bot);
     m_ListWidget->addItem(item);
     item->setSizeHint(QSize(widget->width(),widget->height()));
@@ -521,4 +526,13 @@ void PushAndReceiveWidget::setAdapt()
 
 
 
+}
+
+
+
+void PushAndReceiveWidget::send_data_from_main_to_llm(const QString &str)
+{
+    qDebug()<<"发送来自gal视窗的信息"<<str;
+    m_UserTextEdit->setText(str);
+    pushbutton_send_clicked();
 }

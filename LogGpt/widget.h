@@ -23,6 +23,7 @@
 #include "setselectwidget.h"
 #include "setdialogwidget.h"
 #include "setconfigdialogwidget.h"
+#include "galdialog.h"
 #include "setlive2ddialogwidget.h"
 #include "setselectpushbutton.h"
 #include "aboutsoftwaredialogwidget.h"
@@ -53,6 +54,7 @@ private:
 
 public:
     explicit Widget(QWidget *parent = nullptr);
+    GalDialog *new_GalDialog; //新窗口
     ~Widget();
 private:
     void init();
@@ -62,6 +64,9 @@ private:
     void hideEvent(QHideEvent *event);
 private slots:
     void icon_activated(QSystemTrayIcon::ActivationReason ireason);
+
+    void receive_data_from_gal(QString data);   //接收Gal窗口传递过来的数据的槽
+    void receive_data_from_llm(QString data);   //接收llm传递过来的数据的槽
 
 
 private:

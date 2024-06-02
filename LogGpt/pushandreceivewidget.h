@@ -102,6 +102,10 @@ private slots:
     void pushbutton_send_clicked();
     void slot_text_change();
 
+public slots:
+    void send_data_from_main_to_llm(const QString& str);
+signals:
+    void send_data_from_llm_to_main(QString);   //用来传递发送信息的信号
 private:
     Ui::PushAndReceiveWidget *ui;
 };
