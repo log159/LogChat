@@ -1,5 +1,6 @@
 #include "aboutsoftwaredialogwidget.h"
 #include "ui_aboutsoftwaredialogwidget.h"
+#include "QFile"
 
 AboutSoftwareDialogWidget::AboutSoftwareDialogWidget(QWidget *parent) :
     QDialog(parent),
@@ -38,4 +39,11 @@ void AboutSoftwareDialogWidget::init()
     ui->textEdit_about->setReadOnly(true);
     ui->textEdit_about->setText(information_str);
 
+    /*读取qss文件*/
+    QFile file(":/main.qss");
+    if(file.open(QFile::ReadOnly)){
+        QString styleSheet = QLatin1String(file.readAll());
+        this->setStyleSheet(styleSheet);
+        file.close();
+    }
 }

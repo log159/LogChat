@@ -71,6 +71,13 @@ void SetDialogWidget::init()
     if(Config::get_ENABLE_LATERLANGUAGE()){ui->radioButton_baidu_show_enable_yes->setChecked(true);}
     else {ui->radioButton_baidu_show_enable_no->setChecked(true);}
 
+    /*读取qss文件*/
+    QFile file(":/main.qss");
+    if(file.open(QFile::ReadOnly)){
+        QString styleSheet = QLatin1String(file.readAll());
+        this->setStyleSheet(styleSheet);
+        file.close();
+    }
 }
 
 void SetDialogWidget::initConnect()

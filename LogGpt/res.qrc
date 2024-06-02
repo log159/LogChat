@@ -16,5 +16,6 @@
         <file>res/KeyboardImg.png</file>
         <file>res/SetImg.png</file>
         <file>res/SoundImg.png</file>
+        <file>main.qss</file>
     </qresource>
 </RCC>
