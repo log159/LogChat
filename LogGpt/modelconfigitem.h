@@ -14,6 +14,8 @@ private:
     bool        m_LookEnable;
     bool        m_TopEnable;
     int         m_ModelSize;
+    int         m_ModelX;
+    int         m_ModelY;
     int         m_MouseSpeed;
     int         m_EyeTime;
     int         m_EyeDeviation;
@@ -32,6 +34,8 @@ public:
     inline bool getLookEnable()const{return m_LookEnable;}
     inline bool getTopEnable()const{return m_TopEnable;}
     inline int getModelSize()const{return m_ModelSize;}
+    inline int getModelX()const{return m_ModelX;}
+    inline int getModelY()const{return m_ModelY;}
     inline int getMouseSpeed()const{return m_MouseSpeed;}
     inline int getEyeTime()const{return m_EyeTime;}
     inline int getEyeDeviation()const{return m_EyeDeviation;}
@@ -40,6 +44,7 @@ public:
     inline int getAudioSmooth()const{return m_AudioSmooth;}
     inline const QString getModelDescription()const{return m_ModelDescription;}
 
+public:
     //set
     inline void setModelId(int i){m_ModelId=i;}
     inline void setModelName(const QString& str){m_ModelName=str;}
@@ -47,6 +52,8 @@ public:
     inline void setLookEnable(bool bo){m_LookEnable=bo;}
     inline void setTopEnable(bool bo){m_TopEnable=bo;}
     inline void setModelSize(int i){m_ModelSize=i;}
+    inline void setModelX(int i){m_ModelX=i;}
+    inline void setModelY(int i){m_ModelY=i;}
     inline void setMouseSpeed(int i){m_MouseSpeed=i;}
     inline void setEyeTime(int i){m_EyeTime=i;}
     inline void setEyeDeviation(int i){m_EyeDeviation=i;}
@@ -55,10 +62,9 @@ public:
     inline void setAudioSmooth(int i){m_AudioSmooth=i;}
     inline void setModelDescription(const QString& str){m_ModelDescription=str;}
 
-
+public:
     static void printInformation(ModelConfigItem& modItem);
-private:
-    void init();
+
 };
 
 #endif // MODELCONFIGITEM_H

@@ -19,6 +19,7 @@
 #include <QPair>
 #include <QTextDocument>
 #include <QPainter>
+#include <QScrollBar>
 
 #include "listitemswidget.h"
 #include "botitemswidget.h"
@@ -71,6 +72,7 @@ public:
 
     void setAdapt();            //调整大小
     void clearHistory();        //清除历史
+    void clearUi();
 private:
 
     void init();

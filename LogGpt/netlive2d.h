@@ -10,10 +10,15 @@
 
 class NetLive2D : public QObject
 {
+private:
+    static bool isConnect;
 public:
     explicit NetLive2D(QObject *parent = nullptr);
 
     void startListen();
+    static bool getIsConnect();
+    static void setIsConnect(bool value);
+
 private:
     void init();
     void initConnect();

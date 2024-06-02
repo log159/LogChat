@@ -107,7 +107,10 @@ int BaiduApi::replyFinished(QNetworkReply *reply)
 QString BaiduApi::removeInvalid(const QString &str)
 {
     QString handleStr=str;
-    handleStr.remove(QChar('\n'), Qt::CaseInsensitive);
+    handleStr.remove(QChar('\n'));
+    handleStr.remove(QChar('\r'));
+    handleStr.remove(QChar('\t'));
+    handleStr.remove(QChar(' '));
     return handleStr;
 
 }

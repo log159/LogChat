@@ -6,13 +6,15 @@ Live2DListItemsWidget::Live2DListItemsWidget(QWidget *parent) :
     ui(new Ui::Live2DListItemsWidget)
 {
     ui->setupUi(this);
+
+
 }
 
 void Live2DListItemsWidget::init(const ModelConfigItem& modItem)
 {
     this->resize(_Width,_Height);
 
-    this->seModelItem(modItem);
+    this->setModelItem(modItem);
 //    QString pathStr=modItem.get;
 //    int wayCharPos=0;
 //    for(int i=0;i<pathStr.size();++i){
@@ -26,12 +28,24 @@ void Live2DListItemsWidget::init(const ModelConfigItem& modItem)
 //        }
 //        m_ModelName+=pathStr.at(i);
 //    }
-    ui->label->setText(modItem.getModelName());
+    this->setText(modItem.getModelName());
+
+    QFile file(":/main.qss");
+    if(file.open(QFile::ReadOnly)){
+        QString styleSheet = QLatin1String(file.readAll());
+        this->setStyleSheet(styleSheet);
+        file.close();
+    }
 }
 
 Live2DListItemsWidget::~Live2DListItemsWidget()
 {
     delete ui;
+}
+
+void Live2DListItemsWidget::setText(const QString &str)
+{
+    ui->label->setText(str);
 }
 
 void Live2DListItemsWidget::mousePressEvent(QMouseEvent *event)

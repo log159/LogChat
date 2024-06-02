@@ -12,17 +12,17 @@
 #include <QRegularExpression>
 #include <QMap>
 #include <QPair>
-#include <iostream>
-#include "string.h"
-#include "string"
-#include "stdio.h"
-#include "stdlib.h"
+#include <QRegularExpression>
+#include <QRegularExpressionMatch>
+#include <QStringList>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonValue>
 
 
 #include "singletonbase.h"
 #include "modelconfigitem.h"
 
-using namespace std;
 
 class Config:public SingletonBase{
 
@@ -34,9 +34,10 @@ private:
     static const QVector<QString>           XFXH_MODEL_V;          //全部支持讯飞星火模型
     static const QMap<QString,bool>         LIVE2DENABLEINIT_M;    //全部Live2D ENABLE默认值
     static const QMap<QString,int>          LIVE2DPARAMINIT_M;     //全部Live2D PARAM默认值
-    static       QVector<QString>           LIVE2DMODEL_V;         //全部加载的Live2D模型
+    static       QMap<QString,QString>      LIVE2DSTRING_M;        //全部Live2D STRING默认值
     static       QVector<ModelConfigItem>   LIVE2DMODELCONFIG_V;   //全部加载的Live2D配置信息
 
+    static const QString            SETCONFIG_WAY;         //设置配置路径
     static const QString            OUTPUT_WAV_WAY;        //音频文件输出路径
     static const QString            CHARACTER_CONFIG_WAY;  //角色扮演配置文件路径
     static const QString            CHATGPT_DEMO_WAY;      //chatgptEXE路径
@@ -73,6 +74,7 @@ private:
 
     static int                      LLM_MODEL_ID;          //LLM模型ID 0 chatgpt 1讯飞星火
     static int                      XFXH_MODEL_ID;         //讯飞星火模型ID
+    static int                      CHATGPT_MODEL_ID;      //ChatGpt模型ID
     static int                      VITS_ID;               //vits模型ID
     static int                      SPEAKER_ID;            //讲述人ID
     static int                      EMOTION_ID;            //情感控制ID
@@ -85,9 +87,17 @@ public:
     //初始化
     static void init();
 private:
+    //io操作
     static const QString getFileInformation(const QString& path);
     static const QString getFileAllInformation(const QString& path);
     static void setFileInformation(const QString& path,const QString& str);
+    static void setFileInformation(const QString& path,const QJsonObject& js);
+
+    //其它操作
+    static QMap<QString, QString> parseJsonToQMap(const QString &jsonString);
+
+    //init操作
+    static void init_ALLSETCONFIG();
     static void init_CHATGPT_KEY();
     static void init_CHATGPT_BASEAPI();
     static void init_BAIDU_APPID();
@@ -95,7 +105,6 @@ private:
     static void init_XFXH_APPID();
     static void init_XFXH_KEY();
     static void init_XFXH_SECRET();
-    static void init_LIVE2DMODEL_V();
     static void init_LIVE2DMODELCONFIG_V();
 
 private:
@@ -107,12 +116,13 @@ private:
     static void output_XFXH_APPID(const QString& str);
     static void output_XFXH_KEY(const QString& str);
     static void output_XFXH_SECRET(const QString& str);
-    static void output_LIVE2DMODEL_V(QVector<QString>& strV);
-//    static void output_LIVE2DMODELCONFIG_V(QVector<ModelConfigItem>& strV);
+    static void output_ALLSETCONFIG(const QJsonObject& js);
+    static void output_LIVE2DMODELCONFIG_V(QVector<ModelConfigItem>& modV);
 
 
 public:
     //获取路径信息
+    static const QString get_SETCONFIG_WAY();
     static const QString get_OUTPUT_WAV_WAY();
     static const QString get_CHARACTER_CONFIG_WAY();
     static const QString get_CHATGPT_DEMO_WAY();
@@ -138,11 +148,11 @@ public:
     static QVector<QString> get_LANGUAGE_V();
     static QVector<QString> get_CHATGPT_MODEL_V();
     static QVector<QString> get_XFXH_MODEL_V();
-    static QVector<QString> get_LIVE2DMODEL_V();
     static QVector<ModelConfigItem> get_LIVE2DMODELCONFIG_V();
     //获取map
     static QMap<QString,bool>   get_LIVE2DENABLEINIT_M();
     static QMap<QString,int>    get_LIVE2DPARAMINIT_M();
+    static QMap<QString,QString> get_LIVE2DSTRING_M();
 
 public:
     //获取配置信息
@@ -168,6 +178,7 @@ public:
 
     static int           get_LLM_MODEL_ID();
     static int           get_XFXH_MODEL_ID();
+    static int           get_CHATGPT_MODEL_ID();
     static int           get_VITS_ID();
     static int           get_SPEAKER_ID();
     static int           get_EMOTION_ID();
@@ -190,8 +201,7 @@ public:
     static void          set_XFXH_SECRET(const QString& str);
     static void          set_XFXH_QUESTION(const QString& str);
     static void          set_UNITY_STARTMODELPATH(const QString& str);
-    static void          set_LIVE2DMODEL_V(QVector<QString> strV);
-//    static void          set_LIVE2DMODELCONFIG_V(QVector<QString> strV);
+    static void          set_LIVE2DMODELCONFIG_V(QVector<ModelConfigItem>& modV);
     static void          set_ENABLE_ROLE(const bool& bo);
     static void          set_ENABLE_SOUND(const bool& bo);
     static void          set_ENABLE_BAIDUFANYI(const bool& bo);
@@ -200,6 +210,7 @@ public:
 
     static void          set_LLM_MODEL_ID(int id);
     static void          set_XFXH_MODEL_ID(int id);
+    static void          set_CHATGPT_MODEL_ID(int id);
     static void          set_VITS_ID(int id);
     static void          set_SPEAKER_ID(int id);
     static void          set_EMOTION_ID(int id);
@@ -207,6 +218,7 @@ public:
     static void          set_BAIDU_TO_ID(int id);
     static void          set_RESERVE_LONG(int id);
     static void          set_SOUND_ID(int id);
+    static void          set_ALLSETCONFIG();
 
 
 };

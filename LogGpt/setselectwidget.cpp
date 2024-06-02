@@ -83,6 +83,7 @@ void SetSelectWidget::init()
 
 void SetSelectWidget::setAdapt()
 {
+    this->setFixedSize(this->width(),ConfigWindow::getStaticHeight()-50);
     m_ListWidget->setFixedSize(this->size());
 }
 void SetSelectWidget::initConnect()

@@ -66,18 +66,38 @@ void ListItemsWidget::initItem(const QString &strTitle,const ItemEnum& ItEn)
 
 void ListItemsWidget::setAdapt()
 {
+
+    QString text = m_TitleEdit->toPlainText();
+    QStringList lines = text.split('\n');
+
+    QFontMetrics metrics(m_TitleEdit->font());
+    int totalWidth = 0;
+
+    foreach (const QString &line, lines) {
+        int lineWidth = metrics.horizontalAdvance(line);
+        totalWidth += lineWidth;
+    }
+
     slot_text_change();
     this->setFixedWidth(ConfigWindow::getStaticWidth()-10);
-    this->m_TitleEdit->setFixedWidth(int(this->width()*0.85));
+
+    if(totalWidth<int(this->width()*0.85)){
+        this->m_TitleEdit->setFixedWidth(totalWidth+20);
+
+    }
+    else {
+        this->m_TitleEdit->setFixedWidth(int(this->width()*0.85));
+    }
+
     this->setFixedHeight(this->m_TitleEdit->height()+10);
 
     if(ItemEnum::User==m_ItemEnum){
         this->m_IconLab->move(this->width()-m_IconLab->width()-10,3);
-        this->m_TitleEdit->move(10,m_TitleEdit->y());
+        this->m_TitleEdit->move(m_IconLab->x()-m_TitleEdit->width()-10,m_TitleEdit->y());
     }
     else if(ItemEnum::Bot==m_ItemEnum){
         this->m_IconLab->move(3,3);
-        this->m_TitleEdit->move(this->width()-10-m_TitleEdit->width(),m_TitleEdit->y());
+        this->m_TitleEdit->move(m_IconLab->x()+m_IconLab->width()+10,m_TitleEdit->y());
     }
     else {
     }

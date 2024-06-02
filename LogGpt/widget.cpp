@@ -66,13 +66,8 @@ void Widget::init()
     m_TrayMenu->addAction(m_QuitAction);
     m_Tray->setContextMenu(m_TrayMenu);
 
-    /*读取qss文件*/
-    QFile file(":/main.qss");
-    if(file.open(QFile::ReadOnly)){
-        QString styleSheet = QLatin1String(file.readAll());
-        this->setStyleSheet(styleSheet);
-        file.close();
-    }
+
+
 }
 
 void Widget::initConnect()
@@ -90,6 +85,7 @@ void Widget::initConnect()
     connect(m_SetSelectWidget,&SetSelectWidget::setWidgetShow,[=](){
         SetDialogWidget dialog;
         dialog.exec();
+        Config::set_ALLSETCONFIG();
         m_PushAndReceiveWidget->clearHistory();
 
     });
@@ -111,6 +107,7 @@ void Widget::initConnect()
     });
     connect(m_SetSelectWidget,&SetSelectWidget::clearChat,[=](){
         m_PushAndReceiveWidget->clearHistory();
+        m_PushAndReceiveWidget->clearUi();
     });
 
     connect(m_SetSelectWidget,&SetSelectWidget::setAboutShow,[=](){
@@ -152,10 +149,10 @@ void Widget::resizeEvent(QResizeEvent *event)
     ConfigWindow::setStaticWidth(this->width());
     ConfigWindow::setStaticHeight(this->height());
 
-//    qDebug()<<this->width()<<"  "<<this->height();
-    m_PushAndReceiveWidget->setAdapt();
-    m_SetSelectWidget->setFixedSize(m_SetSelectWidget->width(),ConfigWindow::getStaticHeight()-50);
     m_SetSelectWidget->setAdapt();
+
+    m_PushAndReceiveWidget->setAdapt();
+
 }
 
 
@@ -197,4 +194,3 @@ void Widget::hideEvent(QHideEvent *event)
         event->ignore(); //忽略事件
     }
 }
-

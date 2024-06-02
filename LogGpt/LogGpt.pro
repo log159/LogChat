@@ -9,7 +9,7 @@ QT       += core gui network multimedia
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = LogChat
-RC_ICONS = gpt.ico
+RC_ICONS = logo.ico
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
@@ -34,11 +34,15 @@ SOURCES += \
         config.cpp \
         configwindow.cpp \
         listitemswidget.cpp \
+        live2ddrawitemswidget.cpp \
         live2dlistitemswidget.cpp \
+        live2dpartdrawingitemswidget.cpp \
+        live2dpartitemswidget.cpp \
         llmbase.cpp \
         llmfactory.cpp \
         main.cpp \
         modelconfigitem.cpp \
+        modelpartitem.cpp \
         netlive2d.cpp \
         pushandreceivewidget.cpp \
         setconfigdialogwidget.cpp \
@@ -62,10 +66,14 @@ HEADERS += \
         config.h \
         configwindow.h \
         listitemswidget.h \
+        live2ddrawitemswidget.h \
         live2dlistitemswidget.h \
+        live2dpartdrawingitemswidget.h \
+        live2dpartitemswidget.h \
         llmbase.h \
         llmfactory.h \
         modelconfigitem.h \
+        modelpartitem.h \
         netlive2d.h \
         pushandreceivewidget.h \
         setconfigdialogwidget.h \
@@ -86,7 +94,10 @@ FORMS += \
         botitemswidget.ui \
         changelive2dwidget.ui \
         listitemswidget.ui \
+        live2ddrawitemswidget.ui \
         live2dlistitemswidget.ui \
+        live2dpartdrawingitemswidget.ui \
+        live2dpartitemswidget.ui \
         pushandreceivewidget.ui \
         setconfigdialogwidget.ui \
         setdialogwidget.ui \

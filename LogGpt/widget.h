@@ -15,6 +15,7 @@
 #include <QDesktopServices>
 #include <windows.h>
 #include <QApplication>
+#include <QTimer>
 #include <QDesktopWidget>
 
 #include "configwindow.h"

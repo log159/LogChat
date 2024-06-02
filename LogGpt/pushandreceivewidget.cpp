@@ -64,7 +64,7 @@ void PushAndReceiveWidget::init()
     m_Frame->setStyleSheet("background-color:white;");
 
     m_PushButtonListen=new QPushButton(this);
-    m_PushButtonListen->setText("点击 说话");
+    m_PushButtonListen->setText("点击说话(敬请期待)");
     m_PushButtonListen->setStyleSheet("QPushButton {"
                                   "border: 2px solid #AAAAAA; " /* 设置边框颜色为浅绿色 */
                                   "border-radius: 10px; "       /* 设置圆角半径为10像素 */
@@ -288,8 +288,14 @@ void PushAndReceiveWidget::clearHistory()
     if(Config::get_ENABLE_ROLE()){
         addCharacterConfig();
     }
-    m_ListWidget->clear();
     m_InformationComing=false;
+
+}
+
+void PushAndReceiveWidget::clearUi()
+{
+
+    m_ListWidget->clear();
 
 }
 
@@ -418,6 +424,13 @@ void PushAndReceiveWidget::add_bot_information(const QString &str)
     m_ListWidget->setItemWidget(item,widget);
     m_ListWidget->scrollToBottom();
     setAdapt();
+
+
+    QTimer::singleShot(100,this,[=](){
+        QScrollBar* scrollBar = m_ListWidget->verticalScrollBar();
+        scrollBar->setValue(scrollBar->maximum());
+
+    });
 }
 
 void PushAndReceiveWidget::handle_bot_sound(const QString &str)
@@ -436,7 +449,7 @@ void PushAndReceiveWidget::play_sound(const QString &str)
         startGameSound->play();
     }
     else {
-        sendAudio(str);
+        emit sendAudio(str);
     }
 
 
@@ -446,7 +459,12 @@ void PushAndReceiveWidget::play_sound(const QString &str)
 void PushAndReceiveWidget::pushbutton_send_clicked()
 {
     if(this->m_InformationComing){return;}
-    if(this->m_UserTextEdit->toPlainText()==""){return;}
+    QString willSendStr=this->m_UserTextEdit->toPlainText();
+    willSendStr.remove(QChar('\n'));
+    willSendStr.remove(QChar('\r'));
+    willSendStr.remove(QChar(' '));
+    if(willSendStr==""){return;}
+
     m_InformationComing=true;
     add_user_information(m_UserTextEdit->toPlainText());
     handle_bot_information();
@@ -465,11 +483,21 @@ void PushAndReceiveWidget::slot_text_change()
     }
 
     m_UserTextEdit->move(int(this->width()*0.15),this->height()-m_UserTextEdit->height());
+////    m_UserTextEdit->moveCursor(QTextCursor::End);
+
+//    if (!m_UserTextEdit->isCursorVisible()) {
+////    m_UserTextEdit->ensureCursorVisible();
+//        qDebug()<<"光标不可见";
+//    }
+//    else{
+//        qDebug()<<"光标可见";
+//    }
 }
 
 
 void PushAndReceiveWidget::setAdapt()
 {
+
     this->setFixedSize(ConfigWindow::getStaticWidth(),ConfigWindow::getStaticHeight());
 
     for(int i=0;i<m_ListWidget->count();++i){
@@ -489,5 +517,8 @@ void PushAndReceiveWidget::setAdapt()
     m_PushButtonSpeak->move(m_PushButtonSet->width()+1,m_Frame->y()+int((m_Frame->height()-m_PushButtonSend->height())*0.5));
     m_PushButtonWrite->move(m_PushButtonSet->width()+1,m_Frame->y()+int((m_Frame->height()-m_PushButtonSend->height())*0.5));
     m_PushButtonSend->move(m_Frame->x()+int((m_Frame->width()-m_PushButtonSend->width())*0.5),m_Frame->y()+int((m_Frame->height()-m_PushButtonSend->height())*0.5));
+
+
+
 
 }

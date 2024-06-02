@@ -6,6 +6,7 @@
 #include <QIcon>
 #include <QString>
 #include <QFont>
+#include <QFile>
 
 namespace Ui {
 class AboutSoftwareDialogWidget;

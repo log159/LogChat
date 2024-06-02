@@ -20,6 +20,10 @@ void UserTextEdit::keyPressEvent(QKeyEvent *event)
         {
             // 如果按下Shift+回车键，则插入换行符
             this->insertPlainText("\n");
+//            if(!isCursorVisible()){
+
+//                ensureCursorVisible();
+//            }
         }
         else
         {
@@ -32,4 +36,19 @@ void UserTextEdit::keyPressEvent(QKeyEvent *event)
         // 处理其他按键事件
         QTextEdit::keyPressEvent(event);
     }
+}
+
+bool UserTextEdit::isCursorVisible() {
+    QRect rect = cursorRect();
+    QPoint topLeft = rect.topLeft();
+    QPoint bottomRight = rect.bottomRight();
+    QPoint viewportTopLeft = viewport()->mapToParent(viewport()->rect().topLeft());
+    QPoint viewportBottomRight = viewport()->mapToParent(viewport()->rect().bottomRight());
+
+    return topLeft.y() >= viewportTopLeft.y() && bottomRight.y() <= viewportBottomRight.y();
+}
+void UserTextEdit::scrollContentsBy(int dx, int dy) {
+    // Override to do nothing, disabling default scroll behavior
+
+    qDebug()<<dx<<" "<<dy;
 }

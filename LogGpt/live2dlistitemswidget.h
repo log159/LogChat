@@ -27,9 +27,10 @@ public:
     ~Live2DListItemsWidget();
 
     inline const ModelConfigItem& getModelItem()const{return m_ModelConfigItem;}
-    inline void seModelItem(const ModelConfigItem& modItem){m_ModelConfigItem=modItem;}
+    inline void setModelItem(const ModelConfigItem& modItem){m_ModelConfigItem=modItem;}
+    void setText(const QString& str);
 
-    void mousePressEvent(QMouseEvent *event) ;
+    void mousePressEvent(QMouseEvent *event);
 
 signals:
     void sendPass(ModelConfigItem);

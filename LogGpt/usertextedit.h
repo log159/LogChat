@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QTextEdit>
 #include <QKeyEvent>
+#include <QDebug>
 
 class UserTextEdit : public QTextEdit
 {
@@ -12,6 +13,9 @@ public:
     explicit UserTextEdit(QWidget *parent = nullptr);
 private:
     void init();
+public:
+    bool isCursorVisible();
+    void scrollContentsBy(int dx, int dy) override;
 protected:
     void keyPressEvent(QKeyEvent *event) override;
 signals:

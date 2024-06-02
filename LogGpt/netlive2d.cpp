@@ -1,5 +1,16 @@
 #include "netlive2d.h"
 
+bool NetLive2D::isConnect = false;
+bool NetLive2D::getIsConnect()
+{
+    return isConnect;
+}
+
+void NetLive2D::setIsConnect(bool value)
+{
+    isConnect = value;
+}
+
 NetLive2D::NetLive2D(QObject *parent) : QObject(parent)
 {
     init();
@@ -23,6 +34,7 @@ void NetLive2D::initConnect()
     connect(tcpServer,&QTcpServer::newConnection,this,[=](){
         tcpSocket=tcpServer->nextPendingConnection();
         qDebug()<<"连接到客户端";
+        isConnect=true;
         connect(tcpSocket,&QTcpSocket::readyRead,this,[=](){
             QByteArray data=tcpSocket->readAll();
             qDebug()<<"来自客户端的请求"<<data;
@@ -31,6 +43,7 @@ void NetLive2D::initConnect()
             tcpSocket->close();
             tcpSocket->deleteLater();
             qDebug()<<"已和客户端断开连接";
+            isConnect=false;
         });
 
     });

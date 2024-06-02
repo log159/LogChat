@@ -15,11 +15,15 @@
 #include <QVector>
 #include <QMap>
 #include <QTimer>
+#include <QDesktopServices>
+#include <QUrl>
+
 
 #include "config.h"
 #include "configwindow.h"
 #include "live2dlistitemswidget.h"
 #include "changelive2dwidget.h"
+#include "netlive2d.h"
 
 class ModelConfigItem;
 
@@ -39,7 +43,8 @@ private:
     const int _Height     =800;
 private:
     static QProcess*   m_Live2dProcess;
-    int                m_Live2dOpenId      =-1;
+    static int         m_Live2dOpenId;
+    int                m_Live2dPassId   =-1;
 
 public:
     explicit SetLive2DDialogWidget(QWidget *parent = nullptr);
@@ -49,12 +54,13 @@ public:
 private:
     void init();
     void initConnect();
-    void changeConfig();
     void addListItem(const ModelConfigItem& modItem);
     void resizeEvent(QResizeEvent*event);
-    void updateListWidget();
+    void sendConfigHandle(const QString& str,int val);
+    void sendWindowhandle(const QString& str);
     void updateLineEdit();
-    void updateForLive2dNet();
+    void updateForUi();
+    void updateForUnity();
 
 signals:
     void sendModelHandle(QString);
