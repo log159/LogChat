@@ -136,16 +136,27 @@ void Widget::initConnect()
     connect(m_RestoreAction,&QAction::triggered,this,[=](){
         //设置窗口置顶
         ::SetWindowPos(HWND(this->winId()), HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
+        //设置窗口置顶取消
         ::SetWindowPos(HWND(this->winId()), HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
+
+        updateOtherWidgetSize();
 
     });
     connect(m_QuitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
 
-    connect(m_RestoreAction, &QAction::triggered, this, [=](){
-        this->m_PushAndReceiveWidget->setAdapt();
-    });
-
     connect(m_Tray,SIGNAL(activated(QSystemTrayIcon::ActivationReason)),this,SLOT(icon_activated(QSystemTrayIcon::ActivationReason)));
+
+
+}
+
+void Widget::updateOtherWidgetSize()
+{
+    m_SetSelectWidget->setAdapt();
+
+    //为保证显示不出问题，有必要刷新至少两次
+    m_PushAndReceiveWidget->setAdapt();
+    m_PushAndReceiveWidget->setAdapt();
+
 }
 
 void Widget::resizeEvent(QResizeEvent *event)
@@ -156,18 +167,12 @@ void Widget::resizeEvent(QResizeEvent *event)
     ConfigWindow::setStaticWidth(this->width());
     ConfigWindow::setStaticHeight(this->height());
 
-    m_SetSelectWidget->setAdapt();
-
-    m_PushAndReceiveWidget->setAdapt();
-
+    updateOtherWidgetSize();
 }
-
-
-
-
 
 void Widget::icon_activated(QSystemTrayIcon::ActivationReason ireason)
 {
+
     switch (ireason)
     {
     case QSystemTrayIcon::Trigger:
@@ -181,7 +186,10 @@ void Widget::icon_activated(QSystemTrayIcon::ActivationReason ireason)
     default:
         break;
     }
-
+    ::SetWindowPos(HWND(this->winId()), HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+    // 然后立即调用以下函数使其不保持置顶
+    ::SetWindowPos(HWND(this->winId()), HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+    updateOtherWidgetSize();
 }
 
 

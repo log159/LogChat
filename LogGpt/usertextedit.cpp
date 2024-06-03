@@ -48,7 +48,8 @@ bool UserTextEdit::isCursorVisible() {
     return topLeft.y() >= viewportTopLeft.y() && bottomRight.y() <= viewportBottomRight.y();
 }
 void UserTextEdit::scrollContentsBy(int dx, int dy) {
-    // Override to do nothing, disabling default scroll behavior
 
-    qDebug()<<dx<<" "<<dy;
+    Q_UNUSED(dx)
+    Q_UNUSED(dy)
+//    qDebug()<<dx<<" "<<dy;
 }

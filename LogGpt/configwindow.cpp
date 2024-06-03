@@ -25,12 +25,14 @@ void ConfigWindow::setStaticPosY(int y){ConfigWindow::_StaticPosY=y;}
 void ConfigWindow::setStaticWidth(int w){
     if(w<=ConfigWindow::_StaticMinWidth){
         w=ConfigWindow::_StaticMinWidth;
+        ConfigWindow::_StaticWidth=w;
     }
     ConfigWindow::_StaticWidth=w;
 }
 void ConfigWindow::setStaticHeight(int h){
     if(h<=ConfigWindow::_StaticMinHeight){
         h=ConfigWindow::_StaticMinHeight;
+        ConfigWindow::_StaticHeight=h;
     }
     ConfigWindow::_StaticHeight=h;
 }

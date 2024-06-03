@@ -59,6 +59,7 @@ public:
 private:
     void init();
     void initConnect();
+    void updateOtherWidgetSize();
     void resizeEvent(QResizeEvent*event);
     void closeEvent(QCloseEvent *event);
     void hideEvent(QHideEvent *event);

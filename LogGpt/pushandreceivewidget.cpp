@@ -7,6 +7,8 @@ PushAndReceiveWidget::PushAndReceiveWidget(QWidget *parent) :
     ui->setupUi(this);
     this->init();
     this->initConnect();
+
+
 }
 
 PushAndReceiveWidget::~PushAndReceiveWidget()
@@ -488,6 +490,7 @@ void PushAndReceiveWidget::slot_text_change()
     }
 
     m_UserTextEdit->move(int(this->width()*0.15),this->height()-m_UserTextEdit->height());
+    //这里实际上，还有呃bug,比如在末尾按住Shift+Enter不会显示到最后
 ////    m_UserTextEdit->moveCursor(QTextCursor::End);
 
 //    if (!m_UserTextEdit->isCursorVisible()) {
@@ -505,14 +508,15 @@ void PushAndReceiveWidget::setAdapt()
 
     this->setFixedSize(ConfigWindow::getStaticWidth(),ConfigWindow::getStaticHeight());
 
+    m_ListWidget->move(-1,-1);
+    m_ListWidget->setFixedSize(this->width()+2,this->height()-_TextEditMinHeight);
+
     for(int i=0;i<m_ListWidget->count();++i){
         QListWidgetItem* listWidgetItem=m_ListWidget->item(i);
         (static_cast<ListItemsWidget*>(m_ListWidget->itemWidget(listWidgetItem)))->setAdapt();
     }
     updateListWidget();
 
-    m_ListWidget->move(-1,-1);
-    m_ListWidget->setFixedSize(this->width()+2,this->height()-_TextEditMinHeight);
     m_UserTextEdit->setFixedWidth(int(this->width()*0.8)-10);
     m_UserTextEdit->move(int(this->width()*0.15)-10,this->height()-m_UserTextEdit->height());
     m_PushButtonListen->setGeometry(m_UserTextEdit->geometry());
@@ -522,9 +526,6 @@ void PushAndReceiveWidget::setAdapt()
     m_PushButtonSpeak->move(m_PushButtonSet->width()+1,m_Frame->y()+int((m_Frame->height()-m_PushButtonSend->height())*0.5));
     m_PushButtonWrite->move(m_PushButtonSet->width()+1,m_Frame->y()+int((m_Frame->height()-m_PushButtonSend->height())*0.5));
     m_PushButtonSend->move(m_Frame->x()+int((m_Frame->width()-m_PushButtonSend->width())*0.5),m_Frame->y()+int((m_Frame->height()-m_PushButtonSend->height())*0.5));
-
-
-
 
 }
 
