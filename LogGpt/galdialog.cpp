@@ -15,8 +15,6 @@ GalDialog::GalDialog(QWidget *parent) :
     ui->pushButton->hide();
 }
 
-
-
 GalDialog::~GalDialog()
 {
     delete ui;
