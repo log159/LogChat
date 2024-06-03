@@ -23,27 +23,31 @@ GalDialog::~GalDialog()
 }
 
 /*信息交互相关*/
-//发送信息
-void GalDialog::on_lineEdit_returnPressed()
+/*键盘相关事件*/
+void GalDialog::keyReleaseEvent(QKeyEvent* event)
 {
-    emit signal_send_data_from_gal_to_main(ui->lineEdit->text()); //获取lineEdit的输入并且传递到主界面
-    ui->label_name->setText("她");
-    ui->lineEdit->setText("...");
-    ui->lineEdit->setEnabled(false);
+    if (event->key() == Qt::Key_Return)
+    {
+        emit signal_send_data_from_gal_to_main(ui->textEdit->toPlainText()); //获取lineEdit的输入并且传递到主界面
+        ui->label_name->setText("她");
+        ui->textEdit->setText("...");
+        ui->textEdit->setEnabled(false);
+
+    }
 }
 //接受信息
 void GalDialog::slots_receive_data_from_widget_to_gal(QString data)
 {
     qDebug()<<"Gal接受到来自Widget信息————>"<<data; //获取传递过来的数据
-    ui->lineEdit->setEnabled(true);
+    ui->textEdit->setEnabled(true);
     ui->pushButton->show();
-    ui->lineEdit->setText(data);
+    ui->textEdit->setText(data);
 }
 //继续输入
 void GalDialog::on_pushButton_clicked()
 {
     ui->pushButton->hide();
-    ui->lineEdit->clear();
+    ui->textEdit->clear();
     ui->label_name->setText("你");
 }
 

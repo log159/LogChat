@@ -18,7 +18,6 @@ public:
     ~GalDialog();
 
 private slots:
-    void on_lineEdit_returnPressed();
     void on_pushButton_clicked();
 
 private:
@@ -33,6 +32,8 @@ protected:
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
+    //键盘事件
+    void keyReleaseEvent(QKeyEvent *event);
 
 private:
     QPoint m_movePoint; //鼠标的位置

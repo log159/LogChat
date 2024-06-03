@@ -6,21 +6,9 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>700</width>
-    <height>150</height>
+    <width>650</width>
+    <height>176</height>
    </rect>
-  </property>
-  <property name="minimumSize">
-   <size>
-    <width>700</width>
-    <height>150</height>
-   </size>
-  </property>
-  <property name="sizeIncrement">
-   <size>
-    <width>700</width>
-    <height>150</height>
-   </size>
   </property>
   <property name="windowTitle">
    <string>Form</string>
@@ -54,46 +42,46 @@ QPushButton:pressed {
     background-color:rgba(0,0,0,0);
 }</string>
   </property>
-  <widget class="QLineEdit" name="lineEdit">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>30</y>
-     <width>621</width>
-     <height>111</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Microsoft YaHei</family>
-     <pointsize>-1</pointsize>
-    </font>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_name">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>0</y>
-     <width>81</width>
-     <height>21</height>
+     <y>5</y>
+     <width>80</width>
+     <height>20</height>
     </rect>
    </property>
    <property name="text">
     <string>TextLabel</string>
    </property>
   </widget>
+  <widget class="QTextEdit" name="textEdit">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>40</y>
+     <width>600</width>
+     <height>120</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::NoFrame</enum>
+   </property>
+   <property name="placeholderText">
+    <string>说点什么吧（Shift+Enter回车 Enter发送）</string>
+   </property>
+  </widget>
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>0</x>
-     <y>20</y>
-     <width>621</width>
-     <height>121</height>
+     <x>20</x>
+     <y>40</y>
+     <width>600</width>
+     <height>120</height>
     </rect>
+   </property>
+   <property name="toolTip">
+    <string/>
    </property>
    <property name="text">
     <string/>
@@ -102,6 +90,9 @@ QPushButton:pressed {
     <bool>true</bool>
    </property>
   </widget>
+  <zorder>textEdit</zorder>
+  <zorder>label_name</zorder>
+  <zorder>pushButton</zorder>
  </widget>
  <resources/>
  <connections/>
