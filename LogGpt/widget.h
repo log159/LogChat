@@ -66,8 +66,8 @@ private:
 private slots:
     void icon_activated(QSystemTrayIcon::ActivationReason ireason);
 
-    void receive_data_from_gal(QString data);   //接收Gal窗口传递过来的数据的槽
-    void receive_data_from_llm(QString data);   //接收llm传递过来的数据的槽
+    void slot_receive_data_from_gal_to_widget(QString data); //接收Gal窗口传递过来的数据的槽
+    void slot_receive_data_from_llm_to_widget(QString data); //接收llm传递过来的数据的槽
 
 
 private:

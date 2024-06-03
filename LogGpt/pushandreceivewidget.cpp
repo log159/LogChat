@@ -420,7 +420,7 @@ void PushAndReceiveWidget::add_bot_information(const QString &str)
     QListWidgetItem *item = new QListWidgetItem();
     ListItemsWidget * widget=new BotItemsWidget;
 
-    emit send_data_from_llm_to_main(str);
+    emit signals_send_data_from_llm_to_main(str);
     qDebug()<<"尝试发送信息到Widget";
 
 
@@ -531,9 +531,9 @@ void PushAndReceiveWidget::setAdapt()
 
 
 
-void PushAndReceiveWidget::send_data_from_main_to_llm(const QString &str)
+void PushAndReceiveWidget::slot_receive_data_from_widget_to_llm(const QString &str)
 {
-    qDebug()<<"发送来自gal视窗的信息"<<str;
+    qDebug()<<"llm接受到来自Widget的信息————>"<<str;
     m_UserTextEdit->setText(str);
     pushbutton_send_clicked();
 }

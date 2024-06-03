@@ -2,7 +2,6 @@
 #define GALDIALOG_H
 
 #define PADDING 2
-enum Direction { UP=0, DOWN=1, LEFT, RIGHT, LEFTTOP, LEFTBOTTOM, RIGHTBOTTOM, RIGHTTOP, NONE };
 
 #include <QWidget>
 #include <QLineEdit>
@@ -20,18 +19,15 @@ public:
 
 private slots:
     void on_lineEdit_returnPressed();
-
     void on_pushButton_clicked();
 
 private:
     Ui::GalDialog *ui;
 public slots:
-    void receive_data_from_widget(QString data);   //接收Widget传递过来的数据的槽
+    void slots_receive_data_from_widget_to_gal(QString data); //接收Widget传递过来的数据
 signals:
-    void send_data_from_gal_to_main(QString);   //用来传递发送信息的信号
+    void signal_send_data_from_gal_to_main(QString); //发送信息到Widget
 
-public:
-    void region(const QPoint &currentGlobalPoint);  //鼠标的位置,改变光标
 protected:
     //鼠标按下移动及释放事件
     void mousePressEvent(QMouseEvent *event);
@@ -39,11 +35,8 @@ protected:
     void mouseReleaseEvent(QMouseEvent *event);
 
 private:
-    QPoint m_movePoint;  //鼠标的位置
-    bool isLeftPressDown;  // 判断左键是否按下
-    Direction dir;        // 窗口大小改变时，记录改变方向
-
-
+    QPoint m_movePoint; //鼠标的位置
+    bool isLeftPressDown; // 判断左键是否按下
 };
 
 #endif // GALDIALOG_H

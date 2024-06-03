@@ -110,7 +110,7 @@ void Widget::initConnect()
         new_GalDialog = new GalDialog;
         new_GalDialog->show();
         //Gal视口发送信息传递过来
-        connect(new_GalDialog, SIGNAL(send_data_from_gal_to_main(QString)), this, SLOT(receive_data_from_gal(QString)));
+        connect(new_GalDialog, SIGNAL(signal_send_data_from_gal_to_main(QString)), this, SLOT(slot_receive_data_from_gal_to_widget(QString)));
     });
     connect(m_SetSelectWidget,&SetSelectWidget::clearChat,[=](){
         m_PushAndReceiveWidget->clearHistory();
@@ -211,15 +211,17 @@ void Widget::hideEvent(QHideEvent *event)
 }
 
 /*信息通过主界面传递*/
-void Widget::receive_data_from_gal(QString data)
+//接收到Gal界面信息
+void Widget::slot_receive_data_from_gal_to_widget(QString data)
 {
-    qDebug()<<"Widget接受到来自Gal视窗信息"<<data;     //获取传递过来的数据
-    connect(m_PushAndReceiveWidget, SIGNAL(send_data_from_llm_to_main(QString)), this, SLOT(receive_data_from_llm(QString)));
-    m_PushAndReceiveWidget->send_data_from_main_to_llm(data);
+    qDebug()<<"Widget接受到来自Gal视窗信息————>"<<data; //获取传递过来的数据
+    connect(m_PushAndReceiveWidget, SIGNAL(signals_send_data_from_llm_to_main(QString)), this, SLOT(slot_receive_data_from_llm_to_widget(QString)));
+    m_PushAndReceiveWidget->slot_receive_data_from_widget_to_llm(data);
 }
-void Widget::receive_data_from_llm(QString data)
+//接受到llm信息
+void Widget::slot_receive_data_from_llm_to_widget(QString data)
 {
-    qDebug()<<"Widget接受到来自llm信息"<<data;     //获取传递过来的数据
-    new_GalDialog->receive_data_from_widget(data);
+    qDebug()<<"Widget接受到来自llm信息————>"<<data; //获取传递过来的数据
+    new_GalDialog->slots_receive_data_from_widget_to_gal(data);
 }
 
