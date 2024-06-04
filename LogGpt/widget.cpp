@@ -107,7 +107,7 @@ void Widget::initConnect()
     /*点击Gal视窗按钮*/
     connect(m_SetSelectWidget,&SetSelectWidget::setGalDialogShow,[=](){
 
-        new_GalDialog = new GalDialog;
+        if(!new_GalDialog) new_GalDialog = new GalDialog;
 
         /*移动窗口到对应位置，如果未启用模型默认为屏幕中心*/
         new_GalDialog->move(int(ConfigLive2d::getModelX()-new_GalDialog->width()/2.f),int(ConfigLive2d::getModelY()-new_GalDialog->height()/2.f));
