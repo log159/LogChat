@@ -9,10 +9,26 @@ int ConfigWindow::_StaticPosX;
 int ConfigWindow::_StaticPosY;
 int ConfigWindow::_StaticWidth;
 int ConfigWindow::_StaticHeight;
+int ConfigWindow::_DesktopWidth;
+int ConfigWindow::_DesktopHeight;
+
+int ConfigWindow::getDesktopWidth()
+{
+    return ConfigWindow::_DesktopWidth;
+}
+
+int ConfigWindow::getDesktopHeight()
+{
+    return ConfigWindow::_DesktopHeight;
+}
+
 
 void ConfigWindow::init()
 {
     QRect deskRect = QGuiApplication::primaryScreen()->geometry();
+
+    ConfigWindow::_DesktopWidth=deskRect.width();
+    ConfigWindow::_DesktopHeight=deskRect.height();
 
 //    qDebug()<<deskRect.width()<<" "<<deskRect.height();
     ConfigWindow::_StaticWidth=deskRect.width()/2;

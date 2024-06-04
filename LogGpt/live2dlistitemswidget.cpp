@@ -48,6 +48,16 @@ void Live2DListItemsWidget::setText(const QString &str)
     ui->label->setText(str);
 }
 
+void Live2DListItemsWidget::setChangeIs()
+{
+    ui->pushButton->setStyleSheet("background-color:#cccccc");
+}
+
+void Live2DListItemsWidget::setChangeNo()
+{
+    ui->pushButton->setStyleSheet("background-color:white");
+}
+
 void Live2DListItemsWidget::mousePressEvent(QMouseEvent *event)
 {
 

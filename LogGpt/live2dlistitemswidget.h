@@ -29,6 +29,8 @@ public:
     inline const ModelConfigItem& getModelItem()const{return m_ModelConfigItem;}
     inline void setModelItem(const ModelConfigItem& modItem){m_ModelConfigItem=modItem;}
     void setText(const QString& str);
+    void setChangeIs();
+    void setChangeNo();
 
     void mousePressEvent(QMouseEvent *event);
 

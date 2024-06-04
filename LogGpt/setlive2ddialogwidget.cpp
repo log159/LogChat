@@ -106,13 +106,14 @@ void SetLive2DDialogWidget::init()
      ui->lineEdit_zoom_audio_smooth->setEnabled(false);
 
 
-     updateLineEdit();
+     initLineEdit();
 
 
 
      if(SetLive2DDialogWidget::live2DIsOpen){
-         if(SetLive2DDialogWidget::m_Live2dOpenId!=-1){
+         if(SetLive2DDialogWidget::m_Live2dOpenId>=0){
              updateForUi();
+             updateModelChange();
 
          }
 
@@ -148,6 +149,8 @@ void SetLive2DDialogWidget::initConnect()
         }
         m_Live2dOpenId=m_Live2dPassId;
 
+        updateModelChange();
+
         if(live2DIsOpen==true){
             Config::set_UNITY_STARTMODELPATH(Config::get_LIVE2DMODELCONFIG_V()[SetLive2DDialogWidget::m_Live2dOpenId].getFilePath());
             sendModelHandle("Init:null");
@@ -159,7 +162,7 @@ void SetLive2DDialogWidget::initConnect()
                 if(NetLive2D::getIsConnect()){
 
                     //同步配置数据
-                    QTimer::singleShot(500,this,[=](){
+                    QTimer::singleShot(100,this,[=](){
                         updateForUnity();
                     });
                     timer->stop();
@@ -209,6 +212,7 @@ void SetLive2DDialogWidget::initConnect()
             delete m_Live2dProcess;
             m_Live2dProcess=nullptr;
         }
+        updateModelChange();
     });
 
     //添加模型
@@ -343,30 +347,30 @@ void SetLive2DDialogWidget::initConnect()
     connect(ui->radioButton_top_enable_yes, &QRadioButton::clicked, [&](){sendWindowhandle("top");});
     connect(ui->radioButton_top_enable_no, &QRadioButton::clicked, [&](){sendWindowhandle("normal");});
     //模型缩放比例
-    connect(ui->horizontalSlider_zoom_model_size,slider,this,[=](int value){sendConfigHandle("ScaleScaleProportion",value);updateLineEdit();});
+    connect(ui->horizontalSlider_zoom_model_size,slider,this,[=](int value){sendConfigHandle("ScaleScaleProportion",value);setLineEditText(ui->lineEdit_zoom_model_size,value);});
     //X坐标
-    connect(ui->horizontalSlider_zoom_model_X,slider,this,[=](int value){sendConfigHandle("X",value);updateLineEdit();});
+    connect(ui->horizontalSlider_zoom_model_X,slider,this,[=](int value){sendConfigHandle("X",value);setLineEditText(ui->lineEdit_zoom_model_X,value);});
     //Y坐标
-    connect(ui->horizontalSlider_zoom_model_Y,slider,this,[=](int value){sendConfigHandle("Y",value);updateLineEdit();});
+    connect(ui->horizontalSlider_zoom_model_Y,slider,this,[=](int value){sendConfigHandle("Y",value);setLineEditText(ui->lineEdit_zoom_model_Y,value);});
     //RX坐标
-    connect(ui->horizontalSlider_zoom_model_RX,slider,this,[=](int value){sendConfigHandle("RX",value);updateLineEdit();});
+    connect(ui->horizontalSlider_zoom_model_RX,slider,this,[=](int value){sendConfigHandle("RX",value);setLineEditText(ui->lineEdit_zoom_model_RX,value);});
     //RY坐标
-    connect(ui->horizontalSlider_zoom_model_RY,slider,this,[=](int value){sendConfigHandle("RY",value);updateLineEdit();});
+    connect(ui->horizontalSlider_zoom_model_RY,slider,this,[=](int value){sendConfigHandle("RY",value);setLineEditText(ui->lineEdit_zoom_model_RY,value);});
     //RZ坐标
-    connect(ui->horizontalSlider_zoom_model_RZ,slider,this,[=](int value){sendConfigHandle("RZ",value);updateLineEdit();});
+    connect(ui->horizontalSlider_zoom_model_RZ,slider,this,[=](int value){sendConfigHandle("RZ",value);setLineEditText(ui->lineEdit_zoom_model_RZ,value);});
 
     //看向鼠标速度
-    connect(ui->horizontalSlider_zoom_mouse_speed,slider,this,[=](int value){sendConfigHandle("Damping",value);updateLineEdit();});
+    connect(ui->horizontalSlider_zoom_mouse_speed,slider,this,[=](int value){sendConfigHandle("Damping",value);setLineEditText(ui->lineEdit_zoom_mouse_speed,value);});
     //平均眨眼周期
-    connect(ui->horizontalSlider_zoom_eye_time,slider,this,[=](int value){sendConfigHandle("Mean",value);updateLineEdit();});
+    connect(ui->horizontalSlider_zoom_eye_time,slider,this,[=](int value){sendConfigHandle("Mean",value);setLineEditText(ui->lineEdit_zoom_eye_time,value);});
     //眨眼偏差时间
-    connect(ui->horizontalSlider_zoom_eye_deviation,slider,this,[=](int value){sendConfigHandle("MaximumDeviation",value);updateLineEdit();});
+    connect(ui->horizontalSlider_zoom_eye_deviation,slider,this,[=](int value){sendConfigHandle("MaximumDeviation",value);setLineEditText(ui->lineEdit_zoom_eye_deviation,value);});
     //眨眼速度快慢
-    connect(ui->horizontalSlider_zoom_eye_speed,slider,this,[=](int value){sendConfigHandle("Timescale",value);updateLineEdit();});
+    connect(ui->horizontalSlider_zoom_eye_speed,slider,this,[=](int value){sendConfigHandle("Timescale",value);setLineEditText(ui->lineEdit_zoom_eye_speed,value);});
     //音频增益效果
-    connect(ui->horizontalSlider_zoom_audio_add,slider,this,[=](int value){sendConfigHandle("Gain",value);updateLineEdit();});
+    connect(ui->horizontalSlider_zoom_audio_add,slider,this,[=](int value){sendConfigHandle("Gain",value);setLineEditText(ui->lineEdit_zoom_audio_add,value);});
     //音频平滑效果
-    connect(ui->horizontalSlider_zoom_audio_smooth,slider,this,[=](int value){sendConfigHandle("Smoothing",value);updateLineEdit();});
+    connect(ui->horizontalSlider_zoom_audio_smooth,slider,this,[=](int value){sendConfigHandle("Smoothing",value);setLineEditText(ui->lineEdit_zoom_audio_smooth,value);});
 
 
     //重置
@@ -374,64 +378,64 @@ void SetLive2DDialogWidget::initConnect()
     connect(ui->pushButton_zoom_model_size,&QPushButton::clicked,[&](){
         ui->horizontalSlider_zoom_model_size->setValue(Config::get_LIVE2DPARAMINIT_M()["model_size"]);
         sendConfigHandle("ScaleScaleProportion",ui->horizontalSlider_zoom_model_size->value());
-        updateLineEdit();
+        initLineEdit();
     });
     connect(ui->pushButton_zoom_model_X,&QPushButton::clicked,[&](){ui->horizontalSlider_zoom_model_X->setValue(
         Config::get_LIVE2DPARAMINIT_M()["model_x"]);
         sendConfigHandle("X",ui->horizontalSlider_zoom_model_X->value());
-        updateLineEdit();
+        initLineEdit();
     });
     connect(ui->pushButton_zoom_model_Y,&QPushButton::clicked,[&](){
         ui->horizontalSlider_zoom_model_Y->setValue(Config::get_LIVE2DPARAMINIT_M()["model_y"]);
         sendConfigHandle("Y",ui->horizontalSlider_zoom_model_Y->value());
-        updateLineEdit();
+        initLineEdit();
     });
     connect(ui->pushButton_zoom_model_RX,&QPushButton::clicked,[&](){
         ui->horizontalSlider_zoom_model_RX->setValue(Config::get_LIVE2DPARAMINIT_M()["model_rx"]);
         sendConfigHandle("RX",ui->horizontalSlider_zoom_model_RX->value());
-        updateLineEdit();
+        initLineEdit();
     });
     connect(ui->pushButton_zoom_model_RY,&QPushButton::clicked,[&](){
         ui->horizontalSlider_zoom_model_RY->setValue(Config::get_LIVE2DPARAMINIT_M()["model_ry"]);
         sendConfigHandle("RY",ui->horizontalSlider_zoom_model_RY->value());
-        updateLineEdit();
+        initLineEdit();
     });
     connect(ui->pushButton_zoom_model_RZ,&QPushButton::clicked,[&](){
         ui->horizontalSlider_zoom_model_RZ->setValue(Config::get_LIVE2DPARAMINIT_M()["model_rz"]);
         sendConfigHandle("RZ",ui->horizontalSlider_zoom_model_RZ->value());
-        updateLineEdit();
+        initLineEdit();
     });
 
     connect(ui->pushButton_zoom_mouse_speed,&QPushButton::clicked,[&](){
         ui->horizontalSlider_zoom_mouse_speed->setValue(Config::get_LIVE2DPARAMINIT_M()["mouse_speed"]);
         sendConfigHandle("Damping",ui->horizontalSlider_zoom_mouse_speed->value());
-        updateLineEdit();
+        initLineEdit();
     });
     connect(ui->pushButton_zoom_eye_time,&QPushButton::clicked,[&](){
         ui->horizontalSlider_zoom_eye_time->setValue(Config::get_LIVE2DPARAMINIT_M()["eye_time"]);
         sendConfigHandle("Mean",ui->horizontalSlider_zoom_eye_time->value());
-        updateLineEdit();
+        initLineEdit();
     });
     connect(ui->pushButton_zoom_eye_deviation,&QPushButton::clicked,[&](){
         ui->horizontalSlider_zoom_eye_deviation->setValue(Config::get_LIVE2DPARAMINIT_M()["eye_deviation"]);
         sendConfigHandle("MaximumDeviation",ui->horizontalSlider_zoom_eye_deviation->value());
-        updateLineEdit();
+        initLineEdit();
     });
 
     connect(ui->pushButton_zoom_eye_speed,&QPushButton::clicked,[&](){
         ui->horizontalSlider_zoom_eye_speed->setValue(Config::get_LIVE2DPARAMINIT_M()["eye_speed"]);
         sendConfigHandle("Timescale",ui->horizontalSlider_zoom_eye_speed->value());
-        updateLineEdit();
+        initLineEdit();
     });
     connect(ui->pushButton_zoom_audio_add,&QPushButton::clicked,[&](){
         ui->horizontalSlider_zoom_audio_add->setValue(Config::get_LIVE2DPARAMINIT_M()["audio_add"]);
         sendConfigHandle("Gain",ui->horizontalSlider_zoom_audio_add->value());
-        updateLineEdit();
+        initLineEdit();
     });
     connect(ui->pushButton_zoom_audio_smooth,&QPushButton::clicked,[&](){
         ui->horizontalSlider_zoom_audio_smooth->setValue(Config::get_LIVE2DPARAMINIT_M()["audio_smooth"]);
         sendConfigHandle("Smoothing",ui->horizontalSlider_zoom_audio_smooth->value());
-        updateLineEdit();
+        initLineEdit();
     });
 
     //保存配置
@@ -529,7 +533,7 @@ void SetLive2DDialogWidget::sendWindowhandle(const QString &str)
 }
 
 
-void SetLive2DDialogWidget::updateLineEdit()
+void SetLive2DDialogWidget::initLineEdit()
 {
      ui->lineEdit_zoom_model_size->setText(QString::number(ui->horizontalSlider_zoom_model_size->value()/100)+"."+QString::number(ui->horizontalSlider_zoom_model_size->value()/10%10));
      ui->lineEdit_zoom_model_X->setText(QString::number(ui->horizontalSlider_zoom_model_X->value()/100)+"."+QString::number(qAbs(ui->horizontalSlider_zoom_model_X->value()/10%10)));
@@ -576,7 +580,7 @@ void SetLive2DDialogWidget::updateForUi()
     ui->textEdit_explain->setText(passItem.getModelDescription());
 
 
-    this->updateLineEdit();
+    this->initLineEdit();
 
 }
 
@@ -586,7 +590,10 @@ void SetLive2DDialogWidget::updateForUnity()
     if(SetLive2DDialogWidget::m_Live2dOpenId==-1){return;}
     if(NetLive2D::getIsConnect()==false){return;}
 
-
+    //Item位置初始化
+    QTimer::singleShot(1,this,[=](){emit sendModelHandle("InitItems:self;");});
+    //Item渲染初始化
+    QTimer::singleShot(2,this,[=](){emit sendModelHandle("InitItems:appoint;");});
 
     QTimer::singleShot(5,this,[=](){
         if(ui->radioButton_look_enable_yes->isChecked())sendConfigHandle("IsLookMouse",100);
@@ -609,10 +616,27 @@ void SetLive2DDialogWidget::updateForUnity()
     QTimer::singleShot(55,this,[=](){sendConfigHandle("Smoothing",ui->horizontalSlider_zoom_audio_smooth->value());});
 
 
-    //Item位置初始化
-    QTimer::singleShot(70,this,[=](){emit sendModelHandle("InitItems:self;");});
-    //Item渲染初始化
-    QTimer::singleShot(75,this,[=](){emit sendModelHandle("InitItems:appoint;");});
 
+
+
+}
+
+void SetLive2DDialogWidget::setLineEditText(QLineEdit *lineEdit, int value)
+{
+    lineEdit->setText(QString::number(value/100)+"."+QString::number(qAbs(value/10%10)));
+}
+
+void SetLive2DDialogWidget::updateModelChange()
+{
+    for(int i=0;i<ui->listWidget_model->count();++i){
+        QListWidgetItem* listWidgetItem=ui->listWidget_model->item(i);
+        Live2DListItemsWidget* live2DListItemsWidget = static_cast<Live2DListItemsWidget*>(ui->listWidget_model->itemWidget(listWidgetItem));
+        if(i==m_Live2dOpenId){
+            live2DListItemsWidget->setChangeIs();
+        }
+        else{
+            live2DListItemsWidget->setChangeNo();
+        }
+    }
 
 }

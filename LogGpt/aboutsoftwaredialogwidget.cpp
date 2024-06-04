@@ -21,26 +21,28 @@ void AboutSoftwareDialogWidget::init()
     this->setWindowIcon(QIcon(":/res/u77.svg"));
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 
-    QString information_str="LogChat客户端 Version-7.2\n"
-                            "By BiliBili: LearningLog\n"
-                            "GitHub:https://github.com/log159/LogChat\n"
+    QString information_str="#LogChat Version-7.3\n"
+                            "- 一个开源免费的Chat客户端！\n"
+                            "- GitHub:https://github.com/log159/LogChat\n"
+                            "#版本记录"
                             "#before--------------------------\n"
-                            "支持ChatGPT、讯飞星火大语言模型\n"
-                            "支持vits、bert-vits2、w2v2-vits\n"
+                            "- 支持ChatGPT、讯飞星火大语言模型\n"
+                            "- 支持vits、bert-vits2、w2v2-vits\n"
                             "#6.0-----------------------------\n"
-                            "支持基本Live2D\n"
+                            "- 支持基本Live2D\n"
                             "#7.0-----------------------------\n"
-                            "支持Live2D基本自定义\n"
+                            "- 支持Live2D基本自定义\n"
                             "#7.1\n"
-                            "Live2d窗口显示不适配问题\n"
-                            "Live2d窗口遮挡Web界面问题\n"
+                            "- Live2d窗口显示不适配问题\n"
+                            "- Live2d窗口遮挡Web界面问题\n"
                             "#7.2\n"
-                            "发送消息框光标问题\n"
-                            "UI优化，感谢GitHub@Zao-chen\n"
-                            "使得设置信息可以保存\n"
-                            "控件初始信息同步优化\n"
-                            "百度翻译处理不完全问题\n"
-                            "有Bug欢迎反馈！\n";
+                            "- 发送消息框光标问题\n"
+                            "- UI优化，感谢GitHub@Zao-chen\n"
+                            "- 使得设置信息可以保存\n"
+                            "- 百度翻译处理不完全问题\n"
+                            "#7.3"
+                            "- 添加了Galgame样式对话框\n"
+                            "#End 有Bug欢迎反馈！\n";
     QFont font;
     font.setPixelSize(20);
     ui->textEdit_about->setFont(font);

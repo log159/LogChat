@@ -32,6 +32,7 @@ SOURCES += \
         changelive2dwidget.cpp \
         chatgptapi.cpp \
         config.cpp \
+        configlive2d.cpp \
         configwindow.cpp \
         galdialog.cpp \
         listitemswidget.cpp \
@@ -65,6 +66,7 @@ HEADERS += \
         changelive2dwidget.h \
         chatgptapi.h \
         config.h \
+        configlive2d.h \
         configwindow.h \
         galdialog.h \
         listitemswidget.h \

@@ -17,11 +17,14 @@ public:
     static const QString    _WindowTitle;
     static const int        _StaticMinWidth;
     static const int        _StaticMinHeight;
+
 private:
     static int _StaticPosX;
     static int _StaticPosY;
     static int _StaticWidth;
     static int _StaticHeight;
+    static int _DesktopWidth;
+    static int _DesktopHeight;
 public:
 
     static void init();
@@ -34,5 +37,8 @@ public:
     static int getStaticPosY();
     static int getStaticWidth();
     static int getStaticHeight();
+    static int getDesktopWidth();
+    static int getDesktopHeight();
+
 };
 #endif // CONFIGWINDOW_H

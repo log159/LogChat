@@ -7,25 +7,35 @@
 #include <QByteArray>
 #include <QString>
 #include <QDebug>
+#include <QRegularExpression>
+#include <QTimer>
+
+#include "configlive2d.h"
+#include "configwindow.h"
 
 class NetLive2D : public QObject
 {
+    Q_OBJECT
 private:
     static bool isConnect;
 public:
-    explicit NetLive2D(QObject *parent = nullptr);
+    NetLive2D(QObject *parent = nullptr);
 
     void startListen();
     static bool getIsConnect();
     static void setIsConnect(bool value);
 
 private:
+
     void init();
     void initConnect();
+    void receiveHandle(QString strHandle);
 private:
     QTcpServer* tcpServer=nullptr;
     QTcpSocket* tcpSocket=nullptr;
+
 signals:
+    void myMousePass();
 
 public slots:
     void sendHandle(QString);

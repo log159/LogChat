@@ -4,6 +4,7 @@
 #include "widget.h"
 #include "config.h"
 #include "configwindow.h"
+#include "configlive2d.h"
 
 int main(int argc, char *argv[])
 {
@@ -31,6 +32,7 @@ int main(int argc, char *argv[])
 
     Config::init();
     ConfigWindow::init();
+    ConfigLive2d::init();
     Widget w;
     w.show();
 

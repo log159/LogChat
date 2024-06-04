@@ -83,6 +83,8 @@ private:
     static int                      RESERVE_LONG;          //上下文保留最大长度
     static int                      SOUND_ID;              //音频播放ID
 
+//    static float
+
 public:
     //初始化
     static void init();

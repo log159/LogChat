@@ -108,6 +108,9 @@ void Widget::initConnect()
     connect(m_SetSelectWidget,&SetSelectWidget::setGalDialogShow,[=](){
 
         new_GalDialog = new GalDialog;
+
+        /*移动窗口到对应位置，如果未启用模型默认为屏幕中心*/
+        new_GalDialog->move(int(ConfigLive2d::getModelX()-new_GalDialog->width()/2.f),int(ConfigLive2d::getModelY()-new_GalDialog->height()/2.f));
         new_GalDialog->show();
         //Gal视口发送信息传递过来
         connect(new_GalDialog, SIGNAL(signal_send_data_from_gal_to_main(QString)), this, SLOT(slot_receive_data_from_gal_to_widget(QString)));
@@ -126,6 +129,11 @@ void Widget::initConnect()
     });
     connect(m_PushAndReceiveWidget,&PushAndReceiveWidget::receiveIs,[=](){
         m_SetSelectWidget->setCanPass();
+    });
+
+    connect(m_NetLive2D,&NetLive2D::myMousePass,this,[=](){
+        emit m_SetSelectWidget->setGalDialogShow();
+
     });
 
 

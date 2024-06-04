@@ -17,6 +17,7 @@
 #include <QTimer>
 #include <QDesktopServices>
 #include <QUrl>
+#include <QListWidgetItem>
 
 
 #include "config.h"
@@ -58,9 +59,11 @@ private:
     void resizeEvent(QResizeEvent*event);
     void sendConfigHandle(const QString& str,int val);
     void sendWindowhandle(const QString& str);
-    void updateLineEdit();
+    void initLineEdit();
     void updateForUi();
     void updateForUnity();
+    void setLineEditText(QLineEdit* lineEdit,int value);
+    void updateModelChange();
 
 signals:
     void sendModelHandle(QString);
