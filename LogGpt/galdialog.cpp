@@ -34,12 +34,17 @@ void GalDialog::keyReleaseEvent(QKeyEvent* event)
     {
         if (!keys.contains(Qt::Key_Shift)) //过滤换行
         {
-            QString str = ui->textEdit->toPlainText();
-            str.chop(1); //去尾回车
-            emit signal_send_data_from_gal_to_main(str); //获取lineEdit的输入并且传递到主界面
+            //去除换行
+            QTextCursor cursor=ui->textEdit->textCursor();//得到当前text的光标
+            if(cursor.hasSelection()) cursor.clearSelection();
+            cursor.deletePreviousChar();//删除前一个字符
+            //等待回复
             ui->label_name->setText("她");
             ui->textEdit->setText("...");
             ui->textEdit->setEnabled(false);
+            //发起请求
+            QString str = ui->textEdit->toPlainText();
+            emit signal_send_data_from_gal_to_main(str); //获取lineEdit的输入并且传递到主界面
         }
     }
     keys.removeAll(event->key());
