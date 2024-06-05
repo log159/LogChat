@@ -1,5 +1,8 @@
 #include "pushandreceivewidget.h"
 #include "ui_pushandreceivewidget.h"
+
+QString g_url;
+
 PushAndReceiveWidget::PushAndReceiveWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::PushAndReceiveWidget)
@@ -442,8 +445,8 @@ void PushAndReceiveWidget::add_bot_information(const QString &str)
 
 void PushAndReceiveWidget::handle_bot_sound(const QString &str)
 {
-    QString url = Config::get_URL_ADDRESS_ALL().arg(str);
-    m_VitsApi->start(url);
+    g_url = Config::get_URL_ADDRESS_ALL().arg(str);
+    m_VitsApi->start(g_url);
 }
 
 void PushAndReceiveWidget::play_sound(const QString &str)
@@ -536,4 +539,10 @@ void PushAndReceiveWidget::slot_receive_data_from_widget_to_llm(const QString &s
     qDebug()<<"llm接受到来自Widget的信息————>"<<str;
     m_UserTextEdit->setText(str);
     pushbutton_send_clicked();
+}
+
+void PushAndReceiveWidget::slot_play_voice_from_widget_to_llm()
+{
+    qDebug()<<"llm接受到来自Widget的语言播放请求";
+    m_VitsApi->start(g_url);
 }

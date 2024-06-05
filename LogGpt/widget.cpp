@@ -113,7 +113,9 @@ void Widget::initConnect()
         new_GalDialog->move(int(ConfigLive2d::getModelX()-new_GalDialog->width()/2.f),int(ConfigLive2d::getModelY()-new_GalDialog->height()/2.f));
         new_GalDialog->show();
         //Gal视口发送信息传递过来
-        connect(new_GalDialog, SIGNAL(signal_send_data_from_gal_to_main(QString)), this, SLOT(slot_receive_data_from_gal_to_widget(QString)));
+        connect(new_GalDialog, SIGNAL(signal_send_data_from_gal_to_widget(QString)), this, SLOT(slot_receive_data_from_gal_to_widget(QString)));
+        connect(new_GalDialog, SIGNAL(signal_show_widget_from_gal()), this, SLOT(slot_show_widget_from_gal()));
+        connect(new_GalDialog, SIGNAL(signal_play_voice_from_gal_to_widget()), this, SLOT(slot_play_voice_from_gal()));
     });
     connect(m_SetSelectWidget,&SetSelectWidget::clearChat,[=](){
         m_PushAndReceiveWidget->clearHistory();
@@ -232,4 +234,14 @@ void Widget::slot_receive_data_from_llm_to_widget(QString data)
     qDebug()<<"Widget接受到来自llm信息————>"<<data; //获取传递过来的数据
     new_GalDialog->slots_receive_data_from_widget_to_gal(data);
 }
-
+//接受到gal要求显示histroy信息
+void Widget::slot_show_widget_from_gal()
+{
+    this->showNormal();
+}
+//接受到gal要求播放语言信息
+void Widget::slot_play_voice_from_gal()
+{
+    qDebug()<<"Widget接受到来自gal播放语言请求";
+    m_PushAndReceiveWidget->slot_play_voice_from_widget_to_llm();
+}

@@ -25,7 +25,7 @@ QPushButton {
     background-color: #FFFFFF;
     border: none;
     border-radius: 6px;
-    padding: 6px 2px;
+    padding: 6px 4px;
 }
 QPushButton:hover {
     background-color: #F0F3F4 ;

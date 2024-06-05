@@ -70,6 +70,10 @@ private slots:
     void slot_receive_data_from_gal_to_widget(QString data); //接收Gal窗口传递过来的数据的槽
     void slot_receive_data_from_llm_to_widget(QString data); //接收llm传递过来的数据的槽
 
+    void slot_show_widget_from_gal(); //接收Gal窗口显示窗口的指令
+    void slot_play_voice_from_gal(); //接收Gal窗口播放语言的指令
+
+
 
 private:
     Ui::Widget *ui;

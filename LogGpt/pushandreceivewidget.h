@@ -103,9 +103,10 @@ private slots:
     void slot_text_change();
 
 public slots:
-    void slot_receive_data_from_widget_to_llm(const QString& str);
+    void slot_receive_data_from_widget_to_llm(const QString& str); //收到主界面发送的信息
+    void slot_play_voice_from_widget_to_llm(); //收到主界面发送的播放语言请求
 signals:
-    void signals_send_data_from_llm_to_main(QString);   //用来传递发送信息的信号
+    void signals_send_data_from_llm_to_main(QString); //返回给主界面
 private:
     Ui::PushAndReceiveWidget *ui;
 };

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>650</width>
-    <height>196</height>
+    <width>637</width>
+    <height>184</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,8 +19,6 @@
     font-size: 15px;
     font-family: Microsoft YaHei;
 }
-
-
 
 QLineEdit {
     border: 2px solid #F0F3F4;
@@ -90,9 +88,96 @@ QPushButton:pressed {
     <bool>true</bool>
    </property>
   </widget>
+  <widget class="QPushButton" name="pushButton_history">
+   <property name="geometry">
+    <rect>
+     <x>540</x>
+     <y>160</y>
+     <width>41</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+    background-color:#F0F3F4 ;
+	font: 9pt ;
+    border: none;
+    border-radius: 6px;
+    padding: 0px 4px;
+}
+QPushButton:hover {
+    background-color: #FFFFFF ;
+}
+QPushButton:pressed {
+    background-color: 	#ECF0F1;
+}</string>
+   </property>
+   <property name="text">
+    <string>历史</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_close">
+   <property name="geometry">
+    <rect>
+     <x>580</x>
+     <y>160</y>
+     <width>41</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+    background-color:#F0F3F4 ;
+	font: 9pt ;
+    border: none;
+    border-radius: 6px;
+    padding: 0px 4px;
+}
+QPushButton:hover {
+    background-color: #FFFFFF ;
+}
+QPushButton:pressed {
+    background-color: 	#ECF0F1;
+}</string>
+   </property>
+   <property name="text">
+    <string>关闭</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_play">
+   <property name="geometry">
+    <rect>
+     <x>500</x>
+     <y>160</y>
+     <width>41</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+    background-color:#F0F3F4 ;
+	font: 9pt ;
+    border: none;
+    border-radius: 6px;
+    padding: 0px 4px;
+}
+QPushButton:hover {
+    background-color: #FFFFFF ;
+}
+QPushButton:pressed {
+    background-color: 	#ECF0F1;
+}</string>
+   </property>
+   <property name="text">
+    <string>播放</string>
+   </property>
+  </widget>
   <zorder>textEdit</zorder>
   <zorder>label_name</zorder>
   <zorder>pushButton</zorder>
+  <zorder>pushButton_history</zorder>
+  <zorder>pushButton_close</zorder>
+  <zorder>pushButton_play</zorder>
  </widget>
  <resources/>
  <connections/>

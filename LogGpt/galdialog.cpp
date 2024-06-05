@@ -40,11 +40,11 @@ void GalDialog::keyReleaseEvent(QKeyEvent* event)
             cursor.deletePreviousChar();//删除前一个字符
             //等待回复
             ui->label_name->setText("她");
-            ui->textEdit->setText("...");
-            ui->textEdit->setEnabled(false);
             //发起请求
             QString str = ui->textEdit->toPlainText();
-            emit signal_send_data_from_gal_to_main(str); //获取lineEdit的输入并且传递到主界面
+            ui->textEdit->setText("...");
+            ui->textEdit->setEnabled(false);
+            emit signal_send_data_from_gal_to_widget(str); //获取lineEdit的输入并且传递到主界面
         }
     }
     keys.removeAll(event->key());
@@ -65,6 +65,22 @@ void GalDialog::on_pushButton_clicked()
     ui->label_name->setText("你");
 }
 
+/*菜单相关*/
+//关闭
+void GalDialog::on_pushButton_close_clicked()
+{
+    this->destroy();
+}
+//历史记录
+void GalDialog::on_pushButton_history_clicked()
+{
+    emit signal_show_widget_from_gal(); //显示widget
+}
+//播放
+void GalDialog::on_pushButton_play_clicked()
+{
+    emit signal_play_voice_from_gal_to_widget(); //播放语言
+}
 
 /*无边框相关*/
 //三个鼠标事件的重写
@@ -105,6 +121,12 @@ void GalDialog::mouseReleaseEvent(QMouseEvent *event)
         this->setCursor(QCursor(Qt::ArrowCursor));
     }
 }
+
+
+
+
+
+
 
 
 
