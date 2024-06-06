@@ -18,6 +18,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonValue>
+#include <QList>
 
 
 #include "singletonbase.h"
@@ -36,6 +37,7 @@ private:
     static const QMap<QString,int>          LIVE2DPARAMINIT_M;     //全部Live2D PARAM默认值
     static       QMap<QString,QString>      LIVE2DSTRING_M;        //全部Live2D STRING默认值
     static       QVector<ModelConfigItem>   LIVE2DMODELCONFIG_V;   //全部加载的Live2D配置信息
+//    static       QList<QPair<QString,QString>   HISTORY;
 
     static const QString            SETCONFIG_WAY;         //设置配置路径
     static const QString            OUTPUT_WAV_WAY;        //音频文件输出路径
@@ -56,6 +58,7 @@ private:
     static const QString            UNITY_STARTMODELPATH_WAY;  //Unity 模型文件加载路径
     static const QString            UNITY_MODELLIST_WAY;       //Unity Live 2D路径列表
     static const QString            UNITY_MODELCONFIGLIST_WAY; //Unity 模型文件配置加载路径
+    static const QString            HISTORY_WAY;               //未归档Chat历史记录
 
     static QString                  CHATGPT_KEY;           //配置CHATGPT_key(need file)
     static QString                  CHATGPT_BASEAPI;       //配置CHATGPT_baseapi(need file)
@@ -83,7 +86,6 @@ private:
     static int                      RESERVE_LONG;          //上下文保留最大长度
     static int                      SOUND_ID;              //音频播放ID
 
-//    static float
 
 public:
     //初始化
@@ -108,6 +110,7 @@ private:
     static void init_XFXH_KEY();
     static void init_XFXH_SECRET();
     static void init_LIVE2DMODELCONFIG_V();
+    static void init_HISTORY();
 
 private:
     //修改文件配置
@@ -143,6 +146,7 @@ public:
     static const QString get_UNITY_STARTMODELPATH_WAY();
     static const QString get_UNITY_MODELLIST_WAY();
     static const QString get_UNITY_MODELCONFIGLIST_WAY();
+    static const QString get_HISTORY_WAY();
 
 public:
     //获取Vector

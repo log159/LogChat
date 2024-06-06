@@ -8,8 +8,48 @@ UserTextEdit::UserTextEdit(QWidget *parent) : QTextEdit(parent)
 
 void UserTextEdit::init()
 {
-    this->setFixedSize(730,80);
-    this->setStyleSheet("border: none; background-color: white; color: #333333; padding: 5px;");
+    this->setStyleSheet(
+        "QTextEdit {"
+        "  color: #333333;"                // 文字颜色
+        "  background-color: #ffffff;"     // 背景颜色
+        "  border: 1px solid #cccccc;"     // 边框颜色和样式
+        "  border-radius: 5px;"            // 边框圆角
+        "  padding: 8px;"                  // 内边距
+        "  font-family: 'Arial';"          // 字体
+        "  font-size: 14px;"               // 字体大小
+        "}"
+        "QScrollBar:vertical {"
+        "  width: 10px;"
+        "  background-color: #F5F5F5;"
+        "  margin: 0px 0px 0px 0px;"
+        "  border-radius: 5px;"
+        "}"
+        "QScrollBar::handle:vertical {"
+        "  background-color: #CCCCCC;"
+        "  min-height: 20px;"
+        "  border-radius: 5px;"
+        "}"
+        "QScrollBar::handle:vertical:hover {"
+        "  background-color: #BBBBBB;"
+        "  border-radius: 5px;"
+        "}"
+        "QScrollBar::add-line:vertical {"
+        "  height: 0px;"
+        "  subcontrol-position: bottom;"
+        "  subcontrol-origin: margin;"
+        "}"
+        "QScrollBar::sub-line:vertical {"
+        "  height: 0px;"
+        "  subcontrol-position: top;"
+        "  subcontrol-origin: margin;"
+        "}"
+        "QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {"
+        "  background-color: #F5F5F5;"
+        "  border-radius: 5px;"
+        "}"
+    );
+
+
 }
 
 void UserTextEdit::keyPressEvent(QKeyEvent *event)
@@ -18,38 +58,30 @@ void UserTextEdit::keyPressEvent(QKeyEvent *event)
     {
         if (event->modifiers() & Qt::ShiftModifier)
         {
-            // 如果按下Shift+回车键，则插入换行符
-            this->insertPlainText("\n");
-//            if(!isCursorVisible()){
+            this->insertPlainText("\r");
+            QTextEdit::keyPressEvent(event);
 
-//                ensureCursorVisible();
-//            }
         }
         else
         {
-            // 如果只按下回车键，则发送信号或执行其他操作
             emit returnSend();
         }
     }
     else
     {
-        // 处理其他按键事件
         QTextEdit::keyPressEvent(event);
     }
 }
 
-bool UserTextEdit::isCursorVisible() {
-    QRect rect = cursorRect();
-    QPoint topLeft = rect.topLeft();
-    QPoint bottomRight = rect.bottomRight();
-    QPoint viewportTopLeft = viewport()->mapToParent(viewport()->rect().topLeft());
-    QPoint viewportBottomRight = viewport()->mapToParent(viewport()->rect().bottomRight());
 
-    return topLeft.y() >= viewportTopLeft.y() && bottomRight.y() <= viewportBottomRight.y();
+
+void UserTextEdit::resizeEvent(QResizeEvent *event) {
+    QTextEdit::resizeEvent(event);
+    adjustHeight();
 }
-void UserTextEdit::scrollContentsBy(int dx, int dy) {
 
-    Q_UNUSED(dx)
-    Q_UNUSED(dy)
-//    qDebug()<<dx<<" "<<dy;
+void UserTextEdit::adjustHeight() {
+    int docHeight = static_cast<int>(document()->size().height());
+    int newHeight = qBound(50, docHeight, 500);
+    setFixedHeight(newHeight);
 }

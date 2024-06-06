@@ -48,9 +48,12 @@ class PushAndReceiveWidget : public QWidget
     typedef void (BaiduApi::*ReplyFinishedData)(QString);
 private:
     const int _TextEditMinHeight               =50;
-    const int _TextEditMaxHeight               =200;
+    const int _TextEditMaxHeight               =500;
+    const QString _UserMark                    ="User";
+    const QString _BotMark                     ="Bot";
 private:
 
+    QList<QPair<QString,QString>>    m_HistoryTextList;
     QList<QString>    m_OldUserTextList;
     QList<QString>    m_OldRobotTextList;
     bool              m_InformationComing      =false;

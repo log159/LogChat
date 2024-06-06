@@ -47,18 +47,8 @@ void PushAndReceiveWidget::init()
 
     m_UserTextEdit=new UserTextEdit(this);
     m_UserTextEdit->setPlaceholderText("来说点什么吧( Shift+Enter换行 Enter发送 )");
-    m_UserTextEdit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_UserTextEdit->setFixedHeight(_TextEditMinHeight);
-    m_UserTextEdit->setStyleSheet("QTextEdit {"
-                                  "border: 2px solid #AAAAAA; " /* 设置边框颜色为浅绿色 */
-                                  "border-radius: 10px; "       /* 设置圆角半径为10像素 */
-                                  "background-color: #FFFFFF; " /* 设置背景颜色为淡蓝色 */
-                                  "padding: 5px; "              /* 设置内边距为5像素 */
-                                  "}"
-                                  "QTextEdit:focus {"
-                                  "outline: none; "             /* 移除焦点时的边框 */
-                                  "}"
-                                  );
+
     QFont font;
     font.setFamily("黑体");
     font.setPointSize(10);
@@ -289,6 +279,8 @@ void PushAndReceiveWidget::clearHistory()
     qDebug()<<"聊天记录清除";
     m_OldUserTextList.clear();
     m_OldRobotTextList.clear();
+    //历史存档清除
+    m_HistoryTextList.clear();
     if(Config::get_ENABLE_ROLE()){
         addCharacterConfig();
     }
@@ -341,6 +333,7 @@ void PushAndReceiveWidget::handle_receive(const QString &str)
 
     //----------接收内容添加进缓存-----------
     m_OldRobotTextList.push_back(receivedData);
+    m_HistoryTextList.push_back(QPair<QString,QString>(_BotMark,receivedData));
 
     //启用百度翻译 和 语音
     if(Config::get_ENABLE_SOUND() && Config::get_ENABLE_BAIDUFANYI())
@@ -479,6 +472,8 @@ void PushAndReceiveWidget::pushbutton_send_clicked()
     add_user_information(m_UserTextEdit->toPlainText());
     handle_bot_information();
 
+    m_HistoryTextList.push_back(QPair<QString,QString>(_UserMark,m_UserTextEdit->toPlainText()));
+
 }
 
 void PushAndReceiveWidget::slot_text_change()
@@ -492,17 +487,8 @@ void PushAndReceiveWidget::slot_text_change()
         m_UserTextEdit->setFixedHeight(_TextEditMaxHeight);
     }
 
-    m_UserTextEdit->move(int(this->width()*0.15),this->height()-m_UserTextEdit->height());
-    //这里实际上，还有呃bug,比如在末尾按住Shift+Enter不会显示到最后
-////    m_UserTextEdit->moveCursor(QTextCursor::End);
+    m_UserTextEdit->move(m_UserTextEdit->x(),this->height()-m_UserTextEdit->height());
 
-//    if (!m_UserTextEdit->isCursorVisible()) {
-////    m_UserTextEdit->ensureCursorVisible();
-//        qDebug()<<"光标不可见";
-//    }
-//    else{
-//        qDebug()<<"光标可见";
-//    }
 }
 
 
@@ -520,8 +506,8 @@ void PushAndReceiveWidget::setAdapt()
     }
     updateListWidget();
 
-    m_UserTextEdit->setFixedWidth(int(this->width()*0.8)-10);
-    m_UserTextEdit->move(int(this->width()*0.15)-10,this->height()-m_UserTextEdit->height());
+    m_UserTextEdit->setFixedWidth(int(this->width()*0.7)-10);
+    m_UserTextEdit->move(int(this->width()*0.24)-10,this->height()-m_UserTextEdit->height());
     m_PushButtonListen->setGeometry(m_UserTextEdit->geometry());
     m_Frame->move(m_UserTextEdit->width()+m_UserTextEdit->x()+10,m_ListWidget->height());
     m_Frame->setFixedSize(this->width()-m_Frame->x(),this->height()-m_Frame->y());

@@ -9,6 +9,7 @@ const QMap<QString,bool>  Config::LIVE2DENABLEINIT_M   ={
     {"top_enable",true}
 
 };
+
 const QMap<QString,int>  Config::LIVE2DPARAMINIT_M= {
     {"model_size",300},
     {"model_x",0},
@@ -49,7 +50,7 @@ const QString Config::UNITY_DEMO_WORK_WAY   ="/unity2d";
 const QString Config::UNITY_STARTMODELPATH_WAY="/unity2d/model/STARTMODELPATH.txt";
 const QString Config::UNITY_MODELLIST_WAY     ="/unity2d/model/MODELLIST.txt";
 const QString Config::UNITY_MODELCONFIGLIST_WAY="/unity2d/model/MODELCONFIGLIST.txt";
-
+const QString Config::HISTORY_WAY              ="/config/history.json";
 
 QString       Config::CHATGPT_KEY            ="";                                                //配置CHATGPT_key(need file)
 QString       Config::CHATGPT_BASEAPI        ="";                                                //配置CHATGPT_baseapi(need file)
@@ -171,7 +172,7 @@ void Config::init_ALLSETCONFIG()
             Config::set_BAIDU_TO_ID(it.value().toInt());
         }
         else if (it.key()=="chatgpt_model") {
-//            gpt-3.5-turbo //暂时只有gpt-3.5-turbo了
+//            gpt-3.5-turbo //目前只有gpt-3.5-turbo
             Config::set_CHATGPT_MODEL_ID(it.value().toInt());
         }
         else if (it.key()=="enable_baidu") {
@@ -340,6 +341,11 @@ void Config::init_LIVE2DMODELCONFIG_V()
 //        ModelConfigItem::printInformation(modelConfigItem);
         qDebug()<<modelConfigItem.getFilePath();
     }
+}
+
+void Config::init_HISTORY()
+{
+
 }
 
 void Config::output_CHATGPT_KEY(const QString &str)
@@ -516,6 +522,11 @@ const QString Config::get_UNITY_MODELLIST_WAY()
 const QString Config::get_UNITY_MODELCONFIGLIST_WAY()
 {
     return QCoreApplication::applicationDirPath()+Config::UNITY_MODELCONFIGLIST_WAY;
+}
+
+const QString Config::get_HISTORY_WAY()
+{
+    return QCoreApplication::applicationDirPath()+Config::HISTORY_WAY;
 }
 
 QVector<QString> Config::get_VITS_ALL_V()

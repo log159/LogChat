@@ -13,11 +13,12 @@ public:
     explicit UserTextEdit(QWidget *parent = nullptr);
 private:
     void init();
-public:
-    bool isCursorVisible();
-    void scrollContentsBy(int dx, int dy) override;
+
+
 protected:
     void keyPressEvent(QKeyEvent *event) override;
+    void resizeEvent(QResizeEvent *event) override;
+    void adjustHeight() ;
 signals:
     void returnSend();
 
