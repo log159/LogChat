@@ -209,6 +209,12 @@ void Config::init_ALLSETCONFIG()
         else if (it.key()=="xfxh_model") {
             Config::set_XFXH_MODEL_ID(it.value().toInt());
         }
+        else if(it.key()=="enable_reserve"){
+            Config::set_ENABLE_RESERVE(static_cast<bool>(it.value().toInt()));
+        }
+        else if(it.key()=="reserve_long"){
+            Config::set_RESERVE_LONG(it.value().toInt());
+        }
 
     }
 
@@ -904,6 +910,8 @@ void Config::set_ALLSETCONFIG()
        json["enable_vits"] = QString::number((Config::get_ENABLE_SOUND()));
        json["enable_baidu"] = QString::number(Config::get_ENABLE_BAIDUFANYI());
        json["enable_baidushow"] = QString::number(Config::get_ENABLE_LATERLANGUAGE());
+       json["enable_reserve"] = QString::number(Config::get_ENABLE_RESERVE());
+       json["reserve_long"] = QString::number(Config::get_RESERVE_LONG());
 
 
        Config::output_ALLSETCONFIG(json);

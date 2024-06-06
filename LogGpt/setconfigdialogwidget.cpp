@@ -66,6 +66,8 @@ void SetConfigDialogWidget::initConnect()
 
     SliderMoved sliderMoved=&QSlider::sliderMoved;
     QObject::connect(ui->horizontalSlider_reserve,sliderMoved,this,[=](int value){
+        Config::set_RESERVE_LONG(value);
+        qDebug()<<"联系上下文长度更新到："<<value;
         ui->lineEdit_reserve->setText(QString::number(value));
     });
 
@@ -76,6 +78,8 @@ void SetConfigDialogWidget::closeEvent(QCloseEvent *event)
     qDebug()<<"聊天配置更新成功！";
     Config::set_CHARACTER_CONFIG(ui->textEdit_character->toPlainText());
     Config::set_RESERVE_LONG(ui->horizontalSlider_reserve->value());
+
+    Config::set_ALLSETCONFIG();
 
 
 }
