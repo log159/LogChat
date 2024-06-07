@@ -17,7 +17,8 @@
 3. **讯飞星火大模型官方Windows SDK**
 4. **VITS-simple-api:** [GitHub链接](https://github.com/Artrajz/vits-simple-api/tree/main)
 5. **百度翻译API:** [官方网站](https://fanyi-api.baidu.com/)
-6. **Live2D基于Unity**
+6. **百度语音识别API:** [官方网站](https://cloud.baidu.com/product/speech/asr)
+7. **Live2D基于Unity**
 
 ## 发布使用说明
 
@@ -61,6 +62,7 @@
 - **OpenAI官网**：[访问OpenAI](https://openai.com/)
 - **OpenAI API文档**：[API参考](https://platform.openai.com/docs/api-reference/introduction)
 - **百度翻译API文档**：[API文档](https://fanyi-api.baidu.com/doc/11)
+- **百度语音识别API文档**：[API文档](https://ai.baidu.com/ai-doc/SPEECH/Jlbxdezuf)
 - **讯飞星火API**：[官方网站](https://xinghuo.xfyun.cn/sparkapi)
 - **Live2D SDK手册**：[SDK文档](https://docs.live2d.com/zh-CHS/cubism-sdk-manual/top/)
 - **Live2D中文文档**：[GitHub资源](https://github.com/gtf35/live2d_unity_sdk_chinese_document)
