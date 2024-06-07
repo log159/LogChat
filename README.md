@@ -1,6 +1,6 @@
 # 可连接到VITS的Chat客户端
 
-预览
+预览:
 - <img src="https://github.com/log159/LogChat/assets/121474554/cf2db233-3b19-4ca3-8123-491bdcbab51a" width="400" alt="预览">
 
 支持的聊天模型:
@@ -28,6 +28,26 @@
 5. 若VITS模型不支持对话语言，需要使用[百度翻译API](https://fanyi-api.baidu.com/)。
 6. 免科学上网使用此项目方式，获取base URL以及key：[GPT_API_free](https://github.com/chatanywhere/GPT_API_free)
 7. 运行`LogChat.exe`。
+
+## 目前以及未来实现的功能
+ - [x] LLM-ChatGPT
+ - [x] LLM-讯飞星火大模型
+ - [ ] LLM-ChatGML
+ - [ ] LLM-Claude
+ - [ ] LLM-百度千帆大模型
+ - [x] TTS-VITS
+ - [ ] TTS-GPT-SoVits
+ - [x] Live2D-角色模型导入
+ - [x] Live2D-对模型的几何位置，基本功能支持自定义
+ - [x] Live2D-对模型的控件偏移支持自定义
+ - [x] Live2D-对模型的控件渲染支持自定义
+ - [ ] Live2D-对模型的动画支持自定义
+ - [ ] Live2D-对模型的控件谐波支持自定义
+ - [ ] Other-右键菜单屏幕截图
+ - [ ] Other-右键菜单应用快捷启动器
+ - [ ] Other-右键菜单时钟显示时间
+
+
 
 ## 借鉴与引用
 
