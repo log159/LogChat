@@ -48,8 +48,6 @@ private:
     static const QString            CHATGPT_BASEAPI_WAY;   //CHATGPT_baseapi路径
     static const QString            BAIDU_APPID_WAY;       //百度翻译APPID文件路径
     static const QString            BAIDU_KEY_WAY;         //百度翻译KEY文件路径
-    static const QString            BAIDUSOUND_KEY_WAY;    //百度语音识别APPID文件路径
-    static const QString            BAIDUSOUND_SECRET_WAY; //百度语音识别KEY文件路径
     static const QString            XFXH_APPID_WAY;        //讯飞星火APPID文件路径
     static const QString            XFXH_KEY_WAY;          //讯飞星火KEY文件路径
     static const QString            XFXH_SECRET_WAY;       //讯飞星火SECRET文件路径
@@ -68,8 +66,6 @@ private:
     static QString                  URL_PORT;              //VITS Url端口
     static QString                  BAIDU_APID;            //百度翻译APPID (need file)
     static QString                  BAIDU_KEY;             //百度翻译开KEY (need file)
-    static QString                  BAIDUSOUND_KEY;            //百度翻译APPID (need file)
-    static QString                  BAIDUSOUND_SECRET;             //百度翻译开KEY (need file)
     static QString                  XFXH_APPID;            //讯飞星火APPID (need file)
     static QString                  XFXH_KEY;              //讯飞星火KEY   (need file)
     static QString                  XFXH_SECRET;           //讯飞星火SECRET(need file)
@@ -140,8 +136,6 @@ public:
     static const QString get_CHATGPT_BASEAPI_WAY();
     static const QString get_BAIDU_APID_WAY();
     static const QString get_BAIDU_KEY_WAY();
-    static const QString get_BAIDUSOUND_KEY_WAY();
-    static const QString get_BAIDUSOUND_SECRET_WAY();
     static const QString get_XFXH_APPID_WAY();
     static const QString get_XFXH_KEY_WAY();
     static const QString get_XFXH_SECRET_WAY();
@@ -177,8 +171,6 @@ public:
     static const QString get_CHARACTER_CONFIG();
     static const QString get_BAIDU_APID();
     static const QString get_BAIDU_KEY();
-    static const QString get_BAIDUSOUND_KEY();
-    static const QString get_BAIDUSOUND_SECRET();
     static const QString get_XFXH_APPID();
     static const QString get_XFXH_KEY();
     static const QString get_XFXH_SECRET();

@@ -99,8 +99,8 @@ void GalDialog::on_pushButton_record_released()
     qDebug()<<"结束录音";
     m_audio.stopRecord();
     //提交录音
-    QString str = m_speechrgn.speechIdentify(Config::get_BAIDUSOUND_KEY(),Config::get_BAIDUSOUND_SECRET(),"./record_temp.pcm");
-    qDebug()<<"发送识别请求"<<Config::get_BAIDUSOUND_KEY()<<" "<<Config::get_BAIDUSOUND_SECRET();
+    QString str = m_speechrgn.speechIdentify(ui->lineEdit_key->text(),ui->lineEdit_secret->text(),"./record_temp.pcm");
+    qDebug()<<"发送识别请求"<<ui->lineEdit_key->text()<<" "<<ui->lineEdit_secret->text();
     ui->textEdit->setText(str); //获取返回内容
 
 }
