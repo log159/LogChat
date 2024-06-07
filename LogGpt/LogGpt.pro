@@ -47,12 +47,15 @@ SOURCES += \
         modelpartitem.cpp \
         netlive2d.cpp \
         pushandreceivewidget.cpp \
+        qaudiocapture.cpp \
+        qhttppost.cpp \
         setconfigdialogwidget.cpp \
         setdialogwidget.cpp \
         setlive2ddialogwidget.cpp \
         setpushbutton.cpp \
         setselectpushbutton.cpp \
         setselectwidget.cpp \
+        speechrecognition.cpp \
         useritemswidget.cpp \
         usertextedit.cpp \
         vitsapi.cpp \
@@ -80,6 +83,8 @@ HEADERS += \
         modelpartitem.h \
         netlive2d.h \
         pushandreceivewidget.h \
+        qaudiocapture.h \
+        qhttppost.h \
         setconfigdialogwidget.h \
         setdialogwidget.h \
         setlive2ddialogwidget.h \
@@ -87,6 +92,7 @@ HEADERS += \
         setselectpushbutton.h \
         setselectwidget.h \
         singletonbase.h \
+        speechrecognition.h \
         useritemswidget.h \
         usertextedit.h \
         vitsapi.h \

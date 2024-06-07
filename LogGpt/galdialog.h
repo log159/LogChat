@@ -3,6 +3,9 @@
 
 #define PADDING 2
 
+#include "qaudiocapture.h"
+#include "speechrecognition.h"
+
 #include <QWidget>
 #include <QLineEdit>
 namespace Ui {
@@ -25,6 +28,10 @@ private slots:
     void on_pushButton_history_clicked();
 
     void on_pushButton_play_clicked();
+
+    void on_pushButton_record_pressed();
+
+    void on_pushButton_record_released();
 
 private:
     Ui::GalDialog *ui;
@@ -49,6 +56,9 @@ protected:
 private:
     QPoint m_movePoint; //鼠标的位置
     bool isLeftPressDown; // 判断左键是否按下
+
+    QAudioCapture m_audio;
+    speechRecognition m_speechrgn;
 };
 
 #endif // GALDIALOG_H

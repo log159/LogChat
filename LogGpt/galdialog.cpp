@@ -1,5 +1,6 @@
 #include "galdialog.h"
 #include "ui_galdialog.h"
+
 #include <QDebug>
 #include <QMouseEvent>
 
@@ -64,7 +65,6 @@ void GalDialog::on_pushButton_clicked()
     ui->textEdit->clear();
     ui->label_name->setText("你");
 }
-
 /*菜单相关*/
 //关闭
 void GalDialog::on_pushButton_close_clicked()
@@ -81,6 +81,30 @@ void GalDialog::on_pushButton_play_clicked()
 {
     emit signal_play_voice_from_gal_to_widget(); //播放语言
 }
+/*语音输入相关*/
+//长按录制
+void GalDialog::on_pushButton_record_pressed()
+{
+    qDebug()<<"开始录音";
+    /*
+     * 此处可以使用ffplay -f s16le -ar 16000 -ac 1 -1 record_temp.pcm 进行播放测试
+     * 参数就是qaudiocapture.cpp里设置的
+    */
+    m_audio.startRecord("./record_temp.pcm");
+}
+//松开提交
+void GalDialog::on_pushButton_record_released()
+{
+    //停止录音
+    qDebug()<<"结束录音";
+    m_audio.stopRecord();
+    //提交录音
+    QString str = m_speechrgn.speechIdentify(ui->lineEdit_key->displayText(),ui->lineEdit_secret->displayText(),"./record_temp.pcm");
+    ui->textEdit->setText(str);
+
+}
+
+
 
 /*无边框相关*/
 //三个鼠标事件的重写
@@ -121,6 +145,7 @@ void GalDialog::mouseReleaseEvent(QMouseEvent *event)
         this->setCursor(QCursor(Qt::ArrowCursor));
     }
 }
+
 
 
 

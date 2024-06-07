@@ -35,6 +35,6 @@ bool Qhttppost::postSyn(QString url, QMap<QString, QString> headerdata, QByteArr
     else
     {
         qDebug()<<"post返回错误"<<replydata;
-            return true;
+        return true;
     }
 }
