@@ -10,6 +10,11 @@ QAudioCapture::QAudioCapture(QObject *parent)
 
 }
 
+/*
+ * 使用startRecord开始录音，并指定录音后的保存位置
+ * 使用stopRecord停止录音并保存
+*/
+
 //开始录音
 void QAudioCapture::startRecord(QString filename)
 {

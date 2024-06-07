@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>904</width>
-    <height>557</height>
+    <height>608</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tab_deploy">
       <attribute name="title">
@@ -407,6 +407,20 @@
             </property>
            </widget>
           </item>
+          <item>
+           <widget class="QLabel" name="label_baidusound_key">
+            <property name="text">
+             <string>百度语音识别Key</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_baidusound_secret">
+            <property name="text">
+             <string>百度语音识别Secret</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
        </item>
@@ -419,21 +433,6 @@
           <enum>QFrame::Raised</enum>
          </property>
          <layout class="QGridLayout" name="gridLayout_2">
-          <item row="0" column="0">
-           <widget class="QFrame" name="frame_gpt_key">
-            <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
-            </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_5">
-             <item>
-              <widget class="QLineEdit" name="lineEdit_gpt_key"/>
-             </item>
-            </layout>
-           </widget>
-          </item>
           <item row="1" column="0">
            <widget class="QFrame" name="frame_gpt_url">
             <property name="frameShape">
@@ -449,17 +448,17 @@
             </layout>
            </widget>
           </item>
-          <item row="2" column="0">
-           <widget class="QFrame" name="frame_xfxh_appid">
+          <item row="0" column="0">
+           <widget class="QFrame" name="frame_gpt_key">
             <property name="frameShape">
              <enum>QFrame::StyledPanel</enum>
             </property>
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
             </property>
-            <layout class="QVBoxLayout" name="verticalLayout_3">
+            <layout class="QHBoxLayout" name="horizontalLayout_5">
              <item>
-              <widget class="QLineEdit" name="lineEdit_xfxh_appid"/>
+              <widget class="QLineEdit" name="lineEdit_gpt_key"/>
              </item>
             </layout>
            </widget>
@@ -475,6 +474,36 @@
             <layout class="QVBoxLayout" name="verticalLayout_5">
              <item>
               <widget class="QLineEdit" name="lineEdit_xfxh_apikey"/>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item row="6" column="0">
+           <widget class="QFrame" name="frame_baidu_key">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_4">
+             <item>
+              <widget class="QLineEdit" name="lineEdit_baidu_key"/>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QFrame" name="frame_xfxh_appid">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_3">
+             <item>
+              <widget class="QLineEdit" name="lineEdit_xfxh_appid"/>
              </item>
             </layout>
            </widget>
@@ -509,17 +538,20 @@
             </layout>
            </widget>
           </item>
-          <item row="6" column="0">
-           <widget class="QFrame" name="frame_baidu_key">
-            <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
-            </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <item row="7" column="0">
+           <widget class="QFrame" name="verticalFrame">
+            <layout class="QVBoxLayout" name="verticalLayout_2">
              <item>
-              <widget class="QLineEdit" name="lineEdit_baidu_key"/>
+              <widget class="QLineEdit" name="lineEdit_baidusound_key"/>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item row="8" column="0">
+           <widget class="QFrame" name="verticalFrame_2">
+            <layout class="QVBoxLayout" name="verticalLayout_6">
+             <item>
+              <widget class="QLineEdit" name="lineEdit_baidusound_secret"/>
              </item>
             </layout>
            </widget>

@@ -6,6 +6,10 @@ speechRecognition::speechRecognition(QObject *parent)
 
 }
 
+/*
+ * 语音识别相关请求
+*/
+
 //发送识别
 QString speechRecognition::speechIdentify(QString client_id, QString client_secret, QString filename)
 {

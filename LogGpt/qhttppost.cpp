@@ -7,6 +7,12 @@ Qhttppost::Qhttppost(QObject *parent)
 
 }
 
+
+/*
+ * postSyn发送post请求，包括请求url，header，request
+*/
+
+
 bool Qhttppost::postSyn(QString url, QMap<QString, QString> headerdata, QByteArray requestData, QByteArray &replydata)
 {
     //发送请求对象

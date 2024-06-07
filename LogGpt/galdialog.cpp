@@ -90,7 +90,7 @@ void GalDialog::on_pushButton_record_pressed()
      * 此处可以使用ffplay -f s16le -ar 16000 -ac 1 -1 record_temp.pcm 进行播放测试
      * 参数就是qaudiocapture.cpp里设置的
     */
-    m_audio.startRecord("./record_temp.pcm");
+    m_audio.startRecord("./record_temp.pcm"); //暂存位置
 }
 //松开提交
 void GalDialog::on_pushButton_record_released()
@@ -99,8 +99,9 @@ void GalDialog::on_pushButton_record_released()
     qDebug()<<"结束录音";
     m_audio.stopRecord();
     //提交录音
-    QString str = m_speechrgn.speechIdentify(ui->lineEdit_key->displayText(),ui->lineEdit_secret->displayText(),"./record_temp.pcm");
-    ui->textEdit->setText(str);
+    QString str = m_speechrgn.speechIdentify(Config::get_BAIDUSOUND_KEY(),Config::get_BAIDUSOUND_SECRET(),"./record_temp.pcm");
+    qDebug()<<"发送识别请求"<<Config::get_BAIDUSOUND_KEY()<<" "<<Config::get_BAIDUSOUND_SECRET();
+    ui->textEdit->setText(str); //获取返回内容
 
 }
 

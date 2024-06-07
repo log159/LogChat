@@ -40,6 +40,8 @@ const QString Config::CHATGPT_KEY_WAY        ="/chatgptapi/dist/KEY.txt";
 const QString Config::CHATGPT_BASEAPI_WAY    ="/chatgptapi/dist/APIBASE.txt";
 const QString Config::BAIDU_APPID_WAY       ="/baiduapi/ID.txt";
 const QString Config::BAIDU_KEY_WAY         ="/baiduapi/KEY.txt";
+const QString Config::BAIDUSOUND_KEY_WAY       ="/baidusoundapi/ID.txt";
+const QString Config::BAIDUSOUND_SECRET_WAY         ="/baidusoundapi/KEY.txt";
 const QString Config::XFXH_APPID_WAY        ="/xfxhapi/ID.txt";
 const QString Config::XFXH_KEY_WAY          ="/xfxhapi/KEY.txt";
 const QString Config::XFXH_SECRET_WAY       ="/xfxhapi/SECRET.txt";
@@ -58,6 +60,8 @@ QString       Config::URL_ADDRESS           ="127.0.0.1";                       
 QString       Config::URL_PORT              ="23456";                                           //VITS Url地址
 QString       Config::BAIDU_APID            ="";                                                //百度翻译开发账号(need file)
 QString       Config::BAIDU_KEY             ="";                                                //百度翻译开发密匙(need file)
+QString       Config::BAIDUSOUND_KEY            ="";                                                //百度翻译开发账号(need file)
+QString       Config::BAIDUSOUND_SECRET            ="";                                                //百度翻译开发密匙(need file)
 QString       Config::XFXH_APPID            ="";                                                //讯飞星火APPID (need file)
 QString       Config::XFXH_KEY              ="";                                                //讯飞星火KEY   (need file)
 QString       Config::XFXH_SECRET           ="";                                                //讯飞星火SECRET(need file)
@@ -479,7 +483,15 @@ const QString Config::get_BAIDU_KEY_WAY()
 {
     return  QCoreApplication::applicationDirPath()+Config::BAIDU_KEY_WAY;
 }
+const QString Config::get_BAIDUSOUND_KEY_WAY()
+{
+    return  QCoreApplication::applicationDirPath()+Config::BAIDUSOUND_KEY_WAY;
+}
 
+const QString Config::get_BAIDUSOUND_SECRET_WAY()
+{
+    return  QCoreApplication::applicationDirPath()+Config::BAIDUSOUND_SECRET_WAY;
+}
 const QString Config::get_XFXH_APPID_WAY()
 {
     return QCoreApplication::applicationDirPath()+Config::XFXH_APPID_WAY;
@@ -621,6 +633,16 @@ const QString Config::get_URL_ADDRESS_ALL()
        str+=QString("&emotion="+QString::number(Config::get_EMOTION_ID()));
    }
    return str;
+}
+
+const QString Config::get_BAIDUSOUND_KEY()
+{
+   return Config::BAIDUSOUND_KEY;
+}
+
+const QString Config::get_BAIDUSOUND_SECRET()
+{
+   return  Config::BAIDUSOUND_SECRET;
 }
 
 const QString Config::get_BAIDU_APID()

@@ -8,6 +8,8 @@
 
 #include <QWidget>
 #include <QLineEdit>
+#include <config.h>
+
 namespace Ui {
 class GalDialog;
 }
