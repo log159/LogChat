@@ -31,24 +31,21 @@
 7. 运行`LogChat.exe`。
 
 ## 目前以及未来实现的功能
- - [x] LLM-ChatGPT
- - [x] LLM-讯飞星火大模型
- - [ ] LLM-ChatGML
+ - [x] LLM-ChatGPT[gpt-3.5-turbo]
+ - [x] LLM-讯飞星火语言大模型[general,generalv2,generalv3]
+ - [ ] LLM-ChatGML[ChatGML3]
  - [ ] LLM-Claude
  - [ ] LLM-百度千帆大模型
  - [x] TTS-VITS
  - [ ] TTS-GPT-SoVits
+ - [x] STT-百度语音识别[中文普通话]
  - [x] Live2D-角色模型导入
- - [x] Live2D-对模型的几何位置，基本功能支持自定义
- - [x] Live2D-对模型的控件偏移支持自定义
- - [x] Live2D-对模型的控件渲染支持自定义
- - [ ] Live2D-对模型的动画支持自定义
- - [ ] Live2D-对模型的控件谐波支持自定义
- - [ ] Other-右键菜单屏幕截图
- - [ ] Other-右键菜单应用快捷启动器
- - [ ] Other-右键菜单时钟显示时间
-
-
+ - [x] Live2D-模型的几何位置，基本功能支持自定义
+ - [x] Live2D-模型的控件偏移支持自定义
+ - [x] Live2D-模型的控件渲染支持自定义
+ - [ ] Live2D-模型的动画支持自定义
+ - [ ] Live2D-模型的控件谐波支持自定义
+ - [ ] Other-菜单项目[截图(编辑，OCR)，时钟，应用快捷启动器]
 
 ## 借鉴与引用
 
