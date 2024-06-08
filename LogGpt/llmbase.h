@@ -8,6 +8,8 @@
 #include <QByteArray>
 
 #include "config.h"
+#include "configfileio.h"
+
 class LLMBase : public QObject
 {
     Q_OBJECT

@@ -17,8 +17,8 @@ void ChatGPTApi::start(const QString &str)
 
     qDebug()<<Config::get_CHATGPT_DEMO_WAY();
     QStringList list;
-    list<<Config::get_CHATGPT_KEY()
-       <<Config::get_CHATGPT_BASEAPI()
+    list<<Config::get_IKS(::EnIks::LLM_CHATGPT).key
+       <<Config::get_URL("URL_CHATGPT_BASEURL")
         <<str.toUtf8();
     m_Process->start(Config::get_CHATGPT_DEMO_WAY(),list);
 

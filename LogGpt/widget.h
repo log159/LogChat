@@ -17,7 +17,7 @@
 #include <QApplication>
 #include <QTimer>
 #include <QDesktopWidget>
-
+#include <QSharedPointer>
 
 #include "configwindow.h"
 #include "pushandreceivewidget.h"
@@ -55,7 +55,7 @@ private:
 
 public:
     explicit Widget(QWidget *parent = nullptr);
-    GalDialog *new_GalDialog; //新窗口
+    QSharedPointer<GalDialog> new_GalDialog; //新窗口
     ~Widget();
 private:
     void init();

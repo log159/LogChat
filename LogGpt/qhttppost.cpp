@@ -4,7 +4,7 @@
 
 Qhttppost::Qhttppost(QObject *parent)
 {
-
+    Q_UNUSED(parent)
 }
 
 

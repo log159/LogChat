@@ -98,10 +98,25 @@ void GalDialog::on_pushButton_record_released()
     //停止录音
     qDebug()<<"结束录音";
     m_audio.stopRecord();
+    //Config部分重构，这样获取到appid,key,secret,如果没有设定则为空字符串
+    ::IKS iks=Config::get_IKS(::EnIks::STT_BDYUN);
+//    iks.key;
+//    iks.secret;
+    qDebug()<<iks.key;
+    qDebug()<<iks.secret;
+
     //提交录音
-    QString str = m_speechrgn.speechIdentify(ui->lineEdit_key->text(),ui->lineEdit_secret->text(),"./record_temp.pcm");
+    QString str = m_speechrgn.speechIdentify(iks.key,iks.secret,"./record_temp.pcm");
     qDebug()<<"发送识别请求"<<ui->lineEdit_key->text()<<" "<<ui->lineEdit_secret->text();
     ui->textEdit->setText(str); //获取返回内容
+
+
+//    //提交录音
+//    QString str = m_speechrgn.speechIdentify(ui->lineEdit_key->text(),ui->lineEdit_secret->text(),"./record_temp.pcm");
+//    qDebug()<<"发送识别请求"<<ui->lineEdit_key->text()<<" "<<ui->lineEdit_secret->text();
+//    ui->textEdit->setText(str); //获取返回内容
+
+
 
 }
 

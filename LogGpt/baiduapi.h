@@ -11,6 +11,7 @@
 #include <QJsonArray>
 
 #include "config.h"
+#include "configfileio.h"
 class BaiduApi : public QObject
 {
     Q_OBJECT

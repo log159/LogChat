@@ -44,13 +44,15 @@ void SetDialogWidget::init()
     }
     ui->comboBox_llm_xfxh->setCurrentIndex(Config::get_XFXH_MODEL_ID());
 
-    ui->lineEdit_gpt_key->setText(Config::get_CHATGPT_KEY());
-    ui->lineEdit_gpt_url->setText(Config::get_CHATGPT_BASEAPI());
-    ui->lineEdit_xfxh_appid->setText(Config::get_XFXH_APPID());
-    ui->lineEdit_xfxh_apikey->setText(Config::get_XFXH_KEY());
-    ui->lineEdit_xfxh_apisecret->setText(Config::get_XFXH_SECRET());
-    ui->lineEdit_baidu_key->setText(Config::get_BAIDU_KEY());
-    ui->lineEdit_baidu_appid->setText(Config::get_BAIDU_APID());
+    ui->lineEdit_gpt_key->setText(Config::get_IKS(::EnIks::LLM_CHATGPT).key);
+    ui->lineEdit_gpt_url->setText(Config::get_URL("URL_CHATGPT_BASEURL"));
+    ui->lineEdit_xfxh_appid->setText(Config::get_IKS(::EnIks::LLM_XFXH).id);
+    ui->lineEdit_xfxh_apikey->setText(Config::get_IKS(::EnIks::LLM_XFXH).key);
+    ui->lineEdit_xfxh_apisecret->setText(Config::get_IKS(::EnIks::LLM_XFXH).secret);
+    ui->lineEdit_baidu_appid->setText(Config::get_IKS(::EnIks::MT_BDFY).id);
+    ui->lineEdit_baidu_key->setText(Config::get_IKS(::EnIks::MT_BDFY).key);
+    ui->lineEdit_baidusound_key->setText(Config::get_IKS(::EnIks::STT_BDYUN).key);
+    ui->lineEdit_baidusound_secret->setText(Config::get_IKS(::EnIks::STT_BDYUN).secret);
 
     if(Config::get_ENABLE_ROLE()){ui->radioButton_config_enable_yes->setChecked(true);}
     else {ui->radioButton_config_enable_no->setChecked(true);}
@@ -172,12 +174,12 @@ void SetDialogWidget::closeEvent(QCloseEvent *event)
     Config::set_URL_PORT(ui->lineEdit_vits_port->text());
     Config::set_SPEAKER_ID(ui->lineEdit_speaker_id->text().toInt());
     Config::set_EMOTION_ID(ui->lineEdit_speaker_emotion->text().toInt());
-    Config::set_CHATGPT_KEY(ui->lineEdit_gpt_key->text());
-    Config::set_CHATGPT_BASEAPI(ui->lineEdit_gpt_url->text());
-    Config::set_XFXH_APPID(ui->lineEdit_xfxh_appid->text());
-    Config::set_XFXH_KEY(ui->lineEdit_xfxh_apikey->text());
-    Config::set_XFXH_SECRET(ui->lineEdit_xfxh_apisecret->text());
-    Config::set_BAIDU_KEY(ui->lineEdit_baidu_key->text());
-    Config::set_BAIDU_APID(ui->lineEdit_baidu_appid->text());
+
+    Config::set_IKS(::EnIks::LLM_CHATGPT,"",ui->lineEdit_gpt_key->text(),"");
+    Config::set_IKS(::EnIks::LLM_XFXH,ui->lineEdit_xfxh_appid->text(),ui->lineEdit_xfxh_apikey->text(),ui->lineEdit_xfxh_apisecret->text());
+    Config::set_IKS(::EnIks::MT_BDFY,ui->lineEdit_baidu_appid->text(),ui->lineEdit_baidu_key->text(),"");
+    Config::set_IKS(::EnIks::STT_BDYUN,"",ui->lineEdit_baidusound_key->text(),ui->lineEdit_baidusound_secret->text());
+
+    Config::set_URL("URL_CHATGPT_BASEURL",ui->lineEdit_gpt_url->text());
 
 }

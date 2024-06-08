@@ -1,48 +1,19 @@
 ﻿#include "config.h"
 
-const QVector<QString>   Config::VITS_ALL_V     ={"vits","bert-vits2","w2v2-vits"};
-const QVector<QString>   Config::LANGUAGE_V     ={"auto","jp","zh","en","yue","wyw","cht"};
-const QVector<QString>   Config::CHATGPT_MODEL_V={"gpt-3.5-turbo"};
-const QVector<QString>   Config::XFXH_MODEL_V   ={"general","generalv2","generalv3"};
-const QMap<QString,bool>  Config::LIVE2DENABLEINIT_M   ={
-    {"look_enable",true},
-    {"top_enable",true}
 
-};
-
-const QMap<QString,int>  Config::LIVE2DPARAMINIT_M= {
-    {"model_size",300},
-    {"model_x",0},
-    {"model_y",0},
-    {"model_rx",0},
-    {"model_ry",0},
-    {"model_rz",0},
-    {"mouse_speed",15},
-    {"eye_time",250},
-    {"eye_deviation",200},
-    {"eye_speed",1000},
-    {"audio_add",1000},
-    {"audio_smooth",100}
-};
-QMap<QString,QString>   Config::LIVE2DSTRING_M={
-    {"model_name","null"},
-    {"file_path","null"},
-    {"model_description","null"}
-
-};
       QVector<ModelConfigItem>   Config::LIVE2DMODELCONFIG_V    ={};
 const QString Config::SETCONFIG_WAY         ="/config/setconfig.json";
 const QString Config::OUTPUT_WAV_WAY        ="/wav/%1.wav";
 const QString Config::CHARACTER_CONFIG_WAY  ="/config/config.txt";
 const QString Config::CHATGPT_DEMO_WAY      ="/chatgptapi/dist/qtopenai.exe";
 const QString Config::CHATGPT_QUESTION_WAY  ="/chatgptapi/dist/question.txt";
-const QString Config::CHATGPT_KEY_WAY        ="/chatgptapi/dist/KEY.txt";
-const QString Config::CHATGPT_BASEAPI_WAY    ="/chatgptapi/dist/APIBASE.txt";
-const QString Config::BAIDU_APPID_WAY       ="/baiduapi/ID.txt";
-const QString Config::BAIDU_KEY_WAY         ="/baiduapi/KEY.txt";
-const QString Config::XFXH_APPID_WAY        ="/xfxhapi/ID.txt";
-const QString Config::XFXH_KEY_WAY          ="/xfxhapi/KEY.txt";
-const QString Config::XFXH_SECRET_WAY       ="/xfxhapi/SECRET.txt";
+//const QString Config::CHATGPT_KEY_WAY        ="/chatgptapi/dist/KEY.txt";
+//const QString Config::CHATGPT_BASEAPI_WAY    ="/chatgptapi/dist/APIBASE.txt";
+//const QString Config::BAIDU_APPID_WAY       ="/baiduapi/ID.txt";
+//const QString Config::BAIDU_KEY_WAY         ="/baiduapi/KEY.txt";
+//const QString Config::XFXH_APPID_WAY        ="/xfxhapi/ID.txt";
+//const QString Config::XFXH_KEY_WAY          ="/xfxhapi/KEY.txt";
+//const QString Config::XFXH_SECRET_WAY       ="/xfxhapi/SECRET.txt";
 const QString Config::XFXH_QUESTION_WAY     ="/xfxhapi/question.txt";
 const QString Config::XFXH_DEMO_WAY         ="/xfxhapi/demo.exe";
 const QString Config::UNITY_DEMO_WAY        ="/unity2d/Live2D.exe";
@@ -52,15 +23,8 @@ const QString Config::UNITY_MODELLIST_WAY     ="/unity2d/model/MODELLIST.txt";
 const QString Config::UNITY_MODELCONFIGLIST_WAY="/unity2d/model/MODELCONFIGLIST.txt";
 const QString Config::HISTORY_WAY              ="/config/history.json";
 
-QString       Config::CHATGPT_KEY            ="";                                                //配置CHATGPT_key(need file)
-QString       Config::CHATGPT_BASEAPI        ="";                                                //配置CHATGPT_baseapi(need file)
 QString       Config::URL_ADDRESS           ="127.0.0.1";                                       //VITS Url地址
 QString       Config::URL_PORT              ="23456";                                           //VITS Url地址
-QString       Config::BAIDU_APID            ="";                                                //百度翻译开发账号(need file)
-QString       Config::BAIDU_KEY             ="";                                                //百度翻译开发密匙(need file)
-QString       Config::XFXH_APPID            ="";                                                //讯飞星火APPID (need file)
-QString       Config::XFXH_KEY              ="";                                                //讯飞星火KEY   (need file)
-QString       Config::XFXH_SECRET           ="";                                                //讯飞星火SECRET(need file)
 bool          Config::ENABLE_ROLE           =false;                                             //是否启用角色扮演
 bool          Config::ENABLE_SOUND          =false;                                             //是否启用语音
 bool          Config::ENABLE_BAIDUFANYI     =false;                                             //是否启用百度翻译
@@ -81,13 +45,6 @@ int           Config::SOUND_ID              =0;                                 
 void Config::init()
 {
     init_ALLSETCONFIG();
-    init_CHATGPT_KEY();
-    init_CHATGPT_BASEAPI();
-    init_BAIDU_APPID();
-    init_BAIDU_KEY();
-    init_XFXH_APPID();
-    init_XFXH_KEY();
-    init_XFXH_SECRET();
     init_LIVE2DMODELCONFIG_V();
 }
 
@@ -243,40 +200,6 @@ QMap<QString, QString> Config::parseJsonToQMap(const QString &jsonString) {
 
     return resultMap;
 }
-void Config::init_CHATGPT_KEY()
-{
-    Config::CHATGPT_KEY=Config::getFileInformation(get_CHATGPT_KEY_WAY());
-}
-
-void Config::init_CHATGPT_BASEAPI()
-{
-    Config::CHATGPT_BASEAPI=Config::getFileInformation(get_CHATGPT_BASEAPI_WAY());
-}
-
-void Config::init_BAIDU_APPID()
-{
-    Config::BAIDU_APID=Config::getFileInformation(get_BAIDU_APID_WAY());
-}
-
-void Config::init_BAIDU_KEY()
-{
-    Config::BAIDU_KEY=Config::getFileInformation(get_BAIDU_KEY_WAY());
-}
-
-void Config::init_XFXH_APPID()
-{
-    Config::XFXH_APPID=Config::getFileInformation(get_XFXH_APPID_WAY());
-}
-
-void Config::init_XFXH_KEY()
-{
-    Config::XFXH_KEY=Config::getFileInformation(get_XFXH_KEY_WAY());
-}
-
-void Config::init_XFXH_SECRET()
-{
-    Config::XFXH_SECRET=Config::getFileInformation(get_XFXH_SECRET_WAY());
-}
 
 void Config::init_LIVE2DMODELCONFIG_V()
 {
@@ -354,40 +277,6 @@ void Config::init_HISTORY()
 
 }
 
-void Config::output_CHATGPT_KEY(const QString &str)
-{
-    Config::setFileInformation(get_CHATGPT_KEY_WAY(),str);
-}
-
-void Config::output_CHATGPT_BASEAPI(const QString &str)
-{
-    Config::setFileInformation(get_CHATGPT_BASEAPI_WAY(),str);
-}
-
-void Config::output_BAIDU_APPID(const QString &str)
-{
-    Config::setFileInformation(get_BAIDU_APID_WAY(),str);
-}
-
-void Config::output_BAIDU_KEY(const QString &str)
-{
-    Config::setFileInformation(get_BAIDU_KEY_WAY(),str);
-}
-
-void Config::output_XFXH_APPID(const QString &str)
-{
-    Config::setFileInformation(get_XFXH_APPID_WAY(),str);
-}
-
-void Config::output_XFXH_KEY(const QString &str)
-{
-    Config::setFileInformation(get_XFXH_KEY_WAY(),str);
-}
-
-void Config::output_XFXH_SECRET(const QString &str)
-{
-    Config::setFileInformation(get_XFXH_SECRET_WAY(),str);
-}
 
 void Config::output_ALLSETCONFIG(const QJsonObject &js)
 {
@@ -460,40 +349,6 @@ const QString Config::get_CHATGPT_QUESTION_WAY()
 }
 
 
-const QString Config::get_CHATGPT_KEY_WAY()
-{
-    return QCoreApplication::applicationDirPath()+Config::CHATGPT_KEY_WAY;
-}
-
-const QString Config::get_CHATGPT_BASEAPI_WAY()
-{
-    return QCoreApplication::applicationDirPath()+Config::CHATGPT_BASEAPI_WAY;
-}
-
-const QString Config::get_BAIDU_APID_WAY()
-{
-    return  QCoreApplication::applicationDirPath()+Config::BAIDU_APPID_WAY;
-}
-
-const QString Config::get_BAIDU_KEY_WAY()
-{
-    return  QCoreApplication::applicationDirPath()+Config::BAIDU_KEY_WAY;
-}
-const QString Config::get_XFXH_APPID_WAY()
-{
-    return QCoreApplication::applicationDirPath()+Config::XFXH_APPID_WAY;
-}
-
-const QString Config::get_XFXH_KEY_WAY()
-{
-    return QCoreApplication::applicationDirPath()+Config::XFXH_KEY_WAY;
-}
-
-const QString Config::get_XFXH_SECRET_WAY()
-{
-    return QCoreApplication::applicationDirPath()+Config::XFXH_SECRET_WAY;
-}
-
 const QString Config::get_XFXH_QUESTION_WAY()
 {
     return QCoreApplication::applicationDirPath()+Config::XFXH_QUESTION_WAY;
@@ -536,22 +391,22 @@ const QString Config::get_HISTORY_WAY()
 
 QVector<QString> Config::get_VITS_ALL_V()
 {
-    return Config::VITS_ALL_V;
+    return ::VITS_ALL_V;
 }
 
 QVector<QString> Config::get_LANGUAGE_V()
 {
-    return Config::LANGUAGE_V;
+    return ::LANGUAGE_V;
 }
 
 QVector<QString> Config::get_CHATGPT_MODEL_V()
 {
-    return Config::CHATGPT_MODEL_V;
+    return ::CHATGPT_MODEL_V;
 }
 
 QVector<QString> Config::get_XFXH_MODEL_V()
 {
-    return Config::XFXH_MODEL_V;
+    return ::XFXH_MODEL_V;
 }
 
 QVector<ModelConfigItem> Config::get_LIVE2DMODELCONFIG_V()
@@ -561,26 +416,27 @@ QVector<ModelConfigItem> Config::get_LIVE2DMODELCONFIG_V()
 
 QMap<QString, bool> Config::get_LIVE2DENABLEINIT_M()
 {
-    return Config::LIVE2DENABLEINIT_M;
+    return ::LIVE2DENABLEINIT_M;
 }
 
 QMap<QString, int> Config::get_LIVE2DPARAMINIT_M()
 {
-    return Config::LIVE2DPARAMINIT_M;
+    return ::LIVE2DPARAMINIT_M;
 }
 
 QMap<QString, QString> Config::get_LIVE2DSTRING_M()
 {
-    return Config::LIVE2DSTRING_M;
-}
-const QString Config::get_CHATGPT_KEY()
-{
-    return Config::CHATGPT_KEY;
+    return ::LIVE2DSTRING_M;
 }
 
-const QString Config::get_CHATGPT_BASEAPI()
+const ::IKS Config::get_IKS(const ::EnIks &iks)
 {
-    return Config::CHATGPT_BASEAPI;
+    return ConfigFileIO::getIksConfig(iks);
+}
+
+const QString Config::get_URL(const QString &urlName)
+{
+    return ConfigFileIO::getUrlConfig(urlName);
 }
 
 const QString Config::get_CHATGPT_QUESTION()
@@ -624,30 +480,7 @@ const QString Config::get_URL_ADDRESS_ALL()
 
 
 
-const QString Config::get_BAIDU_APID()
-{
-    return Config::BAIDU_APID;
-}
 
-const QString Config::get_BAIDU_KEY()
-{
-    return  Config::BAIDU_KEY;
-}
-
-const QString Config::get_XFXH_APPID()
-{
-    return Config::XFXH_APPID;
-}
-
-const QString Config::get_XFXH_KEY()
-{
-    return Config::XFXH_KEY;
-}
-
-const QString Config::get_XFXH_SECRET()
-{
-    return Config::XFXH_SECRET;
-}
 
 const QString Config::get_CHARACTER_CONFIG()
 {
@@ -738,16 +571,14 @@ int Config::get_SOUND_ID()
     return Config::SOUND_ID;
 }
 
-void Config::set_CHATGPT_KEY(const QString &str)
+void Config::set_IKS(const ::EnIks &iks, const QString &id, const QString &key, const QString &secret)
 {
-    Config::output_CHATGPT_KEY(str);
-    Config::CHATGPT_KEY=str;
+    ConfigFileIO::setIksConfig(iks,id,key,secret);
 }
 
-void Config::set_CHATGPT_BASEAPI(const QString &str)
+void Config::set_URL(const QString &urlName, const QString &url)
 {
-    Config::output_CHATGPT_BASEAPI(str);
-    Config::CHATGPT_BASEAPI=str;
+    ConfigFileIO::setUrlConfig(urlName,url);
 }
 
 void Config::set_URL_ADDRESS(const QString &str)
@@ -758,36 +589,6 @@ void Config::set_URL_ADDRESS(const QString &str)
 void Config::set_URL_PORT(const QString &str)
 {
     Config::URL_PORT=str;
-}
-
-void Config::set_BAIDU_APID(const QString &str)
-{
-    Config::output_BAIDU_APPID(str);
-    Config::BAIDU_APID=str;
-}
-
-void Config::set_BAIDU_KEY(const QString &str)
-{
-    Config::output_BAIDU_KEY(str);
-    Config::BAIDU_KEY=str;
-}
-
-void Config::set_XFXH_APPID(const QString &str)
-{
-    Config::output_XFXH_APPID(str);
-    Config::XFXH_APPID=str;
-}
-
-void Config::set_XFXH_KEY(const QString &str)
-{
-    Config::output_XFXH_KEY(str);
-    Config::XFXH_KEY=str;
-}
-
-void Config::set_XFXH_SECRET(const QString &str)
-{
-    Config::output_XFXH_SECRET(str);
-    Config::XFXH_SECRET=str;
 }
 
 void Config::set_CHARACTER_CONFIG(const QString &str)

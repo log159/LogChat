@@ -1,5 +1,6 @@
 #include <QApplication>
 #include <QSharedMemory>
+#include <QTextCodec>
 
 #include "widget.h"
 #include "config.h"
@@ -10,6 +11,10 @@ int main(int argc, char *argv[])
 {
 
     QApplication a(argc, argv);
+
+    // 设置全局文本编码为UTF-8
+    QTextCodec *codec = QTextCodec::codecForName("UTF-8");
+    QTextCodec::setCodecForLocale(codec);
 
     const QString uniqueKey = QCoreApplication::applicationName();
     QSharedMemory sharedMemory(uniqueKey);

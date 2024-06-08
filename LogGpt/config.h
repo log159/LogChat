@@ -22,20 +22,17 @@
 
 
 #include "singletonbase.h"
+#include "global.h"
+#include "configfileio.h"
 #include "modelconfigitem.h"
+
 
 
 class Config:public SingletonBase{
 
 private:
 
-    static const QVector<QString>           VITS_ALL_V;            //全部vits模型
-    static const QVector<QString>           LANGUAGE_V;            //全部百度翻译语种
-    static const QVector<QString>           CHATGPT_MODEL_V;       //全部支持ChatGPT模型
-    static const QVector<QString>           XFXH_MODEL_V;          //全部支持讯飞星火模型
-    static const QMap<QString,bool>         LIVE2DENABLEINIT_M;    //全部Live2D ENABLE默认值
-    static const QMap<QString,int>          LIVE2DPARAMINIT_M;     //全部Live2D PARAM默认值
-    static       QMap<QString,QString>      LIVE2DSTRING_M;        //全部Live2D STRING默认值
+
     static       QVector<ModelConfigItem>   LIVE2DMODELCONFIG_V;   //全部加载的Live2D配置信息
 //    static       QList<QPair<QString,QString>   HISTORY;
 
@@ -44,13 +41,6 @@ private:
     static const QString            CHARACTER_CONFIG_WAY;  //角色扮演配置文件路径
     static const QString            CHATGPT_DEMO_WAY;      //chatgptEXE路径
     static const QString            CHATGPT_QUESTION_WAY;  //chatgptQUESTION路径
-    static const QString            CHATGPT_KEY_WAY;       //CHATGPT_key路径
-    static const QString            CHATGPT_BASEAPI_WAY;   //CHATGPT_baseapi路径
-    static const QString            BAIDU_APPID_WAY;       //百度翻译APPID文件路径
-    static const QString            BAIDU_KEY_WAY;         //百度翻译KEY文件路径
-    static const QString            XFXH_APPID_WAY;        //讯飞星火APPID文件路径
-    static const QString            XFXH_KEY_WAY;          //讯飞星火KEY文件路径
-    static const QString            XFXH_SECRET_WAY;       //讯飞星火SECRET文件路径
     static const QString            XFXH_QUESTION_WAY;     //讯飞星火QUESTION路径
     static const QString            XFXH_DEMO_WAY;         //讯飞星火EXE路径
     static const QString            UNITY_DEMO_WAY;        //Unity Live2D EXE路径
@@ -60,15 +50,15 @@ private:
     static const QString            UNITY_MODELCONFIGLIST_WAY; //Unity 模型文件配置加载路径
     static const QString            HISTORY_WAY;               //未归档Chat历史记录
 
-    static QString                  CHATGPT_KEY;           //配置CHATGPT_key(need file)
-    static QString                  CHATGPT_BASEAPI;       //配置CHATGPT_baseapi(need file)
-    static QString                  URL_ADDRESS;           //VITS Url地址
-    static QString                  URL_PORT;              //VITS Url端口
-    static QString                  BAIDU_APID;            //百度翻译APPID (need file)
-    static QString                  BAIDU_KEY;             //百度翻译开KEY (need file)
-    static QString                  XFXH_APPID;            //讯飞星火APPID (need file)
-    static QString                  XFXH_KEY;              //讯飞星火KEY   (need file)
-    static QString                  XFXH_SECRET;           //讯飞星火SECRET(need file)
+//    static QString                  CHATGPT_KEY;           //配置CHATGPT_key(need file)
+//    static QString                  CHATGPT_BASEAPI;       //配置CHATGPT_baseapi(need file)
+//    static QString                  BAIDU_APID;            //百度翻译APPID (need file)
+//    static QString                  BAIDU_KEY;             //百度翻译开KEY (need file)
+//    static QString                  XFXH_APPID;            //讯飞星火APPID (need file)
+//    static QString                  XFXH_KEY;              //讯飞星火KEY   (need file)
+//    static QString                  XFXH_SECRET;           //讯飞星火SECRET(need file)
+    static QString                  URL_ADDRESS;             //VITS Url地址
+    static QString                  URL_PORT;                //VITS Url端口
     static bool                     ENABLE_ROLE;           //是否启用角色扮演
     static bool                     ENABLE_SOUND;          //是否启用语音
     static bool                     ENABLE_BAIDUFANYI;     //是否启用百度翻译
@@ -102,25 +92,11 @@ private:
 
     //init操作
     static void init_ALLSETCONFIG();
-    static void init_CHATGPT_KEY();
-    static void init_CHATGPT_BASEAPI();
-    static void init_BAIDU_APPID();
-    static void init_BAIDU_KEY();
-    static void init_XFXH_APPID();
-    static void init_XFXH_KEY();
-    static void init_XFXH_SECRET();
     static void init_LIVE2DMODELCONFIG_V();
     static void init_HISTORY();
 
 private:
     //修改文件配置
-    static void output_CHATGPT_KEY(const QString& str);
-    static void output_CHATGPT_BASEAPI(const QString& str);
-    static void output_BAIDU_APPID(const QString& str);
-    static void output_BAIDU_KEY(const QString& str);
-    static void output_XFXH_APPID(const QString& str);
-    static void output_XFXH_KEY(const QString& str);
-    static void output_XFXH_SECRET(const QString& str);
     static void output_ALLSETCONFIG(const QJsonObject& js);
     static void output_LIVE2DMODELCONFIG_V(QVector<ModelConfigItem>& modV);
 
@@ -132,13 +108,6 @@ public:
     static const QString get_CHARACTER_CONFIG_WAY();
     static const QString get_CHATGPT_DEMO_WAY();
     static const QString get_CHATGPT_QUESTION_WAY();
-    static const QString get_CHATGPT_KEY_WAY();
-    static const QString get_CHATGPT_BASEAPI_WAY();
-    static const QString get_BAIDU_APID_WAY();
-    static const QString get_BAIDU_KEY_WAY();
-    static const QString get_XFXH_APPID_WAY();
-    static const QString get_XFXH_KEY_WAY();
-    static const QString get_XFXH_SECRET_WAY();
     static const QString get_XFXH_QUESTION_WAY();
     static const QString get_XFXH_DEMO_WAY();
     static const QString get_UNITY_DEMO_WAY();
@@ -162,18 +131,14 @@ public:
 
 public:
     //获取配置信息
-    static const QString get_CHATGPT_KEY();
-    static const QString get_CHATGPT_BASEAPI();
+    static const ::IKS get_IKS(const ::EnIks& iks);
+    static const QString get_URL(const QString& urlName);
+
     static const QString get_CHATGPT_QUESTION();
     static const QString get_URL_ADDRESSS();
     static const QString get_URL_PATH();
     static const QString get_URL_ADDRESS_ALL();
     static const QString get_CHARACTER_CONFIG();
-    static const QString get_BAIDU_APID();
-    static const QString get_BAIDU_KEY();
-    static const QString get_XFXH_APPID();
-    static const QString get_XFXH_KEY();
-    static const QString get_XFXH_SECRET();
     static const QString get_XFXH_QUESTION();
     static const QString get_UNITY_STARTMODELPATH();
     static bool          get_ENABLE_ROLE();
@@ -194,17 +159,14 @@ public:
     static int           get_SOUND_ID();
 public:
     //设置配置信息
-    static void          set_CHATGPT_KEY(const QString& str);
-    static void          set_CHATGPT_BASEAPI(const QString& str);
+    static void set_IKS(const ::EnIks& iks, const QString &id, const QString &key, const QString &secret);
+    static void set_URL(const QString& urlName,const QString& url);
+
+
     static void          set_CHATGPT_QUESTION(const QString& str);
     static void          set_URL_ADDRESS(const QString& str);
     static void          set_URL_PORT(const QString& str);
     static void          set_CHARACTER_CONFIG(const QString& str);
-    static void          set_BAIDU_APID(const QString& str);
-    static void          set_BAIDU_KEY(const QString& str);
-    static void          set_XFXH_APPID(const QString& str);
-    static void          set_XFXH_KEY(const QString& str);
-    static void          set_XFXH_SECRET(const QString& str);
     static void          set_XFXH_QUESTION(const QString& str);
     static void          set_UNITY_STARTMODELPATH(const QString& str);
     static void          set_LIVE2DMODELCONFIG_V(QVector<ModelConfigItem>& modV);

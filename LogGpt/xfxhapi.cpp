@@ -12,9 +12,9 @@ void XfxhApi::start(const QString &str)
     qDebug()<<"发送内容为————>"<<str;
     Config::set_XFXH_QUESTION(str);
     QStringList list;
-    list<<QString(Config::get_XFXH_APPID()).toUtf8()
-        <<QString(Config::get_XFXH_KEY()).toUtf8()
-        <<QString(Config::get_XFXH_SECRET()).toUtf8()
+    list<<QString(Config::get_IKS(EnIks::LLM_XFXH).id).toUtf8()
+        <<QString(Config::get_IKS(EnIks::LLM_XFXH).key).toUtf8()
+        <<QString(Config::get_IKS(EnIks::LLM_XFXH).secret).toUtf8()
         <<QString(Config::get_XFXH_MODEL_V().at(Config::get_XFXH_MODEL_ID())).toUtf8()
         <<QString(Config::get_XFXH_QUESTION_WAY()).toUtf8();
     m_Process->start(Config::get_XFXH_DEMO_WAY(),list);

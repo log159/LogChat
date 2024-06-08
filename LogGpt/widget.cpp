@@ -107,15 +107,15 @@ void Widget::initConnect()
     /*点击Gal视窗按钮*/
     connect(m_SetSelectWidget,&SetSelectWidget::setGalDialogShow,[=](){
 
-        if(!new_GalDialog) new_GalDialog = new GalDialog;
+        new_GalDialog.reset(new GalDialog);
 
         /*移动窗口到对应位置，如果未启用模型默认为屏幕中心*/
         new_GalDialog->move(int(ConfigLive2d::getModelX()-new_GalDialog->width()/2.f),int(ConfigLive2d::getModelY()-new_GalDialog->height()/2.f));
         new_GalDialog->show();
         //Gal视口发送信息传递过来
-        connect(new_GalDialog, SIGNAL(signal_send_data_from_gal_to_widget(QString)), this, SLOT(slot_receive_data_from_gal_to_widget(QString)));
-        connect(new_GalDialog, SIGNAL(signal_show_widget_from_gal()), this, SLOT(slot_show_widget_from_gal()));
-        connect(new_GalDialog, SIGNAL(signal_play_voice_from_gal_to_widget()), this, SLOT(slot_play_voice_from_gal()));
+        connect(new_GalDialog.get(), SIGNAL(signal_send_data_from_gal_to_widget(QString)), this, SLOT(slot_receive_data_from_gal_to_widget(QString)));
+        connect(new_GalDialog.get(), SIGNAL(signal_show_widget_from_gal()), this, SLOT(slot_show_widget_from_gal()));
+        connect(new_GalDialog.get(), SIGNAL(signal_play_voice_from_gal_to_widget()), this, SLOT(slot_play_voice_from_gal()));
     });
     connect(m_SetSelectWidget,&SetSelectWidget::clearChat,[=](){
         m_PushAndReceiveWidget->clearHistory();
