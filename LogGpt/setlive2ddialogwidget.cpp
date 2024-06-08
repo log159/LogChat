@@ -16,12 +16,6 @@ SetLive2DDialogWidget::SetLive2DDialogWidget(QWidget *parent) :
     initConnect();
 
 
-    QFile file(":/main.qss");
-    if(file.open(QFile::ReadOnly)){
-        QString styleSheet = QLatin1String(file.readAll());
-        this->setStyleSheet(styleSheet);
-        file.close();
-    }
 }
 
 SetLive2DDialogWidget::~SetLive2DDialogWidget()
@@ -36,15 +30,7 @@ void SetLive2DDialogWidget::init()
     this->setWindowIcon(QIcon(":/res/u77.svg"));
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 
-    //初始化ListWidget
-    ui->listWidget_model->setStyleSheet(
-                "QScrollBar:vertical {width: 10px;background-color: #F5F5F5;margin: 0px 0px 0px 0px;border-radius: 5px;}"
-                "QScrollBar::handle:vertical {background-color: #CCCCCC;min-height: 20px;border-radius: 5px;}"
-                "QScrollBar::handle:vertical:hover {background-color: #BBBBBB;border-radius: 5px;}"
-                "QScrollBar::add-line:vertical {height: 0px; subcontrol-position: bottom; subcontrol-origin: margin;}"
-                "QScrollBar::sub-line:vertical {height: 0 px;subcontrol-position: top; subcontrol-origin: margin;}"
-                "QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {background-color: #F5F5F5;border-radius: 5px;}"
-                );
+
      ui->listWidget_model->setEditTriggers(QAbstractItemView::NoEditTriggers);         //禁止编辑
      ui->listWidget_model->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);       //禁用水平滑动条
      ui->listWidget_model->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);   //平滑效果
@@ -107,6 +93,13 @@ void SetLive2DDialogWidget::init()
 
 
      initLineEdit();
+
+     QFile file(":/main.qss");
+     if(file.open(QFile::ReadOnly)){
+         QString styleSheet = QLatin1String(file.readAll());
+         this->setStyleSheet(styleSheet);
+         file.close();
+     }
 
 
 

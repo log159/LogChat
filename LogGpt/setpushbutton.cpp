@@ -18,7 +18,7 @@ void SetPushButton::setNormalStyle()
 
 void SetPushButton::setEnterStyle()
 {
-     this->setStyleSheet("QPushButton{color:white;background-color:transparent;}");
+     this->setStyleSheet("QPushButton{color:#dddddd;background-color:transparent;}");
 }
 
 void SetPushButton::enterEvent(QEvent *)

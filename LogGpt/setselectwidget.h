@@ -57,8 +57,6 @@ private:
     void zoom1();
     void zoom2();
 
-    void paintEvent(QPaintEvent*e);
-
 
 signals:
     void setWidgetShow();

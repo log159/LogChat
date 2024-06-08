@@ -1,67 +1,67 @@
 #include "configlive2d.h"
 
-HWND  ConfigLive2d::_Live2DWindow =nullptr;
+HWND  ConfigLive2d::Live2DWindow =nullptr;
 
-float ConfigLive2d::_ModelX     =0.f;
-float ConfigLive2d::_ModelY     =0.f;
-float ConfigLive2d::_MouseX     =0.f;
-float ConfigLive2d::_MouseY     =0.f;
+float ConfigLive2d::ModelX     =0.f;
+float ConfigLive2d::ModelY     =0.f;
+float ConfigLive2d::MouseX     =0.f;
+float ConfigLive2d::MouseY     =0.f;
 
 HWND ConfigLive2d::getLive2DWindow()
 {
-    return _Live2DWindow;
+    return Live2DWindow;
 }
 
-void ConfigLive2d::setLive2DWindow(const HWND &Live2DWindow)
+void ConfigLive2d::setLive2DWindow(const HWND &live2DWindow)
 {
-    _Live2DWindow = Live2DWindow;
+    Live2DWindow = live2DWindow;
 }
 
 void ConfigLive2d::init()
 {
     QRect deskRect = QGuiApplication::primaryScreen()->geometry();
 
-    _ModelX=deskRect.width()/2;
-    _ModelY=deskRect.height()/2;
+    ModelX=deskRect.width()/2;
+    ModelY=deskRect.height()/2;
 
 }
 
 float ConfigLive2d::getModelX()
 {
-    return _ModelX;
+    return ModelX;
 }
 
-void ConfigLive2d::setModelX(float ModelX)
+void ConfigLive2d::setModelX(float modelX)
 {
-    _ModelX = ModelX;
+    ModelX = modelX;
 }
 
 float ConfigLive2d::getModelY()
 {
-    return _ModelY;
+    return ModelY;
 }
 
-void ConfigLive2d::setModelY(float ModelY)
+void ConfigLive2d::setModelY(float modelY)
 {
-    _ModelY = ModelY;
+    ModelY = modelY;
 }
 
 float ConfigLive2d::getMouseX()
 {
-    return _MouseX;
+    return MouseX;
 }
 
-void ConfigLive2d::setMouseX(float MouseX)
+void ConfigLive2d::setMouseX(float mouseX)
 {
-    _MouseX = MouseX;
+    MouseX = mouseX;
 }
 
 float ConfigLive2d::getMouseY()
 {
-    return _MouseY;
+    return MouseY;
 }
 
-void ConfigLive2d::setMouseY(float MouseY)
+void ConfigLive2d::setMouseY(float mouseY)
 {
-    _MouseY = MouseY;
+    MouseY = mouseY;
 }

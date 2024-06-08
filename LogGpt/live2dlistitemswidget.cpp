@@ -15,19 +15,6 @@ void Live2DListItemsWidget::init(const ModelConfigItem& modItem)
     this->resize(_Width,_Height);
 
     this->setModelItem(modItem);
-//    QString pathStr=modItem.get;
-//    int wayCharPos=0;
-//    for(int i=0;i<pathStr.size();++i){
-//        if(pathStr.at(i)==QChar('\\')||pathStr.at(i)==QChar('/')){
-//            wayCharPos=i;
-//        }
-//    }
-//    for (int i=wayCharPos+1;i<pathStr.size();++i) {
-//        if(pathStr.at(i)==QChar('.')){
-//            break;
-//        }
-//        m_ModelName+=pathStr.at(i);
-//    }
     this->setText(modItem.getModelName());
 
     QFile file(":/main.qss");

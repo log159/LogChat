@@ -6,16 +6,28 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>904</width>
-    <height>608</height>
+    <width>870</width>
+    <height>692</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>720</width>
+    <height>0</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
-   <item>
+  <layout class="QGridLayout" name="gridLayout_7">
+   <item row="0" column="0">
     <widget class="QTabWidget" name="tabWidget">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
      <property name="currentIndex">
       <number>1</number>
      </property>
@@ -23,323 +35,342 @@
       <attribute name="title">
        <string>配置设置</string>
       </attribute>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
-       <item>
-        <widget class="QFrame" name="frame_label_deploy">
-         <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
+      <layout class="QGridLayout" name="gridLayout_4">
+       <item row="0" column="0">
+        <widget class="QScrollArea" name="scrollArea_deploy">
+         <property name="widgetResizable">
+          <bool>true</bool>
          </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_7">
-          <item>
-           <widget class="QLabel" name="label_vits">
-            <property name="text">
-             <string>VITS端口地址配置:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_vits_select">
-            <property name="text">
-             <string>VITS模型配置:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_llm_set">
-            <property name="text">
-             <string>LLM模型配置:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_baidu_set">
-            <property name="text">
-             <string>百度翻译配置:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_config_enable">
-            <property name="text">
-             <string>启用设定角色:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_sound_enable">
-            <property name="text">
-             <string>启用VITS语音:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_baidu_enable">
-            <property name="text">
-             <string>启用百度翻译:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_baidu_show_enable">
-            <property name="text">
-             <string>启用翻译后的语言显示:</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QFrame" name="frame_set_deploy">
-         <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <layout class="QGridLayout" name="gridLayout">
-          <item row="0" column="0">
-           <widget class="QFrame" name="frame_vits">
-            <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
-            </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_9">
-             <property name="leftMargin">
-              <number>11</number>
+         <widget class="QWidget" name="scrollAreaWidgetContents_deploy">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>820</width>
+            <height>614</height>
+           </rect>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_3">
+           <item row="0" column="0">
+            <widget class="QFrame" name="frame_label_deploy">
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
              </property>
-             <item>
-              <widget class="QLabel" name="label_vits_address">
-               <property name="text">
-                <string>地址:</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLineEdit" name="lineEdit_vits_address"/>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_vits_port">
-               <property name="text">
-                <string>端口:</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLineEdit" name="lineEdit_vits_port"/>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QFrame" name="frame_vits_select">
-            <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
-            </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_10">
-             <item>
-              <widget class="QComboBox" name="comboBox_vits_select"/>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_speaker_id">
-               <property name="text">
-                <string>speaker id:</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLineEdit" name="lineEdit_speaker_id"/>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_speaker_emotion">
-               <property name="text">
-                <string>emotion:</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLineEdit" name="lineEdit_speaker_emotion"/>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QFrame" name="frame_llm_set">
-            <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
-            </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_12">
-             <item>
-              <widget class="QRadioButton" name="radioButton_llm_chatgpt">
-               <property name="text">
-                <string>ChatGPT</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QComboBox" name="comboBox_llm_chatgpt"/>
-             </item>
-             <item>
-              <widget class="QRadioButton" name="radioButton_llm_xfxh">
-               <property name="text">
-                <string>讯飞星火</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QComboBox" name="comboBox_llm_xfxh"/>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item row="3" column="0">
-           <widget class="QFrame" name="frame_baidu_set">
-            <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
-            </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_11">
-             <item>
-              <widget class="QLabel" name="label_baidu_from">
-               <property name="text">
-                <string>language from:</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QComboBox" name="comboBox_baidu_from"/>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_baidu_to">
-               <property name="text">
-                <string>language to:</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QComboBox" name="comboBox_baidu_to"/>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item row="4" column="0">
-           <widget class="QFrame" name="frame_config_enable">
-            <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
-            </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_6">
-             <item>
-              <widget class="QRadioButton" name="radioButton_config_enable_yes">
-               <property name="text">
-                <string>YES</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QRadioButton" name="radioButton_config_enable_no">
-               <property name="text">
-                <string>NO</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item row="5" column="0">
-           <widget class="QFrame" name="frame_sound_enable">
-            <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
-            </property>
-            <layout class="QHBoxLayout" name="horizontalLayout">
-             <item>
-              <widget class="QRadioButton" name="radioButton_sound_enable_yes">
-               <property name="text">
-                <string>YES</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QRadioButton" name="radioButton_sound_enable_no">
-               <property name="text">
-                <string>NO</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item row="6" column="0">
-           <widget class="QFrame" name="frame_baidu_enable">
-            <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
-            </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_8">
-             <item>
-              <widget class="QRadioButton" name="radioButton_baidu_enable_yes">
-               <property name="text">
-                <string>YES</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QRadioButton" name="radioButton_baidu_enable_no">
-               <property name="text">
-                <string>NO</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item row="7" column="0">
-           <widget class="QFrame" name="frame_baidu_show_enable">
-            <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
-            </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_7">
-             <item>
-              <widget class="QRadioButton" name="radioButton_baidu_show_enable_yes">
-               <property name="text">
-                <string>YES</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QRadioButton" name="radioButton_baidu_show_enable_no">
-               <property name="text">
-                <string>NO</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
-         </layout>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_7">
+              <item>
+               <widget class="QLabel" name="label_vits">
+                <property name="text">
+                 <string>VITS端口地址配置:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_vits_select">
+                <property name="text">
+                 <string>VITS模型配置:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_llm_set">
+                <property name="text">
+                 <string>LLM模型配置:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_baidu_set">
+                <property name="text">
+                 <string>百度翻译配置:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_config_enable">
+                <property name="text">
+                 <string>启用设定角色:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_sound_enable">
+                <property name="text">
+                 <string>启用VITS语音:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_baidu_enable">
+                <property name="text">
+                 <string>启用百度翻译:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_baidu_show_enable">
+                <property name="text">
+                 <string>启用翻译后的语言显示:</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QFrame" name="frame_set_deploy">
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QGridLayout" name="gridLayout">
+              <item row="0" column="0">
+               <widget class="QFrame" name="frame_vits">
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_9">
+                 <property name="leftMargin">
+                  <number>11</number>
+                 </property>
+                 <item>
+                  <widget class="QLabel" name="label_vits_address">
+                   <property name="text">
+                    <string>地址:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="lineEdit_vits_address"/>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_vits_port">
+                   <property name="text">
+                    <string>端口:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="lineEdit_vits_port"/>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QFrame" name="frame_vits_select">
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_10">
+                 <item>
+                  <widget class="QComboBox" name="comboBox_vits_select"/>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_speaker_id">
+                   <property name="text">
+                    <string>speaker id:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="lineEdit_speaker_id"/>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_speaker_emotion">
+                   <property name="text">
+                    <string>emotion:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="lineEdit_speaker_emotion"/>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QFrame" name="frame_llm_set">
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_12">
+                 <item>
+                  <widget class="QRadioButton" name="radioButton_llm_chatgpt">
+                   <property name="text">
+                    <string>ChatGPT</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="comboBox_llm_chatgpt"/>
+                 </item>
+                 <item>
+                  <widget class="QRadioButton" name="radioButton_llm_xfxh">
+                   <property name="text">
+                    <string>讯飞星火</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="comboBox_llm_xfxh"/>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QFrame" name="frame_baidu_set">
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_11">
+                 <item>
+                  <widget class="QLabel" name="label_baidu_from">
+                   <property name="text">
+                    <string>language from:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="comboBox_baidu_from"/>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_baidu_to">
+                   <property name="text">
+                    <string>language to:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="comboBox_baidu_to"/>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item row="4" column="0">
+               <widget class="QFrame" name="frame_config_enable">
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_6">
+                 <item>
+                  <widget class="QRadioButton" name="radioButton_config_enable_yes">
+                   <property name="text">
+                    <string>YES</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QRadioButton" name="radioButton_config_enable_no">
+                   <property name="text">
+                    <string>NO</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item row="5" column="0">
+               <widget class="QFrame" name="frame_sound_enable">
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout">
+                 <item>
+                  <widget class="QRadioButton" name="radioButton_sound_enable_yes">
+                   <property name="text">
+                    <string>YES</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QRadioButton" name="radioButton_sound_enable_no">
+                   <property name="text">
+                    <string>NO</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item row="6" column="0">
+               <widget class="QFrame" name="frame_baidu_enable">
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_8">
+                 <item>
+                  <widget class="QRadioButton" name="radioButton_baidu_enable_yes">
+                   <property name="text">
+                    <string>YES</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QRadioButton" name="radioButton_baidu_enable_no">
+                   <property name="text">
+                    <string>NO</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item row="7" column="0">
+               <widget class="QFrame" name="frame_baidu_show_enable">
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_7">
+                 <item>
+                  <widget class="QRadioButton" name="radioButton_baidu_show_enable_yes">
+                   <property name="text">
+                    <string>YES</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QRadioButton" name="radioButton_baidu_show_enable_no">
+                   <property name="text">
+                    <string>NO</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
         </widget>
        </item>
       </layout>
@@ -348,215 +379,234 @@
       <attribute name="title">
        <string>信息设置</string>
       </attribute>
-      <layout class="QHBoxLayout" name="horizontalLayout_14">
-       <item>
-        <widget class="QFrame" name="frame_label_information">
-         <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
+      <layout class="QGridLayout" name="gridLayout_6">
+       <item row="0" column="0">
+        <widget class="QScrollArea" name="scrollArea_information">
+         <property name="widgetResizable">
+          <bool>true</bool>
          </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_8">
-          <item>
-           <widget class="QLabel" name="label_gpt_key">
-            <property name="text">
-             <string>ChatGPT Key:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_gpt_url">
-            <property name="text">
-             <string>ChatGPT Base URL:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_xfxh_appid">
-            <property name="text">
-             <string>讯飞星火 AppID:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_xfxh_apikey">
-            <property name="text">
-             <string>讯飞星火 ApiKey:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_xfxh_apisecret">
-            <property name="text">
-             <string>讯飞星火 ApiSecret:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_baidu_appid">
-            <property name="text">
-             <string>百度翻译 AppID:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_baidu_key">
-            <property name="text">
-             <string>百度翻译 Key:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_baidusound_key">
-            <property name="text">
-             <string>百度语音识别Key</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_baidusound_secret">
-            <property name="text">
-             <string>百度语音识别Secret</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QFrame" name="frame_set_information">
-         <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <layout class="QGridLayout" name="gridLayout_2">
-          <item row="1" column="0">
-           <widget class="QFrame" name="frame_gpt_url">
-            <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
-            </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_13">
-             <item>
-              <widget class="QLineEdit" name="lineEdit_gpt_url"/>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item row="0" column="0">
-           <widget class="QFrame" name="frame_gpt_key">
-            <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
-            </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_5">
-             <item>
-              <widget class="QLineEdit" name="lineEdit_gpt_key"/>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item row="3" column="0">
-           <widget class="QFrame" name="frame_xfxh_apikey">
-            <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
-            </property>
-            <layout class="QVBoxLayout" name="verticalLayout_5">
-             <item>
-              <widget class="QLineEdit" name="lineEdit_xfxh_apikey"/>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item row="6" column="0">
-           <widget class="QFrame" name="frame_baidu_key">
-            <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
-            </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_4">
-             <item>
-              <widget class="QLineEdit" name="lineEdit_baidu_key"/>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QFrame" name="frame_xfxh_appid">
-            <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
-            </property>
-            <layout class="QVBoxLayout" name="verticalLayout_3">
-             <item>
-              <widget class="QLineEdit" name="lineEdit_xfxh_appid"/>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item row="4" column="0">
-           <widget class="QFrame" name="frame_xfxh_apisecret">
-            <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
-            </property>
-            <layout class="QVBoxLayout" name="verticalLayout_4">
-             <item>
-              <widget class="QLineEdit" name="lineEdit_xfxh_apisecret"/>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item row="5" column="0">
-           <widget class="QFrame" name="frame_baidu_appid">
-            <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
-            </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_3">
-             <item>
-              <widget class="QLineEdit" name="lineEdit_baidu_appid"/>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item row="7" column="0">
-           <widget class="QFrame" name="verticalFrame">
-            <layout class="QVBoxLayout" name="verticalLayout_2">
-             <item>
-              <widget class="QLineEdit" name="lineEdit_baidusound_key"/>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item row="8" column="0">
-           <widget class="QFrame" name="verticalFrame_2">
-            <layout class="QVBoxLayout" name="verticalLayout_6">
-             <item>
-              <widget class="QLineEdit" name="lineEdit_baidusound_secret"/>
-             </item>
-            </layout>
-           </widget>
-          </item>
-         </layout>
+         <widget class="QWidget" name="scrollAreaWidgetContents_information">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>820</width>
+            <height>614</height>
+           </rect>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_5">
+           <item row="0" column="0">
+            <widget class="QFrame" name="frame_label_information">
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_8">
+              <item>
+               <widget class="QLabel" name="label_gpt_key">
+                <property name="text">
+                 <string>ChatGPT Key:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_gpt_url">
+                <property name="text">
+                 <string>ChatGPT Base URL:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_xfxh_appid">
+                <property name="text">
+                 <string>讯飞星火 AppID:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_xfxh_apikey">
+                <property name="text">
+                 <string>讯飞星火 ApiKey:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_xfxh_apisecret">
+                <property name="text">
+                 <string>讯飞星火 ApiSecret:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_baidu_appid">
+                <property name="text">
+                 <string>百度翻译 AppID:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_baidu_key">
+                <property name="text">
+                 <string>百度翻译 Key:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_baidusound_key">
+                <property name="text">
+                 <string>百度语音识别Key</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_baidusound_secret">
+                <property name="text">
+                 <string>百度语音识别Secret</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QFrame" name="frame_set_information">
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_2">
+              <item row="1" column="0">
+               <widget class="QFrame" name="frame_gpt_url">
+                <property name="frameShape">
+                 <enum>QFrame::NoFrame</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_13">
+                 <item>
+                  <widget class="QLineEdit" name="lineEdit_gpt_url"/>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item row="0" column="0">
+               <widget class="QFrame" name="frame_gpt_key">
+                <property name="frameShape">
+                 <enum>QFrame::NoFrame</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_5">
+                 <item>
+                  <widget class="QLineEdit" name="lineEdit_gpt_key"/>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QFrame" name="frame_xfxh_apikey">
+                <property name="frameShape">
+                 <enum>QFrame::NoFrame</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_5">
+                 <item>
+                  <widget class="QLineEdit" name="lineEdit_xfxh_apikey"/>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item row="6" column="0">
+               <widget class="QFrame" name="frame_baidu_key">
+                <property name="frameShape">
+                 <enum>QFrame::NoFrame</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_4">
+                 <item>
+                  <widget class="QLineEdit" name="lineEdit_baidu_key"/>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QFrame" name="frame_xfxh_appid">
+                <property name="frameShape">
+                 <enum>QFrame::NoFrame</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_3">
+                 <item>
+                  <widget class="QLineEdit" name="lineEdit_xfxh_appid"/>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item row="4" column="0">
+               <widget class="QFrame" name="frame_xfxh_apisecret">
+                <property name="frameShape">
+                 <enum>QFrame::NoFrame</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_4">
+                 <item>
+                  <widget class="QLineEdit" name="lineEdit_xfxh_apisecret"/>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item row="5" column="0">
+               <widget class="QFrame" name="frame_baidu_appid">
+                <property name="frameShape">
+                 <enum>QFrame::NoFrame</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_3">
+                 <item>
+                  <widget class="QLineEdit" name="lineEdit_baidu_appid"/>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item row="7" column="0">
+               <widget class="QFrame" name="frame_baidusound_key">
+                <layout class="QVBoxLayout" name="verticalLayout_2">
+                 <item>
+                  <widget class="QLineEdit" name="lineEdit_baidusound_key"/>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item row="8" column="0">
+               <widget class="QFrame" name="frame_baidusound_secret">
+                <layout class="QVBoxLayout" name="verticalLayout_6">
+                 <item>
+                  <widget class="QLineEdit" name="lineEdit_baidusound_secret"/>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
         </widget>
        </item>
       </layout>

@@ -72,12 +72,14 @@ void SetDialogWidget::init()
     else {ui->radioButton_baidu_show_enable_no->setChecked(true);}
 
 
+
     QFile file(":/main.qss");
     if(file.open(QFile::ReadOnly)){
         QString styleSheet = QLatin1String(file.readAll());
         this->setStyleSheet(styleSheet);
         file.close();
     }
+
 
 
 }

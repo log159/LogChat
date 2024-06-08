@@ -15,6 +15,7 @@ QString speechRecognition::speechIdentify(QString client_id, QString client_secr
 {
     //获取token
     QString token_url = QString("http://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id=%1&client_secret=%2").arg(client_id).arg(client_secret);
+    qDebug()<<token_url;
     QMap<QString,QString> headers;
     headers.insert(QString("Content-Type"),QString("audio/pcm;rate=16000"));
     QByteArray requestdata; //发送内容
@@ -39,6 +40,8 @@ QString speechRecognition::speechIdentify(QString client_id, QString client_secr
 
     //发送http请求
     QString baidu_speech = QString("http://vop.baidu.com/server_api?dev_pid=1537&cuid=%1&token=%2").arg("LAPTOP-71LN9B3Q").arg(accessToken);
+
+    qDebug()<<baidu_speech;
     bool result = httputil.postSyn(baidu_speech,headers,requestdata,replydata);
     if(result)
     {

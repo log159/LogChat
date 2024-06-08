@@ -52,15 +52,6 @@ void AboutSoftwareDialogWidget::init()
     ui->textEdit_about->setReadOnly(true);
     ui->textEdit_about->setText(information_str);
 
-    ui->textEdit_about->setStyleSheet(
-                "QScrollBar:vertical {width: 10px;background-color: #F5F5F5;margin: 0px 0px 0px 0px;border-radius: 5px;}"
-                "QScrollBar::handle:vertical {background-color: #CCCCCC;min-height: 20px;border-radius: 5px;}"
-                "QScrollBar::handle:vertical:hover {background-color: #BBBBBB;border-radius: 5px;}"
-                "QScrollBar::add-line:vertical {height: 0px; subcontrol-position: bottom; subcontrol-origin: margin;}"
-                "QScrollBar::sub-line:vertical {height: 0 px;subcontrol-position: top; subcontrol-origin: margin;}"
-                "QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {background-color: #F5F5F5;border-radius: 5px;}"
-                );
-
 
     /*读取qss文件*/
     QFile file(":/main.qss");

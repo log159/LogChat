@@ -19,16 +19,15 @@ void SetSelectWidget::init()
     this->setFixedSize(_Width,ConfigWindow::getStaticHeight());
 
     m_ListWidget=new QListWidget(this);
-    m_ListWidget->setStyleSheet(
-
-                "QScrollBar:vertical {width: 10px;background-color: #F5F5F5;margin: 0px 0px 0px 0px;border-radius: 5px;}"
-                "QScrollBar::handle:vertical {background-color: #CCCCCC;min-height: 20px;border-radius: 5px;}"
-                "QScrollBar::handle:vertical:hover {background-color: #BBBBBB;border-radius: 5px;}"
-                "QScrollBar::add-line:vertical {height: 0px; subcontrol-position: bottom; subcontrol-origin: margin;}"
-                "QScrollBar::sub-line:vertical {height: 0 px;subcontrol-position: top; subcontrol-origin: margin;}"
-                "QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {background-color: #F5F5F5;border-radius: 5px;}"
-                "QListWidget { background-color: transparent; }"
-                );
+//    m_ListWidget->setStyleSheet(
+//                "QScrollBar:vertical {width: 10px;background-color: #F5F5F5;margin: 0px 0px 0px 0px;border-radius: 5px;}"
+//                "QScrollBar::handle:vertical {background-color: #CCCCCC;min-height: 20px;border-radius: 5px;}"
+//                "QScrollBar::handle:vertical:hover {background-color: #BBBBBB;border-radius: 5px;}"
+//                "QScrollBar::add-line:vertical {height: 0px; subcontrol-position: bottom; subcontrol-origin: margin;}"
+//                "QScrollBar::sub-line:vertical {height: 0 px;subcontrol-position: top; subcontrol-origin: margin;}"
+//                "QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {background-color: #F5F5F5;border-radius: 5px;}"
+//                "QListWidget { background-color: transparent; }"
+//                );
 
     m_ListWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);       //禁止水平滚动条显示
     m_ListWidget->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);   //平滑效果
@@ -162,24 +161,7 @@ void SetSelectWidget::zoom2()
     animation->start(QAbstractAnimation::DeleteWhenStopped);
 }
 
-void SetSelectWidget::paintEvent(QPaintEvent *e)
-{
-    Q_UNUSED(e)
 
-
-    QPainter painter(this);
-    painter.setPen(Qt::NoPen);
-    QBrush brush(Qt::SolidPattern);
-    brush.setColor(Qt::white);
-    painter.setBrush(brush);
-    painter.drawRect(0,0,this->width(),this->height());
-    brush.setColor(QColor("#388E3C"));
-    if(m_ButtonId<0){
-        return;
-    }
-    painter.setBrush(brush);
-    painter.drawRect(0,m_ButtonId*_ButtonHeight,this->width(),_ButtonHeight);
-}
 
 void SetSelectWidget::setNoPass()
 {

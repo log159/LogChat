@@ -27,14 +27,6 @@ void PushAndReceiveWidget::init()
     m_VitsApi=new VitsApi(this);
 
     m_ListWidget=new QListWidget(this);
-    m_ListWidget->setStyleSheet(
-                "QScrollBar:vertical {width: 10px;background-color: #F5F5F5;margin: 0px 0px 0px 0px;border-radius: 5px;}"
-                "QScrollBar::handle:vertical {background-color: #CCCCCC;min-height: 20px;border-radius: 5px;}"
-                "QScrollBar::handle:vertical:hover {background-color: #BBBBBB;border-radius: 5px;}"
-                "QScrollBar::add-line:vertical {height: 0px; subcontrol-position: bottom; subcontrol-origin: margin;}"
-                "QScrollBar::sub-line:vertical {height: 0 px;subcontrol-position: top; subcontrol-origin: margin;}"
-                "QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {background-color: #F5F5F5;border-radius: 5px;}"
-                );
 
     m_ListWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);         //禁止编辑
     m_ListWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);       //禁用水平滑动条
@@ -49,26 +41,12 @@ void PushAndReceiveWidget::init()
     m_UserTextEdit->setPlaceholderText("来说点什么吧( Shift+Enter换行 Enter发送 )");
     m_UserTextEdit->setFixedHeight(_TextEditMinHeight);
 
-    QFont font;
-    font.setFamily("黑体");
-    font.setPointSize(10);
-    m_UserTextEdit->setFont(font);
     m_UserTextEdit->show();
     m_Frame=new QFrame(this);
     m_Frame->setStyleSheet("background-color:white;");
 
     m_PushButtonListen=new QPushButton(this);
     m_PushButtonListen->setText("点击说话(敬请期待)");
-    m_PushButtonListen->setStyleSheet("QPushButton {"
-                                  "border: 2px solid #AAAAAA; " /* 设置边框颜色为浅绿色 */
-                                  "border-radius: 10px; "       /* 设置圆角半径为10像素 */
-                                  "background-color: #FFFFFF; " /* 设置背景颜色为淡蓝色 */
-                                  "padding: 5px; "              /* 设置内边距为5像素 */
-                                  "}"
-                                  "QTextEdit:focus {"
-                                  "outline: none; "             /* 移除焦点时的边框 */
-                                  "}"
-                                  );
     m_PushButtonListen->setGeometry(m_UserTextEdit->geometry());
     m_PushButtonListen->hide();
 
@@ -122,6 +100,13 @@ void PushAndReceiveWidget::init()
     setAdapt();
     addCharacterConfig();
     m_UserTextEdit->setFocus();
+
+    QFile file(":/main.qss");
+    if(file.open(QFile::ReadOnly)){
+        QString styleSheet = QLatin1String(file.readAll());
+        this->setStyleSheet(styleSheet);
+        file.close();
+    }
 }
 
 void PushAndReceiveWidget::initConnect()

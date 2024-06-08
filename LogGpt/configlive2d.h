@@ -12,11 +12,11 @@ class ConfigLive2d:public SingletonBase
 {
 private:
 
-    static HWND  _Live2DWindow;
-    static float _ModelX;
-    static float _ModelY;
-    static float _MouseX;
-    static float _MouseY;
+    static HWND  Live2DWindow;
+    static float ModelX;
+    static float ModelY;
+    static float MouseX;
+    static float MouseY;
 public:
     static void init();
 public:
@@ -25,13 +25,13 @@ public:
     static float getMouseX();
     static float getMouseY();
 
-    static void setModelX(float ModelX);
-    static void setModelY(float ModelY);
-    static void setMouseX(float MouseX);
-    static void setMouseY(float MouseY);
+    static void setModelX(float modelX);
+    static void setModelY(float modelY);
+    static void setMouseX(float mouseX);
+    static void setMouseY(float mouseY);
 
     static HWND getLive2DWindow();
-    static void setLive2DWindow(const HWND &Live2DWindow);
+    static void setLive2DWindow(const HWND &live2DWindow);
 };
 
 #endif // CONFIGLIVE2D_H
