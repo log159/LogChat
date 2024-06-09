@@ -1,27 +1,7 @@
 ﻿#include "config.h"
 
 
-      QVector<ModelConfigItem>   Config::LIVE2DMODELCONFIG_V    ={};
-const QString Config::SETCONFIG_WAY         ="/config/setconfig.json";
-const QString Config::OUTPUT_WAV_WAY        ="/wav/%1.wav";
-const QString Config::CHARACTER_CONFIG_WAY  ="/config/config.txt";
-const QString Config::CHATGPT_DEMO_WAY      ="/chatgptapi/dist/qtopenai.exe";
-const QString Config::CHATGPT_QUESTION_WAY  ="/chatgptapi/dist/question.txt";
-//const QString Config::CHATGPT_KEY_WAY        ="/chatgptapi/dist/KEY.txt";
-//const QString Config::CHATGPT_BASEAPI_WAY    ="/chatgptapi/dist/APIBASE.txt";
-//const QString Config::BAIDU_APPID_WAY       ="/baiduapi/ID.txt";
-//const QString Config::BAIDU_KEY_WAY         ="/baiduapi/KEY.txt";
-//const QString Config::XFXH_APPID_WAY        ="/xfxhapi/ID.txt";
-//const QString Config::XFXH_KEY_WAY          ="/xfxhapi/KEY.txt";
-//const QString Config::XFXH_SECRET_WAY       ="/xfxhapi/SECRET.txt";
-const QString Config::XFXH_QUESTION_WAY     ="/xfxhapi/question.txt";
-const QString Config::XFXH_DEMO_WAY         ="/xfxhapi/demo.exe";
-const QString Config::UNITY_DEMO_WAY        ="/unity2d/Live2D.exe";
-const QString Config::UNITY_DEMO_WORK_WAY   ="/unity2d";
-const QString Config::UNITY_STARTMODELPATH_WAY="/unity2d/model/STARTMODELPATH.txt";
-const QString Config::UNITY_MODELLIST_WAY     ="/unity2d/model/MODELLIST.txt";
-const QString Config::UNITY_MODELCONFIGLIST_WAY="/unity2d/model/MODELCONFIGLIST.txt";
-const QString Config::HISTORY_WAY              ="/config/history.json";
+    QVector<ModelConfigItem>   Config::LIVE2DMODELCONFIG_V    ={};
 
 QString       Config::URL_ADDRESS           ="127.0.0.1";                                       //VITS Url地址
 QString       Config::URL_PORT              ="23456";                                           //VITS Url地址
@@ -40,7 +20,6 @@ int           Config::EMOTION_ID            =0;                                 
 int           Config::BAIDU_FROM_ID         =0;                                                 //原语种ID
 int           Config::BAIDU_TO_ID           =1;                                                 //翻译后语种ID
 int           Config::RESERVE_LONG          =10;                                                //上下文保留最大长度
-int           Config::SOUND_ID              =0;                                                 //音频播放ID
 
 void Config::init()
 {
@@ -110,7 +89,7 @@ void Config::setFileInformation(const QString &path, const QJsonObject &js)
 void Config::init_ALLSETCONFIG()
 {
 
-    QString jsonString=Config::getFileAllInformation(Config::get_SETCONFIG_WAY());
+    QString jsonString=Config::getFileAllInformation(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::SETCONFIG_WAY));
     jsonString.remove('\t');
     jsonString.remove('\r');
     jsonString.remove('\n');
@@ -203,7 +182,7 @@ QMap<QString, QString> Config::parseJsonToQMap(const QString &jsonString) {
 
 void Config::init_LIVE2DMODELCONFIG_V()
 {
-    QString modelListStr=getFileAllInformation(Config::get_UNITY_MODELCONFIGLIST_WAY());
+    QString modelListStr=getFileAllInformation(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::UNITY_MODELCONFIGLIST_WAY));
 
     QString handleStr=modelListStr;
     handleStr.remove(QChar('\t'), Qt::CaseInsensitive);
@@ -280,7 +259,7 @@ void Config::init_HISTORY()
 
 void Config::output_ALLSETCONFIG(const QJsonObject &js)
 {
-    Config::setFileInformation(get_SETCONFIG_WAY(),js);
+    Config::setFileInformation(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::SETCONFIG_WAY),js);
 }
 
 void Config::output_LIVE2DMODELCONFIG_V(QVector<ModelConfigItem>& modV)
@@ -310,83 +289,8 @@ void Config::output_LIVE2DMODELCONFIG_V(QVector<ModelConfigItem>& modV)
     }
     data.chop(1);//丢弃最后的空格
 
-    setFileInformation(Config::get_UNITY_MODELCONFIGLIST_WAY(),data);
+    setFileInformation(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::UNITY_MODELCONFIGLIST_WAY),data);
 
-}
-
-
-const QString Config::get_OUTPUT_WAV_WAY()
-{
-    // 获取当前时间
-    QDateTime now = QDateTime::currentDateTime();
-    QString str="%1%2%3%4%5%6";
-    int year = now.date().year();
-    int month = now.date().month();
-    int day = now.date().day();
-    int hour = now.time().hour();
-    int minute = now.time().minute();
-    int second = now.time().second();
-    str = str.arg(year).arg(month).arg(day).arg(hour).arg(minute).arg(second);
-    return QCoreApplication::applicationDirPath()+(Config::OUTPUT_WAV_WAY).arg(str);
-}
-
-const QString Config::get_SETCONFIG_WAY(){
-    return QCoreApplication::applicationDirPath()+Config::SETCONFIG_WAY;
-}
-
-const QString Config::get_CHARACTER_CONFIG_WAY()
-{
-    return QCoreApplication::applicationDirPath()+Config::CHARACTER_CONFIG_WAY;
-}
-const QString Config::get_CHATGPT_DEMO_WAY()
-{
-    return QCoreApplication::applicationDirPath()+Config::CHATGPT_DEMO_WAY;
-}
-
-const QString Config::get_CHATGPT_QUESTION_WAY()
-{
-    return QCoreApplication::applicationDirPath()+Config::CHATGPT_QUESTION_WAY;
-}
-
-
-const QString Config::get_XFXH_QUESTION_WAY()
-{
-    return QCoreApplication::applicationDirPath()+Config::XFXH_QUESTION_WAY;
-}
-
-const QString Config::get_XFXH_DEMO_WAY()
-{
-    return QCoreApplication::applicationDirPath()+Config::XFXH_DEMO_WAY;
-}
-
-const QString Config::get_UNITY_DEMO_WAY()
-{
-    return QCoreApplication::applicationDirPath()+Config::UNITY_DEMO_WAY;
-}
-
-const QString Config::get_UNITY_DEMO_WORK_WAY()
-{
-    return  QCoreApplication::applicationDirPath()+Config::UNITY_DEMO_WORK_WAY;
-}
-
-const QString Config::get_UNITY_STARTMODELPATH_WAY()
-{
-    return QCoreApplication::applicationDirPath()+Config::UNITY_STARTMODELPATH_WAY;
-}
-
-const QString Config::get_UNITY_MODELLIST_WAY()
-{
-    return QCoreApplication::applicationDirPath()+Config::UNITY_MODELLIST_WAY;
-}
-
-const QString Config::get_UNITY_MODELCONFIGLIST_WAY()
-{
-    return QCoreApplication::applicationDirPath()+Config::UNITY_MODELCONFIGLIST_WAY;
-}
-
-const QString Config::get_HISTORY_WAY()
-{
-    return QCoreApplication::applicationDirPath()+Config::HISTORY_WAY;
 }
 
 QVector<QString> Config::get_VITS_ALL_V()
@@ -434,23 +338,9 @@ const ::IKS Config::get_IKS(const ::EnIks &iks)
     return ConfigFileIO::getIksConfig(iks);
 }
 
-const QString Config::get_URL(const QString &urlName)
+const QString Config::get_URL(const ::EnUrl &urlName)
 {
     return ConfigFileIO::getUrlConfig(urlName);
-}
-
-const QString Config::get_CHATGPT_QUESTION()
-{
-    //读取角色配置信息
-    QFile file(Config::get_CHATGPT_QUESTION_WAY());
-    if(!file.open(QIODevice::ReadOnly|QIODevice::Text)){
-        return QString("");
-    }
-    QTextStream in(&file);
-    in.setCodec("UTF-8");
-    QString fileAll=in.readAll();
-    file.close();
-    return  fileAll;
 }
 
 const QString Config::get_URL_ADDRESSS()
@@ -478,23 +368,19 @@ const QString Config::get_URL_ADDRESS_ALL()
    return str;
 }
 
-
-
-
-
 const QString Config::get_CHARACTER_CONFIG()
 {
-    return Config::getFileAllInformation(Config::get_CHARACTER_CONFIG_WAY());
+    return Config::getFileAllInformation(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::CHARACTER_CONFIG_WAY));
 }
 
 const QString Config::get_XFXH_QUESTION()
 {
-    return Config::getFileAllInformation(Config::get_XFXH_QUESTION_WAY());
+    return Config::getFileAllInformation(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::XFXH_QUESTION_WAY));
 }
 
 const QString Config::get_UNITY_STARTMODELPATH()
 {
-    return Config::getFileInformation(Config::get_UNITY_STARTMODELPATH_WAY());
+    return Config::getFileInformation(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::UNITY_STARTMODELPATH_WAY));
 }
 
 bool Config::get_ENABLE_ROLE()
@@ -566,17 +452,12 @@ int Config::get_RESERVE_LONG()
     return Config::RESERVE_LONG;
 }
 
-int Config::get_SOUND_ID()
-{
-    return Config::SOUND_ID;
-}
-
 void Config::set_IKS(const ::EnIks &iks, const QString &id, const QString &key, const QString &secret)
 {
     ConfigFileIO::setIksConfig(iks,id,key,secret);
 }
 
-void Config::set_URL(const QString &urlName, const QString &url)
+void Config::set_URL(const ::EnUrl &urlName, const QString &url)
 {
     ConfigFileIO::setUrlConfig(urlName,url);
 }
@@ -593,17 +474,17 @@ void Config::set_URL_PORT(const QString &str)
 
 void Config::set_CHARACTER_CONFIG(const QString &str)
 {
-    Config::setFileInformation(Config::get_CHARACTER_CONFIG_WAY(),str);
+    Config::setFileInformation(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::CHARACTER_CONFIG_WAY),str);
 }
 
 void Config::set_XFXH_QUESTION(const QString &str)
 {
-    Config::setFileInformation(Config::get_XFXH_QUESTION_WAY(),str);
+    Config::setFileInformation(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::XFXH_QUESTION_WAY),str);
 }
 
 void Config::set_UNITY_STARTMODELPATH(const QString &str)
 {
-    Config::setFileInformation(Config::get_UNITY_STARTMODELPATH_WAY(),str);
+    Config::setFileInformation(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::UNITY_STARTMODELPATH_WAY),str);
 }
 
 void Config::set_LIVE2DMODELCONFIG_V(QVector<ModelConfigItem> &modV)
@@ -611,11 +492,6 @@ void Config::set_LIVE2DMODELCONFIG_V(QVector<ModelConfigItem> &modV)
     Config::LIVE2DMODELCONFIG_V.clear();
     Config::LIVE2DMODELCONFIG_V=modV;
     output_LIVE2DMODELCONFIG_V(modV);
-}
-
-void Config::set_CHATGPT_QUESTION(const QString &str)
-{
-    Config::setFileInformation(Config::get_CHATGPT_QUESTION_WAY(),str);
 }
 
 void Config::set_ENABLE_ROLE(const bool &bo)
@@ -686,11 +562,6 @@ void Config::set_BAIDU_TO_ID(int id)
 void Config::set_RESERVE_LONG(int id)
 {
     Config::RESERVE_LONG=id;
-}
-
-void Config::set_SOUND_ID(int id)
-{
-    Config::SOUND_ID=id;
 }
 
 void Config::set_ALLSETCONFIG()

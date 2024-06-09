@@ -66,6 +66,7 @@ private:
     QPushButton*      m_PushButtonWrite        =nullptr;
     QFrame*           m_Frame                  =nullptr;
     VitsApi*          m_VitsApi                =nullptr;
+    LLMBase*          m_LLM                      =nullptr;
 
 public:
 
