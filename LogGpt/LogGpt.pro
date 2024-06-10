@@ -41,7 +41,6 @@ SOURCES += \
         listitemswidget.cpp \
         live2ddrawitemswidget.cpp \
         live2dlistitemswidget.cpp \
-        live2dpartdrawingitemswidget.cpp \
         live2dpartitemswidget.cpp \
         llmbase.cpp \
         llmfactory.cpp \
@@ -81,7 +80,6 @@ HEADERS += \
         listitemswidget.h \
         live2ddrawitemswidget.h \
         live2dlistitemswidget.h \
-        live2dpartdrawingitemswidget.h \
         live2dpartitemswidget.h \
         llmbase.h \
         llmfactory.h \
@@ -113,7 +111,6 @@ FORMS += \
         listitemswidget.ui \
         live2ddrawitemswidget.ui \
         live2dlistitemswidget.ui \
-        live2dpartdrawingitemswidget.ui \
         live2dpartitemswidget.ui \
         pushandreceivewidget.ui \
         setconfigdialogwidget.ui \

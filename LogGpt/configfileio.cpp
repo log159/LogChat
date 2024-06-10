@@ -5,19 +5,25 @@ const QString           ConfigFileIO::NULLVALUE="";
 
 void ConfigFileIO::setIksConfig(const ::EnIks &baseName, const QString &id, const QString &key, const QString &secret)
 {
-    QString fileName = ConfigConstWay::get_IKS_INI_WAY();
+    QString fileName = ConfigConstWay::get_TRUE_WAY(ConfigConstWay::IKS_INI_WAY);
     QSettings *setting = new QSettings(fileName , QSettings::IniFormat);
     setting->setIniCodec(QTextCodec::codecForName("UTF-8"));
-    setting->setValue(::IksM[baseName]+"/id",id);
-    setting->setValue(::IksM[baseName]+"/key",key);
-    setting->setValue(::IksM[baseName]+"/secret",secret);
+    if(id!=""){
+        setting->setValue(::IksM[baseName]+"/id",id);
+    }
+    if(key!=""){
+        setting->setValue(::IksM[baseName]+"/key",key);
+    }
+    if(secret!=""){
+        setting->setValue(::IksM[baseName]+"/secret",secret);
+    }
     // 生成文件
     setting->sync();
 }
 
 IKS ConfigFileIO::getIksConfig(const ::EnIks &baseName)
 {
-    QString fileName = ConfigConstWay::get_IKS_INI_WAY();
+    QString fileName = ConfigConstWay::get_TRUE_WAY(ConfigConstWay::IKS_INI_WAY);
     QSettings *setting = new QSettings(fileName , QSettings::IniFormat);
     setting->setIniCodec(QTextCodec::codecForName("UTF-8"));
     ::IKS iks={"","",""};
@@ -35,24 +41,25 @@ IKS ConfigFileIO::getIksConfig(const ::EnIks &baseName)
     }
 }
 
-void ConfigFileIO::setUrlConfig(const QString &urlName, const QString &url)
+void ConfigFileIO::setUrlConfig(const ::EnUrl &urlName, const QString &url)
 {
-    QString fileName = ConfigConstWay::get_URL_INI_WAY();
+    QString fileName = ConfigConstWay::get_TRUE_WAY(ConfigConstWay::URL_INI_WAY);
     QSettings *setting = new QSettings(fileName , QSettings::IniFormat);
     setting->setIniCodec(QTextCodec::codecForName("UTF-8"));
-    setting->setValue(urlName,url);
-    // 生成文件
+    if(url!=""){
+        setting->setValue(UrlM[urlName],url);
+    }
     setting->sync();
 }
 
-const QString ConfigFileIO::getUrlConfig(const QString &urlName)
+const QString ConfigFileIO::getUrlConfig(const ::EnUrl &urlName)
 {
-    QString fileName = ConfigConstWay::get_URL_INI_WAY();
+    QString fileName = ConfigConstWay::get_TRUE_WAY(ConfigConstWay::URL_INI_WAY);
     QSettings *setting = new QSettings(fileName , QSettings::IniFormat);
     setting->setIniCodec(QTextCodec::codecForName("UTF-8"));
     if(QFile::exists(fileName))
     {
-        QString data = setting->value(urlName,NULLVALUE).toString();
+        QString data = setting->value(UrlM[urlName],NULLVALUE).toString();
         return data;
     }
     else {

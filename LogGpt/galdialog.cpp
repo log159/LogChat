@@ -90,32 +90,30 @@ void GalDialog::on_pushButton_record_pressed()
      * 此处可以使用ffplay -f s16le -ar 16000 -ac 1 -1 record_temp.pcm 进行播放测试
      * 参数就是qaudiocapture.cpp里设置的
     */
+#ifndef DEBUG
     m_audio.startRecord("./record_temp.pcm"); //暂存位置
+#endif
 }
 //松开提交
 void GalDialog::on_pushButton_record_released()
 {
     //停止录音
     qDebug()<<"结束录音";
+#ifndef DEBUG
     m_audio.stopRecord();
     //Config部分重构，这样获取到appid,key,secret,如果没有设定则为空字符串
     ::IKS iks=Config::get_IKS(::EnIks::STT_BDYUN);
-//    iks.key;
-//    iks.secret;
-    qDebug()<<iks.key;
-    qDebug()<<iks.secret;
 
     //提交录音
     QString str = m_speechrgn.speechIdentify(iks.key,iks.secret,"./record_temp.pcm");
-    qDebug()<<"发送识别请求"<<ui->lineEdit_key->text()<<" "<<ui->lineEdit_secret->text();
     ui->textEdit->setText(str); //获取返回内容
+#endif
+    //Config部分重构，这样获取到appid,key,secret,如果没有设定则为空字符串
+    ::IKS iks=Config::get_IKS(::EnIks::STT_BDYUN);
 
-
-//    //提交录音
-//    QString str = m_speechrgn.speechIdentify(ui->lineEdit_key->text(),ui->lineEdit_secret->text(),"./record_temp.pcm");
-//    qDebug()<<"发送识别请求"<<ui->lineEdit_key->text()<<" "<<ui->lineEdit_secret->text();
-//    ui->textEdit->setText(str); //获取返回内容
-
+    //提交录音
+    QString str = m_speechrgn.speechIdentify(iks.key,iks.secret,"./record_temp_debug.pcm");
+    ui->textEdit->setText(str); //获取返回内容
 
 
 }

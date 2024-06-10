@@ -27,9 +27,9 @@ public:
     static ::IKS getIksConfig(const ::EnIks& baseName);
 
     //存储一个url地址，urlName自定义
-    static void setUrlConfig(const QString& urlName,const QString& url);
-    //获取一个url地址，urlName要在文件存在
-    static const QString getUrlConfig(const QString& urlName);
+    static void setUrlConfig(const ::EnUrl& urlName,const QString& url);
+    //获取一个url地址，urlName要在文件存在否则为空
+    static const QString getUrlConfig(const ::EnUrl& urlName);
 
 private:
 

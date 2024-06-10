@@ -185,38 +185,6 @@ QPushButton:pressed {
     <string>长按语音输入</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit_key">
-   <property name="geometry">
-    <rect>
-     <x>140</x>
-     <y>160</y>
-     <width>91</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="placeholderText">
-    <string>app key</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lineEdit_secret">
-   <property name="geometry">
-    <rect>
-     <x>230</x>
-     <y>160</y>
-     <width>91</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="placeholderText">
-    <string>Secret Key</string>
-   </property>
-  </widget>
   <zorder>textEdit</zorder>
   <zorder>label_name</zorder>
   <zorder>pushButton</zorder>
@@ -224,8 +192,6 @@ QPushButton:pressed {
   <zorder>pushButton_close</zorder>
   <zorder>pushButton_play</zorder>
   <zorder>pushButton_record</zorder>
-  <zorder>lineEdit_key</zorder>
-  <zorder>lineEdit_secret</zorder>
  </widget>
  <resources/>
  <connections/>

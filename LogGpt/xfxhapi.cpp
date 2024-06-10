@@ -16,8 +16,8 @@ void XfxhApi::start(const QString &str)
         <<QString(Config::get_IKS(EnIks::LLM_XFXH).key).toUtf8()
         <<QString(Config::get_IKS(EnIks::LLM_XFXH).secret).toUtf8()
         <<QString(Config::get_XFXH_MODEL_V().at(Config::get_XFXH_MODEL_ID())).toUtf8()
-        <<QString(Config::get_XFXH_QUESTION_WAY()).toUtf8();
-    m_Process->start(Config::get_XFXH_DEMO_WAY(),list);
+        <<QString(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::XFXH_QUESTION_WAY)).toUtf8();
+    m_Process->start(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::XFXH_DEMO_WAY),list);
 }
 
 void XfxhApi::init()

@@ -24,11 +24,17 @@ struct IKS{
     QString secret;
 };
 
-static const QVector<QString>           VITS_ALL_V={"vits","bert-vits2","w2v2-vits"};               //全部vits模型
-static const QVector<QString>           LANGUAGE_V={"auto","jp","zh","en","yue","wyw","cht"};       //全部百度翻译语种
-static const QVector<QString>           CHATGPT_MODEL_V={"gpt-3.5-turbo"};                          //全部ChatGPT模型
-static const QVector<QString>           XFXH_MODEL_V={"general","generalv2","generalv3"};           //全部讯飞星火模型
-static const QMap<QString,bool>         LIVE2DENABLEINIT_M ={
+enum EnUrl{
+    URL_CHATGPT_BASEURL
+};
+static      QMap<EnUrl,QString>UrlM={
+    {URL_CHATGPT_BASEURL,"URL_CHATGPT_BASEURL"}
+};
+static const QVector<QString>           VITS_ALL_V          ={"vits","bert-vits2","w2v2-vits"};             //全部vits模型
+static const QVector<QString>           LANGUAGE_V          ={"auto","jp","zh","en","yue","wyw","cht"};     //全部百度翻译语种
+static const QVector<QString>           CHATGPT_MODEL_V     ={"gpt-3.5-turbo"};                             //全部ChatGPT模型
+static const QVector<QString>           XFXH_MODEL_V        ={"general","generalv2","generalv3"};           //全部讯飞星火模型
+static const QMap<QString,bool>         LIVE2DENABLEINIT_M  ={
     {"look_enable",true},
     {"top_enable",true}
 };//全部Live2D ENABLE默认值
@@ -51,5 +57,7 @@ static       QMap<QString,QString>      LIVE2DSTRING_M={
     {"file_path","null"},
     {"model_description","null"}
 };//全部Live2D STRING默认值
+
+
 
 #endif // GLOBAL_H

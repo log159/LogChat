@@ -169,8 +169,8 @@ void SetLive2DDialogWidget::initConnect()
         }
         SetLive2DDialogWidget::live2DIsOpen=true;
         m_Live2dProcess=new QProcess(ConfigWindow::_WindowPointer);
-        m_Live2dProcess->setWorkingDirectory(Config::get_UNITY_DEMO_WORK_WAY());
-        m_Live2dProcess->start(Config::get_UNITY_DEMO_WAY());
+        m_Live2dProcess->setWorkingDirectory(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::UNITY_DEMO_WORK_WAY));
+        m_Live2dProcess->start(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::UNITY_DEMO_WAY));
             //检查外部进程是否成功启动
         if (!m_Live2dProcess->waitForStarted()) {
             qDebug() << "Failed to start the process";

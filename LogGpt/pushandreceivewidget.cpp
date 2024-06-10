@@ -285,15 +285,19 @@ void PushAndReceiveWidget::clearUi()
 void PushAndReceiveWidget::handle_bot_information()
 {
     emit sendIs();//设置按钮不得点击
-    LLMBase* LLM=nullptr;
-    if(Config::get_LLM_MODEL_ID()==0){LLM=LLMFactory::getChatGPTApi(this);}
-    else {LLM=LLMFactory::getXfxhApi(this);}
-    QObject::connect(LLM,&LLMBase::read, [=](QString str) {
+    if(m_LLM!=nullptr){
+        delete m_LLM;
+        m_LLM=nullptr;
+    }
+    m_LLM=nullptr;
+    if(Config::get_LLM_MODEL_ID()==0){m_LLM=LLMFactory::getChatGPTApi(this);}
+    else {m_LLM=LLMFactory::getXfxhApi(this);}
+    QObject::connect(m_LLM,&LLMBase::read, [=](QString str) {
         this->m_InformationComing=false;
         emit receiveIs();//按钮可点击
         this->handle_receive(str);//处理接收到的内容
     });
-    connect(LLM,&LLMBase::quit,[=](){
+    connect(m_LLM,&LLMBase::quit,[=](){
         //如果没有接收信息就释放资源则报错
         if(m_InformationComing==true){
             QMessageBox::warning(this,"Error occurred","出现错误，接收信息失败！");
@@ -304,11 +308,11 @@ void PushAndReceiveWidget::handle_bot_information()
     });
     //向LLM端发送内容
     if(Config::get_LLM_MODEL_ID()==0){
-        LLM->start(getSpeakChatGPT());
+        m_LLM->start(getSpeakChatGPT());
     }
     else {
         //讯飞星火bug无法实现完美上下文对话
-        LLM->start(getSpeakXFXH());
+        m_LLM->start(getSpeakXFXH());
     }
 }
 

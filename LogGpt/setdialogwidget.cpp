@@ -45,7 +45,7 @@ void SetDialogWidget::init()
     ui->comboBox_llm_xfxh->setCurrentIndex(Config::get_XFXH_MODEL_ID());
 
     ui->lineEdit_gpt_key->setText(Config::get_IKS(::EnIks::LLM_CHATGPT).key);
-    ui->lineEdit_gpt_url->setText(Config::get_URL("URL_CHATGPT_BASEURL"));
+    ui->lineEdit_gpt_url->setText(Config::get_URL(::EnUrl::URL_CHATGPT_BASEURL));
     ui->lineEdit_xfxh_appid->setText(Config::get_IKS(::EnIks::LLM_XFXH).id);
     ui->lineEdit_xfxh_apikey->setText(Config::get_IKS(::EnIks::LLM_XFXH).key);
     ui->lineEdit_xfxh_apisecret->setText(Config::get_IKS(::EnIks::LLM_XFXH).secret);
@@ -180,6 +180,6 @@ void SetDialogWidget::closeEvent(QCloseEvent *event)
     Config::set_IKS(::EnIks::MT_BDFY,ui->lineEdit_baidu_appid->text(),ui->lineEdit_baidu_key->text(),"");
     Config::set_IKS(::EnIks::STT_BDYUN,"",ui->lineEdit_baidusound_key->text(),ui->lineEdit_baidusound_secret->text());
 
-    Config::set_URL("URL_CHATGPT_BASEURL",ui->lineEdit_gpt_url->text());
+    Config::set_URL(::EnUrl::URL_CHATGPT_BASEURL,ui->lineEdit_gpt_url->text());
 
 }

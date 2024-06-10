@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QNetworkReply>
 #include <QString>
+#include <QDateTime>
 
 #include "config.h"
 
