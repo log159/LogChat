@@ -156,6 +156,7 @@ void Widget::initConnect()
 
     connect(m_Tray,SIGNAL(activated(QSystemTrayIcon::ActivationReason)),this,SLOT(icon_activated(QSystemTrayIcon::ActivationReason)));
 
+    connect(m_PushAndReceiveWidget, SIGNAL(signals_send_data_from_llm_to_main(QString)), this, SLOT(slot_receive_data_from_llm_to_widget(QString))); //llm返回回复到widget
 
 }
 
@@ -225,7 +226,6 @@ void Widget::hideEvent(QHideEvent *event)
 void Widget::slot_receive_data_from_gal_to_widget(QString data)
 {
     qDebug()<<"Widget接受到来自Gal视窗信息————>"<<data; //获取传递过来的数据
-    connect(m_PushAndReceiveWidget, SIGNAL(signals_send_data_from_llm_to_main(QString)), this, SLOT(slot_receive_data_from_llm_to_widget(QString)));
     m_PushAndReceiveWidget->slot_receive_data_from_widget_to_llm(data);
 }
 //接受到llm信息
