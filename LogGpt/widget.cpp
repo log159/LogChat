@@ -51,10 +51,11 @@ void Widget::init()
     m_Tray->show();                                   //让托盘图标显示在系统托盘上
 
     //创建菜单项动作
-    m_MinimizeAction = new QAction("MinWin", this);
-    m_MaximizeAction = new QAction("MaxWin", this);
-    m_RestoreAction = new QAction("Restore", this);
-    m_QuitAction = new QAction("Exit", this);
+    m_MinimizeAction = new QAction("最小化", this);
+    m_MaximizeAction = new QAction("最大化", this);
+    m_RestoreAction = new QAction("恢复", this);
+    m_Live2dAction = new QAction("隐藏Live2d",this);
+    m_QuitAction = new QAction("退出", this);
 
 
     //创建托盘菜单
@@ -62,6 +63,7 @@ void Widget::init()
     m_TrayMenu->addAction(m_MinimizeAction);
     m_TrayMenu->addAction(m_MaximizeAction);
     m_TrayMenu->addAction(m_RestoreAction);
+    m_TrayMenu->addAction(m_Live2dAction);
     m_TrayMenu->addSeparator();
     m_TrayMenu->addAction(m_QuitAction);
     m_Tray->setContextMenu(m_TrayMenu);
@@ -108,6 +110,8 @@ void Widget::initConnect()
     connect(m_SetSelectWidget,&SetSelectWidget::setGalDialogShow,[=](){
 
         new_GalDialog.reset(new GalDialog);
+        /*发送句柄事件，告诉unity，galdialog有更高的优先级*/
+        m_NetLive2D->sendHandle("Hwnd:dialog,"+QString::number(static_cast<int>(new_GalDialog.get()->winId()))+";");
 
         /*移动窗口到对应位置，如果未启用模型默认为屏幕中心*/
         new_GalDialog->move(int(ConfigLive2d::getModelX()-new_GalDialog->width()/2.f),int(ConfigLive2d::getModelY()-new_GalDialog->height()/2.f));
@@ -152,6 +156,24 @@ void Widget::initConnect()
         updateOtherWidgetSize();
 
     });
+
+    connect(m_Live2dAction,&QAction::triggered,this,[=](){
+        if(ConfigLive2d::getLive2DWindow()==nullptr){
+            return ;
+        }
+
+        HWND hwnd = ConfigLive2d::getLive2DWindow();
+        if (!::IsWindowVisible(hwnd)) {
+            // 显示窗口
+            ::ShowWindow(hwnd, SW_SHOW);
+             m_Live2dAction->setText("隐藏Live2d");
+        } else {
+            // 隐藏窗口
+            ::ShowWindow(hwnd, SW_HIDE);
+             m_Live2dAction->setText("显示Live2d");
+        }
+    });
+
     connect(m_QuitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
 
     connect(m_Tray,SIGNAL(activated(QSystemTrayIcon::ActivationReason)),this,SLOT(icon_activated(QSystemTrayIcon::ActivationReason)));
@@ -198,7 +220,6 @@ void Widget::icon_activated(QSystemTrayIcon::ActivationReason ireason)
         break;
     }
     ::SetWindowPos(HWND(this->winId()), HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-    // 然后立即调用以下函数使其不保持置顶
     ::SetWindowPos(HWND(this->winId()), HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
     updateOtherWidgetSize();
 }
@@ -238,6 +259,9 @@ void Widget::slot_receive_data_from_llm_to_widget(QString data)
 void Widget::slot_show_widget_from_gal()
 {
     this->showNormal();
+
+    //刷新子窗口
+    this->updateOtherWidgetSize();
 }
 //接受到gal要求播放语言信息
 void Widget::slot_play_voice_from_gal()

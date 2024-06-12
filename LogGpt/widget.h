@@ -45,6 +45,7 @@ private:
      QAction*             m_MinimizeAction          =nullptr;
      QAction*             m_MaximizeAction          =nullptr;
      QAction*             m_RestoreAction           =nullptr;
+     QAction*             m_Live2dAction            =nullptr;
      QAction*             m_QuitAction              =nullptr;
 
 private:

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>870</width>
-    <height>692</height>
+    <width>907</width>
+    <height>720</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -19,7 +19,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_7">
+  <layout class="QGridLayout" name="gridLayout_3">
    <item row="0" column="0">
     <widget class="QTabWidget" name="tabWidget">
      <property name="minimumSize">
@@ -29,7 +29,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab_deploy">
       <attribute name="title">
@@ -46,13 +46,25 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>820</width>
-            <height>614</height>
+            <width>857</width>
+            <height>642</height>
            </rect>
           </property>
-          <layout class="QGridLayout" name="gridLayout_3">
+          <layout class="QGridLayout" name="gridLayout">
            <item row="0" column="0">
             <widget class="QFrame" name="frame_label_deploy">
+             <property name="minimumSize">
+              <size>
+               <width>200</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>300</width>
+               <height>16777215</height>
+              </size>
+             </property>
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
              </property>
@@ -61,16 +73,37 @@
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_7">
               <item>
-               <widget class="QLabel" name="label_vits">
+               <widget class="QLabel" name="label_vits_select">
                 <property name="text">
-                 <string>VITS端口地址配置:</string>
+                 <string>Vits模型选择:</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="label_vits_select">
+               <widget class="QLabel" name="label_vits_url">
                 <property name="text">
-                 <string>VITS模型配置:</string>
+                 <string>Vits配置:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_vits_set">
+                <property name="text">
+                 <string>Vits模型配置:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_gptsovits_url">
+                <property name="text">
+                 <string>GPT-SoVits配置:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_gptsovits_set">
+                <property name="text">
+                 <string>GPT-SoVits模型配置:</string>
                 </property>
                </widget>
               </item>
@@ -88,38 +121,10 @@
                 </property>
                </widget>
               </item>
-              <item>
-               <widget class="QLabel" name="label_config_enable">
-                <property name="text">
-                 <string>启用设定角色:</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="label_sound_enable">
-                <property name="text">
-                 <string>启用VITS语音:</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="label_baidu_enable">
-                <property name="text">
-                 <string>启用百度翻译:</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="label_baidu_show_enable">
-                <property name="text">
-                 <string>启用翻译后的语言显示:</string>
-                </property>
-               </widget>
-              </item>
              </layout>
             </widget>
            </item>
-           <item row="0" column="1">
+           <item row="0" column="1" colspan="2">
             <widget class="QFrame" name="frame_set_deploy">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -127,8 +132,33 @@
              <property name="frameShadow">
               <enum>QFrame::Raised</enum>
              </property>
-             <layout class="QGridLayout" name="gridLayout">
-              <item row="0" column="0">
+             <layout class="QVBoxLayout" name="verticalLayout_10">
+              <item>
+               <widget class="QFrame" name="frame_vits_3">
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_18">
+                 <property name="leftMargin">
+                  <number>11</number>
+                 </property>
+                 <item>
+                  <widget class="QLabel" name="label_vits_select_some">
+                   <property name="text">
+                    <string>当前支持Vits,GPT-SoVits:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="comboBox_vitsmany_select"/>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
                <widget class="QFrame" name="frame_vits">
                 <property name="frameShape">
                  <enum>QFrame::StyledPanel</enum>
@@ -163,7 +193,7 @@
                 </layout>
                </widget>
               </item>
-              <item row="1" column="0">
+              <item>
                <widget class="QFrame" name="frame_vits_select">
                 <property name="frameShape">
                  <enum>QFrame::StyledPanel</enum>
@@ -198,7 +228,64 @@
                 </layout>
                </widget>
               </item>
-              <item row="2" column="0">
+              <item>
+               <widget class="QFrame" name="frame_vits_2">
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_14">
+                 <property name="leftMargin">
+                  <number>11</number>
+                 </property>
+                 <item>
+                  <widget class="QLabel" name="label_gptsovits_address">
+                   <property name="text">
+                    <string>地址:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="lineEdit_gptsovits_address"/>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_gptsovits_port">
+                   <property name="text">
+                    <string>端口:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="lineEdit_gptsovits_port"/>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QFrame" name="frame_vits_select_2">
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_17">
+                 <item>
+                  <widget class="QLabel" name="label_gptsovits_language">
+                   <property name="text">
+                    <string>目标语言:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="comboBox_gptsovits_language"/>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
                <widget class="QFrame" name="frame_llm_set">
                 <property name="frameShape">
                  <enum>QFrame::StyledPanel</enum>
@@ -230,7 +317,7 @@
                 </layout>
                </widget>
               </item>
-              <item row="3" column="0">
+              <item>
                <widget class="QFrame" name="frame_baidu_set">
                 <property name="frameShape">
                  <enum>QFrame::StyledPanel</enum>
@@ -262,115 +349,186 @@
                 </layout>
                </widget>
               </item>
-              <item row="4" column="0">
-               <widget class="QFrame" name="frame_config_enable">
-                <property name="frameShape">
-                 <enum>QFrame::StyledPanel</enum>
-                </property>
-                <property name="frameShadow">
-                 <enum>QFrame::Raised</enum>
-                </property>
-                <layout class="QHBoxLayout" name="horizontalLayout_6">
-                 <item>
-                  <widget class="QRadioButton" name="radioButton_config_enable_yes">
-                   <property name="text">
-                    <string>YES</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QRadioButton" name="radioButton_config_enable_no">
-                   <property name="text">
-                    <string>NO</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-              <item row="5" column="0">
-               <widget class="QFrame" name="frame_sound_enable">
-                <property name="frameShape">
-                 <enum>QFrame::StyledPanel</enum>
-                </property>
-                <property name="frameShadow">
-                 <enum>QFrame::Raised</enum>
-                </property>
-                <layout class="QHBoxLayout" name="horizontalLayout">
-                 <item>
-                  <widget class="QRadioButton" name="radioButton_sound_enable_yes">
-                   <property name="text">
-                    <string>YES</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QRadioButton" name="radioButton_sound_enable_no">
-                   <property name="text">
-                    <string>NO</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-              <item row="6" column="0">
-               <widget class="QFrame" name="frame_baidu_enable">
-                <property name="frameShape">
-                 <enum>QFrame::StyledPanel</enum>
-                </property>
-                <property name="frameShadow">
-                 <enum>QFrame::Raised</enum>
-                </property>
-                <layout class="QHBoxLayout" name="horizontalLayout_8">
-                 <item>
-                  <widget class="QRadioButton" name="radioButton_baidu_enable_yes">
-                   <property name="text">
-                    <string>YES</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QRadioButton" name="radioButton_baidu_enable_no">
-                   <property name="text">
-                    <string>NO</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-              <item row="7" column="0">
-               <widget class="QFrame" name="frame_baidu_show_enable">
-                <property name="frameShape">
-                 <enum>QFrame::StyledPanel</enum>
-                </property>
-                <property name="frameShadow">
-                 <enum>QFrame::Raised</enum>
-                </property>
-                <layout class="QHBoxLayout" name="horizontalLayout_7">
-                 <item>
-                  <widget class="QRadioButton" name="radioButton_baidu_show_enable_yes">
-                   <property name="text">
-                    <string>YES</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QRadioButton" name="radioButton_baidu_show_enable_no">
-                   <property name="text">
-                    <string>NO</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
              </layout>
             </widget>
            </item>
           </layout>
          </widget>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab">
+      <attribute name="title">
+       <string>启用设置</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_7">
+       <item row="0" column="0">
+        <widget class="QFrame" name="frame_3">
+         <property name="minimumSize">
+          <size>
+           <width>200</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>300</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <item>
+           <widget class="QLabel" name="label_config_enable">
+            <property name="text">
+             <string>启用设定角色:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_sound_enable">
+            <property name="text">
+             <string>启用VITS语音:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_baidu_enable">
+            <property name="text">
+             <string>启用百度翻译:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_baidu_show_enable">
+            <property name="text">
+             <string>启用翻译后的语言显示:</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QFrame" name="frame">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_9">
+          <item>
+           <widget class="QFrame" name="frame_config_enable">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_6">
+             <item>
+              <widget class="QRadioButton" name="radioButton_config_enable_yes">
+               <property name="text">
+                <string>YES</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="radioButton_config_enable_no">
+               <property name="text">
+                <string>NO</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QFrame" name="frame_sound_enable">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout">
+             <item>
+              <widget class="QRadioButton" name="radioButton_sound_enable_yes">
+               <property name="text">
+                <string>YES</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="radioButton_sound_enable_no">
+               <property name="text">
+                <string>NO</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QFrame" name="frame_baidu_enable">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_8">
+             <item>
+              <widget class="QRadioButton" name="radioButton_baidu_enable_yes">
+               <property name="text">
+                <string>YES</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="radioButton_baidu_enable_no">
+               <property name="text">
+                <string>NO</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QFrame" name="frame_baidu_show_enable">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_7">
+             <item>
+              <widget class="QRadioButton" name="radioButton_baidu_show_enable_yes">
+               <property name="text">
+                <string>YES</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="radioButton_baidu_show_enable_no">
+               <property name="text">
+                <string>NO</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
       </layout>
@@ -390,8 +548,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>820</width>
-            <height>614</height>
+            <width>857</width>
+            <height>642</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_5">
