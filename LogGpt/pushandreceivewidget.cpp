@@ -24,8 +24,6 @@ void PushAndReceiveWidget::init()
     this->setFixedSize(ConfigWindow::getStaticWidth(),ConfigWindow::getStaticHeight());
 
 
-    m_VitsApi=new VitsApi(this);
-
     m_ListWidget=new QListWidget(this);
 
     m_ListWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);         //禁止编辑
@@ -112,7 +110,6 @@ void PushAndReceiveWidget::init()
 void PushAndReceiveWidget::initConnect()
 {
     connect(m_UserTextEdit,SIGNAL(textChanged()),this,SLOT(slot_text_change()));
-    connect(m_VitsApi,SIGNAL(playerWay(QString)),this,SLOT(play_sound(QString)));
     connect(m_PushButtonSend,&QPushButton::clicked,this,&PushAndReceiveWidget::pushbutton_send_clicked);
     connect(m_UserTextEdit,&UserTextEdit::returnSend,this,&PushAndReceiveWidget::pushbutton_send_clicked);
 
@@ -150,9 +147,9 @@ void PushAndReceiveWidget::updateListWidget()
 void PushAndReceiveWidget::addCharacterConfig()
 {
     //启用扮演
-    if(Config::get_ENABLE_ROLE())
+    if(Config::get_USER(::EnUser::ENABLE_ROLE).toInt()!=0)
     {
-        m_OldUserTextList.push_back(Config::get_CHARACTER_CONFIG());
+        m_OldUserTextList.push_back(Config::get_USER(::EnUser::CHARACTER_CONFIG));
         m_OldRobotTextList.push_back("OK");
     }
     //不启用扮演
@@ -162,10 +159,13 @@ void PushAndReceiveWidget::addCharacterConfig()
 
 void PushAndReceiveWidget::moveHistory()
 {
+    bool er=(Config::get_USER(::EnUser::ENABLE_RESERVE).toInt()!=0);
+    long rl=Config::get_USER(::EnUser::RESERVE_LONG).toInt();
+
     //启用扮演情况下移除
-    if(Config::get_ENABLE_ROLE()){
+    if(Config::get_USER(::EnUser::ENABLE_ROLE).toInt()!=0){
         //如果历史记录过长则移除部分
-        if(m_OldUserTextList.size()-1>(Config::get_ENABLE_RESERVE()?Config::get_RESERVE_LONG():0)){
+        if(m_OldUserTextList.size()-1>(er?rl:0)){
             m_OldUserTextList.removeAt(1);
             m_OldRobotTextList.removeAt(1);
         }
@@ -173,7 +173,7 @@ void PushAndReceiveWidget::moveHistory()
     //不启用扮演情况下移除
     else{
         //如果历史记录过长则移除部分
-         if(m_OldUserTextList.size()>(Config::get_ENABLE_RESERVE()?Config::get_RESERVE_LONG():0)){
+         if(m_OldUserTextList.size()>(er?rl:0)){
              m_OldUserTextList.removeAt(0);
              m_OldRobotTextList.removeAt(0);
          }
@@ -183,8 +183,8 @@ void PushAndReceiveWidget::moveHistory()
 const QString PushAndReceiveWidget::getSpeakXFXH()
 {
     QString content="";
-    if(Config::get_ENABLE_ROLE()){
-        content = Config::get_CHARACTER_CONFIG()+"\n 我的问题：";
+    if(Config::get_USER(::EnUser::ENABLE_ROLE).toInt()!=0){
+        content = Config::get_USER(::EnUser::CHARACTER_CONFIG)+"\n 我的问题：";
     }
     content+=m_OldUserTextList.back();
     return content;
@@ -266,7 +266,7 @@ void PushAndReceiveWidget::clearHistory()
     m_OldRobotTextList.clear();
     //历史存档清除
     m_HistoryTextList.clear();
-    if(Config::get_ENABLE_ROLE()){
+    if(Config::get_USER(::EnUser::ENABLE_ROLE).toInt()!=0){
         addCharacterConfig();
     }
     m_InformationComing=false;
@@ -285,13 +285,16 @@ void PushAndReceiveWidget::clearUi()
 void PushAndReceiveWidget::handle_bot_information()
 {
     emit sendIs();//设置按钮不得点击
-    if(m_LLM!=nullptr){
-        delete m_LLM;
-        m_LLM=nullptr;
+//    if(m_LLM!=nullptr){
+//        delete m_LLM;
+//        m_LLM=nullptr;
+//    }
+//    m_LLM=nullptr;
+    if(Config::get_USER(::EnUser::LLM_MODEL_ID).toInt()==0){m_LLM=LLMFactory::getChatGPTApi(this);}
+    else if(Config::get_USER(::EnUser::LLM_MODEL_ID).toInt()==1){m_LLM=LLMFactory::getXfxhApi(this);}
+    else{
+        m_LLM=LLMFactory::getChatGPTApi(this);
     }
-    m_LLM=nullptr;
-    if(Config::get_LLM_MODEL_ID()==0){m_LLM=LLMFactory::getChatGPTApi(this);}
-    else {m_LLM=LLMFactory::getXfxhApi(this);}
     QObject::connect(m_LLM,&LLMBase::read, [=](QString str) {
         this->m_InformationComing=false;
         emit receiveIs();//按钮可点击
@@ -307,7 +310,7 @@ void PushAndReceiveWidget::handle_bot_information()
         }
     });
     //向LLM端发送内容
-    if(Config::get_LLM_MODEL_ID()==0){
+    if(Config::get_USER(::EnUser::LLM_MODEL_ID).toInt()==0){
         m_LLM->start(getSpeakChatGPT());
     }
     else {
@@ -325,7 +328,7 @@ void PushAndReceiveWidget::handle_receive(const QString &str)
     m_HistoryTextList.push_back(QPair<QString,QString>(_BotMark,receivedData));
 
     //启用百度翻译 和 语音
-    if(Config::get_ENABLE_SOUND() && Config::get_ENABLE_BAIDUFANYI())
+    if(Config::get_USER(::EnUser::ENABLE_SOUND).toInt()!=0 && Config::get_USER(::EnUser::ENABLE_BAIDUFANYI).toInt()!=0)
     {
         BaiduApi* baiduApi=new BaiduApi(this);
         //百度翻译处理
@@ -333,7 +336,7 @@ void PushAndReceiveWidget::handle_receive(const QString &str)
         connect(baiduApi,replyFinishedData,[=](QString handleData){
             qDebug()<<"百度翻译处理后："<<handleData;
             //启用翻译后的语言显示
-            if(Config::get_ENABLE_LATERLANGUAGE()){
+            if(Config::get_USER(::EnUser::ENABLE_LATERLANGUAGE).toInt()!=0){
                 add_bot_information(handleData);//listWidget添加bot列表项
             }
             //不启用翻译后的语言显示（语言与user保持一致）
@@ -347,14 +350,14 @@ void PushAndReceiveWidget::handle_receive(const QString &str)
         }
     }
     //启用百度翻译 不启用语音
-    else if(Config::get_ENABLE_BAIDUFANYI() && !Config::get_ENABLE_SOUND()){
+    else if(Config::get_USER(::EnUser::ENABLE_BAIDUFANYI).toInt()!=0 && !(Config::get_USER(::EnUser::ENABLE_SOUND).toInt()!=0)){
         BaiduApi* baiduApi=new BaiduApi(this);
         //百度翻译处理
         ReplyFinishedData replyFinishedData=&BaiduApi::replyFinishedData;
         connect(baiduApi,replyFinishedData,[=](QString handleData){
             qDebug()<<"百度翻译处理后："<<handleData;
             //启用翻译后的语言显示
-            if(Config::get_ENABLE_LATERLANGUAGE()){
+            if(Config::get_USER(::EnUser::ENABLE_LATERLANGUAGE).toInt()!=0){
                 add_bot_information(handleData);//listWidget添加bot列表项
             }
             //不启用翻译后的语言显示（语言与user保持一致）
@@ -367,7 +370,7 @@ void PushAndReceiveWidget::handle_receive(const QString &str)
         }
     }
     //启用语音 不启用百度翻译
-    else if(Config::get_ENABLE_SOUND() && !Config::get_ENABLE_BAIDUFANYI()){
+    else if(Config::get_USER(::EnUser::ENABLE_SOUND).toInt()!=0 && !(Config::get_USER(::EnUser::ENABLE_BAIDUFANYI).toInt()!=0)){
        handle_bot_sound(receivedData);
        add_bot_information(receivedData);//listWidget添加bot列表项
     }
@@ -428,7 +431,15 @@ void PushAndReceiveWidget::add_bot_information(const QString &str)
 void PushAndReceiveWidget::handle_bot_sound(const QString &str)
 {
     g_url = Config::get_URL_ADDRESS_ALL().arg(str);
-    m_VitsApi->start(g_url);
+
+    if(m_Vits!=nullptr){
+        delete m_Vits;
+        m_Vits=nullptr;
+    }
+
+    m_Vits=VITSFactory::getVitsApi(this);
+    connect(m_Vits,SIGNAL(playerWay(QString)),this,SLOT(play_sound(QString)));
+    m_Vits->start(g_url);
 }
 
 void PushAndReceiveWidget::play_sound(const QString &str)
@@ -436,9 +447,13 @@ void PushAndReceiveWidget::play_sound(const QString &str)
     qDebug()<<"音频开始播放";
     qDebug()<<"音频路径："<<str;
     if(SetLive2DDialogWidget::live2DIsOpen==false){
-        QSound * startGameSound=new QSound(str);
-        startGameSound->setParent(this);
-        startGameSound->play();
+        if(m_MySound!=nullptr){
+            delete  m_MySound;
+            m_MySound=nullptr;
+        }
+        m_MySound=new QSound(str);
+        m_MySound->setParent(this);
+        m_MySound->play();
     }
     else {
         emit sendAudio(str);
@@ -519,5 +534,7 @@ void PushAndReceiveWidget::slot_receive_data_from_widget_to_llm(const QString &s
 void PushAndReceiveWidget::slot_play_voice_from_widget_to_llm()
 {
     qDebug()<<"llm接受到来自Widget的语言播放请求";
-    m_VitsApi->start(g_url);
+    m_Vits=VITSFactory::getVitsApi(this);
+    connect(m_Vits,SIGNAL(playerWay(QString)),this,SLOT(play_sound(QString)));
+    m_Vits->start(g_url);
 }

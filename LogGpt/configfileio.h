@@ -31,6 +31,10 @@ public:
     //获取一个url地址，urlName要在文件存在否则为空
     static const QString getUrlConfig(const ::EnUrl& urlName);
 
+    static void setUserConfig(const ::EnUser& keyName = ::EnUser::NULL_MARK,const QString& value = "");
+
+    static QString getUserConfig(const ::EnUser& keyName = ::EnUser::NULL_MARK);
+
 private:
 
 };

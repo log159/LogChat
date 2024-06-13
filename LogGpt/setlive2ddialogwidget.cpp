@@ -101,20 +101,12 @@ void SetLive2DDialogWidget::init()
          file.close();
      }
 
-
-
      if(SetLive2DDialogWidget::live2DIsOpen){
          if(SetLive2DDialogWidget::m_Live2dOpenId>=0){
              updateForUi();
              updateModelChange();
-
          }
-
      }
-
-
-
-
 }
 
 void SetLive2DDialogWidget::initConnect()

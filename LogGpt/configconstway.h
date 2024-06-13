@@ -25,6 +25,7 @@ public:
     static const QString            UNITY_MODELCONFIGLIST_WAY; //Unity 模型文件配置加载路径
     static const QString            IKS_INI_WAY;                //存储APP类信息 ID KEY SECRET 信息的INI文件路径
     static const QString            URL_INI_WAY;                //存储URL类信息 ADDRESS PORT 信息的INI文件路径
+    static const QString            USER_INI_WAY;               //存储USERl自定义信息的INI文件路径
 
     //传入以上相对路径，返回真实路径
     static const QString get_TRUE_WAY(const QString& path);

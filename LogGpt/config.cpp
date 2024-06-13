@@ -1,29 +1,12 @@
 ﻿#include "config.h"
 
 
-    QVector<ModelConfigItem>   Config::LIVE2DMODELCONFIG_V    ={};
+QVector<ModelConfigItem>   Config::LIVE2DMODELCONFIG_V    ={};
 
-QString       Config::URL_ADDRESS           ="127.0.0.1";                                       //VITS Url地址
-QString       Config::URL_PORT              ="23456";                                           //VITS Url地址
-bool          Config::ENABLE_ROLE           =false;                                             //是否启用角色扮演
-bool          Config::ENABLE_SOUND          =false;                                             //是否启用语音
-bool          Config::ENABLE_BAIDUFANYI     =false;                                             //是否启用百度翻译
-bool          Config::ENABLE_LATERLANGUAGE  =false;                                             //是否启用翻译后的语言用来显示
-bool          Config::ENABLE_RESERVE        =false;                                             //是否保留上下文记忆
 
-int           Config::LLM_MODEL_ID          =0;                                                 //LLM模型ID
-int           Config::XFXH_MODEL_ID         =0;                                                 //讯飞星火模型ID
-int           Config::CHATGPT_MODEL_ID      =0;                                                 //ChatGpt模型ID
-int           Config::VITS_ID               =0;                                                 //vits模型ID
-int           Config::SPEAKER_ID            =0;                                                 //讲述人ID
-int           Config::EMOTION_ID            =0;                                                 //情感控制ID
-int           Config::BAIDU_FROM_ID         =0;                                                 //原语种ID
-int           Config::BAIDU_TO_ID           =1;                                                 //翻译后语种ID
-int           Config::RESERVE_LONG          =10;                                                //上下文保留最大长度
 
 void Config::init()
 {
-    init_ALLSETCONFIG();
     init_LIVE2DMODELCONFIG_V();
 }
 
@@ -83,76 +66,6 @@ void Config::setFileInformation(const QString &path, const QJsonObject &js)
       out << jsonString;
 
       file.close();
-
-}
-
-void Config::init_ALLSETCONFIG()
-{
-
-    QString jsonString=Config::getFileAllInformation(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::SETCONFIG_WAY));
-    jsonString.remove('\t');
-    jsonString.remove('\r');
-    jsonString.remove('\n');
-    jsonString.remove(' ');
-
-    QMap<QString, QString> resultMap = Config::parseJsonToQMap(jsonString);
-
-    // Print the QMap content
-    for (auto it = resultMap.constBegin(); it != resultMap.constEnd(); ++it) {
-
-        if(it.key()=="baidu_from")
-        {
-            Config::set_BAIDU_FROM_ID(it.value().toInt());
-        }
-        else if (it.key()=="baidu_to") {
-            Config::set_BAIDU_TO_ID(it.value().toInt());
-        }
-        else if (it.key()=="chatgpt_model") {
-//            gpt-3.5-turbo //目前只有gpt-3.5-turbo
-            Config::set_CHATGPT_MODEL_ID(it.value().toInt());
-        }
-        else if (it.key()=="enable_baidu") {
-            Config::set_ENABLE_BAIDUFANYI(static_cast<bool>(it.value().toInt()));
-        }
-        else if (it.key()=="enable_baidushow") {
-            Config::set_ENABLE_LATERLANGUAGE(static_cast<bool>(it.value().toInt()));
-
-        }
-        else if (it.key()=="enable_character") {
-            Config::set_ENABLE_ROLE(static_cast<bool>(it.value().toInt()));
-        }
-        else if (it.key()=="enable_vits") {
-            Config::set_ENABLE_SOUND(static_cast<bool>(it.value().toInt()));
-        }
-        else if (it.key()=="llm_change") {
-            Config::set_LLM_MODEL_ID(it.value().toInt());
-        }
-        else if (it.key()=="vits_address") {
-            Config::set_URL_ADDRESS(it.value());
-        }
-        else if (it.key()=="vits_emotion") {
-            Config::set_EMOTION_ID(it.value().toInt());
-        }
-        else if (it.key()=="vits_id") {
-            Config::set_VITS_ID(it.value().toInt());
-        }
-        else if (it.key()=="vits_port") {
-            Config::set_URL_PORT(it.value());
-        }
-        else if (it.key()=="vits_speaker") {
-            Config::set_SPEAKER_ID(it.value().toInt());
-        }
-        else if (it.key()=="xfxh_model") {
-            Config::set_XFXH_MODEL_ID(it.value().toInt());
-        }
-        else if(it.key()=="enable_reserve"){
-            Config::set_ENABLE_RESERVE(static_cast<bool>(it.value().toInt()));
-        }
-        else if(it.key()=="reserve_long"){
-            Config::set_RESERVE_LONG(it.value().toInt());
-        }
-
-    }
 
 }
 QMap<QString, QString> Config::parseJsonToQMap(const QString &jsonString) {
@@ -251,10 +164,6 @@ void Config::init_LIVE2DMODELCONFIG_V()
     }
 }
 
-void Config::init_HISTORY()
-{
-
-}
 
 
 void Config::output_ALLSETCONFIG(const QJsonObject &js)
@@ -291,6 +200,11 @@ void Config::output_LIVE2DMODELCONFIG_V(QVector<ModelConfigItem>& modV)
 
     setFileInformation(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::UNITY_MODELCONFIGLIST_WAY),data);
 
+}
+
+QVector<QString> Config::get_VITS_MODEL_V()
+{
+    return ::VITS_MODEL_V;
 }
 
 QVector<QString> Config::get_VITS_ALL_V()
@@ -343,34 +257,20 @@ const QString Config::get_URL(const ::EnUrl &urlName)
     return ConfigFileIO::getUrlConfig(urlName);
 }
 
-const QString Config::get_URL_ADDRESSS()
-{
-    return Config::URL_ADDRESS;
-}
-
-const QString Config::get_URL_PATH()
-{
-    return Config::URL_PORT;
-}
 const QString Config::get_URL_ADDRESS_ALL()
 {
    QString str = QString("http://"
-                   +Config::URL_ADDRESS+":"
-                   +Config::URL_PORT
+                   +Config::get_USER(::EnUser::VITS_URL_ADDRESS)+":"
+                   +Config::get_USER(::EnUser::VITS_URL_PORT)
                    +"/voice/"
-                   +Config::get_VITS_ALL_V().at(Config::get_VITS_ID())
+                   +Config::get_VITS_ALL_V().at(Config::get_USER(::EnUser::VITS_ID).toInt())
                    +"?text=%1&id="
-                   +QString::number(Config::get_SPEAKER_ID())
+                   +QString::number(Config::get_USER(::EnUser::SPEAKER_ID).toInt())
                    );
-   if(Config::get_VITS_ALL_V().at(Config::get_VITS_ID()).compare("w2v2-vits")==0){
-       str+=QString("&emotion="+QString::number(Config::get_EMOTION_ID()));
+   if(Config::get_VITS_ALL_V().at(Config::get_USER(::EnUser::VITS_ID).toInt()).compare("w2v2-vits")==0){
+       str+=QString("&emotion="+QString::number(Config::get_USER(::EnUser::EMOTION_ID).toInt()));
    }
    return str;
-}
-
-const QString Config::get_CHARACTER_CONFIG()
-{
-    return Config::getFileAllInformation(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::CHARACTER_CONFIG_WAY));
 }
 
 const QString Config::get_XFXH_QUESTION()
@@ -383,73 +283,9 @@ const QString Config::get_UNITY_STARTMODELPATH()
     return Config::getFileInformation(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::UNITY_STARTMODELPATH_WAY));
 }
 
-bool Config::get_ENABLE_ROLE()
+const QString Config::get_USER(const ::EnUser &key)
 {
-    return Config::ENABLE_ROLE;
-}
-
-bool Config::get_ENABLE_SOUND()
-{
-    return Config::ENABLE_SOUND;
-}
-
-bool Config::get_ENABLE_BAIDUFANYI()
-{
-    return Config::ENABLE_BAIDUFANYI;
-}
-
-bool Config::get_ENABLE_LATERLANGUAGE()
-{
-    return Config::ENABLE_LATERLANGUAGE;
-}
-
-bool Config::get_ENABLE_RESERVE()
-{
-    return Config::ENABLE_RESERVE;
-}
-
-int Config::get_LLM_MODEL_ID()
-{
-    return Config::LLM_MODEL_ID;
-}
-
-int Config::get_XFXH_MODEL_ID()
-{
-    return Config::XFXH_MODEL_ID;
-}
-
-int Config::get_CHATGPT_MODEL_ID()
-{
-    return Config::CHATGPT_MODEL_ID;
-}
-int Config::get_VITS_ID()
-{
-    return Config::VITS_ID;
-}
-
-int Config::get_SPEAKER_ID()
-{
-    return Config::SPEAKER_ID;
-}
-
-int Config::get_EMOTION_ID()
-{
-    return Config::EMOTION_ID;
-}
-
-int Config::get_BAIDU_FROM_ID()
-{
-    return Config::BAIDU_FROM_ID;
-}
-
-int Config::get_BAIDU_TO_ID()
-{
-    return Config::BAIDU_TO_ID;
-}
-
-int Config::get_RESERVE_LONG()
-{
-    return Config::RESERVE_LONG;
+    return ConfigFileIO::getUserConfig(key);
 }
 
 void Config::set_IKS(const ::EnIks &iks, const QString &id, const QString &key, const QString &secret)
@@ -462,21 +298,10 @@ void Config::set_URL(const ::EnUrl &urlName, const QString &url)
     ConfigFileIO::setUrlConfig(urlName,url);
 }
 
-void Config::set_URL_ADDRESS(const QString &str)
+void Config::set_USER(const ::EnUser &key, const QString &value)
 {
-    Config::URL_ADDRESS=str;
+    ConfigFileIO::setUserConfig(key,value);
 }
-
-void Config::set_URL_PORT(const QString &str)
-{
-    Config::URL_PORT=str;
-}
-
-void Config::set_CHARACTER_CONFIG(const QString &str)
-{
-    Config::setFileInformation(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::CHARACTER_CONFIG_WAY),str);
-}
-
 void Config::set_XFXH_QUESTION(const QString &str)
 {
     Config::setFileInformation(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::XFXH_QUESTION_WAY),str);
@@ -493,101 +318,3 @@ void Config::set_LIVE2DMODELCONFIG_V(QVector<ModelConfigItem> &modV)
     Config::LIVE2DMODELCONFIG_V=modV;
     output_LIVE2DMODELCONFIG_V(modV);
 }
-
-void Config::set_ENABLE_ROLE(const bool &bo)
-{
-    Config::ENABLE_ROLE=bo;
-}
-
-void Config::set_ENABLE_SOUND(const bool &bo)
-{
-    Config::ENABLE_SOUND=bo;
-}
-
-void Config::set_ENABLE_BAIDUFANYI(const bool &bo)
-{
-    Config::ENABLE_BAIDUFANYI=bo;
-}
-
-void Config::set_ENABLE_LATERLANGUAGE(const bool &bo)
-{
-    Config::ENABLE_LATERLANGUAGE=bo;
-}
-
-void Config::set_ENABLE_RESERVE(const bool &bo)
-{
-    Config::ENABLE_RESERVE=bo;
-}
-
-void Config::set_LLM_MODEL_ID(int id)
-{
-    Config::LLM_MODEL_ID=id;
-}
-
-void Config::set_XFXH_MODEL_ID(int id)
-{
-    Config::XFXH_MODEL_ID=id;
-}
-
-void Config::set_CHATGPT_MODEL_ID(int id)
-{
-    Config::CHATGPT_MODEL_ID=id;
-}
-
-void Config::set_VITS_ID(int id)
-{
-    Config::VITS_ID=id;
-}
-
-void Config::set_SPEAKER_ID(int id)
-{
-    Config::SPEAKER_ID=id;
-}
-
-void Config::set_EMOTION_ID(int id)
-{
-    Config::EMOTION_ID=id;
-}
-
-void Config::set_BAIDU_FROM_ID(int id)
-{
-    Config::BAIDU_FROM_ID=id;
-}
-
-void Config::set_BAIDU_TO_ID(int id)
-{
-    Config::BAIDU_TO_ID=id;
-}
-
-void Config::set_RESERVE_LONG(int id)
-{
-    Config::RESERVE_LONG=id;
-}
-
-void Config::set_ALLSETCONFIG()
-{
-    QJsonObject json;
-
-       // Add key-value pairs to the object
-       json["vits_address"] = Config::get_URL_ADDRESSS();
-       json["vits_port"] = Config::get_URL_PATH();
-       json["vits_id"] = QString::number(Config::get_VITS_ID());
-       json["vits_speaker"] = QString::number(Config::get_SPEAKER_ID());
-       json["vits_emotion"] = QString::number(Config::get_EMOTION_ID());
-       json["llm_change"] = QString::number(Config::get_LLM_MODEL_ID());
-       json["chatgpt_model"] = QString::number(Config::get_CHATGPT_MODEL_ID());
-       json["xfxh_model"] = QString::number(Config::get_XFXH_MODEL_ID());
-       json["baidu_from"] = QString::number(Config::get_BAIDU_FROM_ID());
-       json["baidu_to"] = QString::number(Config::get_BAIDU_TO_ID());
-       json["enable_character"] = QString::number(Config::get_ENABLE_ROLE());
-       json["enable_vits"] = QString::number((Config::get_ENABLE_SOUND()));
-       json["enable_baidu"] = QString::number(Config::get_ENABLE_BAIDUFANYI());
-       json["enable_baidushow"] = QString::number(Config::get_ENABLE_LATERLANGUAGE());
-       json["enable_reserve"] = QString::number(Config::get_ENABLE_RESERVE());
-       json["reserve_long"] = QString::number(Config::get_RESERVE_LONG());
-
-
-       Config::output_ALLSETCONFIG(json);
-
-}
-

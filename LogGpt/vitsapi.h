@@ -6,9 +6,10 @@
 #include <QString>
 #include <QDateTime>
 
+#include "vitsbase.h"
 #include "config.h"
 
-class VitsApi : public QObject
+class VitsApi : public VITSBase
 {
     Q_OBJECT
 public:
@@ -17,7 +18,6 @@ public:
     void start(QString url);
 
 signals:
-    void playerWay(QString);
 
 public slots:
 };

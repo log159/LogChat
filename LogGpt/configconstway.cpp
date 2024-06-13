@@ -12,9 +12,9 @@ const QString ConfigConstWay::UNITY_STARTMODELPATH_WAY  ="/unity2d/model/STARTMO
 const QString ConfigConstWay::UNITY_MODELLIST_WAY       ="/unity2d/model/MODELLIST.txt";
 const QString ConfigConstWay::UNITY_MODELCONFIGLIST_WAY ="/unity2d/model/MODELCONFIGLIST.txt";
 
-const QString ConfigConstWay::IKS_INI_WAY           ="/Config/IKS_INI.ini";
-const QString ConfigConstWay::URL_INI_WAY           ="/Config/URL_INI.ini";
-
+const QString ConfigConstWay::IKS_INI_WAY           ="/config/IKS_INI.ini";
+const QString ConfigConstWay::URL_INI_WAY           ="/config/URL_INI.ini";
+const QString ConfigConstWay::USER_INI_WAY          ="/config/USER_INI.ini";               //存储USERl自定义信息的INI文件路径
 
 const QString ConfigConstWay::get_TRUE_WAY(const QString &path)
 {

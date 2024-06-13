@@ -1,6 +1,6 @@
 #include "vitsapi.h"
 
-VitsApi::VitsApi(QObject *parent) : QObject(parent)
+VitsApi::VitsApi(QObject *parent) : VITSBase(parent)
 {
 
 }

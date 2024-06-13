@@ -67,3 +67,36 @@ const QString ConfigFileIO::getUrlConfig(const ::EnUrl &urlName)
         return NULLVALUE;
     }
 }
+
+void ConfigFileIO::setUserConfig(const ::EnUser &keyName, const QString &value)
+{
+    QString fileName =  ConfigConstWay::get_TRUE_WAY(ConfigConstWay::USER_INI_WAY);
+    QSettings *setting = new QSettings(fileName , QSettings::IniFormat);
+    setting->setIniCodec(QTextCodec::codecForName("UTF-8"));
+    if(keyName!=::EnUser::NULL_MARK){
+        setting->setValue(::UserM[keyName],value);
+    }
+    setting->sync();
+}
+
+QString ConfigFileIO::getUserConfig(const ::EnUser &keyName)
+{
+    if(keyName==::EnUser::NULL_MARK){
+        return NULLVALUE;
+    }
+
+    QString fileName = ConfigConstWay::get_TRUE_WAY(ConfigConstWay::USER_INI_WAY);
+    QSettings *setting = new QSettings(fileName , QSettings::IniFormat);
+    setting->setIniCodec(QTextCodec::codecForName("UTF-8"));
+    if(QFile::exists(fileName))
+    {
+        QString data = setting->value(::UserM[keyName]).toString();
+        return data;
+    }
+    else {
+        setting->sync();
+        return NULLVALUE;
+    }
+}
+
+

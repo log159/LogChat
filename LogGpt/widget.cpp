@@ -51,19 +51,24 @@ void Widget::init()
     m_Tray->show();                                   //让托盘图标显示在系统托盘上
 
     //创建菜单项动作
-    m_MinimizeAction = new QAction("最小化", this);
-    m_MaximizeAction = new QAction("最大化", this);
-    m_RestoreAction = new QAction("恢复", this);
-    m_Live2dAction = new QAction("隐藏Live2d",this);
-    m_QuitAction = new QAction("退出", this);
+    m_MinimizeAction = new QAction("最小化窗口", this);
+    m_MaximizeAction = new QAction("最大化窗口", this);
+    m_RestoreAction = new QAction("恢复窗口显示", this);
+    m_Live2dMenu = new QMenu("Live2d",this);
+    m_QuitAction = new QAction("退出应用", this);
 
+    m_Live2dStartAction =new QAction("启用Live2d");
+    m_Live2dShowAction = new QAction("隐藏窗口");
+
+    m_Live2dMenu->addAction(m_Live2dStartAction);
+    m_Live2dMenu->addAction(m_Live2dShowAction);
 
     //创建托盘菜单
     m_TrayMenu = new QMenu(this);
     m_TrayMenu->addAction(m_MinimizeAction);
     m_TrayMenu->addAction(m_MaximizeAction);
     m_TrayMenu->addAction(m_RestoreAction);
-    m_TrayMenu->addAction(m_Live2dAction);
+    m_TrayMenu->addMenu(m_Live2dMenu);
     m_TrayMenu->addSeparator();
     m_TrayMenu->addAction(m_QuitAction);
     m_Tray->setContextMenu(m_TrayMenu);
@@ -86,7 +91,6 @@ void Widget::initConnect()
     connect(m_SetSelectWidget,&SetSelectWidget::setWidgetShow,[=](){
         SetDialogWidget dialog;
         dialog.exec();
-        Config::set_ALLSETCONFIG();
         m_PushAndReceiveWidget->clearHistory();
 
     });
@@ -157,20 +161,21 @@ void Widget::initConnect()
 
     });
 
-    connect(m_Live2dAction,&QAction::triggered,this,[=](){
-        if(ConfigLive2d::getLive2DWindow()==nullptr){
-            return ;
-        }
+    connect(m_Live2dStartAction,&QAction::triggered,this,[=](){
 
+
+    });
+
+    connect(m_Live2dShowAction,&QAction::triggered,this,[=](){
         HWND hwnd = ConfigLive2d::getLive2DWindow();
         if (!::IsWindowVisible(hwnd)) {
             // 显示窗口
             ::ShowWindow(hwnd, SW_SHOW);
-             m_Live2dAction->setText("隐藏Live2d");
+            m_Live2dShowAction->setText("隐藏Live2d");
         } else {
             // 隐藏窗口
             ::ShowWindow(hwnd, SW_HIDE);
-             m_Live2dAction->setText("显示Live2d");
+            m_Live2dShowAction->setText("显示Live2d");
         }
     });
 
@@ -253,7 +258,9 @@ void Widget::slot_receive_data_from_gal_to_widget(QString data)
 void Widget::slot_receive_data_from_llm_to_widget(QString data)
 {
     qDebug()<<"Widget接受到来自llm信息————>"<<data; //获取传递过来的数据
-    new_GalDialog->slots_receive_data_from_widget_to_gal(data);
+    if(new_GalDialog.get()==nullptr){return;}
+
+    new_GalDialog.get()->slots_receive_data_from_widget_to_gal(data);
 }
 //接受到gal要求显示histroy信息
 void Widget::slot_show_widget_from_gal()

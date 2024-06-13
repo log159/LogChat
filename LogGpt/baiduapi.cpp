@@ -30,8 +30,8 @@ int BaiduApi::functionData(const QString &str)
     QString myurl=QString("http://api.fanyi.baidu.com/api/trans/vip/translate?"
            "q=%1&from=%2&to=%3&appid=%4""&salt=%5&sign=%6")
            .arg(cText)
-           .arg(Config::get_LANGUAGE_V().at(Config::get_BAIDU_FROM_ID()))
-           .arg(Config::get_LANGUAGE_V().at(Config::get_BAIDU_TO_ID()))
+           .arg(Config::get_LANGUAGE_V().at(Config::get_USER(EnUser::BAIDU_FROM_ID).toInt()))
+           .arg(Config::get_LANGUAGE_V().at(Config::get_USER(EnUser::BAIDU_TO_ID).toInt()))
            .arg(iks.id).arg(salt).arg(MD5);
     m_Manager->get(QNetworkRequest(QUrl(myurl)));//发送上传；
 

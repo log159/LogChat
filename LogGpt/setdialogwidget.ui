@@ -38,6 +38,9 @@
       <layout class="QGridLayout" name="gridLayout_4">
        <item row="0" column="0">
         <widget class="QScrollArea" name="scrollArea_deploy">
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
          <property name="widgetResizable">
           <bool>true</bool>
          </property>
@@ -46,8 +49,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>857</width>
-            <height>642</height>
+            <width>859</width>
+            <height>644</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout">
@@ -82,7 +85,7 @@
               <item>
                <widget class="QLabel" name="label_vits_url">
                 <property name="text">
-                 <string>Vits配置:</string>
+                 <string>Vits Url配置:</string>
                 </property>
                </widget>
               </item>
@@ -96,7 +99,7 @@
               <item>
                <widget class="QLabel" name="label_gptsovits_url">
                 <property name="text">
-                 <string>GPT-SoVits配置:</string>
+                 <string>GPT-SoVits Url配置:</string>
                 </property>
                </widget>
               </item>
@@ -153,7 +156,7 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QComboBox" name="comboBox_vitsmany_select"/>
+                  <widget class="QComboBox" name="comboBox_vitsmodel_select"/>
                  </item>
                 </layout>
                </widget>
@@ -540,6 +543,9 @@
       <layout class="QGridLayout" name="gridLayout_6">
        <item row="0" column="0">
         <widget class="QScrollArea" name="scrollArea_information">
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
          <property name="widgetResizable">
           <bool>true</bool>
          </property>
@@ -548,8 +554,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>857</width>
-            <height>642</height>
+            <width>859</width>
+            <height>644</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_5">

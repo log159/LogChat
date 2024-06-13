@@ -45,9 +45,10 @@ private:
      QAction*             m_MinimizeAction          =nullptr;
      QAction*             m_MaximizeAction          =nullptr;
      QAction*             m_RestoreAction           =nullptr;
-     QAction*             m_Live2dAction            =nullptr;
+     QMenu*               m_Live2dMenu              =nullptr;
+     QAction*             m_Live2dStartAction       =nullptr;
+     QAction*             m_Live2dShowAction        =nullptr;
      QAction*             m_QuitAction              =nullptr;
-
 private:
 
     PushAndReceiveWidget* m_PushAndReceiveWidget    =nullptr;

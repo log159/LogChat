@@ -38,6 +38,7 @@ SOURCES += \
         configwindow.cpp \
         galdialog.cpp \
         global.cpp \
+        gptsovitsapi.cpp \
         listitemswidget.cpp \
         live2ddrawitemswidget.cpp \
         live2dlistitemswidget.cpp \
@@ -61,6 +62,8 @@ SOURCES += \
         useritemswidget.cpp \
         usertextedit.cpp \
         vitsapi.cpp \
+        vitsbase.cpp \
+        vitsfactory.cpp \
         widget.cpp \
         xfxhapi.cpp
 
@@ -77,6 +80,7 @@ HEADERS += \
         configwindow.h \
         galdialog.h \
         global.h \
+        gptsovitsapi.h \
         listitemswidget.h \
         live2ddrawitemswidget.h \
         live2dlistitemswidget.h \
@@ -100,6 +104,8 @@ HEADERS += \
         useritemswidget.h \
         usertextedit.h \
         vitsapi.h \
+        vitsbase.h \
+        vitsfactory.h \
         widget.h \
         xfxhapi.h
 

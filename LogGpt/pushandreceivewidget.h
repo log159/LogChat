@@ -20,6 +20,7 @@
 #include <QTextDocument>
 #include <QPainter>
 #include <QScrollBar>
+#include <QSharedPointer>
 
 #include "listitemswidget.h"
 #include "botitemswidget.h"
@@ -35,6 +36,7 @@
 #include "xfxhapi.h"
 #include "netlive2d.h"
 #include "vitsapi.h"
+#include "vitsfactory.h"
 #include "setlive2ddialogwidget.h"
 
 namespace Ui {
@@ -64,9 +66,10 @@ private:
     QPushButton*      m_PushButtonSet          =nullptr;
     QPushButton*      m_PushButtonSpeak        =nullptr;
     QPushButton*      m_PushButtonWrite        =nullptr;
+    QSound *          m_MySound                =nullptr;
     QFrame*           m_Frame                  =nullptr;
-    VitsApi*          m_VitsApi                =nullptr;
-    LLMBase*          m_LLM                      =nullptr;
+    VITSBase*         m_Vits                   =nullptr;
+    LLMBase*          m_LLM                    =nullptr;
 
 public:
 
