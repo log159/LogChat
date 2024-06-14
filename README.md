@@ -1,7 +1,6 @@
 # 可连接到VITS的Chat客户端
 
 预览:
-- <img src="https://github.com/log159/LogChat/assets/121474554/cf2db233-3b19-4ca3-8123-491bdcbab51a" width="400" alt="预览">
 - <img src="https://github.com/log159/LogChat/assets/121474554/0745f126-7235-469b-9b6a-24e4c1a771cb" width="400" alt="预览">
 
 支持的聊天模型:
@@ -50,12 +49,13 @@
 
 ## 借鉴与引用
 
-- **VITS-simple-api**：[GitHub链接](https://github.com/Artrajz/vits-simple-api/tree/v0.2.0)
-- **VITS-simple-api配置**：[Bilibili视频](https://www.bilibili.com/video/BV1ku4y1R73r)
-- **可用于VITS-api的模型**：
+- **Vits-simple-api**：[GitHub链接](https://github.com/Artrajz/vits-simple-api/tree/v0.2.0)
+- **Vits-simple-api配置**：[Bilibili视频](https://www.bilibili.com/video/BV1ku4y1R73r)
+- **可用于Vits-api的模型**：
   - [MoeTTS](https://github.com/luoyily/MoeTTS)
   - [Emotional-VITS](https://github.com/Ikaros-521/emotional-vits/releases)
   - [TTSModels](https://github.com/CjangCjengh/TTSModels)
+- **GPT-SoVits**：[GitHub链接](https://github.com/RVC-Boss/GPT-SoVITS)
 - **其他文档及VITS常见问题**：[Luna Docs](https://luna.docs.ie.cx/)
 - **OpenAI官网**：[访问OpenAI](https://openai.com/)
 - **OpenAI API文档**：[API参考](https://platform.openai.com/docs/api-reference/introduction)
@@ -64,7 +64,7 @@
 - **讯飞星火API**：[官方网站](https://xinghuo.xfyun.cn/sparkapi)
 - **Live2D SDK手册**：[SDK文档](https://docs.live2d.com/zh-CHS/cubism-sdk-manual/top/)
 - **Live2D中文文档**：[GitHub资源](https://github.com/gtf35/live2d_unity_sdk_chinese_document)
-
+- **可用的Live2D**：[BiliBili链接](https://www.bilibili.com/video/BV1zg4y1b7Yu)
 ## 贡献者
 
 <!-- readme: collaborators,contributors -start -->
