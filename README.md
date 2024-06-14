@@ -1,4 +1,4 @@
-# 可连接到VITS的Chat客户端
+# 一个开源免费的AI聊天客户端！
 
 预览:
 - <img src="https://github.com/log159/LogChat/assets/121474554/0745f126-7235-469b-9b6a-24e4c1a771cb" width="400" alt="预览">
@@ -8,6 +8,9 @@
 - 讯飞星火
 
 支持的技术:
+- LLM
+- TTS
+- STT
 - Live2D
 
 ## 源代码架构
@@ -15,10 +18,11 @@
 1. **UI设计：** 使用Qt Creator进行界面设计
 2. **ChatGPT API**
 3. **讯飞星火大模型官方Windows SDK**
-4. **VITS-simple-api:** [GitHub链接](https://github.com/Artrajz/vits-simple-api/tree/main)
-5. **百度翻译API:** [官方网站](https://fanyi-api.baidu.com/)
-6. **百度语音识别API:** [官方网站](https://cloud.baidu.com/product/speech/asr)
-7. **Live2D基于Unity**
+4. **VITS-simple-api**
+5. **GPT-SoVits**
+6. **百度翻译API**
+7. **百度语音识别API**
+8. **Live2D基于Unity**
 
 ## 发布使用说明
 
