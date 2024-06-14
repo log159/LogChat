@@ -2,6 +2,7 @@
 
 预览:
 - <img src="https://github.com/log159/LogChat/assets/121474554/cf2db233-3b19-4ca3-8123-491bdcbab51a" width="400" alt="预览">
+- <img src="https://github.com/log159/LogChat/assets/121474554/0745f126-7235-469b-9b6a-24e4c1a771cb" width="400" alt="预览">
 
 支持的聊天模型:
 - ChatGPT
