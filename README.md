@@ -37,7 +37,7 @@
  - [ ] LLM-Claude
  - [ ] LLM-百度千帆大模型
  - [x] TTS-VITS
- - [ ] TTS-GPT-SoVits
+ - [x] TTS-GPT-SoVits
  - [ ] STT-百度语音识别[中文普通话]
  - [x] Live2D-角色模型导入
  - [x] Live2D-模型的几何位置，基本功能支持自定义
