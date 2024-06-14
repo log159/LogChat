@@ -3,6 +3,62 @@
 const QString           ConfigFileIO::NULLVALUE="";
 
 
+const QString ConfigFileIO::getFileInformation(const QString &path)
+{
+    QFile file(path);
+    if(!file.open(QIODevice::ReadOnly|QIODevice::Text)){
+        return {};
+    }
+    QTextStream in(&file);
+    in.setCodec("UTF-8");
+    QString read_str = in.readLine();
+    file.close();
+    return read_str;
+}
+
+const QString ConfigFileIO::getFileAllInformation(const QString &path)
+{
+    QFile file(path);
+    if(!file.open(QIODevice::ReadOnly|QIODevice::Text)){
+        return {};
+    }
+    QTextStream in(&file);
+    in.setCodec("UTF-8");
+    QString read_str = in.readAll();
+    file.close();
+    return read_str;
+}
+
+void ConfigFileIO::setFileInformation(const QString &path, const QString &str)
+{
+    QFile file(path);
+    if(!file.open(QIODevice::WriteOnly|QIODevice::Text)){
+        return;
+    }
+    QTextStream out(&file);
+    out.setCodec("UTF-8");
+    out<<str;
+    file.close();
+}
+
+void ConfigFileIO::setFileInformation(const QString &path, const QJsonObject &js)
+{
+
+      QJsonDocument doc(js);
+      QString jsonString = doc.toJson(QJsonDocument::Indented);
+
+      QString filePath = path;
+      QFile file(filePath);
+      if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+          qDebug() << "Failed to open file for writing.";
+      }
+      QTextStream out(&file);
+      out << jsonString;
+
+      file.close();
+
+}
+
 void ConfigFileIO::setIksConfig(const ::EnIks &baseName, const QString &id, const QString &key, const QString &secret)
 {
     QString fileName = ConfigConstWay::get_TRUE_WAY(ConfigConstWay::IKS_INI_WAY);

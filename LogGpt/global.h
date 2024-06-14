@@ -88,7 +88,8 @@ static      QMap<EnUser,QString>UserM={
 
 static const QVector<QString>           VITS_MODEL_V        ={"vits","gpt-sovits"};
 static const QVector<QString>           VITS_ALL_V          ={"vits","bert-vits2","w2v2-vits"};             //全部vits模型
-static const QVector<QString>           LANGUAGE_V          ={"auto","jp","zh","en","yue","wyw","cht"};     //全部语种
+static const QVector<QString>           LANGUAGE_V          ={"auto","jp","zh","en","yue","wyw","cht"};     //百度翻译全部语种
+static const QVector<QString>           GPTSOVITS_LANGUAGE_V={"zh","ja","en"};                              //GPT-SoVits全部语种
 static const QVector<QString>           CHATGPT_MODEL_V     ={"gpt-3.5-turbo"};                             //全部ChatGPT模型
 static const QVector<QString>           XFXH_MODEL_V        ={"general","generalv2","generalv3"};           //全部讯飞星火模型
 static const QMap<QString,bool>         LIVE2DENABLEINIT_M  ={

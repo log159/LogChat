@@ -1,7 +1,7 @@
 #include "pushandreceivewidget.h"
 #include "ui_pushandreceivewidget.h"
 
-QString g_url;
+QString temp_text;
 
 PushAndReceiveWidget::PushAndReceiveWidget(QWidget *parent) :
     QWidget(parent),
@@ -285,11 +285,11 @@ void PushAndReceiveWidget::clearUi()
 void PushAndReceiveWidget::handle_bot_information()
 {
     emit sendIs();//设置按钮不得点击
-//    if(m_LLM!=nullptr){
-//        delete m_LLM;
-//        m_LLM=nullptr;
-//    }
-//    m_LLM=nullptr;
+    if(m_LLM!=nullptr){
+        delete m_LLM;
+        m_LLM=nullptr;
+    }
+    m_LLM=nullptr;
     if(Config::get_USER(::EnUser::LLM_MODEL_ID).toInt()==0){m_LLM=LLMFactory::getChatGPTApi(this);}
     else if(Config::get_USER(::EnUser::LLM_MODEL_ID).toInt()==1){m_LLM=LLMFactory::getXfxhApi(this);}
     else{
@@ -430,16 +430,11 @@ void PushAndReceiveWidget::add_bot_information(const QString &str)
 
 void PushAndReceiveWidget::handle_bot_sound(const QString &str)
 {
-    g_url = Config::get_URL_ADDRESS_ALL().arg(str);
+    temp_text = str;
 
-    if(m_Vits!=nullptr){
-        delete m_Vits;
-        m_Vits=nullptr;
-    }
-
-    m_Vits=VITSFactory::getVitsApi(this);
+    m_Vits=VITSFactory::getNew(this);
     connect(m_Vits,SIGNAL(playerWay(QString)),this,SLOT(play_sound(QString)));
-    m_Vits->start(g_url);
+    m_Vits->start(temp_text);
 }
 
 void PushAndReceiveWidget::play_sound(const QString &str)
@@ -534,7 +529,7 @@ void PushAndReceiveWidget::slot_receive_data_from_widget_to_llm(const QString &s
 void PushAndReceiveWidget::slot_play_voice_from_widget_to_llm()
 {
     qDebug()<<"llm接受到来自Widget的语言播放请求";
-    m_Vits=VITSFactory::getVitsApi(this);
+    m_Vits=VITSFactory::getNew(this);
     connect(m_Vits,SIGNAL(playerWay(QString)),this,SLOT(play_sound(QString)));
-    m_Vits->start(g_url);
+    m_Vits->start(temp_text);
 }

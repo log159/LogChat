@@ -43,8 +43,8 @@ void SetLive2DDialogWidget::init()
      ui->tabWidget_control->setCurrentIndex(0);
 
      //配置
-     ui->radioButton_look_enable_yes->setChecked(Config::get_LIVE2DENABLEINIT_M()["look_enable"]);
-     ui->radioButton_top_enable_yes->setChecked(Config::get_LIVE2DENABLEINIT_M()["top_enable"]);
+     ui->radioButton_look_enable_yes->setChecked(LIVE2DENABLEINIT_M["look_enable"]);
+     ui->radioButton_top_enable_yes->setChecked(LIVE2DENABLEINIT_M["top_enable"]);
 
      //几何
      ui->horizontalSlider_zoom_model_size->setRange(10,10000);      //0.1-100
@@ -64,19 +64,19 @@ void SetLive2DDialogWidget::init()
      ui->horizontalSlider_zoom_audio_smooth->setRange(0,100);       //0-1
 
 
-     ui->horizontalSlider_zoom_model_size->setValue(Config::get_LIVE2DPARAMINIT_M()["model_size"]);
-     ui->horizontalSlider_zoom_model_X->setValue(Config::get_LIVE2DPARAMINIT_M()["model_x"]);
-     ui->horizontalSlider_zoom_model_Y->setValue(Config::get_LIVE2DPARAMINIT_M()["model_y"]);
-     ui->horizontalSlider_zoom_model_RX->setValue(Config::get_LIVE2DPARAMINIT_M()["model_rx"]);
-     ui->horizontalSlider_zoom_model_RY->setValue(Config::get_LIVE2DPARAMINIT_M()["model_ry"]);
-     ui->horizontalSlider_zoom_model_RZ->setValue(Config::get_LIVE2DPARAMINIT_M()["model_rz"]);
+     ui->horizontalSlider_zoom_model_size->setValue(LIVE2DPARAMINIT_M["model_size"]);
+     ui->horizontalSlider_zoom_model_X->setValue(LIVE2DPARAMINIT_M["model_x"]);
+     ui->horizontalSlider_zoom_model_Y->setValue(LIVE2DPARAMINIT_M["model_y"]);
+     ui->horizontalSlider_zoom_model_RX->setValue(LIVE2DPARAMINIT_M["model_rx"]);
+     ui->horizontalSlider_zoom_model_RY->setValue(LIVE2DPARAMINIT_M["model_ry"]);
+     ui->horizontalSlider_zoom_model_RZ->setValue(LIVE2DPARAMINIT_M["model_rz"]);
 
-     ui->horizontalSlider_zoom_mouse_speed->setValue(Config::get_LIVE2DPARAMINIT_M()["mouse_speed"]);
-     ui->horizontalSlider_zoom_eye_time->setValue(Config::get_LIVE2DPARAMINIT_M()["eye_time"]);
-     ui->horizontalSlider_zoom_eye_deviation->setValue(Config::get_LIVE2DPARAMINIT_M()["eye_deviation"]);
-     ui->horizontalSlider_zoom_eye_speed->setValue(Config::get_LIVE2DPARAMINIT_M()["eye_speed"]);
-     ui->horizontalSlider_zoom_audio_add->setValue(Config::get_LIVE2DPARAMINIT_M()["audio_add"]);
-     ui->horizontalSlider_zoom_audio_smooth->setValue(Config::get_LIVE2DPARAMINIT_M()["audio_smooth"]);
+     ui->horizontalSlider_zoom_mouse_speed->setValue(LIVE2DPARAMINIT_M["mouse_speed"]);
+     ui->horizontalSlider_zoom_eye_time->setValue(LIVE2DPARAMINIT_M["eye_time"]);
+     ui->horizontalSlider_zoom_eye_deviation->setValue(LIVE2DPARAMINIT_M["eye_deviation"]);
+     ui->horizontalSlider_zoom_eye_speed->setValue(LIVE2DPARAMINIT_M["eye_speed"]);
+     ui->horizontalSlider_zoom_audio_add->setValue(LIVE2DPARAMINIT_M["audio_add"]);
+     ui->horizontalSlider_zoom_audio_smooth->setValue(LIVE2DPARAMINIT_M["audio_smooth"]);
 
      ui->lineEdit_zoom_model_size->setEnabled(false);
      ui->lineEdit_zoom_model_X->setEnabled(false);
@@ -209,21 +209,21 @@ void SetLive2DDialogWidget::initConnect()
 
         //model初始化
         ModelConfigItem modelConfigItem;
-        modelConfigItem.setModelId(Config::get_LIVE2DPARAMINIT_M()["model_id"]);
-        modelConfigItem.setModelName(Config::get_LIVE2DSTRING_M()["model_name"]);
-        modelConfigItem.setFilePath(Config::get_LIVE2DSTRING_M()["file_path"]);
-        modelConfigItem.setLookEnable(Config::get_LIVE2DENABLEINIT_M()["look_enable"]);
-        modelConfigItem.setTopEnable(Config::get_LIVE2DENABLEINIT_M()["top_enable"]);
-        modelConfigItem.setModelSize(Config::get_LIVE2DPARAMINIT_M()["model_size"]);
-        modelConfigItem.setModelX(Config::get_LIVE2DPARAMINIT_M()["model_x"]);
-        modelConfigItem.setModelY(Config::get_LIVE2DPARAMINIT_M()["model_y"]);
-        modelConfigItem.setMouseSpeed(Config::get_LIVE2DPARAMINIT_M()["mouse_speed"]);
-        modelConfigItem.setEyeTime(Config::get_LIVE2DPARAMINIT_M()["eye_time"]);
-        modelConfigItem.setEyeDeviation(Config::get_LIVE2DPARAMINIT_M()["eye_deviation"]);
-        modelConfigItem.setEyeSpeed(Config::get_LIVE2DPARAMINIT_M()["eye_speed"]);
-        modelConfigItem.setAudioAdd(Config::get_LIVE2DPARAMINIT_M()["audio_add"]);
-        modelConfigItem.setAudioSmooth(Config::get_LIVE2DPARAMINIT_M()["audio_smooth"]);
-        modelConfigItem.setModelDescription(Config::get_LIVE2DSTRING_M()["model_description"]);
+        modelConfigItem.setModelId(LIVE2DPARAMINIT_M["model_id"]);
+        modelConfigItem.setModelName(LIVE2DSTRING_M["model_name"]);
+        modelConfigItem.setFilePath(LIVE2DSTRING_M["file_path"]);
+        modelConfigItem.setLookEnable(LIVE2DENABLEINIT_M["look_enable"]);
+        modelConfigItem.setTopEnable(LIVE2DENABLEINIT_M["top_enable"]);
+        modelConfigItem.setModelSize(LIVE2DPARAMINIT_M["model_size"]);
+        modelConfigItem.setModelX(LIVE2DPARAMINIT_M["model_x"]);
+        modelConfigItem.setModelY(LIVE2DPARAMINIT_M["model_y"]);
+        modelConfigItem.setMouseSpeed(LIVE2DPARAMINIT_M["mouse_speed"]);
+        modelConfigItem.setEyeTime(LIVE2DPARAMINIT_M["eye_time"]);
+        modelConfigItem.setEyeDeviation(LIVE2DPARAMINIT_M["eye_deviation"]);
+        modelConfigItem.setEyeSpeed(LIVE2DPARAMINIT_M["eye_speed"]);
+        modelConfigItem.setAudioAdd(LIVE2DPARAMINIT_M["audio_add"]);
+        modelConfigItem.setAudioSmooth(LIVE2DPARAMINIT_M["audio_smooth"]);
+        modelConfigItem.setModelDescription(LIVE2DSTRING_M["model_description"]);
 
 
         //model赋值
@@ -361,64 +361,64 @@ void SetLive2DDialogWidget::initConnect()
     //重置
 
     connect(ui->pushButton_zoom_model_size,&QPushButton::clicked,[&](){
-        ui->horizontalSlider_zoom_model_size->setValue(Config::get_LIVE2DPARAMINIT_M()["model_size"]);
+        ui->horizontalSlider_zoom_model_size->setValue(LIVE2DPARAMINIT_M["model_size"]);
         sendConfigHandle("ScaleScaleProportion",ui->horizontalSlider_zoom_model_size->value());
         initLineEdit();
     });
     connect(ui->pushButton_zoom_model_X,&QPushButton::clicked,[&](){ui->horizontalSlider_zoom_model_X->setValue(
-        Config::get_LIVE2DPARAMINIT_M()["model_x"]);
+        LIVE2DPARAMINIT_M["model_x"]);
         sendConfigHandle("X",ui->horizontalSlider_zoom_model_X->value());
         initLineEdit();
     });
     connect(ui->pushButton_zoom_model_Y,&QPushButton::clicked,[&](){
-        ui->horizontalSlider_zoom_model_Y->setValue(Config::get_LIVE2DPARAMINIT_M()["model_y"]);
+        ui->horizontalSlider_zoom_model_Y->setValue(LIVE2DPARAMINIT_M["model_y"]);
         sendConfigHandle("Y",ui->horizontalSlider_zoom_model_Y->value());
         initLineEdit();
     });
     connect(ui->pushButton_zoom_model_RX,&QPushButton::clicked,[&](){
-        ui->horizontalSlider_zoom_model_RX->setValue(Config::get_LIVE2DPARAMINIT_M()["model_rx"]);
+        ui->horizontalSlider_zoom_model_RX->setValue(LIVE2DPARAMINIT_M["model_rx"]);
         sendConfigHandle("RX",ui->horizontalSlider_zoom_model_RX->value());
         initLineEdit();
     });
     connect(ui->pushButton_zoom_model_RY,&QPushButton::clicked,[&](){
-        ui->horizontalSlider_zoom_model_RY->setValue(Config::get_LIVE2DPARAMINIT_M()["model_ry"]);
+        ui->horizontalSlider_zoom_model_RY->setValue(LIVE2DPARAMINIT_M["model_ry"]);
         sendConfigHandle("RY",ui->horizontalSlider_zoom_model_RY->value());
         initLineEdit();
     });
     connect(ui->pushButton_zoom_model_RZ,&QPushButton::clicked,[&](){
-        ui->horizontalSlider_zoom_model_RZ->setValue(Config::get_LIVE2DPARAMINIT_M()["model_rz"]);
+        ui->horizontalSlider_zoom_model_RZ->setValue(LIVE2DPARAMINIT_M["model_rz"]);
         sendConfigHandle("RZ",ui->horizontalSlider_zoom_model_RZ->value());
         initLineEdit();
     });
 
     connect(ui->pushButton_zoom_mouse_speed,&QPushButton::clicked,[&](){
-        ui->horizontalSlider_zoom_mouse_speed->setValue(Config::get_LIVE2DPARAMINIT_M()["mouse_speed"]);
+        ui->horizontalSlider_zoom_mouse_speed->setValue(LIVE2DPARAMINIT_M["mouse_speed"]);
         sendConfigHandle("Damping",ui->horizontalSlider_zoom_mouse_speed->value());
         initLineEdit();
     });
     connect(ui->pushButton_zoom_eye_time,&QPushButton::clicked,[&](){
-        ui->horizontalSlider_zoom_eye_time->setValue(Config::get_LIVE2DPARAMINIT_M()["eye_time"]);
+        ui->horizontalSlider_zoom_eye_time->setValue(LIVE2DPARAMINIT_M["eye_time"]);
         sendConfigHandle("Mean",ui->horizontalSlider_zoom_eye_time->value());
         initLineEdit();
     });
     connect(ui->pushButton_zoom_eye_deviation,&QPushButton::clicked,[&](){
-        ui->horizontalSlider_zoom_eye_deviation->setValue(Config::get_LIVE2DPARAMINIT_M()["eye_deviation"]);
+        ui->horizontalSlider_zoom_eye_deviation->setValue(LIVE2DPARAMINIT_M["eye_deviation"]);
         sendConfigHandle("MaximumDeviation",ui->horizontalSlider_zoom_eye_deviation->value());
         initLineEdit();
     });
 
     connect(ui->pushButton_zoom_eye_speed,&QPushButton::clicked,[&](){
-        ui->horizontalSlider_zoom_eye_speed->setValue(Config::get_LIVE2DPARAMINIT_M()["eye_speed"]);
+        ui->horizontalSlider_zoom_eye_speed->setValue(LIVE2DPARAMINIT_M["eye_speed"]);
         sendConfigHandle("Timescale",ui->horizontalSlider_zoom_eye_speed->value());
         initLineEdit();
     });
     connect(ui->pushButton_zoom_audio_add,&QPushButton::clicked,[&](){
-        ui->horizontalSlider_zoom_audio_add->setValue(Config::get_LIVE2DPARAMINIT_M()["audio_add"]);
+        ui->horizontalSlider_zoom_audio_add->setValue(LIVE2DPARAMINIT_M["audio_add"]);
         sendConfigHandle("Gain",ui->horizontalSlider_zoom_audio_add->value());
         initLineEdit();
     });
     connect(ui->pushButton_zoom_audio_smooth,&QPushButton::clicked,[&](){
-        ui->horizontalSlider_zoom_audio_smooth->setValue(Config::get_LIVE2DPARAMINIT_M()["audio_smooth"]);
+        ui->horizontalSlider_zoom_audio_smooth->setValue(LIVE2DPARAMINIT_M["audio_smooth"]);
         sendConfigHandle("Smoothing",ui->horizontalSlider_zoom_audio_smooth->value());
         initLineEdit();
     });

@@ -4,86 +4,26 @@
 QVector<ModelConfigItem>   Config::LIVE2DMODELCONFIG_V    ={};
 
 
+QVector<ModelConfigItem> Config::get_LIVE2DMODELCONFIG_V()
+{
+    return Config::LIVE2DMODELCONFIG_V;
+}
 
 void Config::init()
 {
     init_LIVE2DMODELCONFIG_V();
 }
 
-const QString Config::getFileInformation(const QString &path)
-{
-    QFile file(path);
-    if(!file.open(QIODevice::ReadOnly|QIODevice::Text)){
-        return {};
-    }
-    QTextStream in(&file);
-    in.setCodec("UTF-8");
-    QString read_str = in.readLine();
-    file.close();
-    return read_str;
-}
-
-const QString Config::getFileAllInformation(const QString &path)
-{
-    QFile file(path);
-    if(!file.open(QIODevice::ReadOnly|QIODevice::Text)){
-        return {};
-    }
-    QTextStream in(&file);
-    in.setCodec("UTF-8");
-    QString read_str = in.readAll();
-    file.close();
-    return read_str;
-}
-
-void Config::setFileInformation(const QString &path, const QString &str)
-{
-    QFile file(path);
-    if(!file.open(QIODevice::WriteOnly|QIODevice::Text)){
-        return;
-    }
-    QTextStream out(&file);
-    out.setCodec("UTF-8");
-    out<<str;
-    file.close();
-}
-
-void Config::setFileInformation(const QString &path, const QJsonObject &js)
-{
-    // Convert the JSON object to a document
-      QJsonDocument doc(js);
-      QString jsonString = doc.toJson(QJsonDocument::Indented);
-
-      // Define the file path
-      QString filePath = path;
-
-      // Open a file for writing
-      QFile file(filePath);
-      if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-          qDebug() << "Failed to open file for writing.";
-      }
-      QTextStream out(&file);
-      out << jsonString;
-
-      file.close();
-
-}
 QMap<QString, QString> Config::parseJsonToQMap(const QString &jsonString) {
     QMap<QString, QString> resultMap;
-
-    // Step 1: Parse JSON string to QJsonDocument
     QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonString.toUtf8());
 
-    // Step 2: Check if the document is a valid JSON object
     if (!jsonDoc.isObject()) {
         qWarning() << "Invalid JSON object";
         return resultMap;
     }
-
-    // Step 3: Get the QJsonObject
     QJsonObject jsonObj = jsonDoc.object();
 
-    // Step 4: Iterate through the QJsonObject and save to QMap
     for (QJsonObject::const_iterator it = jsonObj.constBegin(); it != jsonObj.constEnd(); ++it) {
         QString key = it.key();
         QString value = it.value().toString();
@@ -95,7 +35,7 @@ QMap<QString, QString> Config::parseJsonToQMap(const QString &jsonString) {
 
 void Config::init_LIVE2DMODELCONFIG_V()
 {
-    QString modelListStr=getFileAllInformation(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::UNITY_MODELCONFIGLIST_WAY));
+    QString modelListStr=ConfigFileIO::getFileAllInformation(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::UNITY_MODELCONFIGLIST_WAY));
 
     QString handleStr=modelListStr;
     handleStr.remove(QChar('\t'), Qt::CaseInsensitive);
@@ -164,13 +104,6 @@ void Config::init_LIVE2DMODELCONFIG_V()
     }
 }
 
-
-
-void Config::output_ALLSETCONFIG(const QJsonObject &js)
-{
-    Config::setFileInformation(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::SETCONFIG_WAY),js);
-}
-
 void Config::output_LIVE2DMODELCONFIG_V(QVector<ModelConfigItem>& modV)
 {
     QVector<ModelConfigItem> dataModV(modV);
@@ -198,53 +131,8 @@ void Config::output_LIVE2DMODELCONFIG_V(QVector<ModelConfigItem>& modV)
     }
     data.chop(1);//丢弃最后的空格
 
-    setFileInformation(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::UNITY_MODELCONFIGLIST_WAY),data);
+    ConfigFileIO::setFileInformation(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::UNITY_MODELCONFIGLIST_WAY),data);
 
-}
-
-QVector<QString> Config::get_VITS_MODEL_V()
-{
-    return ::VITS_MODEL_V;
-}
-
-QVector<QString> Config::get_VITS_ALL_V()
-{
-    return ::VITS_ALL_V;
-}
-
-QVector<QString> Config::get_LANGUAGE_V()
-{
-    return ::LANGUAGE_V;
-}
-
-QVector<QString> Config::get_CHATGPT_MODEL_V()
-{
-    return ::CHATGPT_MODEL_V;
-}
-
-QVector<QString> Config::get_XFXH_MODEL_V()
-{
-    return ::XFXH_MODEL_V;
-}
-
-QVector<ModelConfigItem> Config::get_LIVE2DMODELCONFIG_V()
-{
-    return Config::LIVE2DMODELCONFIG_V;
-}
-
-QMap<QString, bool> Config::get_LIVE2DENABLEINIT_M()
-{
-    return ::LIVE2DENABLEINIT_M;
-}
-
-QMap<QString, int> Config::get_LIVE2DPARAMINIT_M()
-{
-    return ::LIVE2DPARAMINIT_M;
-}
-
-QMap<QString, QString> Config::get_LIVE2DSTRING_M()
-{
-    return ::LIVE2DSTRING_M;
 }
 
 const ::IKS Config::get_IKS(const ::EnIks &iks)
@@ -257,30 +145,25 @@ const QString Config::get_URL(const ::EnUrl &urlName)
     return ConfigFileIO::getUrlConfig(urlName);
 }
 
-const QString Config::get_URL_ADDRESS_ALL()
+const QString Config::get_VITS_URL()
 {
    QString str = QString("http://"
                    +Config::get_USER(::EnUser::VITS_URL_ADDRESS)+":"
                    +Config::get_USER(::EnUser::VITS_URL_PORT)
                    +"/voice/"
-                   +Config::get_VITS_ALL_V().at(Config::get_USER(::EnUser::VITS_ID).toInt())
+                   +VITS_ALL_V.at(Config::get_USER(::EnUser::VITS_ID).toInt())
                    +"?text=%1&id="
                    +QString::number(Config::get_USER(::EnUser::SPEAKER_ID).toInt())
                    );
-   if(Config::get_VITS_ALL_V().at(Config::get_USER(::EnUser::VITS_ID).toInt()).compare("w2v2-vits")==0){
+   if(VITS_ALL_V.at(Config::get_USER(::EnUser::VITS_ID).toInt()).compare("w2v2-vits")==0){
        str+=QString("&emotion="+QString::number(Config::get_USER(::EnUser::EMOTION_ID).toInt()));
    }
    return str;
 }
 
-const QString Config::get_XFXH_QUESTION()
-{
-    return Config::getFileAllInformation(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::XFXH_QUESTION_WAY));
-}
-
 const QString Config::get_UNITY_STARTMODELPATH()
 {
-    return Config::getFileInformation(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::UNITY_STARTMODELPATH_WAY));
+    return ConfigFileIO::getFileInformation(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::UNITY_STARTMODELPATH_WAY));
 }
 
 const QString Config::get_USER(const ::EnUser &key)
@@ -302,14 +185,24 @@ void Config::set_USER(const ::EnUser &key, const QString &value)
 {
     ConfigFileIO::setUserConfig(key,value);
 }
+
+const QString Config::get_GPTSOVITS_URL()
+{
+    QString str="http://"+Config::get_USER(::EnUser::GPTSOVITS_URL_ADDRESS)+":"+
+            Config::get_USER(::EnUser::GPTSOVITS_URL_PORT)+
+            "?text=%1&text_language="+
+            GPTSOVITS_LANGUAGE_V.at(Config::get_USER(::EnUser::GPTSOVITS_LANGUAGE).toInt());
+
+    return str;
+}
 void Config::set_XFXH_QUESTION(const QString &str)
 {
-    Config::setFileInformation(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::XFXH_QUESTION_WAY),str);
+    ConfigFileIO::setFileInformation(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::XFXH_QUESTION_WAY),str);
 }
 
 void Config::set_UNITY_STARTMODELPATH(const QString &str)
 {
-    Config::setFileInformation(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::UNITY_STARTMODELPATH_WAY),str);
+    ConfigFileIO::setFileInformation(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::UNITY_STARTMODELPATH_WAY),str);
 }
 
 void Config::set_LIVE2DMODELCONFIG_V(QVector<ModelConfigItem> &modV)

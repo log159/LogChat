@@ -24,13 +24,13 @@ void SetDialogWidget::init()
 
     ui->tabWidget->setCurrentIndex(0);
 
-    for(int i=0;i<Config::get_VITS_MODEL_V().size();++i){
-        ui->comboBox_vitsmodel_select->addItem(Config::get_VITS_MODEL_V().at(i));
+    for(int i=0;i<VITS_MODEL_V.size();++i){
+        ui->comboBox_vitsmodel_select->addItem(VITS_MODEL_V.at(i));
     }
     ui->comboBox_vitsmodel_select->setCurrentIndex(Config::get_USER(::EnUser::VITS_MODEL_SELECT).toInt());
 
-    for(int i=0;i<Config::get_LANGUAGE_V().size();++i){
-        ui->comboBox_gptsovits_language->addItem(Config::get_LANGUAGE_V().at(i));
+    for(int i=0;i<GPTSOVITS_LANGUAGE_V.size();++i){
+        ui->comboBox_gptsovits_language->addItem(GPTSOVITS_LANGUAGE_V.at(i));
     }
     ui->comboBox_gptsovits_language->setCurrentIndex(Config::get_USER(::EnUser::GPTSOVITS_LANGUAGE).toInt());
 
@@ -39,8 +39,8 @@ void SetDialogWidget::init()
 
     ui->lineEdit_vits_address->setText(Config::get_USER(::EnUser::VITS_URL_ADDRESS));
     ui->lineEdit_vits_port->setText(Config::get_USER(::EnUser::VITS_URL_PORT));
-    for(int i=0;i<Config::get_VITS_ALL_V().size();++i){
-        ui->comboBox_vits_select->addItem(Config::get_VITS_ALL_V().at(i));
+    for(int i=0;i<VITS_ALL_V.size();++i){
+        ui->comboBox_vits_select->addItem(VITS_ALL_V.at(i));
     }
     ui->comboBox_vits_select->setCurrentIndex(Config::get_USER(::EnUser::VITS_ID).toInt());
     ui->lineEdit_speaker_id->setText(QString::number(Config::get_USER(::EnUser::SPEAKER_ID).toInt()));
@@ -49,11 +49,11 @@ void SetDialogWidget::init()
     if(Config::get_USER(::EnUser::LLM_MODEL_ID).toInt()==0){ui->radioButton_llm_chatgpt->setChecked(true);}
     else if(Config::get_USER(::EnUser::LLM_MODEL_ID).toInt()==1){ui->radioButton_llm_xfxh->setChecked(true);}
 
-    for(int i=0;i<Config::get_CHATGPT_MODEL_V().size();++i){
-        ui->comboBox_llm_chatgpt->addItem(Config::get_CHATGPT_MODEL_V().at(i));
+    for(int i=0;i<CHATGPT_MODEL_V.size();++i){
+        ui->comboBox_llm_chatgpt->addItem(CHATGPT_MODEL_V.at(i));
     }
-    for(int i=0;i<Config::get_XFXH_MODEL_V().size();++i){
-        ui->comboBox_llm_xfxh->addItem(Config::get_XFXH_MODEL_V().at(i));
+    for(int i=0;i<XFXH_MODEL_V.size();++i){
+        ui->comboBox_llm_xfxh->addItem(XFXH_MODEL_V.at(i));
     }
     ui->comboBox_llm_xfxh->setCurrentIndex(Config::get_USER(::EnUser::XFXH_MODEL_ID).toInt());
 
@@ -73,9 +73,9 @@ void SetDialogWidget::init()
     if(Config::get_USER(::EnUser::ENABLE_SOUND).toInt()!=0){ui->radioButton_sound_enable_yes->setChecked(true);}
     else{ui->radioButton_sound_enable_no->setChecked(true);}
 
-    for(int i=0;i<Config::get_LANGUAGE_V().size();++i){
-        ui->comboBox_baidu_from->addItem(Config::get_LANGUAGE_V().at(i));
-        ui->comboBox_baidu_to->addItem(Config::get_LANGUAGE_V().at(i));
+    for(int i=0;i<LANGUAGE_V.size();++i){
+        ui->comboBox_baidu_from->addItem(LANGUAGE_V.at(i));
+        ui->comboBox_baidu_to->addItem(LANGUAGE_V.at(i));
     }
     ui->comboBox_baidu_from->setCurrentIndex(Config::get_USER(::EnUser::BAIDU_FROM_ID).toInt());
     ui->comboBox_baidu_to->setCurrentIndex(Config::get_USER(::EnUser::BAIDU_TO_ID).toInt());
@@ -101,19 +101,19 @@ void SetDialogWidget::initConnect()
 
     CurrentIndexChanged currentIndexChanged_vits_model_select=&QComboBox::currentIndexChanged;
     QObject::connect(ui->comboBox_vitsmodel_select,currentIndexChanged_vits_model_select,this,[=](int index){
-        qDebug()<<"设置选择的Vits为:"<<Config::get_VITS_ALL_V().at(index);
+        qDebug()<<"设置选择的Vits为:"<<VITS_MODEL_V.at(index);
         Config::set_USER(::EnUser::VITS_MODEL_SELECT,QString::number(index));
     });
 
     CurrentIndexChanged currentIndexChanged_vits_select=&QComboBox::currentIndexChanged;
     QObject::connect(ui->comboBox_vits_select, currentIndexChanged_vits_select, this,[=](int index){
-        qDebug()<<"设置Vits模型为:"<<Config::get_VITS_ALL_V().at(index);
+        qDebug()<<"设置Vits模型为:"<<VITS_ALL_V.at(index);
         Config::set_USER(::EnUser::VITS_ID,QString::number(index));
     });
 
     CurrentIndexChanged currentIndexChanged_gptsovits_language_select=&QComboBox::currentIndexChanged;
     QObject::connect(ui->comboBox_gptsovits_language,currentIndexChanged_gptsovits_language_select,this,[=](int index){
-        qDebug()<<"设置GPT-SoVits语言为:"<<Config::get_LANGUAGE_V().at(index);
+        qDebug()<<"设置GPT-SoVits语言为:"<<GPTSOVITS_LANGUAGE_V.at(index);
         Config::set_USER(::EnUser::GPTSOVITS_LANGUAGE,QString::number(index));
     });
 
@@ -129,7 +129,7 @@ void SetDialogWidget::initConnect()
     });
     CurrentIndexChanged currentIndexChanged_llm_xfxh=&QComboBox::currentIndexChanged;
     QObject::connect(ui->comboBox_llm_xfxh,currentIndexChanged_llm_xfxh,this,[=](int index){
-        qDebug()<<"设置讯飞星火模型为："<<Config::get_XFXH_MODEL_V().at(index);
+        qDebug()<<"设置讯飞星火模型为："<<XFXH_MODEL_V.at(index);
         Config::set_USER(::EnUser::XFXH_MODEL_ID,QString::number(index));
     });
 
@@ -156,13 +156,13 @@ void SetDialogWidget::initConnect()
 
     CurrentIndexChanged currentIndexChanged_baidu_from=&QComboBox::currentIndexChanged;
     QObject::connect(ui->comboBox_baidu_from,currentIndexChanged_baidu_from,this,[=](int index){
-        qDebug()<<"设置FROM语种为："<<Config::get_LANGUAGE_V().at(index);
+        qDebug()<<"设置FROM语种为："<<LANGUAGE_V.at(index);
         Config::set_USER(::EnUser::BAIDU_FROM_ID,QString::number(index));
     });
 
     CurrentIndexChanged currentIndexChanged_baidu_to=&QComboBox::currentIndexChanged;
     QObject::connect(ui->comboBox_baidu_to,currentIndexChanged_baidu_to,this,[=](int index){
-        qDebug()<<"设置TO语种为："<<Config::get_LANGUAGE_V().at(index);
+        qDebug()<<"设置TO语种为："<<LANGUAGE_V.at(index);
         Config::set_USER(::EnUser::BAIDU_TO_ID,QString::number(index));
     });
 

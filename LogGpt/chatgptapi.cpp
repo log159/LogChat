@@ -12,7 +12,7 @@ void ChatGPTApi::init()
 
 void ChatGPTApi::start(const QString &str)
 {
-    qDebug()<<"使用模型 ChatGPT ："<<Config::get_CHATGPT_MODEL_V().at(0);
+    qDebug()<<"使用模型 ChatGPT ："<<CHATGPT_MODEL_V.at(0);
     qDebug()<<"发送内容为————>"<<str;
 
     qDebug()<<ConfigConstWay::get_TRUE_WAY(ConfigConstWay::CHATGPT_DEMO_WAY);

@@ -7,6 +7,9 @@
 #include <QFile>
 #include <QPair>
 #include <QMap>
+#include <QTextStream>
+#include <QJsonDocument>
+#include <QDebug>
 
 #include "singletonbase.h"
 #include "global.h"
@@ -20,6 +23,12 @@ private:
 public:
     static const QString NULLVALUE;
 public:
+
+    //一般文本IO
+    static const QString getFileInformation(const QString& path);
+    static const QString getFileAllInformation(const QString& path);
+    static void setFileInformation(const QString& path,const QString& str);
+    static void setFileInformation(const QString& path,const QJsonObject& js);
 
     //举例 base=EnIks::LLM_CHATGPT id="123" key="abc114514" secret="zxc332211" 没有或不需要则留空字符串 保存到配置文件
     static void setIksConfig(const ::EnIks& baseName,const QString& id=NULLVALUE,const QString& key=NULLVALUE,const QString& secret=NULLVALUE);

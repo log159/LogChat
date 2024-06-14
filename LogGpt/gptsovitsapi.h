@@ -12,7 +12,7 @@ class GPTSoVitsApi : public VITSBase
 public:
     explicit GPTSoVitsApi(QObject *parent = nullptr);
 
-    void start(QString url);
+    void start(QString text);
 
 signals:
 

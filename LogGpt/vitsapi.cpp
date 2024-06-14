@@ -5,8 +5,9 @@ VitsApi::VitsApi(QObject *parent) : VITSBase(parent)
 
 }
 
-void VitsApi::start(QString url)
+void VitsApi::start(QString text)
 {
+    QString url = Config::get_VITS_URL().arg(text);
     qDebug()<<"向 vits-api 端发送请求"<<url;
     QNetworkAccessManager* manager = new QNetworkAccessManager(this);
 

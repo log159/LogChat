@@ -3,13 +3,16 @@
 
 #include <QObject>
 #include <QString>
-
+#include <QNetworkReply>
+#include "config.h"
 
 class VITSBase : public QObject
 {
     Q_OBJECT
 public:
     explicit VITSBase(QObject *parent = nullptr);
+
+    virtual ~VITSBase();
 
     virtual void start(QString url) = 0;
 

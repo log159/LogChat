@@ -2,12 +2,11 @@
 #define VITSAPI_H
 
 #include <QObject>
-#include <QNetworkReply>
 #include <QString>
 #include <QDateTime>
 
 #include "vitsbase.h"
-#include "config.h"
+
 
 class VitsApi : public VITSBase
 {
@@ -15,7 +14,7 @@ class VitsApi : public VITSBase
 public:
     explicit VitsApi(QObject *parent = nullptr);
 
-    void start(QString url);
+    void start(QString text);
 
 signals:
 
