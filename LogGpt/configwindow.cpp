@@ -2,7 +2,7 @@
 
 QWidget*        ConfigWindow::_WindowPointer      =nullptr;
 const QString   ConfigWindow::_WindowTitle        ="LogChat";
-const int       ConfigWindow::_StaticMinWidth     =700;
+const int       ConfigWindow::_StaticMinWidth     =400;
 const int       ConfigWindow::_StaticMinHeight    =300;
 
 int ConfigWindow::_StaticPosX;
@@ -31,8 +31,8 @@ void ConfigWindow::init()
     ConfigWindow::_DesktopHeight=deskRect.height();
 
 //    qDebug()<<deskRect.width()<<" "<<deskRect.height();
-    ConfigWindow::_StaticWidth=deskRect.width()/2;
-    ConfigWindow::_StaticHeight=int(ConfigWindow::_StaticWidth*0.618);
+    ConfigWindow::_StaticWidth=600;
+    ConfigWindow::_StaticHeight=470;
     ConfigWindow::_StaticPosX=(deskRect.width()-ConfigWindow::_StaticWidth)/2;
     ConfigWindow::_StaticPosY=(deskRect.height()-ConfigWindow::_StaticHeight)/2;
 }

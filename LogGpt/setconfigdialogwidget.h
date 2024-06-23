@@ -12,6 +12,7 @@
 #include <QCloseEvent>
 #include <QSlider>
 #include <QRegExpValidator>
+#include <QRadioButton>
 
 #include "config.h"
 

@@ -38,7 +38,8 @@ private:
     SetPushButton*              m_PushButtonSet    =nullptr;
     SetPushButton*              m_PushButtonConfig =nullptr;
     SetPushButton*              m_PushButtonLive2D =nullptr;
-    SetPushButton*              m_PushButtonGalDialog =nullptr;
+    SetPushButton*              m_PushButtonGalDialog   =nullptr;
+    SetPushButton*              m_PushButtonCompound    =nullptr;
     SetPushButton*              m_PushButtonAbout  =nullptr;
     SetPushButton*              m_PushButtonClear  =nullptr;
 public:
@@ -63,6 +64,7 @@ signals:
     void setConfigShow();
     void setLive2DShow();
     void setGalDialogShow();
+    void setCompoundShow();
     void setAboutShow();
     void clearChat();
 private:

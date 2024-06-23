@@ -62,6 +62,7 @@ public:
     static const QString get_VITS_URL();
     static const QString get_GPTSOVITS_URL();
     static const QString get_UNITY_STARTMODELPATH();
+    static const QString get_CHARACTERCONFIG();
 
     static void          set_XFXH_QUESTION(const QString& str);
     static void          set_UNITY_STARTMODELPATH(const QString& str);

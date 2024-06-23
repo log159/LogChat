@@ -166,6 +166,19 @@ const QString Config::get_UNITY_STARTMODELPATH()
     return ConfigFileIO::getFileInformation(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::UNITY_STARTMODELPATH_WAY));
 }
 
+const QString Config::get_CHARACTERCONFIG()
+{
+    QString username = Config::get_USER(::EnUser::USERNAME);
+    QString charactername = Config::get_USER(::EnUser::CHARACTERNAME);
+
+    QString character_str= Config::get_USER(::EnUser::CHARACTER_CONFIG);
+
+    character_str.replace("{{user}}",username);
+    character_str.replace("{{char}}",charactername);
+
+    return character_str;
+}
+
 const QString Config::get_USER(const ::EnUser &key)
 {
     return ConfigFileIO::getUserConfig(key);

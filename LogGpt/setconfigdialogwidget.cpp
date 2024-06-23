@@ -33,6 +33,14 @@ void SetConfigDialogWidget::init()
     if(Config::get_USER(::EnUser::ENABLE_RESERVE).toInt()!=0){ui->radioButton_reserve->setChecked(true);}
     else {ui->radioButton_reserve->setChecked(false);}
 
+
+    if(Config::get_USER(::EnUser::CHARACTERGENDER).toInt()==0){ui->radioButton_man->setChecked(true);}
+    else{ui->radioButton_woman->setChecked(true);}
+
+    ui->lineEdit_username->setText(Config::get_USER(::EnUser::USERNAME));
+    ui->lineEdit_charactername->setText(Config::get_USER(::EnUser::CHARACTERNAME));
+
+
     QFile file(":/main.qss");
     if(file.open(QFile::ReadOnly)){
         QString styleSheet = QLatin1String(file.readAll());
@@ -71,6 +79,18 @@ void SetConfigDialogWidget::initConnect()
         ui->lineEdit_reserve->setText(QString::number(value));
     });
 
+
+    QObject::connect(ui->radioButton_man,&QRadioButton::toggled,[=](){
+        if(ui->radioButton_man->isChecked()){
+            qDebug()<<"角色性别:男";
+            Config::set_USER(::EnUser::CHARACTERGENDER,"0");
+        }
+        else {
+            qDebug()<<"角色性别:女";
+            Config::set_USER(::EnUser::CHARACTERGENDER,"1");
+        }
+    });
+
 }
 void SetConfigDialogWidget::closeEvent(QCloseEvent *event)
 {
@@ -79,6 +99,7 @@ void SetConfigDialogWidget::closeEvent(QCloseEvent *event)
     Config::set_USER(::EnUser::CHARACTER_CONFIG,ui->textEdit_character->toPlainText());
     Config::set_USER(::EnUser::RESERVE_LONG,QString::number(ui->horizontalSlider_reserve->value()));
 
-
+    Config::set_USER(::EnUser::USERNAME,ui->lineEdit_username->text());
+    Config::set_USER(::EnUser::CHARACTERNAME,ui->lineEdit_charactername->text());
 
 }

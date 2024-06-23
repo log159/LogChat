@@ -52,6 +52,7 @@ SOURCES += \
         pushandreceivewidget.cpp \
         qaudiocapture.cpp \
         qhttppost.cpp \
+        setcompounddialogwidget.cpp \
         setconfigdialogwidget.cpp \
         setdialogwidget.cpp \
         setlive2ddialogwidget.cpp \
@@ -93,6 +94,7 @@ HEADERS += \
         pushandreceivewidget.h \
         qaudiocapture.h \
         qhttppost.h \
+        setcompounddialogwidget.h \
         setconfigdialogwidget.h \
         setdialogwidget.h \
         setlive2ddialogwidget.h \
@@ -119,6 +121,7 @@ FORMS += \
         live2dlistitemswidget.ui \
         live2dpartitemswidget.ui \
         pushandreceivewidget.ui \
+        setcompounddialogwidget.ui \
         setconfigdialogwidget.ui \
         setdialogwidget.ui \
         setlive2ddialogwidget.ui \

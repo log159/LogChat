@@ -38,6 +38,10 @@
 #include "vitsapi.h"
 #include "vitsfactory.h"
 #include "setlive2ddialogwidget.h"
+#include "qaudiocapture.h"
+#include "speechrecognition.h"
+
+//#define DEBUG
 
 namespace Ui {
 class PushAndReceiveWidget;
@@ -55,6 +59,8 @@ private:
     const QString _BotMark                     ="Bot";
 private:
 
+    QAudioCapture       m_audio;
+    speechRecognition   m_speechrgn;
     QList<QPair<QString,QString>>    m_HistoryTextList;
     QList<QString>    m_OldUserTextList;
     QList<QString>    m_OldRobotTextList;
@@ -85,7 +91,6 @@ private:
     void init();
     void initConnect();
     void updateListWidget();
-    void addCharacterConfig();          //角色设定配置
     void moveHistory();                 //移除部分历史记忆
     const QString getSpeakChatGPT();    //历史记忆拼接 适用于Python脚本
     const QString getSpeakXFXH();       //历史记忆拼接 适用于讯飞星火SDK

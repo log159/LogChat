@@ -49,6 +49,11 @@ void SetSelectWidget::init()
     m_PushButtonGalDialog->setText("Gal对话框");
     m_ButtonVector.push_back(m_PushButtonGalDialog);
 
+    /*创建语音合成item*/
+    m_PushButtonCompound=new SetPushButton();
+    m_PushButtonCompound->setText("语音合成");
+    m_ButtonVector.push_back(m_PushButtonCompound);
+
     m_PushButtonAbout=new SetPushButton();
     m_PushButtonAbout->setText("关于");
     m_ButtonVector.push_back(m_PushButtonAbout);
@@ -72,6 +77,13 @@ void SetSelectWidget::init()
             update();
         });
 
+    }
+
+    QFile file(":/main.qss");
+    if(file.open(QFile::ReadOnly)){
+        QString styleSheet = QLatin1String(file.readAll());
+        this->setStyleSheet(styleSheet);
+        file.close();
     }
 
 }
@@ -103,6 +115,11 @@ void SetSelectWidget::initConnect()
         qDebug()<<"GalDialog设置界面展示";
         emit setGalDialogShow();
     });
+    connect(m_PushButtonCompound,&QPushButton::clicked,[=](){
+        qDebug()<<"语音合成对话框界面显示";
+        emit setCompoundShow();
+    });
+
     connect(m_PushButtonAbout,&QPushButton::clicked,[=](){
         qDebug()<<"关于界面展示";
         emit setAboutShow();

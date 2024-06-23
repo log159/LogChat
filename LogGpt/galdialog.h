@@ -10,7 +10,7 @@
 #include <QLineEdit>
 #include <config.h>
 
-#define DEBUG
+//#define DEBUG
 
 namespace Ui {
 class GalDialog;

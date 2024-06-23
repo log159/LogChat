@@ -14,7 +14,7 @@ public:
 
     virtual ~VITSBase();
 
-    virtual void start(QString url) = 0;
+    virtual void start(QString text) = 0;
 
 signals:
     void playerWay(QString);

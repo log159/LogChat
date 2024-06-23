@@ -107,13 +107,16 @@ void GalDialog::on_pushButton_record_released()
     //提交录音
     QString str = m_speechrgn.speechIdentify(iks.key,iks.secret,"./record_temp.pcm");
     ui->textEdit->setText(str); //获取返回内容
+
 #endif
+#ifdef DEBUG
     //Config部分重构，这样获取到appid,key,secret,如果没有设定则为空字符串
     ::IKS iks=Config::get_IKS(::EnIks::STT_BDYUN);
 
     //提交录音
     QString str = m_speechrgn.speechIdentify(iks.key,iks.secret,"./record_temp_debug.pcm");
     ui->textEdit->setText(str); //获取返回内容
+#endif
 
 
 }

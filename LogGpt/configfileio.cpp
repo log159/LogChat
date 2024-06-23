@@ -64,15 +64,9 @@ void ConfigFileIO::setIksConfig(const ::EnIks &baseName, const QString &id, cons
     QString fileName = ConfigConstWay::get_TRUE_WAY(ConfigConstWay::IKS_INI_WAY);
     QSettings *setting = new QSettings(fileName , QSettings::IniFormat);
     setting->setIniCodec(QTextCodec::codecForName("UTF-8"));
-    if(id!=""){
-        setting->setValue(::IksM[baseName]+"/id",id);
-    }
-    if(key!=""){
-        setting->setValue(::IksM[baseName]+"/key",key);
-    }
-    if(secret!=""){
-        setting->setValue(::IksM[baseName]+"/secret",secret);
-    }
+    setting->setValue(::IksM[baseName]+"/id",id);
+    setting->setValue(::IksM[baseName]+"/key",key);
+    setting->setValue(::IksM[baseName]+"/secret",secret);
     // 生成文件
     setting->sync();
 }
@@ -102,9 +96,8 @@ void ConfigFileIO::setUrlConfig(const ::EnUrl &urlName, const QString &url)
     QString fileName = ConfigConstWay::get_TRUE_WAY(ConfigConstWay::URL_INI_WAY);
     QSettings *setting = new QSettings(fileName , QSettings::IniFormat);
     setting->setIniCodec(QTextCodec::codecForName("UTF-8"));
-    if(url!=""){
-        setting->setValue(UrlM[urlName],url);
-    }
+    setting->setValue(UrlM[urlName],url);
+
     setting->sync();
 }
 

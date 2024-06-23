@@ -18,6 +18,7 @@
 #include <QTimer>
 #include <QDesktopWidget>
 #include <QSharedPointer>
+#include <QMenuBar>
 
 #include "configwindow.h"
 #include "pushandreceivewidget.h"
@@ -28,6 +29,7 @@
 #include "setlive2ddialogwidget.h"
 #include "setselectpushbutton.h"
 #include "aboutsoftwaredialogwidget.h"
+#include "setcompounddialogwidget.h"
 #include "netlive2d.h"
 
 namespace Ui {

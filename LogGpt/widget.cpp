@@ -36,7 +36,6 @@ void Widget::init()
     m_SetSelectWidget->move(-m_SetSelectWidget->width(),0);
     m_SetSelectWidget->show();
 
-
     //与live2D通信的类
     m_NetLive2D=new NetLive2D(this);
     m_NetLive2D->startListen();
@@ -72,6 +71,7 @@ void Widget::init()
     m_TrayMenu->addSeparator();
     m_TrayMenu->addAction(m_QuitAction);
     m_Tray->setContextMenu(m_TrayMenu);
+
 
 
 }
@@ -146,6 +146,11 @@ void Widget::initConnect()
 
     });
 
+    connect(m_SetSelectWidget,&SetSelectWidget::setCompoundShow,[=](){
+        SetCompoundDialogWidget compoundDialogWidget;
+        compoundDialogWidget.exec();
+
+    });
 
     //最小化到托盘的菜单事件连接
     connect(m_MinimizeAction, SIGNAL(triggered()), this, SLOT(hide()));

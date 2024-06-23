@@ -44,7 +44,7 @@ void PushAndReceiveWidget::init()
     m_Frame->setStyleSheet("background-color:white;");
 
     m_PushButtonListen=new QPushButton(this);
-    m_PushButtonListen->setText("点击说话(敬请期待)");
+    m_PushButtonListen->setText("点击说话");
     m_PushButtonListen->setGeometry(m_UserTextEdit->geometry());
     m_PushButtonListen->hide();
 
@@ -96,7 +96,6 @@ void PushAndReceiveWidget::init()
     m_PushButtonWrite->hide();
 
     setAdapt();
-    addCharacterConfig();
     m_UserTextEdit->setFocus();
 
     QFile file(":/main.qss");
@@ -123,6 +122,8 @@ void PushAndReceiveWidget::initConnect()
 
         m_UserTextEdit->show();
         m_PushButtonListen->hide();
+
+
     });
     connect(m_PushButtonSpeak,&QPushButton::clicked,[=](){
         qDebug()<<"切换为键盘输入";
@@ -131,6 +132,43 @@ void PushAndReceiveWidget::initConnect()
 
         m_UserTextEdit->hide();
         m_PushButtonListen->show();
+    });
+    connect(m_PushButtonListen,&QPushButton::pressed,[=](){
+        qDebug()<<"开始录音";
+        m_PushButtonListen->setText("监听中...");
+        /*
+         * 此处可以使用ffplay -f s16le -ar 16000 -ac 1 -1 record_temp.pcm 进行播放测试
+         * 参数就是qaudiocapture.cpp里设置的
+        */
+    #ifndef DEBUG
+        m_audio.startRecord("./record_temp.pcm"); //暂存位置
+    #endif
+    });
+    connect(m_PushButtonListen,&QPushButton::released,[=](){
+        //停止录音
+        qDebug()<<"结束录音";
+        m_PushButtonListen->setText("监听完毕!");
+    #ifndef DEBUG
+        m_audio.stopRecord();
+        //Config部分重构，这样获取到appid,key,secret,如果没有设定则为空字符串
+        ::IKS iks=Config::get_IKS(::EnIks::STT_BDYUN);
+
+        //提交录音
+        QString str = m_speechrgn.speechIdentify(iks.key,iks.secret,"./record_temp.pcm");
+        m_UserTextEdit->setText(str); //获取返回内容
+        emit pushbutton_send_clicked();
+    #endif
+#ifdef DEBUG
+        //Config部分重构，这样获取到appid,key,secret,如果没有设定则为空字符串
+        ::IKS iks=Config::get_IKS(::EnIks::STT_BDYUN);
+
+        //提交录音
+        QString str = m_speechrgn.speechIdentify(iks.key,iks.secret,"./record_temp_debug.pcm");
+        m_UserTextEdit->setText(str); //获取返回内容
+
+        emit pushbutton_send_clicked();
+#endif
+
     });
 }
 
@@ -144,77 +182,52 @@ void PushAndReceiveWidget::updateListWidget()
 }
 
 
-void PushAndReceiveWidget::addCharacterConfig()
-{
-    //启用扮演
-    if(Config::get_USER(::EnUser::ENABLE_ROLE).toInt()!=0)
-    {
-        m_OldUserTextList.push_back(Config::get_USER(::EnUser::CHARACTER_CONFIG));
-        m_OldRobotTextList.push_back("OK");
-    }
-    //不启用扮演
-    else{
-    }
-}
+
 
 void PushAndReceiveWidget::moveHistory()
 {
     bool er=(Config::get_USER(::EnUser::ENABLE_RESERVE).toInt()!=0);
     long rl=Config::get_USER(::EnUser::RESERVE_LONG).toInt();
 
-    //启用扮演情况下移除
-    if(Config::get_USER(::EnUser::ENABLE_ROLE).toInt()!=0){
-        //如果历史记录过长则移除部分
-        if(m_OldUserTextList.size()-1>(er?rl:0)){
-            m_OldUserTextList.removeAt(1);
-            m_OldRobotTextList.removeAt(1);
-        }
+    while(m_OldUserTextList.size()>(er?rl:1)){
+        m_OldUserTextList.pop_front();
     }
-    //不启用扮演情况下移除
-    else{
-        //如果历史记录过长则移除部分
-         if(m_OldUserTextList.size()>(er?rl:0)){
-             m_OldUserTextList.removeAt(0);
-             m_OldRobotTextList.removeAt(0);
-         }
+    while (m_OldRobotTextList.size()>(er?rl:1)) {
+        m_OldRobotTextList.pop_front();
     }
+
 }
 
 const QString PushAndReceiveWidget::getSpeakXFXH()
 {
-    QString content="";
+    QString data="";
     if(Config::get_USER(::EnUser::ENABLE_ROLE).toInt()!=0){
-        content = Config::get_USER(::EnUser::CHARACTER_CONFIG)+"\n 我的问题：";
+        data=Config::get_CHARACTERCONFIG();
     }
-    content+=m_OldUserTextList.back();
-    return content;
-// json 字符串格式
-//    const QPair<QString,QString>user_pair=QPair<QString,QString>(QString("{\"role\":\"user\",\"content\":\""),QString("\"}"));
-//    const QPair<QString,QString>bot_pair=QPair<QString,QString>(QString("{\"role\":\"assistant\",\"content\":\""),QString("\"}"));
-//    QString response_havehistory;
-//    QVector<QString>   old_vector;
-//    for(int i=0;i<m_OldUserTextList.size();++i){
-//        QString item_str=m_OldUserTextList[i];
-//        old_vector.push_back(user_pair.first+item_str+user_pair.second);
-//        if(i==m_OldRobotTextList.size()){
-//            break;
-//        }
-//        else {
-//            old_vector.push_back(bot_pair.first+m_OldRobotTextList[i]+bot_pair.second);
-//        }
+    data+=("我的问题:"+m_OldUserTextList.back());
 
+    return data;
+
+//    QString result = "[\n";
+//    if(Config::get_USER(::EnUser::ENABLE_ROLE).toInt()!=0){
+
+//        result += "    {\"role\":\"user\",\"content\":\"" +Config::get_CHARACTERCONFIG() + "\"},\n";
+//        result += "    {\"role\":\"assistant\",\"content\":\"" + QString("OK好的") + "\"},\n";
 //    }
-//    for(int i=0;i<old_vector.size();++i){
-//        response_havehistory+=old_vector.at(i);
-//        if(i==old_vector.size()-1){
-//            break;
-//        }
-//        response_havehistory+=",";
+
+//    // 构建输出字符串
+//    for (int i = 0; i < m_OldRobotTextList.size(); ++i) {
+//        result += "    {\"role\":\"user\",\"content\":\"" + m_OldUserTextList[i] + "\"},\n";
+//        result += "    {\"role\":\"assistant\",\"content\":\"" + m_OldRobotTextList[i] + "\"},\n";
 //    }
-//    response_havehistory.push_front("[");
-//    response_havehistory.push_back("]");
-    //    return response_havehistory;
+//    // 添加最后一个用户的文本
+//    result += "    {\"role\":\"user\",\"content\":\"" + m_OldUserTextList.last() + "\"}\n";
+//    result += "]";
+
+
+//    return result;
 }
+
 
 void PushAndReceiveWidget::paintEvent(QPaintEvent *e)
 {
@@ -253,6 +266,10 @@ const QString PushAndReceiveWidget::getSpeakChatGPT()
             response_havehistory+=QString("["+old_vector[i]+"]");
         }
     }
+    if(Config::get_USER(::EnUser::ENABLE_ROLE).toInt()!=0){
+        response_havehistory.push_front(QString("[[%1],[%2]],").arg(Config::get_CHARACTERCONFIG()).arg("OK好的"));
+    }
+
     response_havehistory.push_front("[");
     response_havehistory.push_back("]");
     return response_havehistory;
@@ -266,9 +283,7 @@ void PushAndReceiveWidget::clearHistory()
     m_OldRobotTextList.clear();
     //历史存档清除
     m_HistoryTextList.clear();
-    if(Config::get_USER(::EnUser::ENABLE_ROLE).toInt()!=0){
-        addCharacterConfig();
-    }
+
     m_InformationComing=false;
 
 }
@@ -289,7 +304,6 @@ void PushAndReceiveWidget::handle_bot_information()
         delete m_LLM;
         m_LLM=nullptr;
     }
-    m_LLM=nullptr;
     if(Config::get_USER(::EnUser::LLM_MODEL_ID).toInt()==0){m_LLM=LLMFactory::getChatGPTApi(this);}
     else if(Config::get_USER(::EnUser::LLM_MODEL_ID).toInt()==1){m_LLM=LLMFactory::getXfxhApi(this);}
     else{
@@ -412,7 +426,6 @@ void PushAndReceiveWidget::add_bot_information(const QString &str)
     qDebug()<<"尝试发送信息到Widget";
 
 
-
     widget->initItem(receivedData,ItemEnum::Bot);
     m_ListWidget->addItem(item);
     item->setSizeHint(QSize(widget->width(),widget->height()));
@@ -453,7 +466,6 @@ void PushAndReceiveWidget::play_sound(const QString &str)
     else {
         emit sendAudio(str);
     }
-
 
 }
 

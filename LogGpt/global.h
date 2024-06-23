@@ -56,7 +56,12 @@ enum EnUser{
     BAIDU_FROM_ID,              /*原语种ID*/
     BAIDU_TO_ID,                /*翻译后语种ID*/
     RESERVE_LONG,               /*上下文保留最大长度*/
-    CHARACTER_CONFIG            /*角色设定信息*/
+    CHARACTER_CONFIG,           /*角色设定信息*/
+    USERNAME,                   /*用户名*/
+    CHARACTERNAME,              /*角色名*/
+    CHARACTERGENDER,            /*角色性别*/
+    AUDIOSYNTHESIS,             /*音频合成规则*/
+    AUDIOOUTPUTWAY              /*音频输出路径*/
 };
 
 static      QMap<EnUser,QString>UserM={
@@ -82,8 +87,11 @@ static      QMap<EnUser,QString>UserM={
     {BAIDU_TO_ID,"BAIDU_TO_ID"},
     {RESERVE_LONG,"RESERVE_LONG"},
     {CHARACTER_CONFIG,"CHARACTER_CONFIG"},
-
-
+    {USERNAME,"USERNAME"},
+    {CHARACTERNAME,"CHARACTERNAME"},
+    {CHARACTERGENDER,"CHARACTERGENDER"},
+    {AUDIOSYNTHESIS,"AUDIOSYNTHESIS"},
+    {AUDIOOUTPUTWAY,"AUDIOOUTPUTWAY"}
 };
 
 static const QVector<QString>           VITS_MODEL_V        ={"vits","gpt-sovits"};
