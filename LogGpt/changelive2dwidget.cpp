@@ -21,17 +21,14 @@ void ChangeLive2DWidget::refresh(const QString &path)
         return;
     }
 
-    m_ValueExplainMap.clear();
-    m_PartItemsMap.clear();
-    m_DrawItemsMap.clear();
-    m_ItemsCoverMap.clear();
-    m_DrawsCovermap.clear();
+
 
     initValueExplainMap(path);
     initPartsItemMap(path);
     initDrawsItemMap(path);
     initPartsCoverMap(path);
     initDrawsCovermap(path);
+    initHarmCoverMap(path);
 
     {
 
@@ -57,8 +54,8 @@ void ChangeLive2DWidget::refresh(const QString &path)
             if(m_ValueExplainMap[it.key()]!=""){
                 widget->setExplain(m_ValueExplainMap[it.key()]);
             }
-            if(m_ItemsCoverMap.contains(it.key())){
-                widget->setValue(m_ItemsCoverMap[it.key()]);
+            if(m_PartCoverMap.contains(it.key())){
+                widget->setValue(m_PartCoverMap[it.key()]);
             }
 
             SendPassByPart sendPass=&Live2DPartItemsWidget::sendPass;
@@ -96,8 +93,8 @@ void ChangeLive2DWidget::refresh(const QString &path)
             ui->listWidget_drawing->setItemWidget(item,widget);
             ui->listWidget_drawing->scrollToBottom();
 
-            if(m_DrawsCovermap.contains(it.key())){
-                widget->setValue(m_DrawsCovermap[it.key()]);
+            if(m_DrawsCoverMap.contains(it.key())){
+                widget->setValue(m_DrawsCoverMap[it.key()]);
             }
 
             SendPassByDraw sendPass=&Live2DDrawItemsWidget::sendPass;
@@ -115,9 +112,51 @@ void ChangeLive2DWidget::refresh(const QString &path)
 
     }
 
+    {
+        QMap<QString,QVector<int>>::iterator it=m_PartItemsMap.begin();
+            for(;it!=m_PartItemsMap.end();++it){
+
+    //            //控件添加
+                QListWidgetItem* item = new QListWidgetItem();
+                Live2DAnimationItemsWidget* widget=new Live2DAnimationItemsWidget;
+
+                widget->resize(ui->listWidget_harmonic->size().width(),widget->height());
+                ui->listWidget_harmonic->addItem(item);
+                item->setSizeHint(widget->size());
+                ui->listWidget_harmonic->setItemWidget(item,widget);
+                ui->listWidget_harmonic->scrollToBottom();
+
+                widget->setName(it.key());
+
+                if(m_ValueExplainMap[it.key()]!=""){
+                    widget->setExplain(m_ValueExplainMap[it.key()]);
+                }
+                QVector<int>v=m_HarmCoverMap[it.key()];
+                if(v.size()>=3){
+                    widget->setRule(v[0]);
+                    widget->setSpeed(v[1]);
+                    widget->setUseful(v[2]!=0?true:false);
+
+                }
+
+    //            SendPassByPart sendPass=&Live2DPartItemsWidget::sendPass;
+    //            connect(widget,sendPass,[=](ModelPartItem passItem){
+    //                qDebug()<<"chagngelive2dwidget: "<<passItem.getName();
+
+    //            });
+
+    //            connect(widget,&Live2DPartItemsWidget::sendHandle,[=](QString handleStr){
+    //                emit sendhandle(handleStr);
+    //            });
+
+    //        }
+            ui->listWidget_harmonic->scrollToTop();
+        }
+    }
+
 
      connect(ui->pushButton_save_parameter,&QPushButton::clicked,[=](){
-         QString file_path = path+"/HARMONICCHANGELIST.txt";
+         QString file_path = path+"/PARAMETERCHANGELIST.txt";
 
          // 创建文件并写入内容
          QFile file(file_path);
@@ -202,7 +241,7 @@ void ChangeLive2DWidget::initPartsCoverMap(const QString &path)
     if(path.size()<=3){
         return;
     }
-    QFile file(path+"/HARMONICCHANGELIST.txt");
+    QFile file(path+"/PARAMETERCHANGELIST.txt");
     if(!file.open(QIODevice::ReadOnly|QIODevice::Text)){
         qDebug()<<"Part Item File Open Fail!";
         return;
@@ -221,7 +260,7 @@ void ChangeLive2DWidget::initPartsCoverMap(const QString &path)
 
         QString itemId=read_str.mid(1, index-2);
         QString itemvalue = read_str.mid(index + 2, read_str.size() - index - 4);
-        m_ItemsCoverMap[itemId]=itemvalue.toInt();
+        m_PartCoverMap[itemId]=itemvalue.toInt();
 
     }
     file.close();
@@ -251,10 +290,50 @@ void ChangeLive2DWidget::initDrawsCovermap(const QString &path)
 
         QString itemId=read_str.mid(1, index-2);
         QString itemvalue = read_str.mid(index + 2, read_str.size() - index - 4);
-        m_DrawsCovermap[itemId]=itemvalue.toInt()>0?true:false;
+        m_DrawsCoverMap[itemId]=itemvalue.toInt()>0?true:false;
 
     }
     file.close();
+}
+
+void ChangeLive2DWidget::initHarmCoverMap(const QString &path)
+{
+    QFile file(path+"/HARMONICCHANGELIST.txt");
+    if(!file.open(QIODevice::ReadOnly|QIODevice::Text)){
+        qDebug()<<"Part Item File Open Fail!";
+        return;
+    }
+    QTextStream in(&file);
+    in.setCodec("UTF-8");
+    QString read_str = in.readAll();
+    file.close();
+
+
+    m_HarmCoverMap.clear();
+
+    QStringList lines = read_str.split('\n', QString::SkipEmptyParts);
+    QMap<QString, QString> keyValueMap;
+
+    for (const QString& line : lines) {
+
+            // 使用正则表达式提取Name和三个浮点数
+               QRegExp regex("\\[([^\\]]+)\\]:\\[(-?\\d+),(-?\\d+),(-?\\d+)\\];");
+               int pos = regex.indexIn(line);
+               if (pos != -1) {
+                   QString name = regex.cap(1);
+                   int num1 = regex.cap(2).toInt();
+                   int num2 = regex.cap(3).toInt();
+                   int num3 = regex.cap(4).toInt();
+                   QVector<int> v={0,0,0};
+                   v[0]=num1;v[1]=num2;v[2]=num3;
+                   m_HarmCoverMap[name]=v;
+               } else {
+                   qDebug() << "String does not match the pattern.";
+               }
+
+    }
+
+    return;
 }
 
 void ChangeLive2DWidget::init()
@@ -276,7 +355,7 @@ void ChangeLive2DWidget::init()
 
 void ChangeLive2DWidget::initPartsItemMap(const QString &path)
 {
-    QFile file(path+"/HARMONICLIST.txt");
+    QFile file(path+"/PARAMETERLIST.txt");
     if(!file.open(QIODevice::ReadOnly|QIODevice::Text)){
         qDebug()<<"Part Item File Open Fail!";
         return;

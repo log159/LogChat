@@ -40,6 +40,7 @@ SOURCES += \
         global.cpp \
         gptsovitsapi.cpp \
         listitemswidget.cpp \
+        live2danimationitemswidget.cpp \
         live2ddrawitemswidget.cpp \
         live2dlistitemswidget.cpp \
         live2dpartitemswidget.cpp \
@@ -83,6 +84,7 @@ HEADERS += \
         global.h \
         gptsovitsapi.h \
         listitemswidget.h \
+        live2danimationitemswidget.h \
         live2ddrawitemswidget.h \
         live2dlistitemswidget.h \
         live2dpartitemswidget.h \
@@ -117,6 +119,7 @@ FORMS += \
         changelive2dwidget.ui \
         galdialog.ui \
         listitemswidget.ui \
+        live2danimationitemswidget.ui \
         live2ddrawitemswidget.ui \
         live2dlistitemswidget.ui \
         live2dpartitemswidget.ui \

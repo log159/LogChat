@@ -5,6 +5,9 @@
 #include <QDialog>
 #include <QIcon>
 #include <QSound>
+#include <QButtonGroup>
+#include <QList>
+#include <QRadioButton>
 
 #include "vitsfactory.h"
 #include "vitsbase.h"
@@ -18,7 +21,7 @@ class SetCompoundDialogWidget : public QDialog
     Q_OBJECT
 private:
     const int _Width      =720;
-    const int _Height     =500;
+    const int _Height     =600;
 private:
     VITSBase*   m_Vits      =nullptr;
     QSound*     m_MySound   =nullptr;

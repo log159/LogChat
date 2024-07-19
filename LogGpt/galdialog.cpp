@@ -91,7 +91,7 @@ void GalDialog::on_pushButton_record_pressed()
      * 参数就是qaudiocapture.cpp里设置的
     */
 #ifndef DEBUG
-    m_audio.startRecord("./record_temp.pcm"); //暂存位置
+//    m_audio.startRecord("./record_temp.pcm"); //暂存位置
 #endif
 }
 //松开提交
@@ -100,7 +100,7 @@ void GalDialog::on_pushButton_record_released()
     //停止录音
     qDebug()<<"结束录音";
 #ifndef DEBUG
-    m_audio.stopRecord();
+//    m_audio.stopRecord();
     //Config部分重构，这样获取到appid,key,secret,如果没有设定则为空字符串
     ::IKS iks=Config::get_IKS(::EnIks::STT_BDYUN);
 

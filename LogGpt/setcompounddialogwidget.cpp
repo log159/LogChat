@@ -25,6 +25,15 @@ void SetCompoundDialogWidget::init()
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 
 
+
+    QButtonGroup *block=new QButtonGroup(this);
+
+    block->addButton(ui->radioButton_1,0);
+    block->addButton(ui->radioButton_2,1);
+    block->addButton(ui->radioButton_3,2);
+    block->addButton(ui->radioButton_4,3);
+
+    static_cast<QRadioButton*>(block->buttons()[0])->setChecked(true);
 }
 
 void SetCompoundDialogWidget::initConnect()
@@ -60,6 +69,12 @@ void SetCompoundDialogWidget::initConnect()
     connect(ui->pushButton_replay,&QPushButton::clicked,[=](){
 
     });
+
+    connect(ui->radioButton_1,&QRadioButton::toggled,[=](){});
+    connect(ui->radioButton_2,&QRadioButton::toggled,[=](){});
+    connect(ui->radioButton_3,&QRadioButton::toggled,[=](){});
+    connect(ui->radioButton_4,&QRadioButton::toggled,[=](){});
+
 //    QString jsonPath = QFileDialog::getOpenFileName(nullptr, "Open File", "", "All Files (*model3.json)");
 //    if(jsonPath.size()<QString("model3.json").size()){return ;}
 }

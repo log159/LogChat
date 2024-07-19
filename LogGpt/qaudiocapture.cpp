@@ -1,6 +1,6 @@
 #include "qaudiocapture.h"
 #include <QMessageBox>
-#include <qDebug>
+#include <QDebug>
 
 QAudioCapture::QAudioCapture(QObject *parent)
     : QObject(parent),

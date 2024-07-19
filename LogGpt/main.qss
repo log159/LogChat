@@ -20,6 +20,10 @@ QLineEdit {
     padding: 2px;
 }
 
+QLabel {
+    background-color: transparent;
+}
+
 
 QPushButton {
     background-color: #FFFFFF;
@@ -58,6 +62,34 @@ QComboBox QAbstractItemView {
     selection-background-color: #B3B6B7; 
 }
 
+
+QCheckBox {
+    background-color: transparent;
+    padding-left: 20px;
+
+}
+QCheckBox::indicator {
+    width: 20px;
+    height: 20px;
+}
+QCheckBox::indicator::unchecked {
+    border-radius: 6px;
+    background-color: #F0F3F4 ;
+}
+
+QCheckBox::indicator::unchecked:hover {
+    border-radius: 6px;
+    background-color: #DFDFDF ;
+}
+
+QCheckBox::indicator::checked {
+    border-radius: 6px;
+    background-color: #B3B6B7 ;
+}
+
+QCheckBox::indicator::checked:hover {
+    background-color: #979A9A;
+}
 
 QRadioButton {
     background-color: #FFFFFF;
