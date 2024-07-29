@@ -16,7 +16,7 @@ SetSelectWidget::~SetSelectWidget()
 }
 void SetSelectWidget::init()
 {
-    this->setFixedSize(_Width,ConfigWindow::getStaticHeight());
+    this->setFixedSize(WIDTH,ConfigWindow::getStaticHeight());
 
     m_ListWidget=new QListWidget(this);
 
@@ -62,7 +62,7 @@ void SetSelectWidget::init()
     SendButtonHandle sendButtonEnter=&SetPushButton::sendButtonEnter;
     for(int i=0;i<m_ButtonVector.size();++i)
     {
-        m_ButtonVector.at(i)->setFixedSize(this->width()-3,_ButtonHeight);
+        m_ButtonVector.at(i)->setFixedSize(this->width()-3,BUTTON_HEIGHT);
         QListWidgetItem *item = new QListWidgetItem();
         m_ListWidget->addItem(item);
         item->setSizeHint(m_ButtonVector.at(i)->size());

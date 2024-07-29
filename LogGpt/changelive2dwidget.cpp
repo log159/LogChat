@@ -338,7 +338,7 @@ void ChangeLive2DWidget::initHarmCoverMap(const QString &path)
 
 void ChangeLive2DWidget::init()
 {
-    this->resize(_Width,_Height);
+    this->resize(WIDTH,HEIGHT);
     this->setWindowTitle("模型修改");
     this->setWindowIcon(QIcon(":/res/u77.svg"));
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);

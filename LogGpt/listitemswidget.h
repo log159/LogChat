@@ -28,9 +28,9 @@ class ListItemsWidget : public QWidget
 
 private:
 
-    const int _Height       =50;
-    const int _IconWidth    =35;
-    const int _IconHeight   =35;
+    const int HEIGHT       =50;
+    const int ICON_WIDTH    =35;
+    const int ICON_HEIGHT   =35;
 protected:
     QLabel*     m_IconLab      =nullptr;
     QTextEdit*  m_TitleEdit    =nullptr;

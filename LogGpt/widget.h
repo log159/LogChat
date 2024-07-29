@@ -41,35 +41,31 @@ class Widget : public QWidget
     Q_OBJECT
     typedef void (PushAndReceiveWidget::*SendAudio)(QString);
     typedef void (SetLive2DDialogWidget::*SendModelHandle)(QString);
-private:
-     QMenu *              m_TrayMenu                =nullptr;
-     QSystemTrayIcon *    m_Tray                    =nullptr;
-     QAction*             m_MinimizeAction          =nullptr;
-     QAction*             m_MaximizeAction          =nullptr;
-     QAction*             m_RestoreAction           =nullptr;
-     QMenu*               m_Live2dMenu              =nullptr;
-     QAction*             m_Live2dStartAction       =nullptr;
-     QAction*             m_Live2dShowAction        =nullptr;
-     QAction*             m_QuitAction              =nullptr;
+
 private:
 
     PushAndReceiveWidget* m_PushAndReceiveWidget    =nullptr;
     SetSelectWidget*      m_SetSelectWidget         =nullptr;
     NetLive2D*            m_NetLive2D               =nullptr;
-
+public:
+    QSharedPointer<GalDialog> new_GalDialog; //新窗口
 public:
     explicit Widget(QWidget *parent = nullptr);
-    QSharedPointer<GalDialog> new_GalDialog; //新窗口
+    void updateOtherWidgetSize();
     ~Widget();
 private:
     void init();
     void initConnect();
-    void updateOtherWidgetSize();
     void resizeEvent(QResizeEvent*event);
-    void closeEvent(QCloseEvent *event);
-    void hideEvent(QHideEvent *event);
+
+    void enterEvent(QEvent*);
+    void leaveEvent(QEvent*);
+
+signals:
+    void mouseChange(Qt::CursorShape);
+
 private slots:
-    void icon_activated(QSystemTrayIcon::ActivationReason ireason);
+
 
     void slot_receive_data_from_gal_to_widget(QString data); //接收Gal窗口传递过来的数据的槽
     void slot_receive_data_from_llm_to_widget(QString data); //接收llm传递过来的数据的槽

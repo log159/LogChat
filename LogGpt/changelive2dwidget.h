@@ -34,8 +34,8 @@ private:
 
 //    }
 private:
-    const int _Width      =900;
-    const int _Height     =600;
+    const int WIDTH      =900;
+    const int HEIGHT     =600;
 
     QMap<QString,QVector<int>>  m_PartItemsMap;     //PARAMETERLIST
     QMap<QString,bool>          m_DrawItemsMap;     //DRAWINGLIST

@@ -16,8 +16,8 @@ class AboutSoftwareDialogWidget : public QDialog
 {
     Q_OBJECT
 private:
-    const int _Width      =700;
-    const int _Height     =500;
+    const int WIDTH      =700;
+    const int HEIGHT     =500;
 public:
     explicit AboutSoftwareDialogWidget(QWidget *parent = nullptr);
     ~AboutSoftwareDialogWidget();

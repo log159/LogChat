@@ -17,10 +17,10 @@ SetDialogWidget::~SetDialogWidget()
 
 void SetDialogWidget::init()
 {
-    this->resize(_Width,_Height);
+    this->resize(WIDTH,HEIGHT);
     this->setWindowTitle("基本设置");
     this->setWindowIcon(QIcon(":/res/u77.svg"));
-    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint | Qt::WindowStaysOnTopHint);
 
     ui->tabWidget->setCurrentIndex(0);
 

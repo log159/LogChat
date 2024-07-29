@@ -19,8 +19,8 @@ class Live2DPartItemsWidget : public QWidget
     Q_OBJECT
     typedef void (QSlider::*SliderChange)(int);
 private:
-    const int _Width      =400;
-    const int _Height     =50;
+    const int WIDTH      =400;
+    const int HEIGHT     =50;
 private:
 
     ModelPartItem m_ModelPartItem;

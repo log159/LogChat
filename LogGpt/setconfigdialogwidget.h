@@ -25,8 +25,8 @@ class SetConfigDialogWidget : public QDialog
     Q_OBJECT
     typedef void (QSlider::*SliderMoved)(int);
 private:
-    const int _Width      =700;
-    const int _Height     =500;
+    const int WIDTH      =700;
+    const int HEIGHT     =500;
 public:
     explicit SetConfigDialogWidget(QWidget *parent = nullptr);
     ~SetConfigDialogWidget()override;

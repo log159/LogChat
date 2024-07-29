@@ -2,7 +2,7 @@
 #include <QSharedMemory>
 #include <QTextCodec>
 
-#include "widget.h"
+#include "mainwidget.h"
 #include "config.h"
 #include "configwindow.h"
 #include "configlive2d.h"
@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
     Config::init();
     ConfigWindow::init();
     ConfigLive2d::init();
-    Widget w;
+    MainWidget w;
     w.show();
 
     return a.exec();

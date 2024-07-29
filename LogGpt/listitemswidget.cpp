@@ -17,7 +17,7 @@ ListItemsWidget::~ListItemsWidget()
 }
 void ListItemsWidget::init()
 {
-    this->setFixedSize(ConfigWindow::getStaticWidth()-10,_Height);
+    this->setFixedSize(ConfigWindow::getStaticWidth()-10,HEIGHT);
     this->m_Font.setPixelSize(20);
 
     m_IconLab=new QLabel(this);
@@ -42,7 +42,7 @@ void ListItemsWidget::init()
                                 );
 
     m_IconLab=new QLabel(this);
-    m_IconLab->setFixedSize(_IconWidth,_IconHeight);
+    m_IconLab->setFixedSize(ICON_WIDTH,ICON_HEIGHT);
     m_IconLab->hide();
 
 }
@@ -56,8 +56,8 @@ void ListItemsWidget::initItem(const QString &strTitle,const ItemEnum& ItEn)
 {
     m_ItemEnum=ItEn;
     this->m_TitleEdit->setText(strTitle);
-    this->setFixedSize(ConfigWindow::getStaticWidth()-10,_Height);
-    this->m_TitleEdit->setFixedSize(int(this->width()*0.85),_Height);
+    this->setFixedSize(ConfigWindow::getStaticWidth()-10,HEIGHT);
+    this->m_TitleEdit->setFixedSize(int(this->width()*0.85),HEIGHT);
     if(ItEn==ItemEnum::User){m_TitleEdit->move(10,m_TitleEdit->y());}
     else if(ItEn==ItemEnum::Bot){m_TitleEdit->move(this->width()-10-m_TitleEdit->width(),m_TitleEdit->y());}
     else {}

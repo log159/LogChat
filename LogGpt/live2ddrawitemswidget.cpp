@@ -10,7 +10,7 @@ Live2DDrawItemsWidget::Live2DDrawItemsWidget(QWidget *parent) :
 
 void Live2DDrawItemsWidget::init(const ModelPartItem &modItem)
 {
-    this->resize(_Width,_Height);
+    this->resize(WIDTH,HEIGHT);
     this->setModelItem(modItem);
     ui->lineEdit_name->setReadOnly(true);
 

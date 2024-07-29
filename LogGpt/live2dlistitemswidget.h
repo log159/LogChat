@@ -17,8 +17,8 @@ class Live2DListItemsWidget : public QWidget
 {
     Q_OBJECT
 private:
-    const int _Width      =225;
-    const int _Height     =75;
+    const int WIDTH      =225;
+    const int HEIGHT     =75;
 private:
     ModelConfigItem m_ModelConfigItem;
 public:

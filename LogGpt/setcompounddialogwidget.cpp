@@ -22,7 +22,7 @@ void SetCompoundDialogWidget::init()
     this->resize(_Width,_Height);
     this->setWindowTitle("语音合成");
     this->setWindowIcon(QIcon(":/res/u77.svg"));
-    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint | Qt::WindowStaysOnTopHint);
 
 
 

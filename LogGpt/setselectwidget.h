@@ -28,8 +28,8 @@ class SetSelectWidget : public QWidget
     Q_OBJECT
     typedef void (SetPushButton::*SendButtonHandle)();
 private:
-    const int _Width            =100;
-    const int _ButtonHeight     =60;
+    const int WIDTH            =100;
+    const int BUTTON_HEIGHT     =60;
 
     int                         m_ButtonId         =-1;
     bool                        m_ZoomId           =false;

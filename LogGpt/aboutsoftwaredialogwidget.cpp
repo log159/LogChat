@@ -16,10 +16,10 @@ AboutSoftwareDialogWidget::~AboutSoftwareDialogWidget()
 
 void AboutSoftwareDialogWidget::init()
 {
-    this->resize(_Width,_Height);
+    this->resize(WIDTH,HEIGHT);
     this->setWindowTitle("关于");
     this->setWindowIcon(QIcon(":/res/u77.svg"));
-    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint | Qt::WindowStaysOnTopHint);
 
     QString information_str=
 "#LogChat Version-7.4\n"

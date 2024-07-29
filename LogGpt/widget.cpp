@@ -21,13 +21,6 @@ Widget::~Widget()
 void Widget::init()
 {
 
-    ConfigWindow::_WindowPointer=this;
-    this->setWindowTitle(ConfigWindow::_WindowTitle);
-    this->setWindowIcon(QIcon(":/res/u77.svg"));
-    this->setMinimumSize(ConfigWindow::_StaticMinWidth,ConfigWindow::_StaticMinHeight);
-    this->resize(ConfigWindow::getStaticWidth(),ConfigWindow::getStaticHeight());
-    this->move(ConfigWindow::getStaticPosX(),ConfigWindow::getStaticPosY());
-
     m_PushAndReceiveWidget=new PushAndReceiveWidget(this);
     m_PushAndReceiveWidget->move(0,0);
     m_PushAndReceiveWidget->show();
@@ -42,36 +35,6 @@ void Widget::init()
 
 
     m_PushAndReceiveWidget->setFocus();
-
-    //最小化到托盘
-    m_Tray= new QSystemTrayIcon(this);                //初始化托盘对象tray
-    m_Tray->setIcon(QIcon(QPixmap(":/res/u77.svg"))); //设定托盘图标，引号内是自定义的png图片路径
-    m_Tray->setToolTip(ConfigWindow::_WindowTitle);   //提示文字
-    m_Tray->show();                                   //让托盘图标显示在系统托盘上
-
-    //创建菜单项动作
-    m_MinimizeAction = new QAction("最小化窗口", this);
-    m_MaximizeAction = new QAction("最大化窗口", this);
-    m_RestoreAction = new QAction("恢复窗口显示", this);
-    m_Live2dMenu = new QMenu("Live2d",this);
-    m_QuitAction = new QAction("退出应用", this);
-
-    m_Live2dStartAction =new QAction("启用Live2d");
-    m_Live2dShowAction = new QAction("隐藏窗口");
-
-    m_Live2dMenu->addAction(m_Live2dStartAction);
-    m_Live2dMenu->addAction(m_Live2dShowAction);
-
-    //创建托盘菜单
-    m_TrayMenu = new QMenu(this);
-    m_TrayMenu->addAction(m_MinimizeAction);
-    m_TrayMenu->addAction(m_MaximizeAction);
-    m_TrayMenu->addAction(m_RestoreAction);
-    m_TrayMenu->addMenu(m_Live2dMenu);
-    m_TrayMenu->addSeparator();
-    m_TrayMenu->addAction(m_QuitAction);
-    m_Tray->setContextMenu(m_TrayMenu);
-
 
 
 }
@@ -114,7 +77,7 @@ void Widget::initConnect()
     connect(m_SetSelectWidget,&SetSelectWidget::setGalDialogShow,[=](){
 
         new_GalDialog.reset(new GalDialog);
-        /*发送句柄事件，告诉unity，galdialog有更高的优先级*/
+        /*发送句柄事件，通知unity，galdialog有更高的优先级*/
         m_NetLive2D->sendHandle("Hwnd:dialog,"+QString::number(static_cast<int>(new_GalDialog.get()->winId()))+";");
 
         /*移动窗口到对应位置，如果未启用模型默认为屏幕中心*/
@@ -152,42 +115,6 @@ void Widget::initConnect()
 
     });
 
-    //最小化到托盘的菜单事件连接
-    connect(m_MinimizeAction, SIGNAL(triggered()), this, SLOT(hide()));
-    connect(m_MaximizeAction, SIGNAL(triggered()), this, SLOT(showMaximized()));
-    connect(m_RestoreAction, SIGNAL(triggered()), this, SLOT(showNormal()));
-    connect(m_RestoreAction,&QAction::triggered,this,[=](){
-        //设置窗口置顶
-        ::SetWindowPos(HWND(this->winId()), HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
-        //设置窗口置顶取消
-        ::SetWindowPos(HWND(this->winId()), HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
-
-        updateOtherWidgetSize();
-
-    });
-
-    connect(m_Live2dStartAction,&QAction::triggered,this,[=](){
-
-
-    });
-
-    connect(m_Live2dShowAction,&QAction::triggered,this,[=](){
-        HWND hwnd = ConfigLive2d::getLive2DWindow();
-        if (!::IsWindowVisible(hwnd)) {
-            // 显示窗口
-            ::ShowWindow(hwnd, SW_SHOW);
-            m_Live2dShowAction->setText("隐藏Live2d");
-        } else {
-            // 隐藏窗口
-            ::ShowWindow(hwnd, SW_HIDE);
-            m_Live2dShowAction->setText("显示Live2d");
-        }
-    });
-
-    connect(m_QuitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
-
-    connect(m_Tray,SIGNAL(activated(QSystemTrayIcon::ActivationReason)),this,SLOT(icon_activated(QSystemTrayIcon::ActivationReason)));
-
     connect(m_PushAndReceiveWidget, SIGNAL(signals_send_data_from_llm_to_main(QString)), this, SLOT(slot_receive_data_from_llm_to_widget(QString))); //llm返回回复到widget
 
 }
@@ -213,43 +140,18 @@ void Widget::resizeEvent(QResizeEvent *event)
     updateOtherWidgetSize();
 }
 
-void Widget::icon_activated(QSystemTrayIcon::ActivationReason ireason)
-{
 
-    switch (ireason)
-    {
-    case QSystemTrayIcon::Trigger:
-        this->showNormal();
-        break;
-    case QSystemTrayIcon::DoubleClick:
-        this->showNormal();
-        break;
-    case QSystemTrayIcon::MiddleClick:
-        break;
-    default:
-        break;
-    }
-    ::SetWindowPos(HWND(this->winId()), HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-    ::SetWindowPos(HWND(this->winId()), HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-    updateOtherWidgetSize();
+
+
+
+void Widget::enterEvent(QEvent *)
+{
+    emit mouseChange(Qt::ArrowCursor);
 }
 
+void Widget::leaveEvent(QEvent *)
+{
 
-void Widget::closeEvent(QCloseEvent *event)
-{
-    if(m_Tray->isVisible())
-    {
-        hide(); //隐藏窗口
-        event->ignore(); //忽略事件
-    }
-}
-void Widget::hideEvent(QHideEvent *event)
-{
-    if(m_Tray->isVisible())
-    {
-        hide(); //隐藏窗口
-        event->ignore(); //忽略事件
-    }
 }
 
 /*信息通过主界面传递*/

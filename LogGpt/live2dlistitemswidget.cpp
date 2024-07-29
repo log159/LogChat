@@ -12,7 +12,7 @@ Live2DListItemsWidget::Live2DListItemsWidget(QWidget *parent) :
 
 void Live2DListItemsWidget::init(const ModelConfigItem& modItem)
 {
-    this->resize(_Width,_Height);
+    this->resize(WIDTH,HEIGHT);
 
     this->setModelItem(modItem);
     this->setText(modItem.getModelName());

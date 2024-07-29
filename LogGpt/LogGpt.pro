@@ -47,6 +47,7 @@ SOURCES += \
         llmbase.cpp \
         llmfactory.cpp \
         main.cpp \
+        mainwidget.cpp \
         modelconfigitem.cpp \
         modelpartitem.cpp \
         netlive2d.cpp \
@@ -67,6 +68,7 @@ SOURCES += \
         vitsbase.cpp \
         vitsfactory.cpp \
         widget.cpp \
+        windowbutton.cpp \
         xfxhapi.cpp
 
 HEADERS += \
@@ -90,6 +92,7 @@ HEADERS += \
         live2dpartitemswidget.h \
         llmbase.h \
         llmfactory.h \
+        mainwidget.h \
         modelconfigitem.h \
         modelpartitem.h \
         netlive2d.h \
@@ -111,6 +114,7 @@ HEADERS += \
         vitsbase.h \
         vitsfactory.h \
         widget.h \
+        windowbutton.h \
         xfxhapi.h
 
 FORMS += \

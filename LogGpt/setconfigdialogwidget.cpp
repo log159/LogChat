@@ -17,10 +17,10 @@ SetConfigDialogWidget::~SetConfigDialogWidget()
 }
 void SetConfigDialogWidget::init()
 {
-    this->resize(_Width,_Height);
+    this->resize(WIDTH,HEIGHT);
     this->setWindowTitle("聊天设置");
     this->setWindowIcon(QIcon(":/res/u77.svg"));
-    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint | Qt::WindowStaysOnTopHint);
     ui->horizontalSlider_reserve->setRange(0,100);
     ui->horizontalSlider_reserve->setValue(Config::get_USER(::EnUser::RESERVE_LONG).toInt());
 

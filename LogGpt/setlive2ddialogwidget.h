@@ -40,8 +40,8 @@ class SetLive2DDialogWidget : public QDialog
 public:
     static bool live2DIsOpen;
 private:
-    const int _Width      =1200;
-    const int _Height     =800;
+    const int WIDTH      =1200;
+    const int HEIGHT     =800;
 private:
     static QProcess*   m_Live2dProcess;
     static int         m_Live2dOpenId;
@@ -51,6 +51,7 @@ public:
     explicit SetLive2DDialogWidget(QWidget *parent = nullptr);
     ~SetLive2DDialogWidget();
 
+    static void closeProcess();
 
 private:
     void init();

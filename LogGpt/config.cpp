@@ -60,7 +60,6 @@ void Config::init_LIVE2DMODELCONFIG_V()
 
         // 按行拆分文件内容
         QStringList lines = modelStrV.at(i).split('\n', QString::SkipEmptyParts);
-        // 创建一个 QMap 以存储键值对
         QMap<QString, QString> keyValueMap;
 
         for (const QString& line : lines) {
@@ -72,12 +71,6 @@ void Config::init_LIVE2DMODELCONFIG_V()
                 keyValueMap[key]=value;
             }
         }
-//        // 输出提取的键值对
-//        QMapIterator<QString, QString> it(keyValueMap);
-//        while (it.hasNext()) {
-//            it.next();
-//            qDebug() << it.key() << ":" << it.value();
-//        }
         ModelConfigItem modelConfigItem;
         modelConfigItem.setModelId(keyValueMap["model_id"].toInt());
         modelConfigItem.setModelName(keyValueMap["model_name"]);
