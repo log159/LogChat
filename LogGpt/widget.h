@@ -19,6 +19,8 @@
 #include <QDesktopWidget>
 #include <QSharedPointer>
 #include <QMenuBar>
+#include <QPainter>
+#include <QPaintEvent>
 
 #include "configwindow.h"
 #include "pushandreceivewidget.h"
@@ -57,6 +59,8 @@ private:
     void init();
     void initConnect();
     void resizeEvent(QResizeEvent*event);
+
+    void paintEvent(QPaintEvent*event);
 
     void enterEvent(QEvent*);
     void leaveEvent(QEvent*);

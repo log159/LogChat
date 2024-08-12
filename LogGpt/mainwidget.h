@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <QMouseEvent>
 #include <QApplication>
+#include <QPaintEvent>
+#include <QPainter>
 
 #include "setlive2ddialogwidget.h"
 #include "windowbutton.h"
@@ -66,6 +68,8 @@ private:
 
     void closeEvent(QCloseEvent *event);
     void hideEvent(QHideEvent *event);
+
+    void paintEvent(QPaintEvent*event);
 signals:
 
 public slots:

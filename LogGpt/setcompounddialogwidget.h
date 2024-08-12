@@ -8,6 +8,7 @@
 #include <QButtonGroup>
 #include <QList>
 #include <QRadioButton>
+#include <QDesktopServices>
 
 #include "vitsfactory.h"
 #include "vitsbase.h"

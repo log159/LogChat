@@ -95,7 +95,7 @@ private:
     const QString getSpeakChatGPT();    //历史记忆拼接 适用于Python脚本
     const QString getSpeakXFXH();       //历史记忆拼接 适用于讯飞星火SDK
 
-    void paintEvent(QPaintEvent* e);
+    void paintEvent(QPaintEvent* event);
 
 signals:
     void sendIs();

@@ -25,6 +25,7 @@ private:
     static int _StaticHeight;
     static int _DesktopWidth;
     static int _DesktopHeight;
+    static int _WindowTransparent;
 public:
 
     static void init();
@@ -32,6 +33,7 @@ public:
     static void setStaticPosY(int y);
     static void setStaticWidth(int w);
     static void setStaticHeight(int h);
+    static void setWindowTransparent(int a);
 
     static int getStaticPosX();
     static int getStaticPosY();
@@ -39,6 +41,7 @@ public:
     static int getStaticHeight();
     static int getDesktopWidth();
     static int getDesktopHeight();
+    static int getWindowTransparent();
 
 };
 #endif // CONFIGWINDOW_H

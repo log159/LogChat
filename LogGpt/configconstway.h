@@ -14,6 +14,7 @@ public:
     //常量信息
     static const QString            SETCONFIG_WAY;         //设置配置路径
     static const QString            OUTPUT_WAV_WAY;        //音频文件输出路径
+    static const QString            OUTPUT_COMPOUNDWAV_WAY;//合成音频文件输出路径
     static const QString            CHARACTER_CONFIG_WAY;  //角色扮演配置文件路径
     static const QString            CHATGPT_DEMO_WAY;      //chatgptEXE路径
     static const QString            XFXH_QUESTION_WAY;     //讯飞星火QUESTION路径

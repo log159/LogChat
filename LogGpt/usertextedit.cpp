@@ -8,48 +8,7 @@ UserTextEdit::UserTextEdit(QWidget *parent) : QTextEdit(parent)
 
 void UserTextEdit::init()
 {
-    this->setStyleSheet(
-        "QTextEdit {"
-        "  color: #333333;"                // 文字颜色
-        "  background-color: #ffffff;"     // 背景颜色
-        "  border: 1px solid #cccccc;"     // 边框颜色和样式
-        "  border-radius: 5px;"            // 边框圆角
-        "  padding: 8px;"                  // 内边距
-        "  font-family: 'Arial';"          // 字体
-        "  font-size: 14px;"               // 字体大小
-        "}"
-        "QScrollBar:vertical {"
-        "  width: 10px;"
-        "  background-color: #F5F5F5;"
-        "  margin: 0px 0px 0px 0px;"
-        "  border-radius: 5px;"
-        "}"
-        "QScrollBar::handle:vertical {"
-        "  background-color: #CCCCCC;"
-        "  min-height: 20px;"
-        "  border-radius: 5px;"
-        "}"
-        "QScrollBar::handle:vertical:hover {"
-        "  background-color: #BBBBBB;"
-        "  border-radius: 5px;"
-        "}"
-        "QScrollBar::add-line:vertical {"
-        "  height: 0px;"
-        "  subcontrol-position: bottom;"
-        "  subcontrol-origin: margin;"
-        "}"
-        "QScrollBar::sub-line:vertical {"
-        "  height: 0px;"
-        "  subcontrol-position: top;"
-        "  subcontrol-origin: margin;"
-        "}"
-        "QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {"
-        "  background-color: #F5F5F5;"
-        "  border-radius: 5px;"
-        "}"
-    );
-
-
+    this->setStyleSheet(QString("background-color: rgba(255, 255, 255, %1);").arg(0));
 }
 
 void UserTextEdit::keyPressEvent(QKeyEvent *event)

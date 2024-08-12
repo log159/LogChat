@@ -16,17 +16,21 @@ SetSelectWidget::~SetSelectWidget()
 }
 void SetSelectWidget::init()
 {
+
     this->setFixedSize(WIDTH,ConfigWindow::getStaticHeight());
 
     m_ListWidget=new QListWidget(this);
 
-    m_ListWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);       //禁止水平滚动条显示
-    m_ListWidget->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);   //平滑效果
-    m_ListWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);       //禁用水平滑动条
+
     m_ListWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);         //禁止编辑
+    m_ListWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);       //禁用水平滑动条
     m_ListWidget->setSelectionMode(QAbstractItemView::NoSelection);           //禁止选中
-    m_ListWidget->setFixedSize(this->size());
+    m_ListWidget->setFocusPolicy(Qt::NoFocus);                                //禁止获取焦点
+    m_ListWidget->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);   //平滑效果
+    m_ListWidget->setAttribute(Qt::WA_TranslucentBackground);
+    m_ListWidget->setFixedSize(this->width(),this->height());
     m_ListWidget->move(0,0);
+
 
     m_PushButtonSet=new SetPushButton();
     m_PushButtonSet->setText("基本设置");
@@ -167,6 +171,19 @@ void SetSelectWidget::zoom2()
     animation->setEasingCurve(QEasingCurve::Linear);
     //执行
     animation->start(QAbstractAnimation::DeleteWhenStopped);
+}
+
+void SetSelectWidget::paintEvent(QPaintEvent *event)
+{
+    Q_UNUSED(event)
+    QPainter painter(this);
+    QBrush brush;
+    brush.setColor(QColor(255, 255, 255, ConfigWindow::getWindowTransparent()));
+    brush.setStyle(Qt::SolidPattern);
+    painter.setBrush(brush);
+    painter.setPen(Qt::NoPen);
+    painter.drawRect(0,0,this->width(),this->height());
+
 }
 
 

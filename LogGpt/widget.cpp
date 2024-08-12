@@ -110,8 +110,8 @@ void Widget::initConnect()
     });
 
     connect(m_SetSelectWidget,&SetSelectWidget::setCompoundShow,[=](){
-        SetCompoundDialogWidget compoundDialogWidget;
-        compoundDialogWidget.exec();
+        SetCompoundDialogWidget* compoundDialogWidget=new SetCompoundDialogWidget;
+        compoundDialogWidget->show();
 
     });
 
@@ -140,8 +140,17 @@ void Widget::resizeEvent(QResizeEvent *event)
     updateOtherWidgetSize();
 }
 
-
-
+void Widget::paintEvent(QPaintEvent *event)
+{
+    Q_UNUSED(event)
+    QPainter painter(this);
+    QBrush brush;
+    brush.setColor(QColor(255, 255, 255, 0));
+    brush.setStyle(Qt::SolidPattern);
+    painter.setBrush(brush);
+    painter.setPen(Qt::NoPen);
+    painter.drawRect(0,0,this->width(),this->height());
+}
 
 
 void Widget::enterEvent(QEvent *)

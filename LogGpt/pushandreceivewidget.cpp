@@ -21,6 +21,7 @@ PushAndReceiveWidget::~PushAndReceiveWidget()
 
 void PushAndReceiveWidget::init()
 {
+
     this->setFixedSize(ConfigWindow::getStaticWidth(),ConfigWindow::getStaticHeight());
 
 
@@ -31,7 +32,7 @@ void PushAndReceiveWidget::init()
     m_ListWidget->setSelectionMode(QAbstractItemView::NoSelection);           //禁止选中
     m_ListWidget->setFocusPolicy(Qt::NoFocus);                                //禁止获取焦点
     m_ListWidget->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);   //平滑效果
-
+    m_ListWidget->setAttribute(Qt::WA_TranslucentBackground);
 
     m_ListWidget->show();
 
@@ -46,6 +47,7 @@ void PushAndReceiveWidget::init()
     m_PushButtonListen=new QPushButton(this);
     m_PushButtonListen->setText("点击说话");
     m_PushButtonListen->setGeometry(m_UserTextEdit->geometry());
+    m_PushButtonListen->setStyleSheet("background-color: transparent;");
     m_PushButtonListen->hide();
 
 
@@ -94,6 +96,8 @@ void PushAndReceiveWidget::init()
     m_PushButtonWrite->setIconSize(writebutton_img.size()*0.7);
     m_PushButtonWrite->setCursor(Qt::PointingHandCursor);
     m_PushButtonWrite->hide();
+
+    m_Frame->setStyleSheet("background-color: transparent;");
 
     setAdapt();
     m_UserTextEdit->setFocus();
@@ -229,16 +233,18 @@ const QString PushAndReceiveWidget::getSpeakXFXH()
 }
 
 
-void PushAndReceiveWidget::paintEvent(QPaintEvent *e)
+void PushAndReceiveWidget::paintEvent(QPaintEvent *event)
 {
-    Q_UNUSED(e);
+    Q_UNUSED(event)
     QPainter painter(this);
     QBrush brush;
-    brush.setColor(Qt::white);
+    brush.setColor(QColor(255, 255, 255, 0));
     brush.setStyle(Qt::SolidPattern);
-    painter.setPen(Qt::NoPen);
     painter.setBrush(brush);
+    painter.setPen(Qt::NoPen);
     painter.drawRect(0,0,this->width(),this->height());
+
+
 
 }
 
@@ -509,7 +515,7 @@ void PushAndReceiveWidget::setAdapt()
     this->setFixedSize(ConfigWindow::getStaticWidth(),ConfigWindow::getStaticHeight());
 
     m_ListWidget->move(-1,-1);
-    m_ListWidget->setFixedSize(this->width()+2,this->height()-_TextEditMinHeight);
+    m_ListWidget->setFixedSize(this->width()+3,this->height()-_TextEditMinHeight);
 
     for(int i=0;i<m_ListWidget->count();++i){
         QListWidgetItem* listWidgetItem=m_ListWidget->item(i);

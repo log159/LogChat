@@ -24,7 +24,10 @@ void SetCompoundDialogWidget::init()
     this->setWindowIcon(QIcon(":/res/u77.svg"));
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint | Qt::WindowStaysOnTopHint);
 
-
+    QString path = ConfigConstWay::get_TRUE_WAY(ConfigConstWay::OUTPUT_COMPOUNDWAV_WAY);
+    path.remove("/%1.wav");
+    ui->lineEdit->setText(path);
+    ui->lineEdit->setReadOnly(true);
 
     QButtonGroup *block=new QButtonGroup(this);
 
@@ -38,6 +41,7 @@ void SetCompoundDialogWidget::init()
 
 void SetCompoundDialogWidget::initConnect()
 {
+
     connect(ui->pushButton_start,&QPushButton::clicked,[=](){
         isReturn=false;
         m_Vits = VITSFactory::getNew(this);
@@ -70,13 +74,28 @@ void SetCompoundDialogWidget::initConnect()
 
     });
 
+    //打开音频输出文件夹
+    connect(ui->pushButton_find,&QPushButton::clicked,[=](){
+        QString directoryPath = ui->lineEdit->text();
+        qDebug()<<"open file path"<<directoryPath;
+
+        // 构建目录的URL
+        QUrl directoryUrl = QUrl::fromLocalFile(directoryPath);
+
+        // 打开资源管理器并指定目录
+        if (QDesktopServices::openUrl(directoryUrl)) {
+            qDebug() << "File explorer opened successfully.";
+        } else {
+            qDebug() << "Failed to open file explorer.";
+        }
+    });
     connect(ui->radioButton_1,&QRadioButton::toggled,[=](){});
     connect(ui->radioButton_2,&QRadioButton::toggled,[=](){});
     connect(ui->radioButton_3,&QRadioButton::toggled,[=](){});
     connect(ui->radioButton_4,&QRadioButton::toggled,[=](){});
 
-//    QString jsonPath = QFileDialog::getOpenFileName(nullptr, "Open File", "", "All Files (*model3.json)");
-//    if(jsonPath.size()<QString("model3.json").size()){return ;}
+
+
 }
 
 void SetCompoundDialogWidget::save_sound(const QString &str)

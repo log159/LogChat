@@ -57,6 +57,7 @@ private:
     void initConnect();
     void zoom1();
     void zoom2();
+    void paintEvent(QPaintEvent* event);
 
 
 signals:

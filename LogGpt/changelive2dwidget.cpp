@@ -341,7 +341,7 @@ void ChangeLive2DWidget::init()
     this->resize(WIDTH,HEIGHT);
     this->setWindowTitle("模型修改");
     this->setWindowIcon(QIcon(":/res/u77.svg"));
-    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint | Qt::WindowStaysOnTopHint);
 
 
     QFile file(":/main.qss");

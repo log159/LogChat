@@ -1,7 +1,8 @@
 #include "configconstway.h"
 
 const QString ConfigConstWay::SETCONFIG_WAY             ="/config/setconfig.json";
-const QString ConfigConstWay::OUTPUT_WAV_WAY            ="/wav/%1.wav";
+const QString ConfigConstWay::OUTPUT_WAV_WAY            ="/voice/%1.wav";
+const QString ConfigConstWay::OUTPUT_COMPOUNDWAV_WAY    ="/voicesave/%1.wav";
 const QString ConfigConstWay::CHARACTER_CONFIG_WAY      ="/config/config.txt";
 const QString ConfigConstWay::CHATGPT_DEMO_WAY          ="/chatgptapi/dist/qtopenai.exe";
 const QString ConfigConstWay::XFXH_QUESTION_WAY         ="/xfxhapi/question.txt";

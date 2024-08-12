@@ -11,6 +11,7 @@ int ConfigWindow::_StaticWidth;
 int ConfigWindow::_StaticHeight;
 int ConfigWindow::_DesktopWidth;
 int ConfigWindow::_DesktopHeight;
+int ConfigWindow::_WindowTransparent = 150;
 
 int ConfigWindow::getDesktopWidth()
 {
@@ -22,6 +23,16 @@ int ConfigWindow::getDesktopHeight()
     return ConfigWindow::_DesktopHeight;
 }
 
+
+int ConfigWindow::getWindowTransparent()
+{
+    return _WindowTransparent;
+}
+
+void ConfigWindow::setWindowTransparent(int a)
+{
+    _WindowTransparent = a;
+}
 
 void ConfigWindow::init()
 {

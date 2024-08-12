@@ -22,11 +22,12 @@ void MainWidget::init()
 {
     ConfigWindow::_WindowPointer=this;
 
-    m_FuncWidget=new Widget(this);
-    setWindowFlags(Qt::FramelessWindowHint);
+    this->setWindowFlags(Qt::FramelessWindowHint);
+    this->setAttribute(Qt::WA_TranslucentBackground);
     this->setWindowTitle(ConfigWindow::_WindowTitle);
     this->setWindowIcon(QIcon(":/res/u77.svg"));
     this->setMouseTracking(true);
+    m_FuncWidget=new Widget(this);
 
     this->setMinimumWidth(MIN_WIDGET);
     this->setMinimumHeight(MIN_HEIGHT);
@@ -145,7 +146,6 @@ void MainWidget::initConnect()
     //最小化到托盘的菜单事件连接
     connect(m_MinimizeAction, SIGNAL(triggered()), this, SLOT(hide()));
     connect(m_MaximizeAction, SIGNAL(triggered()), this, SLOT(showMaximized()));
-    connect(m_RestoreAction, SIGNAL(triggered()), this, SLOT(showNormal()));
     connect(m_RestoreAction,&QAction::triggered,this,[=](){
         //设置窗口置顶
         ::SetWindowPos(HWND(this->winId()), HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
@@ -440,17 +440,12 @@ void MainWidget::resizeEvent(QResizeEvent *e)
 
 void MainWidget::zoom1()
 {
-    //创建动画对象
+
     QPropertyAnimation * animation=new QPropertyAnimation(this,"geometry");
-    //动画间隔
     animation->setDuration(30);
-    //开始位置
     animation->setStartValue(QRect(this->x(),this->y(),this->width(),this->height()));
-    //结束位置
     animation->setEndValue(QRect(this->x(),this->y(),ConfigWindow::getDesktopWidth(),ConfigWindow::getDesktopHeight()));
-    //设置动画曲线
     animation->setEasingCurve(QEasingCurve::Linear);
-    //执行后销毁
     animation->start(QAbstractAnimation::DeleteWhenStopped);
 
 
@@ -459,17 +454,11 @@ void MainWidget::zoom1()
 
 void MainWidget::zoom2()
 {
-    //创建动画对象
     QPropertyAnimation * animation=new QPropertyAnimation(this,"geometry");
-    //动画间隔
     animation->setDuration(30);
-    //开始位置
     animation->setStartValue(QRect(this->x(),this->y(),this->width(),this->height()));
-    //结束位置
     animation->setEndValue(QRect(this->x(),this->y(),_NormalSize.x(),_NormalSize.y()));
-    //设置动画曲线
     animation->setEasingCurve(QEasingCurve::Linear);
-    //执行
     animation->start(QAbstractAnimation::DeleteWhenStopped);
 
 }
@@ -490,6 +479,20 @@ void MainWidget::hideEvent(QHideEvent *event)
         hide(); //隐藏窗口
         event->ignore(); //忽略事件
     }
+}
+
+void MainWidget::paintEvent(QPaintEvent *event)
+{
+    Q_UNUSED(event)
+
+    QPainter painter(this);
+    QBrush brush;
+    brush.setColor(QColor(255, 255, 255, ConfigWindow::getWindowTransparent()));
+    brush.setStyle(Qt::SolidPattern);
+    painter.setBrush(brush);
+    painter.setPen(Qt::NoPen);
+    painter.drawRect(0,0,this->width(),this->height());
+
 }
 void MainWidget::icon_activated(QSystemTrayIcon::ActivationReason ireason)
 {
