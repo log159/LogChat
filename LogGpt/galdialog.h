@@ -47,6 +47,7 @@ signals:
     void signal_send_data_from_gal_to_widget(QString); //发送信息到Widget
     void signal_show_widget_from_gal(); //发送显示请求到Widget
     void signal_play_voice_from_gal_to_widget(); //发送播放请求到Widget
+    void signal_delete();
 
 protected:
     //鼠标按下移动及释放事件

@@ -22,7 +22,7 @@ void AboutSoftwareDialogWidget::init()
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint | Qt::WindowStaysOnTopHint);
 
     QString information_str=
-"#LogChat Version-7.4\n"
+"#LogChat Version-7.5\n"
 "- 一个开源免费的Chat客户端！\n"
 "- GitHub:https://github.com/log159/LogChat\n"
 "#版本记录"
@@ -55,6 +55,11 @@ void AboutSoftwareDialogWidget::init()
 "- 支持STT百度语音识别[中文普通话]\n"
 "- 菜单栏可以对l2d窗口显示隐藏\n"
 "- 加入对GPT-SoVits的支持\n"
+"#7.5\n"
+"- 聊天设置界面优化\n"
+"- UI优化\n"
+"- 清理WAV缓存\n"
+"- 文本语音合成，长文本可分段合成\n"
 
 "#End 有Bug欢迎反馈！\n";
 

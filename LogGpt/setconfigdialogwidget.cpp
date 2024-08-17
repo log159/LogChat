@@ -13,6 +13,7 @@ SetConfigDialogWidget::SetConfigDialogWidget(QWidget *parent) :
 
 SetConfigDialogWidget::~SetConfigDialogWidget()
 {
+    qDebug()<<"SetConfigDialogWidget 析构";
     delete ui;
 }
 void SetConfigDialogWidget::init()

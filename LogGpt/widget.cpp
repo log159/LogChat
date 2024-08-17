@@ -87,6 +87,9 @@ void Widget::initConnect()
         connect(new_GalDialog.get(), SIGNAL(signal_send_data_from_gal_to_widget(QString)), this, SLOT(slot_receive_data_from_gal_to_widget(QString)));
         connect(new_GalDialog.get(), SIGNAL(signal_show_widget_from_gal()), this, SLOT(slot_show_widget_from_gal()));
         connect(new_GalDialog.get(), SIGNAL(signal_play_voice_from_gal_to_widget()), this, SLOT(slot_play_voice_from_gal()));
+        connect(new_GalDialog.get(),&GalDialog::signal_delete,[=](){
+            new_GalDialog.reset(nullptr);
+        });
     });
     connect(m_SetSelectWidget,&SetSelectWidget::clearChat,[=](){
         m_PushAndReceiveWidget->clearHistory();

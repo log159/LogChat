@@ -20,6 +20,7 @@ SetLive2DDialogWidget::SetLive2DDialogWidget(QWidget *parent) :
 
 SetLive2DDialogWidget::~SetLive2DDialogWidget()
 {
+    qDebug()<<"SetLive2DDialogWidget 析构";
     delete ui;
 }
 

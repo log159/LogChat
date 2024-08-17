@@ -12,6 +12,7 @@ SetDialogWidget::SetDialogWidget(QWidget *parent) :
 
 SetDialogWidget::~SetDialogWidget()
 {
+    qDebug()<<"SetDialogWidget 析构";
     delete ui;
 }
 
@@ -86,6 +87,10 @@ void SetDialogWidget::init()
     if(Config::get_USER(::EnUser::ENABLE_LATERLANGUAGE).toInt()!=0){ui->radioButton_baidu_show_enable_yes->setChecked(true);}
     else {ui->radioButton_baidu_show_enable_no->setChecked(true);}
 
+
+    QString voicewaystr=ConfigConstWay::get_TRUE_WAY(ConfigConstWay::OUTPUT_WAV_WAY);
+    voicewaystr.chop(QString("/%1.wav").size());
+    ui->lineEdit_voiceway->setText(voicewaystr);
 
     QFile file(":/main.qss");
     if(file.open(QFile::ReadOnly)){
@@ -185,6 +190,32 @@ void SetDialogWidget::initConnect()
             qDebug()<<"NO";
             Config::set_USER(::EnUser::ENABLE_LATERLANGUAGE,QString::number(0));
         }
+    });
+    connect(ui->pushButton_voicefind,&QPushButton::clicked,[=](){
+        QUrl directoryUrl = QUrl::fromLocalFile(ui->lineEdit_voiceway->text());
+        if (QDesktopServices::openUrl(directoryUrl)) {
+            qDebug() << "File explorer opened successfully.";
+        } else {
+            qDebug() << "Failed to open file explorer.";
+        }
+    });
+    connect(ui->pushButton_voiceclear,&QPushButton::clicked,[=](){
+        QString dirPath=ui->lineEdit_voiceway->text();
+        QDir dir(dirPath);
+        if (!dir.exists()) {
+            qDebug() << "Directory does not exist!";
+        }
+        QStringList files = dir.entryList(QDir::Files); // 获取所有文件的列表
+
+        // 删除文件
+        for (const QString &file : files) {
+            QFile::remove(dirPath + "/" + file);
+            if (QFile::exists(dirPath + "/" + file)) {
+                qDebug() << "Failed to delete file:" << file;
+            }
+        }
+        QMessageBox::warning(this,"True","已清除缓存");
+
     });
 }
 

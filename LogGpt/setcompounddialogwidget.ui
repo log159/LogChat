@@ -6,26 +6,32 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>843</width>
+    <width>729</width>
     <height>575</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_4">
-   <item row="0" column="0" colspan="2">
+  <layout class="QGridLayout" name="gridLayout_2">
+   <item row="0" column="0">
     <widget class="QGroupBox" name="groupBox">
+     <property name="minimumSize">
+      <size>
+       <width>400</width>
+       <height>0</height>
+      </size>
+     </property>
      <property name="title">
       <string>目标文本</string>
      </property>
-     <layout class="QGridLayout" name="gridLayout_3">
-      <item row="0" column="0">
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
        <widget class="QTextEdit" name="textEdit_txt">
         <property name="minimumSize">
          <size>
-          <width>400</width>
-          <height>230</height>
+          <width>0</width>
+          <height>0</height>
          </size>
         </property>
        </widget>
@@ -33,25 +39,40 @@
      </layout>
     </widget>
    </item>
-   <item row="0" column="2">
-    <widget class="QListWidget" name="listWidget">
+   <item row="0" column="1">
+    <widget class="QGroupBox" name="groupBox_2">
      <property name="minimumSize">
       <size>
-       <width>261</width>
-       <height>231</height>
+       <width>300</width>
+       <height>0</height>
       </size>
      </property>
+     <property name="title">
+      <string>输出列表</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_4">
+      <item row="0" column="0">
+       <widget class="QListWidget" name="listWidget_voiceway">
+        <property name="minimumSize">
+         <size>
+          <width>261</width>
+          <height>231</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
-   <item row="1" column="0" rowspan="2">
+   <item row="1" column="0" colspan="2">
     <widget class="QWidget" name="widget" native="true">
      <property name="minimumSize">
       <size>
-       <width>190</width>
-       <height>200</height>
+       <width>0</width>
+       <height>0</height>
       </size>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout">
+     <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
        <widget class="QRadioButton" name="radioButton_1">
         <property name="text">
@@ -69,21 +90,31 @@
       <item>
        <widget class="QRadioButton" name="radioButton_3">
         <property name="text">
-         <string>按照句号切割</string>
+         <string>任意字符切割</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QRadioButton" name="radioButton_4">
         <property name="text">
-         <string>按照任意字符切割</string>
+         <string>自定义字符/字符串切割</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="lineEdit_str">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>16777215</height>
+         </size>
         </property>
        </widget>
       </item>
      </layout>
     </widget>
    </item>
-   <item row="1" column="1" colspan="2">
+   <item row="2" column="0" colspan="2">
     <widget class="QFrame" name="frame">
      <property name="maximumSize">
       <size>
@@ -99,7 +130,7 @@
      </property>
      <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="1">
-       <widget class="QLineEdit" name="lineEdit">
+       <widget class="QLineEdit" name="lineEdit_vioceway">
         <property name="minimumSize">
          <size>
           <width>220</width>
@@ -109,7 +140,7 @@
        </widget>
       </item>
       <item row="0" column="2">
-       <widget class="QPushButton" name="pushButton_find">
+       <widget class="QPushButton" name="pushButton_voicefind">
         <property name="minimumSize">
          <size>
           <width>60</width>
@@ -131,7 +162,7 @@
      </layout>
     </widget>
    </item>
-   <item row="2" column="1" colspan="2">
+   <item row="3" column="0" colspan="2">
     <widget class="QFrame" name="frame_2">
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
@@ -139,14 +170,8 @@
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
-     <layout class="QGridLayout" name="gridLayout_2">
-      <property name="leftMargin">
-       <number>0</number>
-      </property>
-      <property name="rightMargin">
-       <number>0</number>
-      </property>
-      <item row="0" column="0">
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
        <widget class="QPushButton" name="pushButton_start">
         <property name="minimumSize">
          <size>
@@ -165,7 +190,20 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>129</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
        <widget class="QPushButton" name="pushButton_stop">
         <property name="minimumSize">
          <size>
@@ -184,7 +222,20 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="2">
+      <item>
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>128</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
        <widget class="QPushButton" name="pushButton_end">
         <property name="minimumSize">
          <size>
@@ -203,7 +254,20 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="0">
+      <item>
+       <spacer name="horizontalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>129</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
        <widget class="QPushButton" name="pushButton_play">
         <property name="minimumSize">
          <size>
@@ -222,7 +286,20 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="1">
+      <item>
+       <spacer name="horizontalSpacer_4">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>129</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
        <widget class="QPushButton" name="pushButton_unplay">
         <property name="minimumSize">
          <size>
@@ -237,26 +314,7 @@
          </size>
         </property>
         <property name="text">
-         <string>结束</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="2">
-       <widget class="QPushButton" name="pushButton_replay">
-        <property name="minimumSize">
-         <size>
-          <width>90</width>
-          <height>40</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>90</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>重播</string>
+         <string>停播</string>
         </property>
        </widget>
       </item>

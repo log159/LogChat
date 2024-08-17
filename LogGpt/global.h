@@ -61,7 +61,8 @@ enum EnUser{
     CHARACTERNAME,              /*角色名*/
     CHARACTERGENDER,            /*角色性别*/
     AUDIOSYNTHESIS,             /*音频合成规则*/
-    AUDIOOUTPUTWAY              /*音频输出路径*/
+    AUDIOBREAKSTR               /*音频分割字符串*/
+
 };
 
 static      QMap<EnUser,QString>UserM={
@@ -91,7 +92,7 @@ static      QMap<EnUser,QString>UserM={
     {CHARACTERNAME,"CHARACTERNAME"},
     {CHARACTERGENDER,"CHARACTERGENDER"},
     {AUDIOSYNTHESIS,"AUDIOSYNTHESIS"},
-    {AUDIOOUTPUTWAY,"AUDIOOUTPUTWAY"}
+    {AUDIOBREAKSTR,"AUDIOBREAKSTR"}
 };
 
 static const QVector<QString>           VITS_MODEL_V        ={"vits","gpt-sovits"};

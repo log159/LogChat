@@ -9,9 +9,18 @@
 #include <QList>
 #include <QRadioButton>
 #include <QDesktopServices>
+#include <QSharedPointer>
+#include <QDir>
+#include <QFile>
+#include <QLineEdit>
+#include <QList>
+#include <QTimer>
 
+
+#include "regexpchar.h"
 #include "vitsfactory.h"
 #include "vitsbase.h"
+#include "configconstway.h"
 
 namespace Ui {
 class SetCompoundDialogWidget;
@@ -21,25 +30,26 @@ class SetCompoundDialogWidget : public QDialog
 {
     Q_OBJECT
 private:
-    const int _Width      =720;
+    const int _Width      =800;
     const int _Height     =600;
 private:
-    VITSBase*   m_Vits      =nullptr;
-    QSound*     m_MySound   =nullptr;
-
-    bool isReturn           =false;
-
-    QString     path;
+    QSharedPointer<QSound>  m_MySound;
+    QList<QString>          m_RankTextList;
+    QTimer*                 m_ListenTimer   =nullptr;
+    bool                    m_CanSend       =true;
+    bool                    m_CanPause      =false;
+    int                     m_Rule          =0;
 public:
     explicit SetCompoundDialogWidget(QWidget *parent = nullptr);
     ~SetCompoundDialogWidget();
 
 private:
     void init();
-
     void initConnect();
+
+    void handleText();
+    void saveSound(const QString& path);
 private slots:
-    void save_sound(const QString& str);
 
 private:
     Ui::SetCompoundDialogWidget *ui;

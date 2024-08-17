@@ -7,6 +7,9 @@ VitsApi::VitsApi(QObject *parent) : VITSBase(parent)
 
 void VitsApi::start(QString text)
 {
+
+    static long long hash_num=0;
+
     QString url = Config::get_VITS_URL().arg(text);
     qDebug()<<"向 vits-api 端发送请求"<<url;
     QNetworkAccessManager* manager = new QNetworkAccessManager(this);
@@ -25,6 +28,8 @@ void VitsApi::start(QString text)
                 int minute = now.time().minute();
                 int second = now.time().second();
                 str = str.arg(year).arg(month).arg(day).arg(hour).arg(minute).arg(second);
+                str+="_"+QString::number(hash_num);
+                ++hash_num;
                 QString currentDir = (ConfigConstWay::get_TRUE_WAY(ConfigConstWay::OUTPUT_WAV_WAY)).arg(str);
                 qDebug()<<"WAV输出路径："<<currentDir;
 
@@ -32,7 +37,7 @@ void VitsApi::start(QString text)
                 if (outputFile.open(QIODevice::WriteOnly)) {
                     outputFile.write(reply->readAll());
                     outputFile.close();
-                    //播放音频
+                    //发送音频路径
                     emit playerWay(currentDir);
 
                 } else {

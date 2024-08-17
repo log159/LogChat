@@ -14,6 +14,7 @@ SetCompoundDialogWidget::SetCompoundDialogWidget(QWidget *parent) :
 
 SetCompoundDialogWidget::~SetCompoundDialogWidget()
 {
+    qDebug()<<"SetCompoundDialogWidget 析构";
     delete ui;
 }
 
@@ -22,12 +23,12 @@ void SetCompoundDialogWidget::init()
     this->resize(_Width,_Height);
     this->setWindowTitle("语音合成");
     this->setWindowIcon(QIcon(":/res/u77.svg"));
-    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint | Qt::WindowStaysOnTopHint);
-
-    QString path = ConfigConstWay::get_TRUE_WAY(ConfigConstWay::OUTPUT_COMPOUNDWAV_WAY);
-    path.remove("/%1.wav");
-    ui->lineEdit->setText(path);
-    ui->lineEdit->setReadOnly(true);
+    this->setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint | Qt::WindowStaysOnTopHint);
+    this->setAttribute(Qt::WA_DeleteOnClose);
+    QString path = ConfigConstWay::get_TRUE_WAY(ConfigConstWay::OUTPUT_SAVEWAV_WAY);
+    path.chop(QString("/%1.wav").size());
+    ui->lineEdit_vioceway->setText(path);
+    ui->lineEdit_vioceway->setReadOnly(true);
 
     QButtonGroup *block=new QButtonGroup(this);
 
@@ -35,71 +36,170 @@ void SetCompoundDialogWidget::init()
     block->addButton(ui->radioButton_2,1);
     block->addButton(ui->radioButton_3,2);
     block->addButton(ui->radioButton_4,3);
+    m_ListenTimer=new QTimer(this);
 
-    static_cast<QRadioButton*>(block->buttons()[0])->setChecked(true);
+
+    int pos = Config::get_USER(::EnUser::AUDIOSYNTHESIS).toInt();
+
+    static_cast<QRadioButton*>(block->buttons()[pos-1])->setChecked(true);
+    ui->lineEdit_str->setText(Config::get_USER(::EnUser::AUDIOBREAKSTR));
+
+    QFile file(":/main.qss");
+    if(file.open(QFile::ReadOnly)){
+        QString styleSheet = QLatin1String(file.readAll());
+        this->setStyleSheet(styleSheet);
+        file.close();
+    }
+
 }
 
 void SetCompoundDialogWidget::initConnect()
 {
+    connect(m_ListenTimer,&QTimer::timeout,[=](){
+        if(true==m_CanSend && !m_RankTextList.isEmpty()){
+            m_ListenTimer->stop();
+            VITSBase* vits = VITSFactory::getNew(this);
+            m_CanSend=false;
+            connect(vits,&VITSBase::playerWay,[=](QString path){
+                m_CanSend=true;
+                saveSound(path);
+                if(true==m_CanPause){
+                    m_ListenTimer->stop();
+                }
+                else {
+                    m_ListenTimer->start(10);
+                }
+                qDebug()<<path;
+            });
+            vits->start(m_RankTextList.front());
+            m_RankTextList.pop_front();
+        }
+
+    });
 
     connect(ui->pushButton_start,&QPushButton::clicked,[=](){
-        isReturn=false;
-        m_Vits = VITSFactory::getNew(this);
-        connect(m_Vits,SIGNAL(playerWay(QString)),this,SLOT(save_sound(QString)));
-        m_Vits->start(ui->textEdit_txt->toPlainText());
+        m_ListenTimer->start(10);
+        handleText();
     });
     connect(ui->pushButton_stop,&QPushButton::clicked,[=](){
-
+        if(!m_CanPause){
+            m_ListenTimer->stop();
+            ui->pushButton_stop->setText("继续");
+        }
+        else {
+            m_ListenTimer->start(10);
+            ui->pushButton_stop->setText("暂停");
+        }
+        m_CanPause=!m_CanPause;
     });
     connect(ui->pushButton_end,&QPushButton::clicked,[=](){
-
+        m_CanPause=false;
+        m_RankTextList.clear();
+        ui->pushButton_stop->setText("暂停");
     });
 
     connect(ui->pushButton_play,&QPushButton::clicked,[=](){
-        if(isReturn==false){return ;}
-        qDebug()<<"音频开始播放";
-
-        if(m_MySound!=nullptr){
-            delete  m_MySound;
-            m_MySound=nullptr;
+        QListWidgetItem* selectedItem = ui->listWidget_voiceway->currentItem();
+        if (!selectedItem) {
+            return;
         }
-        m_MySound=new QSound(path);
-        m_MySound->setParent(this);
+        QString text = selectedItem->text();
+        m_MySound.reset(new QSound(text));
+
+        qDebug()<<"音频开始播放";
         m_MySound->play();
     });
     connect(ui->pushButton_unplay,&QPushButton::clicked,[=](){
-
-    });
-    connect(ui->pushButton_replay,&QPushButton::clicked,[=](){
-
+        m_MySound.reset(nullptr);
     });
 
-    //打开音频输出文件夹
-    connect(ui->pushButton_find,&QPushButton::clicked,[=](){
-        QString directoryPath = ui->lineEdit->text();
+    connect(ui->pushButton_voicefind,&QPushButton::clicked,[=](){
+        QString directoryPath = ui->lineEdit_vioceway->text();
         qDebug()<<"open file path"<<directoryPath;
 
-        // 构建目录的URL
         QUrl directoryUrl = QUrl::fromLocalFile(directoryPath);
-
-        // 打开资源管理器并指定目录
         if (QDesktopServices::openUrl(directoryUrl)) {
             qDebug() << "File explorer opened successfully.";
         } else {
             qDebug() << "Failed to open file explorer.";
         }
     });
-    connect(ui->radioButton_1,&QRadioButton::toggled,[=](){});
-    connect(ui->radioButton_2,&QRadioButton::toggled,[=](){});
-    connect(ui->radioButton_3,&QRadioButton::toggled,[=](){});
-    connect(ui->radioButton_4,&QRadioButton::toggled,[=](){});
+    connect(ui->radioButton_1,&QRadioButton::toggled,[=](){
+        Config::set_USER(::EnUser::AUDIOSYNTHESIS,QString::number(1));
+    });
+    connect(ui->radioButton_2,&QRadioButton::toggled,[=](){
+        Config::set_USER(::EnUser::AUDIOSYNTHESIS,QString::number(2));
+    });
+    connect(ui->radioButton_3,&QRadioButton::toggled,[=](){
+        Config::set_USER(::EnUser::AUDIOSYNTHESIS,QString::number(3));
+    });
+    connect(ui->radioButton_4,&QRadioButton::toggled,[=](){
+        Config::set_USER(::EnUser::AUDIOSYNTHESIS,QString::number(4));
+    });
 
-
+    connect(ui->lineEdit_str, &QLineEdit::textChanged,[=](){
+        Config::set_USER(::EnUser::AUDIOBREAKSTR,ui->lineEdit_str->text());
+    });
 
 }
 
-void SetCompoundDialogWidget::save_sound(const QString &str)
+void SetCompoundDialogWidget::handleText()
 {
-    path=str;
-    isReturn=true;
+    int pos = Config::get_USER(::EnUser::AUDIOSYNTHESIS).toInt();
+    QString text = ui->textEdit_txt->toPlainText();
+    qDebug()<<"QString List:";
+    if(pos==1){
+        m_RankTextList.push_back(text);
+        qDebug()<<text;
+    }
+    else if(pos==2){
+        QStringList strlist = text.split('\n');
+        for(const QString& val:strlist){
+            if(val.isEmpty())continue;
+            m_RankTextList.push_back(val);
+            qDebug()<<val;
+        }
+    }
+    else if(pos==3){
+
+        QRegExp regex(QString("[%1%2]").arg(QRegularExpression::escape(RegExpChar::CHINESE_CHAR)).arg(QRegularExpression::escape(RegExpChar::ENGLISH_CHAR)));
+        // 使用正则表达式分割字符串
+        QStringList strlist = text.split(regex);
+        for(const QString& val:strlist){
+            if(val.isEmpty())continue;
+            m_RankTextList.push_back(val);
+            qDebug()<<val;
+        }
+
+    }
+    else if(pos==4){
+        QString userstr = ui->lineEdit_str->text();
+        QStringList strlist = text.split(userstr);
+        for(const QString& val:strlist){
+            if(val.isEmpty())continue;
+            m_RankTextList.push_back(val);
+            qDebug()<<val;
+        }
+    }
+}
+
+void SetCompoundDialogWidget::saveSound(const QString &path)
+{
+    if(path.size()<QString(".wav").size()){
+        return;
+    }
+    int pos=path.lastIndexOf('/');
+    if(pos==-1){
+        return;
+    }
+    QString fileName=path.mid(pos+1);
+    fileName.chop(QString(".wav").size());
+    QString sourceFile = path;
+    QString destFile = ConfigConstWay::get_TRUE_WAY(ConfigConstWay::OUTPUT_SAVEWAV_WAY).arg(fileName);
+    bool success = QFile::copy(sourceFile, destFile);
+    if (!success) {
+        qDebug() << "拷贝文件失败：" << sourceFile << " 到 " << destFile;
+    }
+    ui->listWidget_voiceway->addItem(QString(destFile));
+
 }

@@ -7,6 +7,7 @@ GPTSoVitsApi::GPTSoVitsApi(QObject *parent) : VITSBase(parent)
 
 void GPTSoVitsApi::start(QString text)
 {
+    static long long hash_num=0;
     QString url = Config::get_GPTSOVITS_URL().arg(text);
     qDebug()<<"向 gptsovits-api 端发送请求"<<url;
     QNetworkAccessManager* manager = new QNetworkAccessManager(this);
@@ -25,6 +26,8 @@ void GPTSoVitsApi::start(QString text)
                 int minute = now.time().minute();
                 int second = now.time().second();
                 str = str.arg(year).arg(month).arg(day).arg(hour).arg(minute).arg(second);
+                str+="_"+QString::number(hash_num);
+                ++hash_num;
                 QString currentDir = (ConfigConstWay::get_TRUE_WAY(ConfigConstWay::OUTPUT_WAV_WAY)).arg(str);
                 qDebug()<<"WAV输出路径："<<currentDir;
 

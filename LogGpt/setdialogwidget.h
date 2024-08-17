@@ -5,7 +5,11 @@
 #include <QIcon>
 #include <QCloseEvent>
 #include <QComboBox>
-
+#include <QDesktopServices>
+#include <QUrl>
+#include <QMessageBox>
+#include <QDir>
+#include <QFile>
 #include "config.h"
 
 namespace Ui {

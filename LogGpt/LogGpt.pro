@@ -54,6 +54,7 @@ SOURCES += \
         pushandreceivewidget.cpp \
         qaudiocapture.cpp \
         qhttppost.cpp \
+        regexpchar.cpp \
         setcompounddialogwidget.cpp \
         setconfigdialogwidget.cpp \
         setdialogwidget.cpp \
@@ -99,6 +100,7 @@ HEADERS += \
         pushandreceivewidget.h \
         qaudiocapture.h \
         qhttppost.h \
+        regexpchar.h \
         setcompounddialogwidget.h \
         setconfigdialogwidget.h \
         setdialogwidget.h \

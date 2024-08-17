@@ -40,7 +40,7 @@ void GalDialog::keyReleaseEvent(QKeyEvent* event)
             if(cursor.hasSelection()) cursor.clearSelection();
             cursor.deletePreviousChar();//删除前一个字符
             //等待回复
-            ui->label_name->setText("她");
+            ui->label_name->setText(Config::get_USER(::EnUser::CHARACTERGENDER).toInt()==0?"他":"她");
             //发起请求
             QString str = ui->textEdit->toPlainText();
             ui->textEdit->setText("...");
@@ -137,7 +137,9 @@ void GalDialog::mousePressEvent(QMouseEvent *event)
         //globalPos()鼠标位置，topLeft()窗口左上角的位置
         break;
     case Qt::RightButton:
-        this->destroy();
+//        this->destroy();
+        //交给上级销毁
+        emit signal_delete();
         break;
     default:
         GalDialog::mousePressEvent(event);
