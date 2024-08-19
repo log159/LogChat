@@ -10,8 +10,6 @@ class ChatGPTApi : public LLMBase
 {
     Q_OBJECT
 
-private:
-     QProcess * m_Process =nullptr;
 public:
     explicit ChatGPTApi(QObject *parent = nullptr);
 

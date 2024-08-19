@@ -36,13 +36,7 @@ void XfxhApi::initConnect()
     FinishedFunc finished = &QProcess::finished;
     connect(m_Process,finished,[=](){
         qDebug()<<"------------LLM 请求资源释放-----------";
-        m_Process->deleteLater();
-        delete m_Process;
+        this->deleteLater();
         emit quit();
     });
-}
-
-void XfxhApi::handleReceivedData()
-{
-
 }

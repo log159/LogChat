@@ -8,8 +8,7 @@
 class XfxhApi : public LLMBase
 {
     Q_OBJECT
-private:
-    QProcess* m_Process =nullptr;
+
 public:
     explicit XfxhApi(QObject *parent = nullptr);
 public:
@@ -17,7 +16,6 @@ public:
 private:
     void init();
     void initConnect();
-    void handleReceivedData();
 signals:
 
 public slots:

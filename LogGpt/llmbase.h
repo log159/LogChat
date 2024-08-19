@@ -15,8 +15,12 @@ class LLMBase : public QObject
     Q_OBJECT
 protected:
     typedef void (QProcess::*FinishedFunc)(int,QProcess::ExitStatus);
+
+    QProcess* m_Process =nullptr;
 public:
     explicit LLMBase(QObject *parent = nullptr);
+
+    virtual ~LLMBase();
 
     virtual void start(const QString& str) = 0;
 signals:

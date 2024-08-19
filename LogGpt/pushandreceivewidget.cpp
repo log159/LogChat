@@ -306,37 +306,29 @@ void PushAndReceiveWidget::clearUi()
 void PushAndReceiveWidget::handle_bot_information()
 {
     emit sendIs();//设置按钮不得点击
-    if(m_LLM!=nullptr){
-        delete m_LLM;
-        m_LLM=nullptr;
-    }
-    if(Config::get_USER(::EnUser::LLM_MODEL_ID).toInt()==0){m_LLM=LLMFactory::getChatGPTApi(this);}
-    else if(Config::get_USER(::EnUser::LLM_MODEL_ID).toInt()==1){m_LLM=LLMFactory::getXfxhApi(this);}
-    else{
-        m_LLM=LLMFactory::getChatGPTApi(this);
-    }
-    QObject::connect(m_LLM,&LLMBase::read, [=](QString str) {
+
+    LLMBase* llm=nullptr;
+    if(Config::get_USER(::EnUser::LLM_MODEL_ID).toInt()==0){llm=LLMFactory::getChatGPTApi(this);}
+    else if(Config::get_USER(::EnUser::LLM_MODEL_ID).toInt()==1){llm=LLMFactory::getXfxhApi(this);}
+    else{llm=LLMFactory::getChatGPTApi(this);}
+    QObject::connect(llm,&LLMBase::read, [=](QString str) {
         this->m_InformationComing=false;
         emit receiveIs();//按钮可点击
         this->handle_receive(str);//处理接收到的内容
     });
-    connect(m_LLM,&LLMBase::quit,[=](){
+    connect(llm,&LLMBase::quit,[=](){
         //如果没有接收信息就释放资源则报错
         if(m_InformationComing==true){
-            QMessageBox::warning(this,"Error occurred","出现错误，接收信息失败！");
+//            QMessageBox::warning(this,"Error occurred","出现错误，接收信息失败！");
+            add_bot_information("资源释放，接收信息失败！");
             m_InformationComing=false;
             m_OldUserTextList.pop_back();
             emit receiveIs();//按钮可点击
         }
     });
     //向LLM端发送内容
-    if(Config::get_USER(::EnUser::LLM_MODEL_ID).toInt()==0){
-        m_LLM->start(getSpeakChatGPT());
-    }
-    else {
-        //讯飞星火bug无法实现完美上下文对话
-        m_LLM->start(getSpeakXFXH());
-    }
+    if(Config::get_USER(::EnUser::LLM_MODEL_ID).toInt()==0)llm->start(getSpeakChatGPT());
+    else/*讯飞星火bug无法实现完美上下文对话（输出混乱）*/llm->start(getSpeakXFXH());
 }
 
 void PushAndReceiveWidget::handle_receive(const QString &str)
@@ -364,6 +356,7 @@ void PushAndReceiveWidget::handle_receive(const QString &str)
                 add_bot_information(receivedData);//listWidget添加bot列表项
             }
             handle_bot_sound(handleData);//音频处理和播放
+            baiduApi->deleteLater();
         });
         if(baiduApi!=nullptr){
             baiduApi->functionData(receivedData);
@@ -451,26 +444,21 @@ void PushAndReceiveWidget::handle_bot_sound(const QString &str)
 {
     temp_text = str;
 
-    m_Vits=VITSFactory::getNew(this);
-    connect(m_Vits,SIGNAL(playerWay(QString)),this,SLOT(play_sound(QString)));
-    m_Vits->start(temp_text);
+    VITSBase* vits=VITSFactory::getNew(this);
+    connect(vits,SIGNAL(playerWay(QString)),this,SLOT(play_sound(QString)));
+    connect(vits,&VITSBase::playerWay,this,[=](){vits->deleteLater();});
+    vits->start(temp_text);
 }
 
-void PushAndReceiveWidget::play_sound(const QString &str)
+void PushAndReceiveWidget::play_sound(const QString &path)
 {
     qDebug()<<"音频开始播放";
-    qDebug()<<"音频路径："<<str;
+    qDebug()<<"音频路径："<<path;
     if(SetLive2DDialogWidget::live2DIsOpen==false){
-        if(m_MySound!=nullptr){
-            delete  m_MySound;
-            m_MySound=nullptr;
-        }
-        m_MySound=new QSound(str);
-        m_MySound->setParent(this);
-        m_MySound->play();
+        new AudioPlayer(QUrl(path),this);
     }
     else {
-        emit sendAudio(str);
+        emit sendAudio(path);
     }
 
 }
@@ -547,7 +535,8 @@ void PushAndReceiveWidget::slot_receive_data_from_widget_to_llm(const QString &s
 void PushAndReceiveWidget::slot_play_voice_from_widget_to_llm()
 {
     qDebug()<<"llm接受到来自Widget的语言播放请求";
-    m_Vits=VITSFactory::getNew(this);
-    connect(m_Vits,SIGNAL(playerWay(QString)),this,SLOT(play_sound(QString)));
-    m_Vits->start(temp_text);
+    VITSBase* vits=VITSFactory::getNew(this);
+    connect(vits,SIGNAL(playerWay(QString)),this,SLOT(play_sound(QString)));
+    connect(vits,&VITSBase::playerWay,this,[=](){vits->deleteLater();});
+    vits->start(temp_text);
 }

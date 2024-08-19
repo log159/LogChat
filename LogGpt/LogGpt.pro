@@ -27,6 +27,7 @@ CONFIG += c++11
 
 SOURCES += \
         aboutsoftwaredialogwidget.cpp \
+        audioplayer.cpp \
         baiduapi.cpp \
         botitemswidget.cpp \
         changelive2dwidget.cpp \
@@ -74,6 +75,7 @@ SOURCES += \
 
 HEADERS += \
         aboutsoftwaredialogwidget.h \
+        audioplayer.h \
         baiduapi.h \
         botitemswidget.h \
         changelive2dwidget.h \

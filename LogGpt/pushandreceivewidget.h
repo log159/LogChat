@@ -10,7 +10,6 @@
 #include <QListWidget>
 #include <QListWidgetItem>
 #include <QDir>
-#include <QSound>
 #include <QVector>
 #include <QListWidget>
 #include <QPushButton>
@@ -40,6 +39,7 @@
 #include "setlive2ddialogwidget.h"
 #include "qaudiocapture.h"
 #include "speechrecognition.h"
+#include "audioplayer.h"
 
 //#define DEBUG
 
@@ -72,10 +72,7 @@ private:
     QPushButton*      m_PushButtonSet          =nullptr;
     QPushButton*      m_PushButtonSpeak        =nullptr;
     QPushButton*      m_PushButtonWrite        =nullptr;
-    QSound *          m_MySound                =nullptr;
     QFrame*           m_Frame                  =nullptr;
-    VITSBase*         m_Vits                   =nullptr;
-    LLMBase*          m_LLM                    =nullptr;
 
 public:
 
@@ -110,7 +107,7 @@ private slots:
     void handle_receive(const QString&str);
     void add_bot_information(const QString& str);
     void handle_bot_sound(const QString& str);
-    void play_sound(const QString& str);
+    void play_sound(const QString& path);
     void pushbutton_send_clicked();
     void slot_text_change();
 

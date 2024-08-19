@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QString>
 #include <QNetworkReply>
+#include <QDebug>
 #include "config.h"
 
 
