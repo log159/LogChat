@@ -10,6 +10,7 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
+#include <map>
 
 #define GREEN "\033[32m"
 #define YELLOW "\033[33m"
@@ -26,6 +27,13 @@ std::string final_result = "";
 
 //user question
 std::string user_question;
+
+std::map<string,string> version_url_map{
+	std::pair<string,string>("general","ws(s)://spark-api.xf-yun.com/v1.1/chat"),
+	std::pair<string,string>("generalv2","ws(s)://spark-api.xf-yun.com/v2.1/chat"),
+	std::pair<string,string>("generalv3","ws(s)://spark-api.xf-yun.com/v3.1/chat"),
+	std::pair<string,string>("generalv3.5","ws(s)://spark-api.xf-yun.com/v3.5/chat")
+};
 
 class Config {
 public:
@@ -80,6 +88,7 @@ void syncLLMTest()
 	LLMConfig *llmConfig = LLMConfig::builder();
 	llmConfig->domain(Config::model.data());
 
+	llmConfig->url(version_url_map[Config::model.data()].data());
 	Memory* window_memory = Memory::WindowMemory(5);
 	LLM *syncllm = LLM::create(llmConfig, window_memory);
 
@@ -133,12 +142,13 @@ int main(int argc, char const *argv[])
 	}
 	//system("chcp 65001");
 
+
 	//init config
-	Config::appID		=argv[1];
-	Config::apiKey		=argv[2];
-	Config::apiSecret	=argv[3];
-	Config::model		=argv[4];
-	Config::fileWay		=argv[5];
+	Config::appID = argv[1];
+	Config::apiKey = argv[2];
+	Config::apiSecret = argv[3];
+	Config::model = argv[4];
+	Config::fileWay = argv[5];
 
 	user_question = getFileInformation(Config::fileWay);
 	// 全局初始化
