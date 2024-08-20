@@ -61,7 +61,7 @@
   - [TTSModels](https://github.com/CjangCjengh/TTSModels)
 - **GPT-SoVits**：[GitHub链接](https://github.com/RVC-Boss/GPT-SoVITS)
 - **GPT-SoVits转接api**：[GitHub链接](https://github.com/jianchang512/gptsovits-api)
-- **可用于GPT-SoVits的模型**：(自己随便训练的,支持中日双语)[Bilibili视频](https://www.bilibili.com/video/BV1wy411B7uE)
+- **可用于GPT-SoVits的模型**：(自己随便训练的,支持中日英三语)[Bilibili视频](https://www.bilibili.com/video/BV1wy411B7uE)
 - **其他文档及VITS常见问题**：[Luna Docs](https://luna.docs.ie.cx/)
 - **OpenAI官网**：[访问OpenAI](https://openai.com/)
 - **OpenAI API文档**：[API参考](https://platform.openai.com/docs/api-reference/introduction)
@@ -70,7 +70,10 @@
 - **讯飞星火API**：[官方网站](https://xinghuo.xfyun.cn/sparkapi)
 - **Live2D SDK手册**：[SDK文档](https://docs.live2d.com/zh-CHS/cubism-sdk-manual/top/)
 - **Live2D中文文档**：[GitHub资源](https://github.com/gtf35/live2d_unity_sdk_chinese_document)
-- **可用的Live2D**：(转自B站)[ATRI](https://www.bilibili.com/video/BV1zg4y1b7Yu) [丛雨](https://www.bilibili.com/video/BV1mb4y1i7xu)
+- **可用的Live2D(转自B站)**：
+  - [亚托莉](https://www.bilibili.com/video/BV1zg4y1b7Yu)
+  - [丛雨](https://www.bilibili.com/video/BV1mb4y1i7xu)
+  - [娅萌工作室](https://www.bilibili.com/video/BV1kX4y1677W)
 ## 贡献者
 
 <!-- readme: collaborators,contributors -start -->
