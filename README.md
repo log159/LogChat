@@ -37,9 +37,11 @@
 
 ## 目前以及未来实现的功能
  - [x] LLM-ChatGPT[gpt-3.5-turbo]
- - [x] LLM-讯飞星火语言大模型[general,generalv2,generalv3]
+ - [x] LLM-讯飞星火语言大模型[general,generalv2,generalv3,generalv3.5]
  - [ ] LLM-ChatGML[ChatGML3]
  - [ ] LLM-百度千帆大模型
+ - [ ] LLM-DeepSeek
+ - [ ] LLM-其它Ai平台的反代理方式
  - [x] TTS-VITS
  - [x] TTS-GPT-SoVits
  - [x] STT-百度语音识别[中文普通话]
