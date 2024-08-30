@@ -10,7 +10,7 @@ void ModelConfigItem::printInformation(ModelConfigItem &modItem)
     modItem.getModelName()<<"\n"<<
     modItem.getFilePath()<<"\n"<<
     modItem.getLookEnable()<<"\n"<<
-    modItem.getTopEnable()<<"\n"<<
+    modItem.getTopApha()<<"\n"<<
     modItem.getModelSize()<<"\n"<<
     modItem.getModelX()<<"\n"<<
     modItem.getModelY()<<"\n"<<

@@ -98,7 +98,6 @@ int BaiduApi::replyFinished(QNetworkReply *reply)
         //from=object.value("from").toString();
         cResult=object1.value("dst").toString();//得到翻译结果
     }
-
     emit replyFinishedData(cResult);
     reply->deleteLater();
     return 1;

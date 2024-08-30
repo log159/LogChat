@@ -19,6 +19,8 @@ private slots:
 
 private:
     QMediaPlayer *player;
+signals:
+    void endof();
 };
 
 #endif // AUDIOPLAYER_H

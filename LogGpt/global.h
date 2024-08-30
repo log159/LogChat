@@ -6,17 +6,19 @@
 //基本功能配置
 enum EnIks{
     LLM_CHATGPT,    /*ChatGPT 语言大模型*/
-    LLM_XFXH,       /*讯飞星火语言大模型*/
+    LLM_XFXH,       /*讯飞星火 语言大模型*/
+    LLM_DEEPSEEK,   /*深度求索 语言大模型*/
     MT_BDFY,        /*百度翻译语言转换*/
     STT_BDYUN       /*百度云语音转文字*/
 };
 
 //每一组ID,KEY,SECRET数据的枚举在INI文件的属性名字
 static QMap<EnIks,QString>IksM={
-    {EnIks::LLM_CHATGPT,    "LLM_CHATGPT"},     /*ChatGPT 语言大模型*/
-    {EnIks::LLM_XFXH,       "LLM_XFXH"},        /*讯飞星火语言大模型*/
-    {EnIks::MT_BDFY,        "MT_BDFY"},         /*百度翻译语言转换*/
-    {EnIks::STT_BDYUN,      "STT_BAIDUYUN"}     /*百度云语音转文字*/
+    {EnIks::LLM_CHATGPT,    "LLM_CHATGPT"},
+    {EnIks::LLM_XFXH,       "LLM_XFXH"},
+    {EnIks::LLM_DEEPSEEK,   "LLM_DEEPSEEK"},
+    {EnIks::MT_BDFY,        "MT_BDFY"},
+    {EnIks::STT_BDYUN,      "STT_BAIDUYUN"}
 
 };
 struct IKS{
@@ -25,12 +27,14 @@ struct IKS{
     QString secret;
 };
 
-//反代配置
+//URL配置
 enum EnUrl{
-    URL_CHATGPT_BASEURL
+    URL_CHATGPT_BASEURL,
+    URL_DEEPSEEK_BASEURL
 };
 static      QMap<EnUrl,QString>UrlM={
-    {URL_CHATGPT_BASEURL,"URL_CHATGPT_BASEURL"}
+    {URL_CHATGPT_BASEURL,"URL_CHATGPT_BASEURL"},
+    {URL_DEEPSEEK_BASEURL,"URL_DEEPSEEK_BASEURL"}
 };
 
 
@@ -100,10 +104,9 @@ static const QVector<QString>           VITS_ALL_V          ={"vits","bert-vits2
 static const QVector<QString>           LANGUAGE_V          ={"auto","jp","zh","en","yue","wyw","cht"};     //百度翻译全部语种
 static const QVector<QString>           GPTSOVITS_LANGUAGE_V={"zh","ja","en"};                              //GPT-SoVits全部语种
 static const QVector<QString>           CHATGPT_MODEL_V     ={"gpt-3.5-turbo"};                             //全部ChatGPT模型
-static const QVector<QString>           XFXH_MODEL_V        ={"general","generalv2","generalv3"};           //全部讯飞星火模型
+static const QVector<QString>           XFXH_MODEL_V        ={"general","generalv2","generalv3","generalv3.5"};           //全部讯飞星火模型
 static const QMap<QString,bool>         LIVE2DENABLEINIT_M  ={
-    {"look_enable",true},
-    {"top_enable",true}
+    {"look_enable",true}
 };//全部Live2D ENABLE默认值
 static const QMap<QString,int>          LIVE2DPARAMINIT_M= {
     {"model_size",300},
@@ -117,14 +120,14 @@ static const QMap<QString,int>          LIVE2DPARAMINIT_M= {
     {"eye_deviation",200},
     {"eye_speed",1000},
     {"audio_add",1000},
-    {"audio_smooth",100}
+    {"audio_smooth",100},
+    {"win_topapha",0}
 };//全部Live2D PARAM默认值
 static       QMap<QString,QString>      LIVE2DSTRING_M={
     {"model_name","null"},
     {"file_path","null"},
     {"model_description","null"}
 };//全部Live2D STRING默认值
-
 
 
 #endif // GLOBAL_H

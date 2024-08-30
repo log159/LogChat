@@ -59,7 +59,7 @@ private:
     void addListItem(const ModelConfigItem& modItem);
     void resizeEvent(QResizeEvent*event);
     void sendConfigHandle(const QString& str,int val);
-    void sendWindowhandle(const QString& str);
+    void sendWindowHandle(const QString& str);
     void initLineEdit();
     void updateForUi();
     void updateForUnity();

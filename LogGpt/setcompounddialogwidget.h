@@ -36,7 +36,6 @@ private:
     QSharedPointer<QSound>  m_MySound;
     QList<QString>          m_RankTextList;
     QTimer*                 m_ListenTimer   =nullptr;
-    bool                    m_CanSend       =true;
     bool                    m_CanPause      =false;
     int                     m_Rule          =0;
 public:
@@ -49,6 +48,8 @@ private:
 
     void handleText();
     void saveSound(const QString& path);
+public:
+    static QList<QString> getHandleText(const QString& str);
 private slots:
 
 private:

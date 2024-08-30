@@ -76,7 +76,7 @@ void Config::init_LIVE2DMODELCONFIG_V()
         modelConfigItem.setModelName(keyValueMap["model_name"]);
         modelConfigItem.setFilePath(keyValueMap["file_path"]);
         modelConfigItem.setLookEnable(bool(keyValueMap["look_enable"].toInt()));
-        modelConfigItem.setTopEnable(bool(keyValueMap["top_enable"].toInt()));
+        modelConfigItem.setTopApha(keyValueMap["win_topapha"].toInt());
         modelConfigItem.setModelSize(keyValueMap["model_size"].toInt());
         modelConfigItem.setModelX(keyValueMap["model_x"].toInt());
         modelConfigItem.setModelY(keyValueMap["model_y"].toInt());
@@ -109,7 +109,7 @@ void Config::output_LIVE2DMODELCONFIG_V(QVector<ModelConfigItem>& modV)
                 .arg("model_name").arg(dataModV[i].getModelName())
                 .arg("file_path").arg(dataModV[i].getFilePath())
                 .arg("look_enable").arg(QString::number(int(dataModV[i].getLookEnable())))
-                .arg("top_enable").arg(QString::number(int(dataModV[i].getTopEnable())))
+                .arg("win_topapha").arg(QString::number(int(dataModV[i].getTopApha())))
                 .arg("model_size").arg(QString::number(int(dataModV[i].getModelSize())))
                 .arg("model_x").arg(QString::number(int(dataModV[i].getModelX())))
                 .arg("model_y").arg(QString::number(int(dataModV[i].getModelY())))

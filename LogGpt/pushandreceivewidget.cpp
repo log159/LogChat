@@ -3,6 +3,7 @@
 
 QString temp_text;
 
+
 PushAndReceiveWidget::PushAndReceiveWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::PushAndReceiveWidget)
@@ -24,6 +25,8 @@ void PushAndReceiveWidget::init()
 
     this->setFixedSize(ConfigWindow::getStaticWidth(),ConfigWindow::getStaticHeight());
 
+    m_AudioTimer=new QTimer(this);
+    m_AudioTimer->start(10);
 
     m_ListWidget=new QListWidget(this);
 
@@ -112,6 +115,40 @@ void PushAndReceiveWidget::init()
 
 void PushAndReceiveWidget::initConnect()
 {
+    connect(m_AudioTimer,&QTimer::timeout,[&](){
+        static bool canSend=true;
+        if(true==canSend && !m_RankTextList.isEmpty()){
+            canSend=false;
+            VITSBase* vits = VITSFactory::getNew(this);
+            connect(vits,&VITSBase::playerWay,[=](QString path){
+                canSend=true;
+                m_RankAudioList.push_back(path);
+                qDebug()<<"音频输出:--------->"<<path;
+                vits->deleteLater();
+            });
+            vits->start(m_RankTextList.front());
+            m_RankTextList.pop_front();
+        }
+
+        if(false && SetLive2DDialogWidget::live2DIsOpen==false){
+            static bool canSound=true;
+            if(true==canSound && !m_RankAudioList.isEmpty()){
+                canSound=false;
+                AudioPlayer* sound=new AudioPlayer(QUrl(m_RankAudioList.front()),this);
+                connect(sound,&AudioPlayer::endof,[=](){
+                    canSound=true;
+                });
+                m_RankAudioList.pop_front();
+            }
+        }
+        else{
+            while(!m_RankAudioList.isEmpty()) {
+                emit sendAudio(m_RankAudioList.front());
+                m_RankAudioList.pop_front();
+            }
+        }
+    });
+
     connect(m_UserTextEdit,SIGNAL(textChanged()),this,SLOT(slot_text_change()));
     connect(m_PushButtonSend,&QPushButton::clicked,this,&PushAndReceiveWidget::pushbutton_send_clicked);
     connect(m_UserTextEdit,&UserTextEdit::returnSend,this,&PushAndReceiveWidget::pushbutton_send_clicked);
@@ -202,15 +239,27 @@ void PushAndReceiveWidget::moveHistory()
 
 }
 
+const QString PushAndReceiveWidget::getLLMSpeak()
+{
+    int id=Config::get_USER(::EnUser::LLM_MODEL_ID).toInt();
+    if(id==0)return getSpeakChatGPT();
+    else if(id==1)return getSpeakXFXH();
+    else if(id==2)return getSpeakDeepSeek();
+    else return "";
+}
+
 const QString PushAndReceiveWidget::getSpeakXFXH()
 {
-    QString data="";
+    /*讯飞星火bug无法实现完美上下文对话（输出混乱,返回json不完整并且伴随自问自答胡言乱语）*/
     if(Config::get_USER(::EnUser::ENABLE_ROLE).toInt()!=0){
+        QString data="";
         data=Config::get_CHARACTERCONFIG();
+        data+=("我的问题:"+m_OldUserTextList.back());
+        return data;
     }
-    data+=("我的问题:"+m_OldUserTextList.back());
-
-    return data;
+    else{
+        return m_OldUserTextList.back();
+    }
 
 //    QString result = "[\n";
 //    if(Config::get_USER(::EnUser::ENABLE_ROLE).toInt()!=0){
@@ -229,7 +278,12 @@ const QString PushAndReceiveWidget::getSpeakXFXH()
 //    result += "]";
 
 
-//    return result;
+    //    return result;
+}
+
+const QString PushAndReceiveWidget::getSpeakDeepSeek()
+{
+    return m_OldUserTextList.back();
 }
 
 
@@ -296,21 +350,14 @@ void PushAndReceiveWidget::clearHistory()
 
 void PushAndReceiveWidget::clearUi()
 {
-
     m_ListWidget->clear();
-
 }
-
-
 
 void PushAndReceiveWidget::handle_bot_information()
 {
     emit sendIs();//设置按钮不得点击
 
-    LLMBase* llm=nullptr;
-    if(Config::get_USER(::EnUser::LLM_MODEL_ID).toInt()==0){llm=LLMFactory::getChatGPTApi(this);}
-    else if(Config::get_USER(::EnUser::LLM_MODEL_ID).toInt()==1){llm=LLMFactory::getXfxhApi(this);}
-    else{llm=LLMFactory::getChatGPTApi(this);}
+    LLMBase* llm=LLMFactory::getNew(this);
     QObject::connect(llm,&LLMBase::read, [=](QString str) {
         this->m_InformationComing=false;
         emit receiveIs();//按钮可点击
@@ -327,8 +374,7 @@ void PushAndReceiveWidget::handle_bot_information()
         }
     });
     //向LLM端发送内容
-    if(Config::get_USER(::EnUser::LLM_MODEL_ID).toInt()==0)llm->start(getSpeakChatGPT());
-    else/*讯飞星火bug无法实现完美上下文对话（输出混乱）*/llm->start(getSpeakXFXH());
+    llm->start(getLLMSpeak());
 }
 
 void PushAndReceiveWidget::handle_receive(const QString &str)
@@ -443,13 +489,43 @@ void PushAndReceiveWidget::add_bot_information(const QString &str)
 void PushAndReceiveWidget::handle_bot_sound(const QString &str)
 {
     temp_text = str;
+//    canSend=true;
+   QList<QString>list= SetCompoundDialogWidget::getHandleText(str);
+   m_RankTextList.clear();
+   m_RankAudioList.clear();
+   emit sendAudio("null");
+   //合并掉小于四字符的文本串（为兼容gpt-sovits/*raise Exception('有效文字数太少，至少输入4个字符')*/）
 
-    VITSBase* vits=VITSFactory::getNew(this);
-    connect(vits,SIGNAL(playerWay(QString)),this,SLOT(play_sound(QString)));
-    connect(vits,&VITSBase::playerWay,this,[=](){vits->deleteLater();});
-    vits->start(temp_text);
+   mergeShortStrings(list);
+   if(list.size()==1 && list[0].toStdString().length()<4){
+       m_RankTextList.push_back("有效文字数太少语音无法合成");
+       return;
+   }
+   for(const QString & val:list)
+        m_RankTextList.push_back(val);
+
+
+
 }
+void PushAndReceiveWidget::mergeShortStrings(QList<QString> &list) {
+    if (list.isEmpty()) return;
 
+    for (int i = 0; i < list.size(); ++i) {
+        if (list[i].length() < 4) {
+            if (i > 0) {
+                list[i-1] += list[i];
+                list.removeAt(i);
+                --i;
+            }
+            else if (i + 1 < list.size()) {
+                list[i + 1] = list[i] + list[i + 1];
+                list.removeAt(i);
+                --i;
+            }
+        }
+    }
+    qDebug()<<"短字符串合并: "<<list;
+}
 void PushAndReceiveWidget::play_sound(const QString &path)
 {
     qDebug()<<"音频开始播放";
@@ -491,9 +567,7 @@ void PushAndReceiveWidget::slot_text_change()
     if(m_UserTextEdit->height()>=_TextEditMaxHeight){
         m_UserTextEdit->setFixedHeight(_TextEditMaxHeight);
     }
-
     m_UserTextEdit->move(m_UserTextEdit->x(),this->height()-m_UserTextEdit->height());
-
 }
 
 

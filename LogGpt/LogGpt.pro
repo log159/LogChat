@@ -37,6 +37,7 @@ SOURCES += \
         configfileio.cpp \
         configlive2d.cpp \
         configwindow.cpp \
+        deepseekapi.cpp \
         galdialog.cpp \
         global.cpp \
         gptsovitsapi.cpp \
@@ -85,6 +86,7 @@ HEADERS += \
         configfileio.h \
         configlive2d.h \
         configwindow.h \
+        deepseekapi.h \
         galdialog.h \
         global.h \
         gptsovitsapi.h \

@@ -168,10 +168,12 @@ void MainWidget::initConnect()
             // 显示窗口
             ::ShowWindow(hwnd, SW_SHOW);
             m_Live2dShowAction->setText("隐藏Live2d");
+            qDebug()<<"显示Live2d hwnd:"<<hwnd;
         } else {
             // 隐藏窗口
             ::ShowWindow(hwnd, SW_HIDE);
             m_Live2dShowAction->setText("显示Live2d");
+            qDebug()<<"隐藏Live2d hwnd:"<<hwnd;
         }
     });
 

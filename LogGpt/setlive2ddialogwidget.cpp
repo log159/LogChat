@@ -53,7 +53,12 @@ void SetLive2DDialogWidget::init()
 
      //配置
      ui->radioButton_look_enable_yes->setChecked(LIVE2DENABLEINIT_M["look_enable"]);
-     ui->radioButton_top_enable_yes->setChecked(LIVE2DENABLEINIT_M["top_enable"]);
+     switch (LIVE2DPARAMINIT_M["win_topapha"]) {
+        case 0:ui->radioButton_wintop->setChecked(true);break;
+        case 1:ui->radioButton_winapha->setChecked(true);break;
+        case 2:ui->radioButton_wintopapha->setChecked(true);break;
+        case 3:ui->radioButton_winnotopnoapha->setChecked(true);break;
+     }
 
      //几何
      ui->horizontalSlider_zoom_model_size->setRange(10,10000);      //0.1-100
@@ -125,47 +130,34 @@ void SetLive2DDialogWidget::initConnect()
 
     //启动模型
     connect(ui->pushButton_start,&QPushButton::clicked,this,[=](){
-        if(NetLive2D::getIsConnect()==false){
-            live2DIsOpen=false;
-        }
+        if(NetLive2D::getIsConnect()==false){live2DIsOpen=false;}
         if(ui->listWidget_model->count()<=0){
-            QMessageBox::warning(this,"Error occurred","没有可用模型！");
-            return ;
+            QMessageBox::warning(this,"Error occurred","没有可用模型！");return ;
         }
         if(m_Live2dPassId==-1){
-            QMessageBox::warning(this,"Error occurred","请选择模型！");
-            return ;
+            QMessageBox::warning(this,"Error occurred","请选择模型！");return ;
         }
         if(Config::get_LIVE2DMODELCONFIG_V()[m_Live2dPassId].getFilePath().size()<QString("model3.json").size()){
-
-            QMessageBox::warning(this,"Error occurred","模型路径有误！");
-            return ;
+            QMessageBox::warning(this,"Error occurred","模型路径有误！");return ;
         }
         m_Live2dOpenId=m_Live2dPassId;
-
         updateModelChange();
-
         if(live2DIsOpen==true){
             Config::set_UNITY_STARTMODELPATH(Config::get_LIVE2DMODELCONFIG_V()[SetLive2DDialogWidget::m_Live2dOpenId].getFilePath());
-            sendModelHandle("Init:null");
+            sendModelHandle("Init:null;");
             //同步刷新Ui
             updateForUi();
             //同步配置数据
             QTimer* timer=new QTimer(this);
             connect(timer,&QTimer::timeout,this,[=](){
                 if(NetLive2D::getIsConnect()){
-
                     //同步配置数据
-                    QTimer::singleShot(100,this,[=](){
-                        updateForUnity();
-                    });
+                    QTimer::singleShot(100,this,[=](){updateForUnity();});
                     timer->stop();
+                    timer->deleteLater();
                 }
-
             });
             timer->start(10);
-
-
             return;
         }
         SetLive2DDialogWidget::live2DIsOpen=true;
@@ -184,18 +176,14 @@ void SetLive2DDialogWidget::initConnect()
             QTimer* timer=new QTimer(this);
             connect(timer,&QTimer::timeout,this,[=](){
                 if(NetLive2D::getIsConnect()){
-
                     //同步配置数据
-                    QTimer::singleShot(100,this,[=](){
-                        updateForUnity();
-                    });
+                    QTimer::singleShot(300,this,[=](){updateForUnity();});
                     timer->stop();
+                    timer->deleteLater();
                 }
-
             });
             timer->start(10);
         }
-
     });
 
     //退出模型
@@ -223,7 +211,7 @@ void SetLive2DDialogWidget::initConnect()
         modelConfigItem.setModelName(LIVE2DSTRING_M["model_name"]);
         modelConfigItem.setFilePath(LIVE2DSTRING_M["file_path"]);
         modelConfigItem.setLookEnable(LIVE2DENABLEINIT_M["look_enable"]);
-        modelConfigItem.setTopEnable(LIVE2DENABLEINIT_M["top_enable"]);
+        modelConfigItem.setTopApha(LIVE2DPARAMINIT_M["win_topapha"]);
         modelConfigItem.setModelSize(LIVE2DPARAMINIT_M["model_size"]);
         modelConfigItem.setModelX(LIVE2DPARAMINIT_M["model_x"]);
         modelConfigItem.setModelY(LIVE2DPARAMINIT_M["model_y"]);
@@ -235,14 +223,11 @@ void SetLive2DDialogWidget::initConnect()
         modelConfigItem.setAudioSmooth(LIVE2DPARAMINIT_M["audio_smooth"]);
         modelConfigItem.setModelDescription(LIVE2DSTRING_M["model_description"]);
 
-
         //model赋值
         modelConfigItem.setModelId(ui->listWidget_model->count());
         QString modelName=jsonPath;
         modelName.chop(QString(".model3.json").size());
         modelConfigItem.setFilePath(jsonPath);
-
-
         int index=modelName.size()-1;
         for (;index>=0;--index) {
             if(modelName[index]==QChar('\\')||modelName[index]==QChar('/')){
@@ -287,10 +272,8 @@ void SetLive2DDialogWidget::initConnect()
     connect(ui->pushButton_change,&QPushButton::clicked,this,[=](){
         if(SetLive2DDialogWidget::live2DIsOpen==false||SetLive2DDialogWidget::m_Live2dOpenId==-1){
             QMessageBox::warning(this,"Error occurred","请选择模型！");
-
             return ;
         }
-
         ChangeLive2DWidget widget;
         QString filePath=ui->lineEdit_way->text();
         int index=filePath.size()-1;
@@ -339,8 +322,10 @@ void SetLive2DDialogWidget::initConnect()
     connect(ui->radioButton_look_enable_yes, &QRadioButton::clicked, [&](){sendConfigHandle("IsLookMouse",100);});
     connect(ui->radioButton_look_enable_no, &QRadioButton::clicked, [&](){sendConfigHandle("IsLookMouse",0);});
     //窗口置顶
-    connect(ui->radioButton_top_enable_yes, &QRadioButton::clicked, [&](){sendWindowhandle("top");});
-    connect(ui->radioButton_top_enable_no, &QRadioButton::clicked, [&](){sendWindowhandle("normal");});
+    connect(ui->radioButton_wintop, &QRadioButton::clicked, [&](){sendWindowHandle("wintop");});
+    connect(ui->radioButton_winapha, &QRadioButton::clicked, [&](){sendWindowHandle("winapha");});
+    connect(ui->radioButton_wintopapha, &QRadioButton::clicked, [&](){sendWindowHandle("wintopapha");});
+    connect(ui->radioButton_winnotopnoapha, &QRadioButton::clicked, [&](){sendWindowHandle("winnotopnoapha");});
     //模型缩放比例
     connect(ui->horizontalSlider_zoom_model_size,slider,this,[=](int value){sendConfigHandle("ScaleScaleProportion",value);setLineEditText(ui->lineEdit_zoom_model_size,value);});
     //X坐标
@@ -445,7 +430,13 @@ void SetLive2DDialogWidget::initConnect()
         modelConfigItem.setModelName(ui->lineEdit_name->text());
         modelConfigItem.setFilePath(ui->lineEdit_way->text());
         modelConfigItem.setLookEnable(bool(ui->radioButton_look_enable_yes->isChecked()?1:0));
-        modelConfigItem.setTopEnable(bool(ui->radioButton_top_enable_yes->isChecked()?1:0));
+        int topapha=LIVE2DPARAMINIT_M["win_topapha"];
+        if(ui->radioButton_wintop->isChecked())topapha=0;
+        else if(ui->radioButton_winapha->isChecked())topapha=1;
+        else if(ui->radioButton_wintopapha->isChecked())topapha=2;
+        else if(ui->radioButton_winnotopnoapha->isChecked())topapha=3;
+        else {};
+        modelConfigItem.setTopApha(topapha);
         modelConfigItem.setModelSize(ui->horizontalSlider_zoom_model_size->value());
         modelConfigItem.setModelX(ui->horizontalSlider_zoom_model_X->value());
         modelConfigItem.setModelY(ui->horizontalSlider_zoom_model_Y->value());
@@ -520,7 +511,7 @@ void SetLive2DDialogWidget::sendConfigHandle(const QString &str, int val)
 
 }
 
-void SetLive2DDialogWidget::sendWindowhandle(const QString &str)
+void SetLive2DDialogWidget::sendWindowHandle(const QString &str)
 {
     if(NetLive2D::getIsConnect()==false){return;}
     QString handleStr= QString("Window:%1;").arg(str);
@@ -558,8 +549,12 @@ void SetLive2DDialogWidget::updateForUi()
 
     if(passItem.getLookEnable())ui->radioButton_look_enable_yes->setChecked(true);
     else ui->radioButton_look_enable_no->setChecked(true);
-    if(passItem.getTopEnable())ui->radioButton_top_enable_yes->setChecked(true);
-    else ui->radioButton_top_enable_no->setChecked(true);
+    switch (passItem.getTopApha()) {
+       case 0:ui->radioButton_wintop->setChecked(true);break;
+       case 1:ui->radioButton_winapha->setChecked(true);break;
+       case 2:ui->radioButton_wintopapha->setChecked(true);break;
+       case 3:ui->radioButton_winnotopnoapha->setChecked(true);break;
+    }
 
     ui->horizontalSlider_zoom_model_size->setValue(passItem.getModelSize());
     ui->horizontalSlider_zoom_model_X->setValue(passItem.getModelX());
@@ -596,8 +591,11 @@ void SetLive2DDialogWidget::updateForUnity()
     });
 
     QTimer::singleShot(10,this,[=](){
-        if(ui->radioButton_top_enable_yes->isChecked())sendWindowhandle("top");
-        else sendWindowhandle("normal");
+        if(ui->radioButton_wintop->isChecked())sendWindowHandle("wintop");
+        else if(ui->radioButton_winapha->isChecked())sendWindowHandle("winapha");
+        else if(ui->radioButton_wintopapha->isChecked())sendWindowHandle("wintopapha");
+        else if(ui->radioButton_winnotopnoapha->isChecked())sendWindowHandle("winnotopnoapha");
+        else {};
     });
 
     QTimer::singleShot(15,this,[=](){sendConfigHandle("ScaleScaleProportion",ui->horizontalSlider_zoom_model_size->value());});

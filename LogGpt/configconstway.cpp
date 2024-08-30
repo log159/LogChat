@@ -7,6 +7,7 @@ const QString ConfigConstWay::CHARACTER_CONFIG_WAY      ="/config/config.txt";
 const QString ConfigConstWay::CHATGPT_DEMO_WAY          ="/chatgptapi/dist/qtopenai.exe";
 const QString ConfigConstWay::XFXH_QUESTION_WAY         ="/xfxhapi/question.txt";
 const QString ConfigConstWay::XFXH_DEMO_WAY             ="/xfxhapi/demo.exe";
+const QString ConfigConstWay::DEEPSEEK_DEMO_WAY         ="/deepseekapi/dist/deepseek.exe";
 const QString ConfigConstWay::UNITY_DEMO_WAY            ="/unity2d/Live2D.exe";
 const QString ConfigConstWay::UNITY_DEMO_WORK_WAY       ="/unity2d";
 const QString ConfigConstWay::UNITY_STARTMODELPATH_WAY  ="/unity2d/model/STARTMODELPATH.txt";

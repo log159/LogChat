@@ -56,12 +56,13 @@ void SetCompoundDialogWidget::init()
 void SetCompoundDialogWidget::initConnect()
 {
     connect(m_ListenTimer,&QTimer::timeout,[=](){
-        if(true==m_CanSend && !m_RankTextList.isEmpty()){
+        static bool canSend=true;
+        if(true==canSend && !m_RankTextList.isEmpty()){
             m_ListenTimer->stop();
             VITSBase* vits = VITSFactory::getNew(this);
-            m_CanSend=false;
+            canSend=false;
             connect(vits,&VITSBase::playerWay,[=](QString path){
-                m_CanSend=true;
+                canSend=true;
                 saveSound(path);
                 if(true==m_CanPause){
                     m_ListenTimer->stop();
@@ -70,6 +71,7 @@ void SetCompoundDialogWidget::initConnect()
                     m_ListenTimer->start(10);
                 }
                 qDebug()<<path;
+                vits->deleteLater();
             });
             vits->start(m_RankTextList.front());
             m_RankTextList.pop_front();
@@ -202,4 +204,47 @@ void SetCompoundDialogWidget::saveSound(const QString &path)
     }
     ui->listWidget_voiceway->addItem(QString(destFile));
 
+}
+
+QList<QString> SetCompoundDialogWidget::getHandleText(const QString &str)
+{
+    QString text=str;
+    text.remove(QRegExp(QString("[%1]").arg(RegExpChar::SPECIAL_CHAR)));
+    int pos = Config::get_USER(::EnUser::AUDIOSYNTHESIS).toInt();
+    qDebug()<<"QString List:";
+    QList<QString> list;
+    if(pos==1){
+        list.push_back(text);
+        qDebug()<<text;
+    }
+    else if(pos==2){
+        QStringList strlist = text.split('\n');
+        for(const QString& val:strlist){
+            if(val.isEmpty())continue;
+            list.push_back(val);
+            qDebug()<<val;
+        }
+    }
+    else if(pos==3){
+
+        QRegExp regex(QString("[%1%2]").arg(QRegularExpression::escape(RegExpChar::CHINESE_CHAR)).arg(QRegularExpression::escape(RegExpChar::ENGLISH_CHAR)));
+        // 使用正则表达式分割字符串
+        QStringList strlist = text.split(regex);
+        for(const QString& val:strlist){
+            if(val.isEmpty())continue;
+            list.push_back(val);
+            qDebug()<<val;
+        }
+
+    }
+    else if(pos==4){
+        QString userstr = Config::get_USER(::EnUser::AUDIOBREAKSTR);
+        QStringList strlist = text.split(userstr);
+        for(const QString& val:strlist){
+            if(val.isEmpty())continue;
+            list.push_back(val);
+            qDebug()<<val;
+        }
+    }
+    return list;
 }

@@ -47,8 +47,10 @@ void SetDialogWidget::init()
     ui->lineEdit_speaker_id->setText(QString::number(Config::get_USER(::EnUser::SPEAKER_ID).toInt()));
     ui->lineEdit_speaker_emotion->setText(QString::number(Config::get_USER(::EnUser::EMOTION_ID).toInt()));
 
-    if(Config::get_USER(::EnUser::LLM_MODEL_ID).toInt()==0){ui->radioButton_llm_chatgpt->setChecked(true);}
-    else if(Config::get_USER(::EnUser::LLM_MODEL_ID).toInt()==1){ui->radioButton_llm_xfxh->setChecked(true);}
+    int model_id=Config::get_USER(::EnUser::LLM_MODEL_ID).toInt();
+    if(model_id==0){ui->radioButton_llm_chatgpt->setChecked(true);}
+    else if(model_id==1){ui->radioButton_llm_xfxh->setChecked(true);}
+    else if(model_id==2){ui->radioButton_llm_deepseek->setChecked(true);}
 
     for(int i=0;i<CHATGPT_MODEL_V.size();++i){
         ui->comboBox_llm_chatgpt->addItem(CHATGPT_MODEL_V.at(i));
@@ -61,8 +63,10 @@ void SetDialogWidget::init()
     ui->lineEdit_gpt_key->setText(Config::get_IKS(::EnIks::LLM_CHATGPT).key);
     ui->lineEdit_gpt_url->setText(Config::get_URL(::EnUrl::URL_CHATGPT_BASEURL));
     ui->lineEdit_xfxh_appid->setText(Config::get_IKS(::EnIks::LLM_XFXH).id);
-    ui->lineEdit_xfxh_apikey->setText(Config::get_IKS(::EnIks::LLM_XFXH).key);
-    ui->lineEdit_xfxh_apisecret->setText(Config::get_IKS(::EnIks::LLM_XFXH).secret);
+    ui->lineEdit_xfxh_key->setText(Config::get_IKS(::EnIks::LLM_XFXH).key);
+    ui->lineEdit_xfxh_secret->setText(Config::get_IKS(::EnIks::LLM_XFXH).secret);
+    ui->lineEdit_deepseek_key->setText(Config::get_IKS(::EnIks::LLM_DEEPSEEK).key);
+    ui->lineEdit_deepseek_url->setText(Config::get_URL(::EnUrl::URL_DEEPSEEK_BASEURL));
     ui->lineEdit_baidu_appid->setText(Config::get_IKS(::EnIks::MT_BDFY).id);
     ui->lineEdit_baidu_key->setText(Config::get_IKS(::EnIks::MT_BDFY).key);
     ui->lineEdit_baidusound_key->setText(Config::get_IKS(::EnIks::STT_BDYUN).key);
@@ -127,11 +131,22 @@ void SetDialogWidget::initConnect()
         if (ui->radioButton_llm_chatgpt->isChecked()) {
             qDebug()<<"ChatGPT";
             Config::set_USER(::EnUser::LLM_MODEL_ID,QString::number(0));
-        } else {
+        }
+    });
+    QObject::connect(ui->radioButton_llm_xfxh, &QRadioButton::toggled, [&](){
+        if(ui->radioButton_llm_xfxh->isChecked()) {
             qDebug()<<"讯飞星火";
             Config::set_USER(::EnUser::LLM_MODEL_ID,QString::number(1));
         }
     });
+
+    QObject::connect(ui->radioButton_llm_deepseek, &QRadioButton::toggled, [&](){
+        if(ui->radioButton_llm_deepseek->isChecked()) {
+            qDebug()<<"DeepSeek";
+            Config::set_USER(::EnUser::LLM_MODEL_ID,QString::number(2));
+        }
+    });
+
     CurrentIndexChanged currentIndexChanged_llm_xfxh=&QComboBox::currentIndexChanged;
     QObject::connect(ui->comboBox_llm_xfxh,currentIndexChanged_llm_xfxh,this,[=](int index){
         qDebug()<<"设置讯飞星火模型为："<<XFXH_MODEL_V.at(index);
@@ -233,10 +248,12 @@ void SetDialogWidget::closeEvent(QCloseEvent *event)
     Config::set_USER(::EnUser::EMOTION_ID,ui->lineEdit_speaker_emotion->text());
 
     Config::set_IKS(::EnIks::LLM_CHATGPT,"",ui->lineEdit_gpt_key->text(),"");
-    Config::set_IKS(::EnIks::LLM_XFXH,ui->lineEdit_xfxh_appid->text(),ui->lineEdit_xfxh_apikey->text(),ui->lineEdit_xfxh_apisecret->text());
+    Config::set_IKS(::EnIks::LLM_XFXH,ui->lineEdit_xfxh_appid->text(),ui->lineEdit_xfxh_key->text(),ui->lineEdit_xfxh_secret->text());
+    Config::set_IKS(::EnIks::LLM_DEEPSEEK,"",ui->lineEdit_deepseek_key->text(),"");
     Config::set_IKS(::EnIks::MT_BDFY,ui->lineEdit_baidu_appid->text(),ui->lineEdit_baidu_key->text(),"");
     Config::set_IKS(::EnIks::STT_BDYUN,"",ui->lineEdit_baidusound_key->text(),ui->lineEdit_baidusound_secret->text());
 
     Config::set_URL(::EnUrl::URL_CHATGPT_BASEURL,ui->lineEdit_gpt_url->text());
+    Config::set_URL(::EnUrl::URL_DEEPSEEK_BASEURL,ui->lineEdit_deepseek_url->text());
 
 }

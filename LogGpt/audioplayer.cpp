@@ -13,6 +13,7 @@ AudioPlayer::~AudioPlayer() {
 
 void AudioPlayer::onMediaStatusChanged(QMediaPlayer::MediaStatus status) {
     if (status == QMediaPlayer::EndOfMedia) {
+        emit endof();
         this->deleteLater();
         qDebug() << "------------音频播放资源释放-----------";
     }

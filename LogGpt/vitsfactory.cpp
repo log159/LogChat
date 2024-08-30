@@ -7,15 +7,11 @@ VITSBase *VITSFactory::getNew(QObject *parent)
     int id=Config::get_USER(EnUser::VITS_MODEL_SELECT).toInt();
     qDebug()<<"vits id is = "<<id;
     if(id==0)
-    {
         return getVitsApi(parent);
-    }
-    else if(id==1){
+    else if(id==1)
         return getGPTSoVitsApi(parent);
-    }
-    else {
+    else
         return nullptr;
-    }
 }
 
 VitsApi *VITSFactory::getVitsApi(QObject *parent)

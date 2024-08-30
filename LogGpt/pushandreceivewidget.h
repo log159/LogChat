@@ -20,6 +20,8 @@
 #include <QPainter>
 #include <QScrollBar>
 #include <QSharedPointer>
+#include <QList>
+#include <QTimer>
 
 #include "listitemswidget.h"
 #include "botitemswidget.h"
@@ -40,6 +42,7 @@
 #include "qaudiocapture.h"
 #include "speechrecognition.h"
 #include "audioplayer.h"
+#include "setcompounddialogwidget.h"
 
 //#define DEBUG
 
@@ -52,6 +55,7 @@ class PushAndReceiveWidget : public QWidget
     Q_OBJECT
 
     typedef void (BaiduApi::*ReplyFinishedData)(QString);
+
 private:
     const int _TextEditMinHeight               =50;
     const int _TextEditMaxHeight               =500;
@@ -64,7 +68,10 @@ private:
     QList<QPair<QString,QString>>    m_HistoryTextList;
     QList<QString>    m_OldUserTextList;
     QList<QString>    m_OldRobotTextList;
+    QList<QString>    m_RankTextList;
+    QList<QString>    m_RankAudioList;
     bool              m_InformationComing      =false;
+    QTimer*           m_AudioTimer             =nullptr;
     QListWidget*      m_ListWidget             =nullptr;
     UserTextEdit*     m_UserTextEdit           =nullptr;
     QPushButton*      m_PushButtonListen       =nullptr;
@@ -89,16 +96,23 @@ private:
     void initConnect();
     void updateListWidget();
     void moveHistory();                 //移除部分历史记忆
+
+    const QString getLLMSpeak();        //历史记忆拼接
     const QString getSpeakChatGPT();    //历史记忆拼接 适用于Python脚本
     const QString getSpeakXFXH();       //历史记忆拼接 适用于讯飞星火SDK
+    const QString getSpeakDeepSeek();   //历史记忆拼接 适用于DeepSeek脚本
 
+    //复写函数
     void paintEvent(QPaintEvent* event);
 
+    //工具函数
+    void mergeShortStrings(QList<QString> &list);
 signals:
     void sendIs();
     void receiveIs();
     void setPass();
     void sendAudio(QString);
+
 
 private slots:
 

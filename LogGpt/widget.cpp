@@ -47,7 +47,7 @@ void Widget::initConnect()
     });
     SendAudio sendAudio=&PushAndReceiveWidget::sendAudio;
     connect(m_PushAndReceiveWidget,sendAudio,[=](QString audioPath){
-        QString handleStr="Audio:"+audioPath;
+        QString handleStr="Audio:"+audioPath+";";
         m_NetLive2D->sendHandle(handleStr);
     });
 

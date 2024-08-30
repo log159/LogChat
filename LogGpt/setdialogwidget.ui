@@ -19,8 +19,8 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout_2">
-   <item>
+  <layout class="QGridLayout" name="gridLayout_11">
+   <item row="0" column="0">
     <widget class="QTabWidget" name="tabWidget">
      <property name="minimumSize">
       <size>
@@ -106,6 +106,13 @@
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_7">
                  <item>
+                  <widget class="QLabel" name="label_llm_set">
+                   <property name="text">
+                    <string>LLM模型配置:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
                   <widget class="QLabel" name="label_vits_select">
                    <property name="text">
                     <string>Vits模型选择:</string>
@@ -141,13 +148,6 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLabel" name="label_llm_set">
-                   <property name="text">
-                    <string>LLM模型配置:</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
                   <widget class="QLabel" name="label_baidu_set">
                    <property name="text">
                     <string>百度翻译配置:</string>
@@ -166,6 +166,45 @@
                  <enum>QFrame::Raised</enum>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_10">
+                 <item>
+                  <widget class="QFrame" name="frame_llm_set">
+                   <property name="frameShape">
+                    <enum>QFrame::StyledPanel</enum>
+                   </property>
+                   <property name="frameShadow">
+                    <enum>QFrame::Raised</enum>
+                   </property>
+                   <layout class="QHBoxLayout" name="horizontalLayout_12">
+                    <item>
+                     <widget class="QRadioButton" name="radioButton_llm_chatgpt">
+                      <property name="text">
+                       <string>ChatGPT</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QComboBox" name="comboBox_llm_chatgpt"/>
+                    </item>
+                    <item>
+                     <widget class="QRadioButton" name="radioButton_llm_xfxh">
+                      <property name="text">
+                       <string>讯飞星火</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QComboBox" name="comboBox_llm_xfxh"/>
+                    </item>
+                    <item>
+                     <widget class="QRadioButton" name="radioButton_llm_deepseek">
+                      <property name="text">
+                       <string>DeepSeek</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
                  <item>
                   <widget class="QFrame" name="frame_vits_3">
                    <property name="frameShape">
@@ -237,6 +276,16 @@
                    <layout class="QHBoxLayout" name="horizontalLayout_10">
                     <item>
                      <widget class="QComboBox" name="comboBox_vits_select"/>
+                    </item>
+                    <item>
+                     <widget class="QComboBox" name="comboBox_vits_speaker"/>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="pushButton_getspeaker">
+                      <property name="text">
+                       <string>获取人物列表</string>
+                      </property>
+                     </widget>
                     </item>
                     <item>
                      <widget class="QLabel" name="label_speaker_id">
@@ -314,38 +363,6 @@
                     </item>
                     <item>
                      <widget class="QComboBox" name="comboBox_gptsovits_language"/>
-                    </item>
-                   </layout>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QFrame" name="frame_llm_set">
-                   <property name="frameShape">
-                    <enum>QFrame::StyledPanel</enum>
-                   </property>
-                   <property name="frameShadow">
-                    <enum>QFrame::Raised</enum>
-                   </property>
-                   <layout class="QHBoxLayout" name="horizontalLayout_12">
-                    <item>
-                     <widget class="QRadioButton" name="radioButton_llm_chatgpt">
-                      <property name="text">
-                       <string>ChatGPT</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QComboBox" name="comboBox_llm_chatgpt"/>
-                    </item>
-                    <item>
-                     <widget class="QRadioButton" name="radioButton_llm_xfxh">
-                      <property name="text">
-                       <string>讯飞星火</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QComboBox" name="comboBox_llm_xfxh"/>
                     </item>
                    </layout>
                   </widget>
@@ -626,7 +643,7 @@
       <attribute name="title">
        <string>信息设置</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout_6">
+      <layout class="QGridLayout" name="gridLayout_10">
        <item row="0" column="0">
         <widget class="QScrollArea" name="scrollArea_information">
          <property name="frameShape">
@@ -639,12 +656,12 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>0</y>
-            <width>819</width>
-            <height>556</height>
+            <y>-86</y>
+            <width>802</width>
+            <height>642</height>
            </rect>
           </property>
-          <layout class="QGridLayout" name="gridLayout_10">
+          <layout class="QGridLayout" name="gridLayout_6">
            <item row="0" column="0">
             <widget class="QFrame" name="frame_7">
              <property name="frameShape">
@@ -654,21 +671,6 @@
               <enum>QFrame::Raised</enum>
              </property>
              <layout class="QGridLayout" name="gridLayout_5">
-              <property name="leftMargin">
-               <number>0</number>
-              </property>
-              <property name="topMargin">
-               <number>0</number>
-              </property>
-              <property name="rightMargin">
-               <number>0</number>
-              </property>
-              <property name="bottomMargin">
-               <number>0</number>
-              </property>
-              <property name="verticalSpacing">
-               <number>0</number>
-              </property>
               <item row="0" column="0">
                <widget class="QFrame" name="frame_label_information">
                 <property name="frameShape">
@@ -688,7 +690,7 @@
                  <item>
                   <widget class="QLabel" name="label_gpt_url">
                    <property name="text">
-                    <string>ChatGPT Base URL:</string>
+                    <string>ChatGPT Base Url:</string>
                    </property>
                   </widget>
                  </item>
@@ -700,16 +702,30 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLabel" name="label_xfxh_apikey">
+                  <widget class="QLabel" name="label_xfxh_key">
                    <property name="text">
-                    <string>讯飞星火 ApiKey:</string>
+                    <string>讯飞星火 Key:</string>
                    </property>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLabel" name="label_xfxh_apisecret">
+                  <widget class="QLabel" name="label_xfxh_secret">
                    <property name="text">
-                    <string>讯飞星火 ApiSecret:</string>
+                    <string>讯飞星火 Secret:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_deepseek_key">
+                   <property name="text">
+                    <string>DeepSeek Key</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_deepseek_url">
+                   <property name="text">
+                    <string>DeepSeek Base Url</string>
                    </property>
                   </widget>
                  </item>
@@ -753,21 +769,6 @@
                  <enum>QFrame::Raised</enum>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_2">
-                 <item row="1" column="0">
-                  <widget class="QFrame" name="frame_gpt_url">
-                   <property name="frameShape">
-                    <enum>QFrame::NoFrame</enum>
-                   </property>
-                   <property name="frameShadow">
-                    <enum>QFrame::Raised</enum>
-                   </property>
-                   <layout class="QHBoxLayout" name="horizontalLayout_13">
-                    <item>
-                     <widget class="QLineEdit" name="lineEdit_gpt_url"/>
-                    </item>
-                   </layout>
-                  </widget>
-                 </item>
                  <item row="0" column="0">
                   <widget class="QFrame" name="frame_gpt_key">
                    <property name="frameShape">
@@ -783,32 +784,32 @@
                    </layout>
                   </widget>
                  </item>
-                 <item row="3" column="0">
-                  <widget class="QFrame" name="frame_xfxh_apikey">
+                 <item row="7" column="0">
+                  <widget class="QFrame" name="frame_baidu_appid">
                    <property name="frameShape">
                     <enum>QFrame::NoFrame</enum>
                    </property>
                    <property name="frameShadow">
                     <enum>QFrame::Raised</enum>
                    </property>
-                   <layout class="QVBoxLayout" name="verticalLayout_5">
+                   <layout class="QHBoxLayout" name="horizontalLayout_3">
                     <item>
-                     <widget class="QLineEdit" name="lineEdit_xfxh_apikey"/>
+                     <widget class="QLineEdit" name="lineEdit_baidu_appid"/>
                     </item>
                    </layout>
                   </widget>
                  </item>
-                 <item row="6" column="0">
-                  <widget class="QFrame" name="frame_baidu_key">
+                 <item row="4" column="0">
+                  <widget class="QFrame" name="frame_xfxh_secret">
                    <property name="frameShape">
                     <enum>QFrame::NoFrame</enum>
                    </property>
                    <property name="frameShadow">
                     <enum>QFrame::Raised</enum>
                    </property>
-                   <layout class="QHBoxLayout" name="horizontalLayout_4">
+                   <layout class="QVBoxLayout" name="verticalLayout_4">
                     <item>
-                     <widget class="QLineEdit" name="lineEdit_baidu_key"/>
+                     <widget class="QLineEdit" name="lineEdit_xfxh_secret"/>
                     </item>
                    </layout>
                   </widget>
@@ -828,37 +829,61 @@
                    </layout>
                   </widget>
                  </item>
-                 <item row="4" column="0">
-                  <widget class="QFrame" name="frame_xfxh_apisecret">
+                 <item row="8" column="0">
+                  <widget class="QFrame" name="frame_baidu_key">
                    <property name="frameShape">
                     <enum>QFrame::NoFrame</enum>
                    </property>
                    <property name="frameShadow">
                     <enum>QFrame::Raised</enum>
                    </property>
-                   <layout class="QVBoxLayout" name="verticalLayout_4">
+                   <layout class="QHBoxLayout" name="horizontalLayout_4">
                     <item>
-                     <widget class="QLineEdit" name="lineEdit_xfxh_apisecret"/>
+                     <widget class="QLineEdit" name="lineEdit_baidu_key"/>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item row="10" column="0">
+                  <widget class="QFrame" name="frame_baidusound_secret">
+                   <layout class="QVBoxLayout" name="verticalLayout_6">
+                    <item>
+                     <widget class="QLineEdit" name="lineEdit_baidusound_secret"/>
                     </item>
                    </layout>
                   </widget>
                  </item>
                  <item row="5" column="0">
-                  <widget class="QFrame" name="frame_baidu_appid">
+                  <widget class="QFrame" name="frame_deepseek_key">
                    <property name="frameShape">
                     <enum>QFrame::NoFrame</enum>
                    </property>
                    <property name="frameShadow">
                     <enum>QFrame::Raised</enum>
                    </property>
-                   <layout class="QHBoxLayout" name="horizontalLayout_3">
+                   <layout class="QVBoxLayout" name="verticalLayout_12">
                     <item>
-                     <widget class="QLineEdit" name="lineEdit_baidu_appid"/>
+                     <widget class="QLineEdit" name="lineEdit_deepseek_key"/>
                     </item>
                    </layout>
                   </widget>
                  </item>
-                 <item row="7" column="0">
+                 <item row="3" column="0">
+                  <widget class="QFrame" name="frame_xfxh_key">
+                   <property name="frameShape">
+                    <enum>QFrame::NoFrame</enum>
+                   </property>
+                   <property name="frameShadow">
+                    <enum>QFrame::Raised</enum>
+                   </property>
+                   <layout class="QVBoxLayout" name="verticalLayout_5">
+                    <item>
+                     <widget class="QLineEdit" name="lineEdit_xfxh_key"/>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item row="9" column="0">
                   <widget class="QFrame" name="frame_baidusound_key">
                    <layout class="QVBoxLayout" name="verticalLayout_2">
                     <item>
@@ -867,11 +892,32 @@
                    </layout>
                   </widget>
                  </item>
-                 <item row="8" column="0">
-                  <widget class="QFrame" name="frame_baidusound_secret">
-                   <layout class="QVBoxLayout" name="verticalLayout_6">
+                 <item row="1" column="0">
+                  <widget class="QFrame" name="frame_gpt_url">
+                   <property name="frameShape">
+                    <enum>QFrame::NoFrame</enum>
+                   </property>
+                   <property name="frameShadow">
+                    <enum>QFrame::Raised</enum>
+                   </property>
+                   <layout class="QHBoxLayout" name="horizontalLayout_13">
                     <item>
-                     <widget class="QLineEdit" name="lineEdit_baidusound_secret"/>
+                     <widget class="QLineEdit" name="lineEdit_gpt_url"/>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item row="6" column="0">
+                  <widget class="QFrame" name="frame_deepseek_url">
+                   <property name="frameShape">
+                    <enum>QFrame::NoFrame</enum>
+                   </property>
+                   <property name="frameShadow">
+                    <enum>QFrame::Raised</enum>
+                   </property>
+                   <layout class="QVBoxLayout" name="verticalLayout_13">
+                    <item>
+                     <widget class="QLineEdit" name="lineEdit_deepseek_url"/>
                     </item>
                    </layout>
                   </widget>

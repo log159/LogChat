@@ -23,6 +23,9 @@ public:
     virtual ~LLMBase();
 
     virtual void start(const QString& str) = 0;
+protected:
+    void init();
+    void initConnect();
 signals:
     void read(QString str);
     void quit();

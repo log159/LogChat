@@ -12,7 +12,7 @@ private:
     QString     m_ModelName;
     QString     m_FilePath;
     bool        m_LookEnable;
-    bool        m_TopEnable;
+    int         m_TopApha;
     int         m_ModelSize;
     int         m_ModelX;
     int         m_ModelY;
@@ -32,7 +32,7 @@ public:
     inline const QString getModelName()const{return m_ModelName;}
     inline const QString getFilePath()const{return m_FilePath;}
     inline bool getLookEnable()const{return m_LookEnable;}
-    inline bool getTopEnable()const{return m_TopEnable;}
+    inline int getTopApha()const{return m_TopApha;}
     inline int getModelSize()const{return m_ModelSize;}
     inline int getModelX()const{return m_ModelX;}
     inline int getModelY()const{return m_ModelY;}
@@ -50,7 +50,7 @@ public:
     inline void setModelName(const QString& str){m_ModelName=str;}
     inline void setFilePath(const QString& str){m_FilePath=str;}
     inline void setLookEnable(bool bo){m_LookEnable=bo;}
-    inline void setTopEnable(bool bo){m_TopEnable=bo;}
+    inline void setTopApha(int i){m_TopApha=i;}
     inline void setModelSize(int i){m_ModelSize=i;}
     inline void setModelX(int i){m_ModelX=i;}
     inline void setModelY(int i){m_ModelY=i;}

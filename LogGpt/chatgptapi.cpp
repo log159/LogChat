@@ -2,14 +2,7 @@
 
 ChatGPTApi::ChatGPTApi(QObject *parent) : LLMBase(parent)
 {
-    init();
-    initConnect();
 }
-void ChatGPTApi::init()
-{
-    m_Process=new QProcess(this);
-}
-
 void ChatGPTApi::start(const QString &str)
 {
     qDebug()<<"使用模型 ChatGPT ："<<CHATGPT_MODEL_V.at(0);
@@ -21,22 +14,4 @@ void ChatGPTApi::start(const QString &str)
        <<Config::get_URL(::EnUrl::URL_CHATGPT_BASEURL)
         <<str.toUtf8();
     m_Process->start(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::CHATGPT_DEMO_WAY),list);
-
-    ;
-}
-
-void ChatGPTApi::initConnect()
-{
-    QObject::connect(m_Process,&QProcess::readyReadStandardOutput, [=]() {
-        QByteArray outputData = m_Process->readAllStandardOutput();
-        QString receivedData = QString::fromUtf8(outputData);
-        qDebug() << "接收到内容————>" << receivedData;
-        emit read(receivedData);
-    });
-    FinishedFunc finished = &QProcess::finished;
-    connect(m_Process,finished,[=](){
-        qDebug()<<"------------LLM 请求资源释放-----------";
-        this->deleteLater();
-        emit quit();
-    });
 }

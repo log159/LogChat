@@ -10,6 +10,8 @@
 #include <QMessageBox>
 #include <QDir>
 #include <QFile>
+#include <QRadioButton>
+
 #include "config.h"
 
 namespace Ui {
