@@ -63,7 +63,8 @@
   - [TTSModels](https://github.com/CjangCjengh/TTSModels)
 - **GPT-SoVits**：[GitHub链接](https://github.com/RVC-Boss/GPT-SoVITS)
 - **GPT-SoVits转接api**：[GitHub链接](https://github.com/jianchang512/gptsovits-api)
-- **可用于GPT-SoVits的模型**：(自己随便训练的,支持中日英三语)[Bilibili视频](https://www.bilibili.com/video/BV1wy411B7uE)
+- **可用于GPT-SoVits的模型**：
+  - (自己随便训练的,支持中日英三语)[薄荷](https://www.bilibili.com/video/BV1wy411B7uE)
 - **其他文档及VITS常见问题**：[Luna Docs](https://luna.docs.ie.cx/)
 - **OpenAI官网**：[访问OpenAI](https://openai.com/)
 - **OpenAI API文档**：[API参考](https://platform.openai.com/docs/api-reference/introduction)
