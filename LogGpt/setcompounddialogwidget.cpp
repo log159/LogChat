@@ -164,7 +164,11 @@ void SetCompoundDialogWidget::handleText()
     }
     else if(pos==2){
 
-        QRegExp regex(QString("[%1%2]").arg(QRegularExpression::escape(RegExpChar::CHINESE_CHAR)).arg(QRegularExpression::escape(RegExpChar::ENGLISH_CHAR)));
+        QRegExp regex(QString("[%1%2%3]")
+          .arg(QRegularExpression::escape(RegExpChar::CHINESE_CHAR))
+          .arg(QRegularExpression::escape(RegExpChar::ENGLISH_CHAR))
+          .arg(QRegularExpression::escape(RegExpChar::SPECIAL_CHAR))
+          );
         // 使用正则表达式分割字符串
         QStringList strlist = text.split(regex);
         for(const QString& val:strlist){
@@ -218,7 +222,7 @@ QList<QString> SetCompoundDialogWidget::getHandleText(const QString &str)
         qDebug()<<text;
     }
     else if(pos==1){
-        QStringList strlist = text.split('\n');
+        QStringList strlist = text.split("\n");
         for(const QString& val:strlist){
             if(val.isEmpty())continue;
             list.push_back(val);
@@ -227,7 +231,11 @@ QList<QString> SetCompoundDialogWidget::getHandleText(const QString &str)
     }
     else if(pos==2){
 
-        QRegExp regex(QString("[%1%2]").arg(QRegularExpression::escape(RegExpChar::CHINESE_CHAR)).arg(QRegularExpression::escape(RegExpChar::ENGLISH_CHAR)));
+        QRegExp regex(QString("[%1%2%3]")
+          .arg(QRegularExpression::escape(RegExpChar::CHINESE_CHAR))
+          .arg(QRegularExpression::escape(RegExpChar::ENGLISH_CHAR))
+          .arg(QRegularExpression::escape(RegExpChar::SPECIAL_CHAR))
+          );
         // 使用正则表达式分割字符串
         QStringList strlist = text.split(regex);
         for(const QString& val:strlist){

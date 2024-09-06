@@ -58,6 +58,7 @@ void SetDialogWidget::init()
     for(int i=0;i<XFXH_MODEL_V.size();++i){
         ui->comboBox_llm_xfxh->addItem(XFXH_MODEL_V.at(i));
     }
+    ui->comboBox_llm_chatgpt->setCurrentIndex(Config::get_USER(::EnUser::CHATGPT_MODEL_ID).toInt());
     ui->comboBox_llm_xfxh->setCurrentIndex(Config::get_USER(::EnUser::XFXH_MODEL_ID).toInt());
 
     ui->lineEdit_gpt_key->setText(Config::get_IKS(::EnIks::LLM_CHATGPT).key);
@@ -149,7 +150,11 @@ void SetDialogWidget::initConnect()
             Config::set_USER(::EnUser::LLM_MODEL_ID,QString::number(2));
         }
     });
-
+    CurrentIndexChanged currentIndexChanged_llm_chatgpt=&QComboBox::currentIndexChanged;
+    QObject::connect(ui->comboBox_llm_chatgpt,currentIndexChanged_llm_chatgpt,this,[=](int index){
+        qDebug()<<"设置ChatGPT模型为："<<CHATGPT_MODEL_V.at(index);
+        Config::set_USER(::EnUser::CHATGPT_MODEL_ID,QString::number(index));
+    });
     CurrentIndexChanged currentIndexChanged_llm_xfxh=&QComboBox::currentIndexChanged;
     QObject::connect(ui->comboBox_llm_xfxh,currentIndexChanged_llm_xfxh,this,[=](int index){
         qDebug()<<"设置讯飞星火模型为："<<XFXH_MODEL_V.at(index);
@@ -235,7 +240,17 @@ void SetDialogWidget::initConnect()
             }
         }
         QMessageBox::warning(this,"True","已清除缓存");
+    });
 
+    connect(ui->pushButton_getspeakers,&QPushButton::clicked,[=](){
+        NetworkManager* networkManager  =new NetworkManager(this);
+        connect(networkManager,&NetworkManager::sendSpeakers,[=](QVector<QString> sv){
+            ui->comboBox_vitsspeakers->clear();
+            for (auto& val:sv) {
+                ui->comboBox_vitsspeakers->addItem(val);
+            }
+        });
+        networkManager->fetchUrl(QUrl(QString("http://%1:%2/voice/speakers").arg(ui->lineEdit_vits_address->text()).arg(ui->lineEdit_vits_port->text())));
     });
 }
 

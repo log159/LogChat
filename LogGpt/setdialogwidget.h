@@ -24,7 +24,7 @@ class SetDialogWidget : public QDialog
     Q_OBJECT
     typedef void(QComboBox::*CurrentIndexChanged)(int);
 private:
-    const int WIDTH      =900;
+    const int WIDTH      =1000;
     const int HEIGHT     =600;
 public:
     explicit SetDialogWidget(QWidget *parent = nullptr);

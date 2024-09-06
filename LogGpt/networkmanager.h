@@ -12,18 +12,22 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QVector>
 
 class NetworkManager : public QObject {
     Q_OBJECT
+
+private:
+    QNetworkAccessManager* m_Manager    =nullptr;
 public:
     NetworkManager(QObject *parent = nullptr) : QObject(parent) {
-        manager = new QNetworkAccessManager(this);
-        connect(manager, &QNetworkAccessManager::finished, this, &NetworkManager::replyFinished);
+        m_Manager = new QNetworkAccessManager(this);
+        connect(m_Manager, &QNetworkAccessManager::finished, this, &NetworkManager::replyFinished);
     }
 
     void fetchUrl(const QUrl &url) {
         QNetworkRequest request(url);
-        manager->get(request);
+        m_Manager->get(request);
     }
 
 private slots:
@@ -34,27 +38,35 @@ private slots:
         // 读取并解析 JSON 数据
         QJsonDocument doc = QJsonDocument::fromJson(reply->readAll());
         if (doc.isNull()) {
-            qDebug() << "Failed to parse JSON";
+            emit sendSpeakers({});
             return;
         }
-
         QJsonObject jsonObject = doc.object();
 
-        // 假设我们只关心 "VITS" 数组
-        if (jsonObject.contains("VITS")) {
-            QJsonArray vitsArray = jsonObject["VITS"].toArray();
-            for (int i = 0; i < vitsArray.size(); ++i) {
-                QJsonObject vitsObj = vitsArray.at(i).toObject();
-                qDebug() << "ID:" << vitsObj["id"].toInt();
-                qDebug() << "Languages:" << vitsObj["lang"].toArray();
-                qDebug() << "Name:" << vitsObj["name"].toString(); // 这里将自动处理 UTF-8 编码的汉字
+        qDebug()<<jsonObject;
+
+        QVector<QString> modelsV={"VITS","BERT-VITS2","W2V2-VITS","GPT-SOVITS"};
+        QVector<QString> dataV;
+        for(int i=0;i<modelsV.size();++i){
+            if (jsonObject.contains(modelsV[i])) {
+                QJsonArray vitsArray = jsonObject[modelsV[i]].toArray();
+                for (int j = 0; j < vitsArray.size(); ++j) {
+                    QJsonObject vitsObj = vitsArray.at(j).toObject();
+                    QString lang="[";
+                    for(auto& val:vitsObj["lang"].toArray().toVariantList()){
+                        lang+=val.toString()+",";
+                    }
+                    lang[lang.size()-1]=QChar(']');
+                    dataV.push_back(modelsV[i]+"|"+"id"+QString::number(vitsObj["id"].toInt())+"|"+vitsObj["name"].toString()+"|"+lang);
+                    qDebug()<<dataV.back();
+                }
             }
         }
-
+        emit sendSpeakers(dataV);
         reply->deleteLater();
     }
 
-private:
-    QNetworkAccessManager *manager;
+signals:
+    void sendSpeakers(QVector<QString>);
 };
 #endif // NETWORKMANAGER_H

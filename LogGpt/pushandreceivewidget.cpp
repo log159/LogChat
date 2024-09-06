@@ -476,7 +476,8 @@ void PushAndReceiveWidget::add_bot_information(const QString &str)
 
 void PushAndReceiveWidget::handle_bot_sound(const QString &str)
 {
-    temp_text = str;
+
+   temp_text = str;
    QList<QString>list= SetCompoundDialogWidget::getHandleText(str);
    m_RankTextList.clear();
    m_RankAudioList.clear();

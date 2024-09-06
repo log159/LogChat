@@ -9,7 +9,7 @@ void VitsApi::start(const QString& text)
 {
 
     QString url = Config::get_VITS_URL().arg(text);
-    qDebug()<<"向 vits-api 端发送请求"<<url;
+    qDebug()<<"向 vits 端发送请求"<<url;
     QNetworkAccessManager* manager = new QNetworkAccessManager(this);
 
     QNetworkReply* reply = manager->get(QNetworkRequest(QUrl(url)));
