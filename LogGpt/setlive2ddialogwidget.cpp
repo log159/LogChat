@@ -37,7 +37,7 @@ void SetLive2DDialogWidget::init()
     this->resize(WIDTH,HEIGHT);
     this->setWindowTitle("Live2D");
     this->setWindowIcon(QIcon(":/res/u77.svg"));
-    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint | Qt::WindowStaysOnTopHint);
+    setWindowFlags((windowFlags() & ~Qt::WindowContextHelpButtonHint) | Qt::WindowStaysOnTopHint);
 
 
      ui->listWidget_model->setEditTriggers(QAbstractItemView::NoEditTriggers);         //禁止编辑
@@ -202,6 +202,61 @@ void SetLive2DDialogWidget::initConnect()
     connect(ui->pushButton_add,&QPushButton::clicked,this,[=](){
         QString jsonPath = QFileDialog::getOpenFileName(nullptr, "Open File", "", "All Files (*model3.json)");
         if(jsonPath.size()<QString("model3.json").size()){return ;}
+
+        int lastIndex =  jsonPath.lastIndexOf('/');
+        if (lastIndex != -1 && lastIndex > 0) {
+            QString directoryPath = jsonPath.left(lastIndex);
+            directoryPath+="/";
+            QString sourceDir=directoryPath;
+
+            QString destinationDir = TimeInformation::getDateTimeHashString();
+            destinationDir =ConfigConstWay::get_TRUE_WAY(ConfigConstWay::UNITY_MODELS_WAY)+"/"+destinationDir;
+            //创建目标目录
+            {
+                QDir dir;
+                if (dir.mkpath(destinationDir)) {qDebug() << "目录创建成功：";}
+                else { qDebug() << "目录创建失败：";return ;}
+            }
+            qDebug()<<sourceDir;
+            qDebug()<<destinationDir;
+
+            //qDebug()<<"-----------------------------------"<<__FILE__<<" AND "<<__LINE__<<"-----------------------------------";
+
+
+            return;
+
+//            QDir source(sourceDir);
+//            QDir destination(destinationDir);
+
+//            if (!destination.exists()) {
+//                destination.mkpath("."); // 创建目标目录，包括所有必要的父目录
+//            }
+
+//            // 读取源目录中的所有条目（文件和目录）
+//            QStringList entries = source.entryList(QDir::NoDotAndDotDot | QDir::AllDirs | QDir::Files);
+//            foreach (const QString &entry, entries) {
+//                QFileInfo fileInfo(source.absoluteFilePath(entry));
+
+//                // 构造源和目标路径
+//                QString srcPath = fileInfo.absoluteFilePath();
+//                QString dstPath = destination.absoluteFilePath(entry);
+
+//                // 如果是目录，则递归复制
+//                if (fileInfo.isDir()) {
+//                    copyDir(srcPath, dstPath);
+//                } else {
+//                    // 如果是文件，则复制文件
+//                    QFile::copy(srcPath, dstPath);
+//                }
+//            }
+
+
+            return ;
+        } else {
+            // 如果没有找到'/'或者它就在字符串的开始位置
+            qDebug() << "Invalid path or path does not contain a '/'";
+            return ;
+        }
 
         QVector<ModelConfigItem> modV=Config::get_LIVE2DMODELCONFIG_V();
 

@@ -30,11 +30,13 @@ struct IKS{
 //URL配置
 enum EnUrl{
     URL_CHATGPT_BASEURL,
-    URL_DEEPSEEK_BASEURL
+    URL_DEEPSEEK_BASEURL,
+    URL_VITSSELF_RULEURL
 };
 static      QMap<EnUrl,QString>UrlM={
     {URL_CHATGPT_BASEURL,"URL_CHATGPT_BASEURL"},
-    {URL_DEEPSEEK_BASEURL,"URL_DEEPSEEK_BASEURL"}
+    {URL_DEEPSEEK_BASEURL,"URL_DEEPSEEK_BASEURL"},
+    {URL_VITSSELF_RULEURL,"URL_VITSSELF_RULEURL"}
 };
 
 
@@ -65,8 +67,7 @@ enum EnUser{
     CHARACTERNAME,              /*角色名*/
     CHARACTERGENDER,            /*角色性别*/
     AUDIOSYNTHESIS,             /*音频合成规则*/
-    AUDIOBREAKSTR               /*音频分割字符串*/
-
+    AUDIOBREAKSTR,              /*音频分割字符串*/
 };
 
 static      QMap<EnUser,QString>UserM={
@@ -96,10 +97,10 @@ static      QMap<EnUser,QString>UserM={
     {CHARACTERNAME,"CHARACTERNAME"},
     {CHARACTERGENDER,"CHARACTERGENDER"},
     {AUDIOSYNTHESIS,"AUDIOSYNTHESIS"},
-    {AUDIOBREAKSTR,"AUDIOBREAKSTR"}
+    {AUDIOBREAKSTR,"AUDIOBREAKSTR"},
 };
 
-static const QVector<QString>           VITS_MODEL_V        ={"vits","gpt-sovits"};
+static const QVector<QString>           VITS_MODEL_V        ={"vits","gpt-sovits","self"};
 static const QVector<QString>           VITS_ALL_V          ={"vits","bert-vits2","w2v2-vits"};             //全部vits模型
 static const QVector<QString>           LANGUAGE_V          ={"auto","jp","zh","en","yue","wyw","cht"};     //百度翻译全部语种
 static const QVector<QString>           GPTSOVITS_LANGUAGE_V={"zh","ja","en"};                              //GPT-SoVits全部语种

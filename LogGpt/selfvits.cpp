@@ -1,14 +1,14 @@
-#include "gptsovitsapi.h"
+#include "selfvits.h"
 
-GPTSoVitsApi::GPTSoVitsApi(QObject *parent) : VITSBase(parent)
+SelfVits::SelfVits(QObject *parent) : VITSBase(parent)
 {
 
 }
 
-void GPTSoVitsApi::start(const QString& text)
+void SelfVits::start(const QString& text)
 {
-    QString url = Config::get_GPTSOVITS_URL().arg(text);
-    qDebug()<<"向 gptsovits-api 端发送请求"<<url;
+    QString url = Config::get_VITSSELF_URL().arg(text);
+    qDebug()<<"向 vits-self-api 端发送请求"<<url;
     QNetworkAccessManager* manager = new QNetworkAccessManager(this);
 
     QNetworkReply* reply = manager->get(QNetworkRequest(QUrl(url)));
@@ -18,15 +18,13 @@ void GPTSoVitsApi::start(const QString& text)
 
                 QDateTime now = QDateTime::currentDateTime();
                 QString str=TimeInformation::getDateTimeHashString();
-
                 QString currentDir = (ConfigConstWay::get_TRUE_WAY(ConfigConstWay::OUTPUT_WAV_WAY)).arg(str);
-                qDebug()<<"WAV输出路径："<<currentDir;
 
                 QFile outputFile(currentDir);
                 if (outputFile.open(QIODevice::WriteOnly)) {
                     outputFile.write(reply->readAll());
                     outputFile.close();
-                    //播放音频
+                    //发送音频路径
                     emit playerWay(currentDir);
 
                 } else {
@@ -41,5 +39,4 @@ void GPTSoVitsApi::start(const QString& text)
         reply->deleteLater();
         qDebug()<<"------------VITS 请求资源释放-----------";
     });
-
 }

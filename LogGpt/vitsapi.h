@@ -14,7 +14,7 @@ class VitsApi : public VITSBase
 public:
     explicit VitsApi(QObject *parent = nullptr);
 
-    void start(QString text);
+    void start(const QString& text);
 
 signals:
 

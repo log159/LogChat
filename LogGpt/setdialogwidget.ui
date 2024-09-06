@@ -148,6 +148,13 @@
                   </widget>
                  </item>
                  <item>
+                  <widget class="QLabel" name="label_vits_selfrule">
+                   <property name="text">
+                    <string>Vits自定义Url:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
                   <widget class="QLabel" name="label_baidu_set">
                    <property name="text">
                     <string>百度翻译配置:</string>
@@ -278,16 +285,6 @@
                      <widget class="QComboBox" name="comboBox_vits_select"/>
                     </item>
                     <item>
-                     <widget class="QComboBox" name="comboBox_vits_speaker"/>
-                    </item>
-                    <item>
-                     <widget class="QPushButton" name="pushButton_getspeaker">
-                      <property name="text">
-                       <string>获取人物列表</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
                      <widget class="QLabel" name="label_speaker_id">
                       <property name="text">
                        <string>讲述人ID:</string>
@@ -363,6 +360,28 @@
                     </item>
                     <item>
                      <widget class="QComboBox" name="comboBox_gptsovits_language"/>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QFrame" name="frame_vits_selfrule">
+                   <property name="frameShape">
+                    <enum>QFrame::StyledPanel</enum>
+                   </property>
+                   <property name="frameShadow">
+                    <enum>QFrame::Raised</enum>
+                   </property>
+                   <layout class="QHBoxLayout" name="horizontalLayout_19">
+                    <item>
+                     <widget class="QLabel" name="label_vits_selfrule_text">
+                      <property name="text">
+                       <string>自定义规则:</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="lineEdit_vits_selfrule"/>
                     </item>
                    </layout>
                   </widget>
@@ -656,7 +675,7 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-86</y>
+            <y>0</y>
             <width>802</width>
             <height>642</height>
            </rect>

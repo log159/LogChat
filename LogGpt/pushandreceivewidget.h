@@ -55,6 +55,10 @@ class PushAndReceiveWidget : public QWidget
     Q_OBJECT
 
     typedef void (BaiduApi::*ReplyFinishedData)(QString);
+private:
+    static QString  temp_text;
+    static bool     can_send;
+    static bool     can_sound;
 
 private:
     const int _TextEditMinHeight               =50;

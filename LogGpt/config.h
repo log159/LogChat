@@ -45,7 +45,7 @@ private:
     //修改文件配置
     static void output_LIVE2DMODELCONFIG_V(QVector<ModelConfigItem>& modV);
     //其它操作
-    static QMap<QString, QString> parseJsonToQMap(const QString &jsonString);
+//    static QMap<QString, QString> parseJsonToQMap(const QString &jsonString);
 
 
 public:
@@ -61,6 +61,7 @@ public:
 public:
     static const QString get_VITS_URL();
     static const QString get_GPTSOVITS_URL();
+    static const QString get_VITSSELF_URL();
     static const QString get_UNITY_STARTMODELPATH();
     static const QString get_CHARACTERCONFIG();
 

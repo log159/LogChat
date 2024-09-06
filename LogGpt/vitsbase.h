@@ -5,9 +5,9 @@
 #include <QString>
 #include <QNetworkReply>
 #include <QDebug>
+
 #include "config.h"
-
-
+#include "timeinformation.h"
 
 class VITSBase : public QObject
 {
@@ -18,7 +18,7 @@ public:
 
     virtual ~VITSBase();
 
-    virtual void start(QString text) = 0;
+    virtual void start(const QString& text) = 0;
 
 signals:
     void playerWay(QString);

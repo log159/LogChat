@@ -26,7 +26,7 @@
       <item row="0" column="0">
        <widget class="QRadioButton" name="radioButton_reserve">
         <property name="text">
-         <string>启用联系上下文(仅支持ChatGPT)</string>
+         <string>启用联系上下文(支持ChatGPT,DeepSeek)</string>
         </property>
        </widget>
       </item>
@@ -111,7 +111,7 @@
    <item row="2" column="0" colspan="2">
     <widget class="QGroupBox" name="groupBox_character">
      <property name="title">
-      <string>角色设定(支持ChatGPT，讯飞星火)</string>
+      <string>角色设定</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>

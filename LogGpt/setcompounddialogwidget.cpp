@@ -23,7 +23,7 @@ void SetCompoundDialogWidget::init()
     this->resize(_Width,_Height);
     this->setWindowTitle("语音合成");
     this->setWindowIcon(QIcon(":/res/u77.svg"));
-    this->setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint | Qt::WindowStaysOnTopHint);
+    this->setWindowFlags((windowFlags() & ~Qt::WindowContextHelpButtonHint) | Qt::WindowStaysOnTopHint);
     this->setAttribute(Qt::WA_DeleteOnClose);
     QString path = ConfigConstWay::get_TRUE_WAY(ConfigConstWay::OUTPUT_SAVEWAV_WAY);
     path.chop(QString("/%1.wav").size());
@@ -41,7 +41,7 @@ void SetCompoundDialogWidget::init()
 
     int pos = Config::get_USER(::EnUser::AUDIOSYNTHESIS).toInt();
 
-    static_cast<QRadioButton*>(block->buttons()[pos-1])->setChecked(true);
+    static_cast<QRadioButton*>(block->buttons()[pos])->setChecked(true);
     ui->lineEdit_str->setText(Config::get_USER(::EnUser::AUDIOBREAKSTR));
 
     QFile file(":/main.qss");
@@ -127,16 +127,16 @@ void SetCompoundDialogWidget::initConnect()
         }
     });
     connect(ui->radioButton_1,&QRadioButton::toggled,[=](){
-        Config::set_USER(::EnUser::AUDIOSYNTHESIS,QString::number(1));
+        Config::set_USER(::EnUser::AUDIOSYNTHESIS,QString::number(0));
     });
     connect(ui->radioButton_2,&QRadioButton::toggled,[=](){
-        Config::set_USER(::EnUser::AUDIOSYNTHESIS,QString::number(2));
+        Config::set_USER(::EnUser::AUDIOSYNTHESIS,QString::number(1));
     });
     connect(ui->radioButton_3,&QRadioButton::toggled,[=](){
-        Config::set_USER(::EnUser::AUDIOSYNTHESIS,QString::number(3));
+        Config::set_USER(::EnUser::AUDIOSYNTHESIS,QString::number(2));
     });
     connect(ui->radioButton_4,&QRadioButton::toggled,[=](){
-        Config::set_USER(::EnUser::AUDIOSYNTHESIS,QString::number(4));
+        Config::set_USER(::EnUser::AUDIOSYNTHESIS,QString::number(3));
     });
 
     connect(ui->lineEdit_str, &QLineEdit::textChanged,[=](){
@@ -150,11 +150,11 @@ void SetCompoundDialogWidget::handleText()
     int pos = Config::get_USER(::EnUser::AUDIOSYNTHESIS).toInt();
     QString text = ui->textEdit_txt->toPlainText();
     qDebug()<<"QString List:";
-    if(pos==1){
+    if(pos==0){
         m_RankTextList.push_back(text);
         qDebug()<<text;
     }
-    else if(pos==2){
+    else if(pos==1){
         QStringList strlist = text.split('\n');
         for(const QString& val:strlist){
             if(val.isEmpty())continue;
@@ -162,7 +162,7 @@ void SetCompoundDialogWidget::handleText()
             qDebug()<<val;
         }
     }
-    else if(pos==3){
+    else if(pos==2){
 
         QRegExp regex(QString("[%1%2]").arg(QRegularExpression::escape(RegExpChar::CHINESE_CHAR)).arg(QRegularExpression::escape(RegExpChar::ENGLISH_CHAR)));
         // 使用正则表达式分割字符串
@@ -174,7 +174,7 @@ void SetCompoundDialogWidget::handleText()
         }
 
     }
-    else if(pos==4){
+    else if(pos==3){
         QString userstr = ui->lineEdit_str->text();
         QStringList strlist = text.split(userstr);
         for(const QString& val:strlist){
@@ -213,11 +213,11 @@ QList<QString> SetCompoundDialogWidget::getHandleText(const QString &str)
     int pos = Config::get_USER(::EnUser::AUDIOSYNTHESIS).toInt();
     qDebug()<<"QString List:";
     QList<QString> list;
-    if(pos==1){
+    if(pos==0){
         list.push_back(text);
         qDebug()<<text;
     }
-    else if(pos==2){
+    else if(pos==1){
         QStringList strlist = text.split('\n');
         for(const QString& val:strlist){
             if(val.isEmpty())continue;
@@ -225,7 +225,7 @@ QList<QString> SetCompoundDialogWidget::getHandleText(const QString &str)
             qDebug()<<val;
         }
     }
-    else if(pos==3){
+    else if(pos==2){
 
         QRegExp regex(QString("[%1%2]").arg(QRegularExpression::escape(RegExpChar::CHINESE_CHAR)).arg(QRegularExpression::escape(RegExpChar::ENGLISH_CHAR)));
         // 使用正则表达式分割字符串
@@ -237,7 +237,7 @@ QList<QString> SetCompoundDialogWidget::getHandleText(const QString &str)
         }
 
     }
-    else if(pos==4){
+    else if(pos==3){
         QString userstr = Config::get_USER(::EnUser::AUDIOBREAKSTR);
         QStringList strlist = text.split(userstr);
         for(const QString& val:strlist){

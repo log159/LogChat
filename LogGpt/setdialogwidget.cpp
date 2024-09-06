@@ -21,7 +21,7 @@ void SetDialogWidget::init()
     this->resize(WIDTH,HEIGHT);
     this->setWindowTitle("基本设置");
     this->setWindowIcon(QIcon(":/res/u77.svg"));
-    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint | Qt::WindowStaysOnTopHint);
+    setWindowFlags((windowFlags() & ~Qt::WindowContextHelpButtonHint) | Qt::WindowStaysOnTopHint);
 
     ui->tabWidget->setCurrentIndex(0);
 
@@ -95,6 +95,9 @@ void SetDialogWidget::init()
     QString voicewaystr=ConfigConstWay::get_TRUE_WAY(ConfigConstWay::OUTPUT_WAV_WAY);
     voicewaystr.chop(QString("/%1.wav").size());
     ui->lineEdit_voiceway->setText(voicewaystr);
+
+    QString vits_selfrule_text=Config::get_URL(EnUrl::URL_VITSSELF_RULEURL);
+    ui->lineEdit_vits_selfrule->setText(vits_selfrule_text);
 
     QFile file(":/main.qss");
     if(file.open(QFile::ReadOnly)){
@@ -174,6 +177,8 @@ void SetDialogWidget::initConnect()
         }
     });
 
+
+
     CurrentIndexChanged currentIndexChanged_baidu_from=&QComboBox::currentIndexChanged;
     QObject::connect(ui->comboBox_baidu_from,currentIndexChanged_baidu_from,this,[=](int index){
         qDebug()<<"设置FROM语种为："<<LANGUAGE_V.at(index);
@@ -246,6 +251,8 @@ void SetDialogWidget::closeEvent(QCloseEvent *event)
 
     Config::set_USER(::EnUser::SPEAKER_ID,ui->lineEdit_speaker_id->text());
     Config::set_USER(::EnUser::EMOTION_ID,ui->lineEdit_speaker_emotion->text());
+
+    Config::set_URL(::EnUrl::URL_VITSSELF_RULEURL,ui->lineEdit_vits_selfrule->text());
 
     Config::set_IKS(::EnIks::LLM_CHATGPT,"",ui->lineEdit_gpt_key->text(),"");
     Config::set_IKS(::EnIks::LLM_XFXH,ui->lineEdit_xfxh_appid->text(),ui->lineEdit_xfxh_key->text(),ui->lineEdit_xfxh_secret->text());

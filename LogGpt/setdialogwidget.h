@@ -13,6 +13,7 @@
 #include <QRadioButton>
 
 #include "config.h"
+#include "networkmanager.h"
 
 namespace Ui {
 class SetDialogWidget;

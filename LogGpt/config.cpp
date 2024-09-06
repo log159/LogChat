@@ -14,24 +14,24 @@ void Config::init()
     init_LIVE2DMODELCONFIG_V();
 }
 
-QMap<QString, QString> Config::parseJsonToQMap(const QString &jsonString) {
-    QMap<QString, QString> resultMap;
-    QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonString.toUtf8());
+//QMap<QString, QString> Config::parseJsonToQMap(const QString &jsonString) {
+//    QMap<QString, QString> resultMap;
+//    QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonString.toUtf8());
 
-    if (!jsonDoc.isObject()) {
-        qWarning() << "Invalid JSON object";
-        return resultMap;
-    }
-    QJsonObject jsonObj = jsonDoc.object();
+//    if (!jsonDoc.isObject()) {
+//        qWarning() << "Invalid JSON object";
+//        return resultMap;
+//    }
+//    QJsonObject jsonObj = jsonDoc.object();
 
-    for (QJsonObject::const_iterator it = jsonObj.constBegin(); it != jsonObj.constEnd(); ++it) {
-        QString key = it.key();
-        QString value = it.value().toString();
-        resultMap.insert(key, value);
-    }
+//    for (QJsonObject::const_iterator it = jsonObj.constBegin(); it != jsonObj.constEnd(); ++it) {
+//        QString key = it.key();
+//        QString value = it.value().toString();
+//        resultMap.insert(key, value);
+//    }
 
-    return resultMap;
-}
+//    return resultMap;
+//}
 
 void Config::init_LIVE2DMODELCONFIG_V()
 {
@@ -140,18 +140,29 @@ const QString Config::get_URL(const ::EnUrl &urlName)
 
 const QString Config::get_VITS_URL()
 {
-   QString str = QString("http://"
-                   +Config::get_USER(::EnUser::VITS_URL_ADDRESS)+":"
-                   +Config::get_USER(::EnUser::VITS_URL_PORT)
-                   +"/voice/"
-                   +VITS_ALL_V.at(Config::get_USER(::EnUser::VITS_ID).toInt())
-                   +"?text=%1&id="
-                   +QString::number(Config::get_USER(::EnUser::SPEAKER_ID).toInt())
-                   );
-   if(VITS_ALL_V.at(Config::get_USER(::EnUser::VITS_ID).toInt()).compare("w2v2-vits")==0){
-       str+=QString("&emotion="+QString::number(Config::get_USER(::EnUser::EMOTION_ID).toInt()));
+
+   QString vits_name=VITS_ALL_V.at(Config::get_USER(::EnUser::VITS_ID).toInt());
+   QString tcp_str=QString("http://%1:%2/voice/%3?")
+          .arg(Config::get_USER(::EnUser::VITS_URL_ADDRESS))
+          .arg(Config::get_USER(::EnUser::VITS_URL_PORT))
+          .arg(vits_name);
+   if(vits_name=="vits"){
+       tcp_str+=QString("id="+QString::number(Config::get_USER(::EnUser::SPEAKER_ID).toInt())+"&text=%1");
    }
-   return str;
+   else if(vits_name=="w2v2-vits"){
+      tcp_str+=QString(
+                  "id="+QString::number(Config::get_USER(::EnUser::SPEAKER_ID).toInt())+
+                  "&emotion="+QString::number(Config::get_USER(::EnUser::EMOTION_ID).toInt())+
+                  "&text=%1"
+                  );
+   }
+   else if (vits_name=="bert-vits2") {
+       tcp_str+=QString("id="+QString::number(Config::get_USER(::EnUser::SPEAKER_ID).toInt())+"&text=%1");
+   }
+   else{
+
+   }
+  return tcp_str;
 }
 
 const QString Config::get_UNITY_STARTMODELPATH()
@@ -199,6 +210,13 @@ const QString Config::get_GPTSOVITS_URL()
             "?text=%1&text_language="+
             GPTSOVITS_LANGUAGE_V.at(Config::get_USER(::EnUser::GPTSOVITS_LANGUAGE).toInt());
 
+    return str;
+}
+
+const QString Config::get_VITSSELF_URL()
+{
+    QString str=Config::get_URL(::EnUrl::URL_VITSSELF_RULEURL);
+    str.replace("{{text}}","%1");
     return str;
 }
 void Config::set_XFXH_QUESTION(const QString &str)

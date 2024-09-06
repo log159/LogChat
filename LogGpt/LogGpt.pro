@@ -53,10 +53,12 @@ SOURCES += \
         modelconfigitem.cpp \
         modelpartitem.cpp \
         netlive2d.cpp \
+        networkmanager.cpp \
         pushandreceivewidget.cpp \
         qaudiocapture.cpp \
         qhttppost.cpp \
         regexpchar.cpp \
+        selfvits.cpp \
         setcompounddialogwidget.cpp \
         setconfigdialogwidget.cpp \
         setdialogwidget.cpp \
@@ -65,6 +67,7 @@ SOURCES += \
         setselectpushbutton.cpp \
         setselectwidget.cpp \
         speechrecognition.cpp \
+        timeinformation.cpp \
         useritemswidget.cpp \
         usertextedit.cpp \
         vitsapi.cpp \
@@ -101,10 +104,12 @@ HEADERS += \
         modelconfigitem.h \
         modelpartitem.h \
         netlive2d.h \
+        networkmanager.h \
         pushandreceivewidget.h \
         qaudiocapture.h \
         qhttppost.h \
         regexpchar.h \
+        selfvits.h \
         setcompounddialogwidget.h \
         setconfigdialogwidget.h \
         setdialogwidget.h \
@@ -114,6 +119,7 @@ HEADERS += \
         setselectwidget.h \
         singletonbase.h \
         speechrecognition.h \
+        timeinformation.h \
         useritemswidget.h \
         usertextedit.h \
         vitsapi.h \

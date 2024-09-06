@@ -1,8 +1,9 @@
 #include "pushandreceivewidget.h"
 #include "ui_pushandreceivewidget.h"
 
-QString temp_text;
-
+QString PushAndReceiveWidget::temp_text ="";
+bool PushAndReceiveWidget::can_send     =true;
+bool PushAndReceiveWidget::can_sound    =true;
 
 PushAndReceiveWidget::PushAndReceiveWidget(QWidget *parent) :
     QWidget(parent),
@@ -116,12 +117,13 @@ void PushAndReceiveWidget::init()
 void PushAndReceiveWidget::initConnect()
 {
     connect(m_AudioTimer,&QTimer::timeout,[&](){
-        static bool canSend=true;
-        if(true==canSend && !m_RankTextList.isEmpty()){
-            canSend=false;
+        //这个循环是将合成的音频加入List
+
+        if(true==can_send && !m_RankTextList.isEmpty()){
+            can_send=false;
             VITSBase* vits = VITSFactory::getNew(this);
             connect(vits,&VITSBase::playerWay,[=](QString path){
-                canSend=true;
+                can_send=true;
                 m_RankAudioList.push_back(path);
                 qDebug()<<"音频输出:--------->"<<path;
                 vits->deleteLater();
@@ -129,14 +131,14 @@ void PushAndReceiveWidget::initConnect()
             vits->start(m_RankTextList.front());
             m_RankTextList.pop_front();
         }
+        //音频列表顺序播放
+        if(SetLive2DDialogWidget::live2DIsOpen==false){
 
-        if(false && SetLive2DDialogWidget::live2DIsOpen==false){
-            static bool canSound=true;
-            if(true==canSound && !m_RankAudioList.isEmpty()){
-                canSound=false;
+            if(true==can_sound && !m_RankAudioList.isEmpty()){
+                can_sound=false;
                 AudioPlayer* sound=new AudioPlayer(QUrl(m_RankAudioList.front()),this);
                 connect(sound,&AudioPlayer::endof,[=](){
-                    canSound=true;
+                    can_sound=true;
                 });
                 m_RankAudioList.pop_front();
             }
@@ -230,10 +232,10 @@ void PushAndReceiveWidget::moveHistory()
     bool er=(Config::get_USER(::EnUser::ENABLE_RESERVE).toInt()!=0);
     long rl=Config::get_USER(::EnUser::RESERVE_LONG).toInt();
 
-    while(m_OldUserTextList.size()>(er?rl:1)){
+    while(m_OldUserTextList.size()>(er?rl:0)){
         m_OldUserTextList.pop_front();
     }
-    while (m_OldRobotTextList.size()>(er?rl:1)) {
+    while (m_OldRobotTextList.size()>(er?rl:0)) {
         m_OldRobotTextList.pop_front();
     }
 
@@ -260,30 +262,27 @@ const QString PushAndReceiveWidget::getSpeakXFXH()
     else{
         return m_OldUserTextList.back();
     }
-
-//    QString result = "[\n";
-//    if(Config::get_USER(::EnUser::ENABLE_ROLE).toInt()!=0){
-
-//        result += "    {\"role\":\"user\",\"content\":\"" +Config::get_CHARACTERCONFIG() + "\"},\n";
-//        result += "    {\"role\":\"assistant\",\"content\":\"" + QString("OK好的") + "\"},\n";
-//    }
-
-//    // 构建输出字符串
-//    for (int i = 0; i < m_OldRobotTextList.size(); ++i) {
-//        result += "    {\"role\":\"user\",\"content\":\"" + m_OldUserTextList[i] + "\"},\n";
-//        result += "    {\"role\":\"assistant\",\"content\":\"" + m_OldRobotTextList[i] + "\"},\n";
-//    }
-//    // 添加最后一个用户的文本
-//    result += "    {\"role\":\"user\",\"content\":\"" + m_OldUserTextList.last() + "\"}\n";
-//    result += "]";
-
-
-    //    return result;
 }
 
 const QString PushAndReceiveWidget::getSpeakDeepSeek()
 {
-    return m_OldUserTextList.back();
+    QList<QString>    userTextList=m_OldUserTextList;
+    QList<QString>    robotTextList=m_OldRobotTextList;
+    QString data="";
+    while(!userTextList.empty()||!robotTextList.empty()){
+        if(!userTextList.empty()){
+            data+=QString("user:"+userTextList.front()+"|MARK|");
+            userTextList.pop_front();
+        }
+        if(!robotTextList.empty()){
+            data+=QString("assistant:"+robotTextList.front()+"|MARK|");
+            robotTextList.pop_front();
+        }
+    }
+    if(Config::get_USER(::EnUser::ENABLE_ROLE).toInt()!=0){
+        data.push_front(QString("user:%1|MARK|assistant:%2|MARK|").arg(Config::get_CHARACTERCONFIG()).arg("好的"));
+    }
+    return data;
 }
 
 
@@ -304,35 +303,24 @@ void PushAndReceiveWidget::paintEvent(QPaintEvent *event)
 
 const QString PushAndReceiveWidget::getSpeakChatGPT()
 {
-    QString response_havehistory;
-    QVector<QString>   old_vector;
-    for(int i=0;i<m_OldUserTextList.size();++i){
-        QString item_str=m_OldUserTextList[i];
-        old_vector.push_back("["+item_str+"],");
-        if(i==m_OldRobotTextList.size()){
-            old_vector.back().push_back("[]");
-            break;
-        }
-        else {
-            old_vector.back().push_back("["+m_OldRobotTextList[i]+"]");
-        }
 
-    }
-    for(int i=0;i<old_vector.size();++i){
-        if(i!=old_vector.size()-1){
-            response_havehistory+=QString("["+old_vector[i]+"],");
+    QList<QString>    userTextList=m_OldUserTextList;
+    QList<QString>    robotTextList=m_OldRobotTextList;
+    QString data="";
+    while(!userTextList.empty()||!robotTextList.empty()){
+        if(!userTextList.empty()){
+            data+=QString("user:"+userTextList.front()+"|MARK|");
+            userTextList.pop_front();
         }
-        else {
-            response_havehistory+=QString("["+old_vector[i]+"]");
+        if(!robotTextList.empty()){
+            data+=QString("assistant:"+robotTextList.front()+"|MARK|");
+            robotTextList.pop_front();
         }
     }
     if(Config::get_USER(::EnUser::ENABLE_ROLE).toInt()!=0){
-        response_havehistory.push_front(QString("[[%1],[%2]],").arg(Config::get_CHARACTERCONFIG()).arg("OK好的"));
+        data.push_front(QString("user:%1|MARK|assistant:%2|MARK|").arg(Config::get_CHARACTERCONFIG()).arg("好的"));
     }
-
-    response_havehistory.push_front("[");
-    response_havehistory.push_back("]");
-    return response_havehistory;
+    return data;
 }
 
 void PushAndReceiveWidget::clearHistory()
@@ -489,13 +477,14 @@ void PushAndReceiveWidget::add_bot_information(const QString &str)
 void PushAndReceiveWidget::handle_bot_sound(const QString &str)
 {
     temp_text = str;
-//    canSend=true;
    QList<QString>list= SetCompoundDialogWidget::getHandleText(str);
    m_RankTextList.clear();
    m_RankAudioList.clear();
    emit sendAudio("null");
-   //合并掉小于四字符的文本串（为兼容gpt-sovits/*raise Exception('有效文字数太少，至少输入4个字符')*/）
 
+   can_send=true;
+   can_sound=true;
+   //合并掉小于四字符的文本串（为兼容gpt-sovits/*raise Exception('有效文字数太少，至少输入4个字符')*/）
    mergeShortStrings(list);
    if(list.size()==1 && list[0].toStdString().length()<4){
        m_RankTextList.push_back("有效文字数太少语音无法合成");

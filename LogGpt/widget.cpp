@@ -54,13 +54,11 @@ void Widget::initConnect()
     connect(m_SetSelectWidget,&SetSelectWidget::setWidgetShow,[=](){
         SetDialogWidget dialog;
         dialog.exec();
-        m_PushAndReceiveWidget->clearHistory();
 
     });
     connect(m_SetSelectWidget,&SetSelectWidget::setConfigShow,[=](){
         SetConfigDialogWidget dialog;
         dialog.exec();
-        m_PushAndReceiveWidget->clearHistory();
 
     });
     connect(m_SetSelectWidget,&SetSelectWidget::setLive2DShow,[=](){
