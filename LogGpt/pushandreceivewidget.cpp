@@ -1,9 +1,9 @@
 #include "pushandreceivewidget.h"
 #include "ui_pushandreceivewidget.h"
 
-QString PushAndReceiveWidget::temp_text ="";
-bool PushAndReceiveWidget::can_send     =true;
-bool PushAndReceiveWidget::can_sound    =true;
+QString PushAndReceiveWidget::TempText ="";
+bool PushAndReceiveWidget::CanSend     =true;
+bool PushAndReceiveWidget::CanSound    =true;
 
 PushAndReceiveWidget::PushAndReceiveWidget(QWidget *parent) :
     QWidget(parent),
@@ -103,6 +103,18 @@ void PushAndReceiveWidget::init()
 
     m_Frame->setStyleSheet("background-color: transparent;");
 
+
+    m_PushButtonStop=new QPushButton(this);
+    m_PushButtonStop->setFixedSize(50,50);
+    m_PushButtonStop->setStyleSheet("background-color: transparent;");
+    QPixmap stopbutton_img;
+    stopbutton_img.load(":/res/StopImg.svg");
+    stopbutton_img = stopbutton_img.scaled(m_PushButtonStop->width(),m_PushButtonStop->height(), Qt::KeepAspectRatio);
+    m_PushButtonStop->setIcon(QIcon(stopbutton_img));
+    m_PushButtonStop->setIconSize(stopbutton_img.size()*0.7);
+    m_PushButtonStop->setCursor(Qt::PointingHandCursor);
+    m_PushButtonStop->hide();
+
     setAdapt();
     m_UserTextEdit->setFocus();
 
@@ -119,30 +131,35 @@ void PushAndReceiveWidget::initConnect()
     connect(m_AudioTimer,&QTimer::timeout,[&](){
         //这个循环是将合成的音频加入List
 
-        if(true==can_send && !m_RankTextList.isEmpty()){
-            can_send=false;
+        if(true==CanSend && !m_RankTextList.isEmpty()){
+            CanSend=false;
             VITSBase* vits = VITSFactory::getNew(this);
             connect(vits,&VITSBase::playerWay,[=](QString path){
-                can_send=true;
+                CanSend=true;
                 m_RankAudioList.push_back(path);
                 qDebug()<<"音频输出:--------->"<<path;
+                vits->deleteLater();
+            });
+            connect(vits,&VITSBase::quit,[=](){
+                qDebug()<<"vits 端返回失败，释放资源";
                 vits->deleteLater();
             });
             vits->start(m_RankTextList.front());
             m_RankTextList.pop_front();
         }
-        //音频列表顺序播放
+        //音频列表顺序播放 用Chat端播放
         if(SetLive2DDialogWidget::live2DIsOpen==false){
 
-            if(true==can_sound && !m_RankAudioList.isEmpty()){
-                can_sound=false;
+            if(true==CanSound && !m_RankAudioList.isEmpty()){
+                CanSound=false;
                 AudioPlayer* sound=new AudioPlayer(QUrl(m_RankAudioList.front()),this);
                 connect(sound,&AudioPlayer::endof,[=](){
-                    can_sound=true;
+                    CanSound=true;
                 });
                 m_RankAudioList.pop_front();
             }
         }
+        //音频列表顺序发送到 L2d用Unity端播放
         else{
             while(!m_RankAudioList.isEmpty()) {
                 emit sendAudio(m_RankAudioList.front());
@@ -285,22 +302,6 @@ const QString PushAndReceiveWidget::getSpeakDeepSeek()
     return data;
 }
 
-
-void PushAndReceiveWidget::paintEvent(QPaintEvent *event)
-{
-    Q_UNUSED(event)
-    QPainter painter(this);
-    QBrush brush;
-    brush.setColor(QColor(255, 255, 255, 0));
-    brush.setStyle(Qt::SolidPattern);
-    painter.setBrush(brush);
-    painter.setPen(Qt::NoPen);
-    painter.drawRect(0,0,this->width(),this->height());
-
-
-
-}
-
 const QString PushAndReceiveWidget::getSpeakChatGPT()
 {
 
@@ -323,6 +324,22 @@ const QString PushAndReceiveWidget::getSpeakChatGPT()
     return data;
 }
 
+void PushAndReceiveWidget::paintEvent(QPaintEvent *event)
+{
+    Q_UNUSED(event)
+    QPainter painter(this);
+    QBrush brush;
+    brush.setColor(QColor(255, 255, 255, 0));
+    brush.setStyle(Qt::SolidPattern);
+    painter.setBrush(brush);
+    painter.setPen(Qt::NoPen);
+    painter.drawRect(0,0,this->width(),this->height());
+
+
+
+}
+
+
 void PushAndReceiveWidget::clearHistory()
 {
     //历史记录清除
@@ -344,23 +361,44 @@ void PushAndReceiveWidget::clearUi()
 void PushAndReceiveWidget::handle_bot_information()
 {
     emit sendIs();//设置按钮不得点击
+    m_PushButtonStop->show();
 
     LLMBase* llm=LLMFactory::getNew(this);
     QObject::connect(llm,&LLMBase::read, [=](QString str) {
+        m_PushButtonStop->hide();
         this->m_InformationComing=false;
         emit receiveIs();//按钮可点击
         this->handle_receive(str);//处理接收到的内容
+        llm->deleteLater();
     });
     connect(llm,&LLMBase::quit,[=](){
         //如果没有接收信息就释放资源则报错
         if(m_InformationComing==true){
-//            QMessageBox::warning(this,"Error occurred","出现错误，接收信息失败！");
             add_bot_information("资源释放，接收信息失败！");
+            m_PushButtonStop->hide();
             m_InformationComing=false;
-            m_OldUserTextList.pop_back();
+            if(!m_OldUserTextList.isEmpty())
+                m_OldUserTextList.pop_back();
             emit receiveIs();//按钮可点击
+            llm->deleteLater();
         }
     });
+    connect(llm,&LLMBase::stopQuit,[=](){
+        llm->deleteLater();
+    });
+    QObject::disconnect(m_PushButtonStop, nullptr, nullptr, nullptr);
+    connect(m_PushButtonStop,&QPushButton::clicked,[=](){
+
+        add_bot_information("资源释放，接收信息失败！");
+        m_PushButtonStop->hide();
+        m_InformationComing=false;
+        if(!m_OldUserTextList.isEmpty())
+            m_OldUserTextList.pop_back();
+        emit receiveIs();//按钮可点击
+        llm->stop();
+
+    });
+
     //向LLM端发送内容
     llm->start(getLLMSpeak());
 }
@@ -445,7 +483,6 @@ void PushAndReceiveWidget::add_user_information(const QString& str)
 
     m_UserTextEdit->clear();
     m_UserTextEdit->setFocus();
-    textUser.replace("\n", "");
     m_OldUserTextList.push_back(textUser);
 
 }
@@ -457,7 +494,6 @@ void PushAndReceiveWidget::add_bot_information(const QString &str)
 
     emit signals_send_data_from_llm_to_main(str);
     qDebug()<<"尝试发送信息到Widget";
-
 
     widget->initItem(receivedData,ItemEnum::Bot);
     m_ListWidget->addItem(item);
@@ -476,46 +512,25 @@ void PushAndReceiveWidget::add_bot_information(const QString &str)
 
 void PushAndReceiveWidget::handle_bot_sound(const QString &str)
 {
+    m_RankTextList.clear();
+    m_RankAudioList.clear();
+    emit sendAudio("null");
 
-   temp_text = str;
-   QList<QString>list= SetCompoundDialogWidget::getHandleText(str);
-   m_RankTextList.clear();
-   m_RankAudioList.clear();
-   emit sendAudio("null");
+    TempText = str;
+    CanSend=true;
+    QList<QString>list= SetCompoundDialogWidget::getHandleText(str);
+    //合并掉小于四字符的文本串（为兼容gpt-sovits/*raise Exception('有效文字数太少，至少输入4个字符')*/）
+    SetCompoundDialogWidget::mergeShortStrings(list);
 
-   can_send=true;
-   can_sound=true;
-   //合并掉小于四字符的文本串（为兼容gpt-sovits/*raise Exception('有效文字数太少，至少输入4个字符')*/）
-   mergeShortStrings(list);
-   if(list.size()==1 && list[0].toStdString().length()<4){
-       m_RankTextList.push_back("有效文字数太少语音无法合成");
-       return;
-   }
-   for(const QString & val:list)
+    if(list.size()==1 && list[0].toStdString().length()<4){
+        m_RankTextList.push_back("有效文字数太少,语音无法合成");
+        return;
+    }
+    for(const QString & val:list)
         m_RankTextList.push_back(val);
 
-
-
 }
-void PushAndReceiveWidget::mergeShortStrings(QList<QString> &list) {
-    if (list.isEmpty()) return;
 
-    for (int i = 0; i < list.size(); ++i) {
-        if (list[i].length() < 4) {
-            if (i > 0) {
-                list[i-1] += list[i];
-                list.removeAt(i);
-                --i;
-            }
-            else if (i + 1 < list.size()) {
-                list[i + 1] = list[i] + list[i + 1];
-                list.removeAt(i);
-                --i;
-            }
-        }
-    }
-    qDebug()<<"短字符串合并: "<<list;
-}
 void PushAndReceiveWidget::play_sound(const QString &path)
 {
     qDebug()<<"音频开始播放";
@@ -583,7 +598,10 @@ void PushAndReceiveWidget::setAdapt()
     m_PushButtonSet->move(0,m_Frame->y()+int((m_Frame->height()-m_PushButtonSend->height())*0.5));
     m_PushButtonSpeak->move(m_PushButtonSet->width()+1,m_Frame->y()+int((m_Frame->height()-m_PushButtonSend->height())*0.5));
     m_PushButtonWrite->move(m_PushButtonSet->width()+1,m_Frame->y()+int((m_Frame->height()-m_PushButtonSend->height())*0.5));
+    m_PushButtonStop->move(m_PushButtonWrite->x()+m_PushButtonWrite->width()+1,m_Frame->y()+int((m_Frame->height()-m_PushButtonSend->height())*0.5));
     m_PushButtonSend->move(m_Frame->x()+int((m_Frame->width()-m_PushButtonSend->width())*0.5),m_Frame->y()+int((m_Frame->height()-m_PushButtonSend->height())*0.5));
+
+
 
 }
 
@@ -602,5 +620,5 @@ void PushAndReceiveWidget::slot_play_voice_from_widget_to_llm()
     VITSBase* vits=VITSFactory::getNew(this);
     connect(vits,SIGNAL(playerWay(QString)),this,SLOT(play_sound(QString)));
     connect(vits,&VITSBase::playerWay,this,[=](){vits->deleteLater();});
-    vits->start(temp_text);
+    vits->start(TempText);
 }

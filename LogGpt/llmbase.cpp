@@ -8,7 +8,13 @@ LLMBase::LLMBase(QObject *parent) : QObject(parent)
 
 LLMBase::~LLMBase()
 {
+    m_Process->close();
     qDebug()<<"------------------LLM端析构------------------";
+}
+
+void LLMBase::stop()
+{
+    m_Stop=true;
 }
 
 void LLMBase::init()
@@ -18,6 +24,8 @@ void LLMBase::init()
 void LLMBase::initConnect()
 {
     QObject::connect(m_Process,&QProcess::readyReadStandardOutput, [=]() {
+        if(m_Process==nullptr)return;
+        if(m_Stop==true){emit stopQuit(); return;}
         QByteArray outputData = m_Process->readAllStandardOutput();
         QString receivedData = QString::fromUtf8(outputData);
         qDebug() << "接收到内容————>" << receivedData;
@@ -25,8 +33,9 @@ void LLMBase::initConnect()
     });
     FinishedFunc finished = &QProcess::finished;
     connect(m_Process,finished,[=](){
+        if(m_Process==nullptr)return;
+        if(m_Stop==true){emit stopQuit(); return;}
         qDebug()<<"------------LLM 请求资源释放-----------";
-        this->deleteLater();
         emit quit();
     });
 }

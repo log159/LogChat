@@ -9,9 +9,9 @@ class ModelPartItem
 
 private:
     QString m_Name;
-    int m_DefaultValue;
-    int m_MinValue;
-    int m_MaxValue;
+    int     m_DefaultValue;
+    int     m_MinValue;
+    int     m_MaxValue;
 
 public:
     ModelPartItem();

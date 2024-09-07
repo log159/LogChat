@@ -22,6 +22,8 @@ public:
 
 signals:
     void playerWay(QString);
+
+    void quit();
 public slots:
 };
 

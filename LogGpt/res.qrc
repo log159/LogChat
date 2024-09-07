@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>res/ChatIcon.png</file>
         <file>res/PushImg.png</file>
         <file>res/u8.svg</file>
         <file>res/u9.svg</file>
@@ -17,5 +16,8 @@
         <file>res/SetImg.png</file>
         <file>res/SoundImg.png</file>
         <file>main.qss</file>
+        <file>res/ChatIcon.png</file>
+        <file>res/StopImg.svg</file>
+        <file>res/PlayImg.svg</file>
     </qresource>
 </RCC>

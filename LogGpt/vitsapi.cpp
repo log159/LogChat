@@ -30,12 +30,15 @@ void VitsApi::start(const QString& text)
 
                 } else {
                     qDebug() << "Failed to open output file";
+                    emit quit();
                 }
             } else {
                 qDebug() << "HTTP error:" << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+                emit quit();
             }
         } else {
             qDebug() << "Network error:" << reply->error();
+            emit quit();
         }
         reply->deleteLater();
         qDebug()<<"------------VITS 请求资源释放-----------";

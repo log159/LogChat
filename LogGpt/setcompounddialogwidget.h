@@ -13,8 +13,8 @@
 #include <QDir>
 #include <QFile>
 #include <QLineEdit>
-#include <QList>
 #include <QTimer>
+#include <QString>
 
 
 #include "regexpchar.h"
@@ -46,10 +46,12 @@ private:
     void init();
     void initConnect();
 
+
     void handleText();
     void saveSound(const QString& path);
 public:
     static QList<QString> getHandleText(const QString& str);
+    static void mergeShortStrings(QList<QString> &list);
 private slots:
 
 private:

@@ -56,9 +56,9 @@ class PushAndReceiveWidget : public QWidget
 
     typedef void (BaiduApi::*ReplyFinishedData)(QString);
 private:
-    static QString  temp_text;
-    static bool     can_send;
-    static bool     can_sound;
+    static QString  TempText;
+    static bool     CanSend;
+    static bool     CanSound;
 
 private:
     const int _TextEditMinHeight               =50;
@@ -83,6 +83,7 @@ private:
     QPushButton*      m_PushButtonSet          =nullptr;
     QPushButton*      m_PushButtonSpeak        =nullptr;
     QPushButton*      m_PushButtonWrite        =nullptr;
+    QPushButton*      m_PushButtonStop         =nullptr;
     QFrame*           m_Frame                  =nullptr;
 
 public:
@@ -106,11 +107,8 @@ private:
     const QString getSpeakXFXH();       //历史记忆拼接 适用于讯飞星火SDK
     const QString getSpeakDeepSeek();   //历史记忆拼接 适用于DeepSeek脚本
 
-    //复写函数
     void paintEvent(QPaintEvent* event);
 
-    //工具函数
-    void mergeShortStrings(QList<QString> &list);
 signals:
     void sendIs();
     void receiveIs();

@@ -79,7 +79,6 @@ void NetLive2D::receiveHandle(QString strHandle)
             }
         }
 
-
     }
     //位置信息
     if(strHandle.at(0)==QChar('P')){

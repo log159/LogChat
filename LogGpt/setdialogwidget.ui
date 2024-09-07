@@ -189,6 +189,9 @@
                     <enum>QFrame::Raised</enum>
                    </property>
                    <layout class="QHBoxLayout" name="horizontalLayout_12">
+                    <property name="leftMargin">
+                     <number>0</number>
+                    </property>
                     <item>
                      <widget class="QRadioButton" name="radioButton_llm_chatgpt">
                       <property name="text">
@@ -422,7 +425,7 @@
                     <item>
                      <widget class="QLabel" name="label_vits_selfrule_text">
                       <property name="text">
-                       <string>自定义规则:</string>
+                       <string>自定义规则({{text}}替换为目标文本):</string>
                       </property>
                      </widget>
                     </item>

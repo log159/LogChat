@@ -64,13 +64,13 @@ void SetCompoundDialogWidget::initConnect()
             connect(vits,&VITSBase::playerWay,[=](QString path){
                 canSend=true;
                 saveSound(path);
-                if(true==m_CanPause){
-                    m_ListenTimer->stop();
-                }
-                else {
-                    m_ListenTimer->start(10);
-                }
+                if(true==m_CanPause)m_ListenTimer->stop();
+                else m_ListenTimer->start(10);
+
                 qDebug()<<path;
+                vits->deleteLater();
+            });
+            connect(vits,&VITSBase::quit,[=](){
                 vits->deleteLater();
             });
             vits->start(m_RankTextList.front());
@@ -147,46 +147,10 @@ void SetCompoundDialogWidget::initConnect()
 
 void SetCompoundDialogWidget::handleText()
 {
-    int pos = Config::get_USER(::EnUser::AUDIOSYNTHESIS).toInt();
-    QString text = ui->textEdit_txt->toPlainText();
-    qDebug()<<"QString List:";
-    if(pos==0){
-        m_RankTextList.push_back(text);
-        qDebug()<<text;
-    }
-    else if(pos==1){
-        QStringList strlist = text.split('\n');
-        for(const QString& val:strlist){
-            if(val.isEmpty())continue;
-            m_RankTextList.push_back(val);
-            qDebug()<<val;
-        }
-    }
-    else if(pos==2){
-
-        QRegExp regex(QString("[%1%2%3]")
-          .arg(QRegularExpression::escape(RegExpChar::CHINESE_CHAR))
-          .arg(QRegularExpression::escape(RegExpChar::ENGLISH_CHAR))
-          .arg(QRegularExpression::escape(RegExpChar::SPECIAL_CHAR))
-          );
-        // 使用正则表达式分割字符串
-        QStringList strlist = text.split(regex);
-        for(const QString& val:strlist){
-            if(val.isEmpty())continue;
-            m_RankTextList.push_back(val);
-            qDebug()<<val;
-        }
-
-    }
-    else if(pos==3){
-        QString userstr = ui->lineEdit_str->text();
-        QStringList strlist = text.split(userstr);
-        for(const QString& val:strlist){
-            if(val.isEmpty())continue;
-            m_RankTextList.push_back(val);
-            qDebug()<<val;
-        }
-    }
+    QList<QString>li= getHandleText(ui->textEdit_txt->toPlainText());
+    //合并掉小于四字符的文本串（为兼容gpt-sovits/*raise Exception('有效文字数太少，至少输入4个字符')*/）
+    mergeShortStrings(li);
+    m_RankTextList+=li;
 }
 
 void SetCompoundDialogWidget::saveSound(const QString &path)
@@ -234,7 +198,7 @@ QList<QString> SetCompoundDialogWidget::getHandleText(const QString &str)
         QRegExp regex(QString("[%1%2%3]")
           .arg(QRegularExpression::escape(RegExpChar::CHINESE_CHAR))
           .arg(QRegularExpression::escape(RegExpChar::ENGLISH_CHAR))
-          .arg(QRegularExpression::escape(RegExpChar::SPECIAL_CHAR))
+          .arg("\n")
           );
         // 使用正则表达式分割字符串
         QStringList strlist = text.split(regex);
@@ -254,5 +218,27 @@ QList<QString> SetCompoundDialogWidget::getHandleText(const QString &str)
             qDebug()<<val;
         }
     }
+
     return list;
+}
+
+
+void SetCompoundDialogWidget::mergeShortStrings(QList<QString> &list) {
+    if (list.isEmpty()) return;
+
+    for (int i = 0; i < list.size(); ++i) {
+        if (list[i].length() < 4) {
+            if (i > 0) {
+                list[i-1] += list[i];
+                list.removeAt(i);
+                --i;
+            }
+            else if (i + 1 < list.size()) {
+                list[i + 1] = list[i] + list[i + 1];
+                list.removeAt(i);
+                --i;
+            }
+        }
+    }
+    qDebug()<<"短字符串合并: "<<list;
 }
