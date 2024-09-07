@@ -1,0 +1,39 @@
+Unity中对象树结构
+----------------------------------
+Camera
+Live2D
+    Target
+    Video
+    NetWork
+----------------------------------
+Unity中对象挂载脚本
+/*相机*/
+Camera->
+    -TransparentWindow
+    -WindowSetting
+/*Live2D管控*/
+Live2D->
+    -Model
+    -Config
+    -MouseInformation
+    -FileOperate
+    -Loom
+    -ExplainLoom
+/*鼠标跟踪组件*/
+Target->
+    -LookMouse
+/*音频播放&口型同步*/
+Audio->
+    -PlayAudioFromFile
+    -AudioSource
+/*Tcp 通信组件*/
+NetWork->
+    -SocketBehaviour
+----------------------------------
+Windows 透过/置顶选项:
+取消以下脚本对应位置注释
+    -TransparentWindow
+    -WindowSetting
+Unity 快速加载(跳过启动图标)选项:
+将以下脚本放到Unity根目录下
+    -SkipSplashScreen
