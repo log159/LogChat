@@ -181,6 +181,21 @@ QPushButton:pressed {
      <height>31</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+    background-color:#F0F3F4 ;
+	font: 9pt ;
+    border: none;
+    border-radius: 6px;
+    padding: 0px 4px;
+}
+QPushButton:hover {
+    background-color: #FFFFFF ;
+}
+QPushButton:pressed {
+    background-color: 	#ECF0F1;
+}</string>
+   </property>
    <property name="text">
     <string>长按语音输入</string>
    </property>

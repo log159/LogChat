@@ -16,6 +16,11 @@ GalDialog::GalDialog(QWidget *parent) :
     /*内容初始化*/
     ui->pushButton->hide();
     ui->label_name->setText("你");
+    /*是否使用语音输入*/
+    if(Config::get_USER(::EnUser::ENABLE_VOICE_INPUT).toInt()!=0)
+        ui->pushButton_record->show();
+    else
+        ui->pushButton_record->hide();
 }
 
 GalDialog::~GalDialog()

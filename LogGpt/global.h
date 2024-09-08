@@ -50,6 +50,7 @@ enum EnUser{
     GPTSOVITS_LANGUAGE,         /*GPT-SoVits目标语种*/
     ENABLE_ROLE,                /*是否启用角色扮演*/
     ENABLE_SOUND,               /*是否启用语音*/
+    ENABLE_VOICE_INPUT,         /*是否启用语音输入*/
     ENABLE_BAIDUFANYI,          /*是否启用百度翻译*/
     ENABLE_LATERLANGUAGE,       /*是否启用翻译后的语言用来显示*/
     ENABLE_RESERVE,             /*是否保留上下文记忆*/

@@ -29,7 +29,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tab_deploy">
       <attribute name="title">
@@ -55,8 +55,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>859</width>
-            <height>556</height>
+            <width>825</width>
+            <height>568</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_9">
@@ -497,7 +497,7 @@
        <string>启用设置</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_8">
-       <item row="0" column="0">
+       <item row="0" column="1">
         <widget class="QFrame" name="frame_5">
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
@@ -567,6 +567,13 @@
               <widget class="QLabel" name="label_baidu_show_enable">
                <property name="text">
                 <string>启用翻译后的语言显示:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_voice_input">
+               <property name="text">
+                <string>启用语音输入</string>
                </property>
               </widget>
              </item>
@@ -686,13 +693,45 @@
                </layout>
               </widget>
              </item>
+             <item>
+              <widget class="QFrame" name="horizontalFrame">
+               <layout class="QHBoxLayout" name="horizontalLayout_21">
+                <property name="leftMargin">
+                 <number>9</number>
+                </property>
+                <property name="topMargin">
+                 <number>9</number>
+                </property>
+                <property name="rightMargin">
+                 <number>9</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>9</number>
+                </property>
+                <item>
+                 <widget class="QRadioButton" name="radioButton_voice_inout_enable_yes">
+                  <property name="text">
+                   <string>YES</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QRadioButton" name="radioButton_voice_inout_enable_no">
+                  <property name="text">
+                   <string>NO</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
             </layout>
            </widget>
           </item>
          </layout>
         </widget>
        </item>
-       <item row="1" column="0">
+       <item row="1" column="1">
         <spacer name="verticalSpacer_2">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -725,8 +764,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>802</width>
-            <height>642</height>
+            <width>825</width>
+            <height>568</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_6">

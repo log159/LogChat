@@ -79,6 +79,9 @@ void SetDialogWidget::init()
     if(Config::get_USER(::EnUser::ENABLE_SOUND).toInt()!=0){ui->radioButton_sound_enable_yes->setChecked(true);}
     else{ui->radioButton_sound_enable_no->setChecked(true);}
 
+    if(Config::get_USER(::EnUser::ENABLE_VOICE_INPUT).toInt()!=0){ui->radioButton_voice_inout_enable_yes->setChecked(true);}
+    else{ui->radioButton_voice_inout_enable_no->setChecked(true);}
+
     for(int i=0;i<LANGUAGE_V.size();++i){
         ui->comboBox_baidu_from->addItem(LANGUAGE_V.at(i));
         ui->comboBox_baidu_to->addItem(LANGUAGE_V.at(i));
@@ -179,6 +182,16 @@ void SetDialogWidget::initConnect()
         } else {
             qDebug()<<"NO";
             Config::set_USER(::EnUser::ENABLE_SOUND,QString::number(0));
+        }
+    });
+    QObject::connect(ui->radioButton_voice_inout_enable_yes, &QRadioButton::toggled, [&](){
+        qDebug()<<"启用语音输入";
+        if (ui->radioButton_voice_inout_enable_yes->isChecked()) {
+            qDebug()<<"YES";
+            Config::set_USER(::EnUser::ENABLE_VOICE_INPUT,QString::number(1));
+        } else {
+            qDebug()<<"NO";
+            Config::set_USER(::EnUser::ENABLE_VOICE_INPUT,QString::number(0));
         }
     });
 
