@@ -85,43 +85,29 @@ void GalDialog::on_pushButton_play_clicked()
 //长按录制
 void GalDialog::on_pushButton_record_pressed()
 {
+    //录音前转为输入模式
+    ui->pushButton->hide();
+    ui->textEdit->clear();
+    ui->label_name->setText("你");
     qDebug()<<"开始录音";
     /*
      * 此处可以使用ffplay -f s16le -ar 16000 -ac 1 -1 record_temp.pcm 进行播放测试
      * 参数就是qaudiocapture.cpp里设置的
     */
-#ifndef DEBUG
-//    m_audio.startRecord("./record_temp.pcm"); //暂存位置
-#endif
+    m_audio.startRecord("./record_temp.pcm"); //暂存位置
 }
 //松开提交
 void GalDialog::on_pushButton_record_released()
 {
     //停止录音
     qDebug()<<"结束录音";
-#ifndef DEBUG
-//    m_audio.stopRecord();
+    m_audio.stopRecord();
     //Config部分重构，这样获取到appid,key,secret,如果没有设定则为空字符串
     ::IKS iks=Config::get_IKS(::EnIks::STT_BDYUN);
-
     //提交录音
     QString str = m_speechrgn.speechIdentify(iks.key,iks.secret,"./record_temp.pcm");
     ui->textEdit->setText(str); //获取返回内容
-
-#endif
-#ifdef DEBUG
-    //Config部分重构，这样获取到appid,key,secret,如果没有设定则为空字符串
-    ::IKS iks=Config::get_IKS(::EnIks::STT_BDYUN);
-
-    //提交录音
-    QString str = m_speechrgn.speechIdentify(iks.key,iks.secret,"./record_temp_debug.pcm");
-    ui->textEdit->setText(str); //获取返回内容
-#endif
-
-
 }
-
-
 
 /*无边框相关*/
 //三个鼠标事件的重写
