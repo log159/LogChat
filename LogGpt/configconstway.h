@@ -24,9 +24,9 @@ public:
     static const QString            UNITY_DEMO_WORK_WAY;        //Unity 工作目录
     static const QString            UNITY_MODELS_WAY;           //Unity Models目录
     static const QString            UNITY_STARTMODELPATH_WAY;   //Unity 模型文件加载路径
-    static const QString            UNITY_MODELLIST_WAY;        //Unity Live 2D路径列表
     static const QString            UNITY_MODELCONFIGLIST_WAY;  //Unity 模型文件配置加载路径
     static const QString            CONFIGURATION_WAY;          //配置文件路径
+    static const QString            CONFIG_UNITY_WAY;           //Unity配置文件路径
 
     //传入以上相对路径，返回真实路径
     static const QString get_TRUE_WAY(const QString& path);

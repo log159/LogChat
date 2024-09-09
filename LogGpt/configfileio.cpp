@@ -59,6 +59,29 @@ void ConfigFileIO::setFileInformation(const QString &path, const QJsonObject &js
 
 }
 
+void ConfigFileIO::copyDirectory(const QString &sourceDir, const QString &destinationDir)
+{
+    QDir source(sourceDir);
+    QDir destination(destinationDir);
+
+    if (!destination.exists()) {
+        destination.mkpath("."); // 创建目标目录
+    }
+
+    QFileInfoList files = source.entryInfoList(QDir::NoDotAndDotDot | QDir::Files | QDir::Dirs | QDir::Hidden | QDir::System);
+    foreach (QFileInfo file, files) {
+        QString srcPath = file.absoluteFilePath();
+        QString dstPath = destination.absoluteFilePath(file.fileName());
+
+        if (file.isDir()) {
+            copyDirectory(srcPath, dstPath); // 递归复制目录
+        } else {
+            QFile::copy(srcPath, dstPath); // 复制文件
+        }
+    }
+}
+
+
 void ConfigFileIO::setIksConfig(const ::EnIks &baseName, const QString &id, const QString &key, const QString &secret)
 {
     QString fileName = ConfigConstWay::get_TRUE_WAY(ConfigConstWay::CONFIGURATION_WAY);
@@ -140,6 +163,31 @@ QString ConfigFileIO::getUserConfig(const ::EnUser &keyName)
     if(QFile::exists(fileName))
     {
         QString data = setting->value("USER/"+::UserM[keyName]).toString();
+        return data;
+    }
+    else {
+        setting->sync();
+        return NULLVALUE;
+    }
+}
+
+void ConfigFileIO::setOtherConfig(const QString& path,const QString &baseName, const QString &keyName, const QString &value)
+{
+    QString fileName = path;
+    QSettings *setting = new QSettings(fileName , QSettings::IniFormat);
+    setting->setIniCodec(QTextCodec::codecForName("UTF-8"));
+    setting->setValue(baseName+"/"+keyName,value);
+    setting->sync();
+}
+
+QString ConfigFileIO::getOtherConfig(const QString& path,const QString &baseName, const QString &keyName)
+{
+    QString fileName = path;
+    QSettings *setting = new QSettings(fileName , QSettings::IniFormat);
+    setting->setIniCodec(QTextCodec::codecForName("UTF-8"));
+    if(QFile::exists(fileName))
+    {
+        QString data = setting->value(baseName+"/"+keyName,NULLVALUE).toString();
         return data;
     }
     else {

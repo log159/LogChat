@@ -14,8 +14,6 @@ SetLive2DDialogWidget::SetLive2DDialogWidget(QWidget *parent) :
 
     init();
     initConnect();
-
-
 }
 
 SetLive2DDialogWidget::~SetLive2DDialogWidget()
@@ -143,7 +141,7 @@ void SetLive2DDialogWidget::initConnect()
         m_Live2dOpenId=m_Live2dPassId;
         updateModelChange();
         if(live2DIsOpen==true){
-            Config::set_UNITY_STARTMODELPATH(Config::get_LIVE2DMODELCONFIG_V()[SetLive2DDialogWidget::m_Live2dOpenId].getFilePath());
+            Config::set_UNITY_STARTMODELPATH(ConfigConstWay::get_TRUE_WAY(Config::get_LIVE2DMODELCONFIG_V()[SetLive2DDialogWidget::m_Live2dOpenId].getFilePath()));
             sendModelHandle("Init:null;");
             //同步刷新Ui
             updateForUi();
@@ -201,97 +199,27 @@ void SetLive2DDialogWidget::initConnect()
     //添加模型
     connect(ui->pushButton_add,&QPushButton::clicked,this,[=](){
         QString jsonPath = QFileDialog::getOpenFileName(nullptr, "Open File", "", "All Files (*model3.json)");
-        if(jsonPath.size()<QString("model3.json").size()){return ;}
-
+        if(jsonPath.size()<QString(".model3.json").size()){return ;}
         int lastIndex =  jsonPath.lastIndexOf('/');
-        if (lastIndex != -1 && lastIndex > 0) {
-            QString directoryPath = jsonPath.left(lastIndex);
-            directoryPath+="/";
-            QString sourceDir=directoryPath;
-
-            QString destinationDir = TimeInformation::getDateTimeHashString();
-            destinationDir =ConfigConstWay::get_TRUE_WAY(ConfigConstWay::UNITY_MODELS_WAY)+"/"+destinationDir;
-            //创建目标目录
-            {
-                QDir dir;
-                if (dir.mkpath(destinationDir)) {qDebug() << "目录创建成功：";}
-                else { qDebug() << "目录创建失败：";return ;}
-            }
-            qDebug()<<sourceDir;
-            qDebug()<<destinationDir;
-
-            //qDebug()<<"-----------------------------------"<<__FILE__<<" AND "<<__LINE__<<"-----------------------------------";
-
-
-            return;
-
-//            QDir source(sourceDir);
-//            QDir destination(destinationDir);
-
-//            if (!destination.exists()) {
-//                destination.mkpath("."); // 创建目标目录，包括所有必要的父目录
-//            }
-
-//            // 读取源目录中的所有条目（文件和目录）
-//            QStringList entries = source.entryList(QDir::NoDotAndDotDot | QDir::AllDirs | QDir::Files);
-//            foreach (const QString &entry, entries) {
-//                QFileInfo fileInfo(source.absoluteFilePath(entry));
-
-//                // 构造源和目标路径
-//                QString srcPath = fileInfo.absoluteFilePath();
-//                QString dstPath = destination.absoluteFilePath(entry);
-
-//                // 如果是目录，则递归复制
-//                if (fileInfo.isDir()) {
-//                    copyDir(srcPath, dstPath);
-//                } else {
-//                    // 如果是文件，则复制文件
-//                    QFile::copy(srcPath, dstPath);
-//                }
-//            }
-
-
-            return ;
-        } else {
-            // 如果没有找到'/'或者它就在字符串的开始位置
-            qDebug() << "Invalid path or path does not contain a '/'";
-            return ;
-        }
+        QString sourceDir=jsonPath.left(lastIndex);
+        QString timeHashStr=TimeInformation::getDateTimeHashString();
+        QString destinationDir =ConfigConstWay::get_TRUE_WAY(ConfigConstWay::UNITY_MODELS_WAY)+"/"+timeHashStr;
+        //创建目标目录
+        QDir make_dir;
+        if (make_dir.mkpath(destinationDir)) {qDebug() << "目录创建成功：";}
+        else { qDebug() << "目录创建失败：";return ;}
+        ConfigFileIO::copyDirectory(sourceDir,destinationDir);
+        qDebug()<<"Live2d 全部文件拷贝完成";
 
         QVector<ModelConfigItem> modV=Config::get_LIVE2DMODELCONFIG_V();
-
-        //model初始化
         ModelConfigItem modelConfigItem;
-        modelConfigItem.setModelId(LIVE2DPARAMINIT_M["model_id"]);
-        modelConfigItem.setModelName(LIVE2DSTRING_M["model_name"]);
-        modelConfigItem.setFilePath(LIVE2DSTRING_M["file_path"]);
-        modelConfigItem.setLookEnable(LIVE2DENABLEINIT_M["look_enable"]);
-        modelConfigItem.setTopApha(LIVE2DPARAMINIT_M["win_topapha"]);
-        modelConfigItem.setModelSize(LIVE2DPARAMINIT_M["model_size"]);
-        modelConfigItem.setModelX(LIVE2DPARAMINIT_M["model_x"]);
-        modelConfigItem.setModelY(LIVE2DPARAMINIT_M["model_y"]);
-        modelConfigItem.setMouseSpeed(LIVE2DPARAMINIT_M["mouse_speed"]);
-        modelConfigItem.setEyeTime(LIVE2DPARAMINIT_M["eye_time"]);
-        modelConfigItem.setEyeDeviation(LIVE2DPARAMINIT_M["eye_deviation"]);
-        modelConfigItem.setEyeSpeed(LIVE2DPARAMINIT_M["eye_speed"]);
-        modelConfigItem.setAudioAdd(LIVE2DPARAMINIT_M["audio_add"]);
-        modelConfigItem.setAudioSmooth(LIVE2DPARAMINIT_M["audio_smooth"]);
-        modelConfigItem.setModelDescription(LIVE2DSTRING_M["model_description"]);
 
         //model赋值
         modelConfigItem.setModelId(ui->listWidget_model->count());
-        QString modelName=jsonPath;
-        modelName.chop(QString(".model3.json").size());
-        modelConfigItem.setFilePath(jsonPath);
-        int index=modelName.size()-1;
-        for (;index>=0;--index) {
-            if(modelName[index]==QChar('\\')||modelName[index]==QChar('/')){
-                index++;
-                break;
-            }
-        }
-        modelName=modelName.mid(index);
-        modelConfigItem.setModelName(modelName);
+        QString model_name=jsonPath.mid(lastIndex+1);
+        model_name.chop(QString(".model3.json").size());
+        modelConfigItem.setModelName(model_name);
+        modelConfigItem.setFilePath(ConfigConstWay::UNITY_MODELS_WAY+"/"+timeHashStr+"/"+jsonPath.mid(lastIndex+1));
 
         modV.push_back(modelConfigItem);
         Config::set_LIVE2DMODELCONFIG_V(modV);
@@ -351,21 +279,16 @@ void SetLive2DDialogWidget::initConnect()
     //打开文件位置
     connect(ui->pushButton_way,&QPushButton::clicked,this,[=](){
 
-        QString filePath=ui->lineEdit_way->text();
+        QString filePath=ConfigConstWay::get_TRUE_WAY(ui->lineEdit_way->text());
         int index=filePath.size()-1;
         for (;index>=0;--index) {
             if(filePath[index]==QChar('\\')||filePath[index]==QChar('/')){
                 break;
             }
         }
-
-        QString directoryPath = ui->lineEdit_way->text().mid(0,index);
+        QString directoryPath =filePath.mid(0,index);
         qDebug()<<"open file path"<<directoryPath;
-
-        // 构建目录的URL
         QUrl directoryUrl = QUrl::fromLocalFile(directoryPath);
-
-        // 打开资源管理器并指定目录
         if (QDesktopServices::openUrl(directoryUrl)) {
             qDebug() << "File explorer opened successfully.";
         } else {
@@ -543,19 +466,13 @@ void SetLive2DDialogWidget::addListItem(const ModelConfigItem &modItem)
         if(passItem.getModelId()>=Config::get_LIVE2DMODELCONFIG_V().size()){return ;}
 
         m_Live2dPassId=passItem.getModelId();
-        Config::set_UNITY_STARTMODELPATH(Config::get_LIVE2DMODELCONFIG_V()[passItem.getModelId()].getFilePath());
+        Config::set_UNITY_STARTMODELPATH(ConfigConstWay::get_TRUE_WAY(Config::get_LIVE2DMODELCONFIG_V()[passItem.getModelId()].getFilePath()));
         ui->listWidget_model->setCurrentItem(item);
         qDebug()<<"pass model id : "<<passItem.getModelId();
 
     });
 }
 
-void SetLive2DDialogWidget::resizeEvent(QResizeEvent *event)
-{
-    Q_UNUSED(event)
-    //可扩展窗口变化自适应
-
-}
 
 void SetLive2DDialogWidget::sendConfigHandle(const QString &str, int val)
 {

@@ -58,7 +58,6 @@ private:
     void init();
     void initConnect();
     void addListItem(const ModelConfigItem& modItem);
-    void resizeEvent(QResizeEvent*event);
     void sendConfigHandle(const QString& str,int val);
     void sendWindowHandle(const QString& str);
     void initLineEdit();

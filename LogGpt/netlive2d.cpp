@@ -1,15 +1,15 @@
 #include "netlive2d.h"
 
 
-bool NetLive2D::isConnect = false;
+bool NetLive2D::IsConnect = false;
 bool NetLive2D::getIsConnect()
 {
-    return isConnect;
+    return IsConnect;
 }
 
 void NetLive2D::setIsConnect(bool value)
 {
-    isConnect = value;
+    IsConnect = value;
 }
 
 NetLive2D::NetLive2D(QObject *parent) : QObject(parent)
@@ -21,33 +21,47 @@ NetLive2D::NetLive2D(QObject *parent) : QObject(parent)
 
 void NetLive2D::startListen()
 {
+
+    QString address_str=ConfigFileIO::getOtherConfig(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::CONFIG_UNITY_WAY),"SERVERS","ADDRESS");
+    QString port_str=ConfigFileIO::getOtherConfig(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::CONFIG_UNITY_WAY),"SERVERS","PORT");
+
     qDebug()<<"服务器端启动监听";
-    unsigned short port=QString("8899").toUShort();
-    tcpServer->listen(QHostAddress::Any,port);
+    QHostAddress specificAddress(address_str);
+    unsigned short port=port_str.toUShort();
+    // 检查地址是否有效
+    if (!specificAddress.isNull()) {
+        if (m_TcpServer->listen(specificAddress, port)) {
+            qDebug() << "TCP server is listening on" << specificAddress.toString() << ":" << port;
+        } else {
+            qDebug() << "Failed to listen on" << specificAddress.toString() << ":" << port;
+        }
+    } else {
+        qDebug() << "Invalid address:" << specificAddress.toString();
+    }
 }
 
 void NetLive2D::init()
 {
-    tcpServer=new QTcpServer(this);
+    m_TcpServer=new QTcpServer(this);
 }
 
 void NetLive2D::initConnect()
 {
-    connect(tcpServer,&QTcpServer::newConnection,this,[=](){
-        tcpSocket=tcpServer->nextPendingConnection();
+    connect(m_TcpServer,&QTcpServer::newConnection,this,[=](){
+        m_TcpSocket=m_TcpServer->nextPendingConnection();
         qDebug()<<"连接到客户端";
-        isConnect=true;
-        connect(tcpSocket,&QTcpSocket::readyRead,this,[=](){
-            QByteArray data=tcpSocket->readAll();
+        IsConnect=true;
+        connect(m_TcpSocket,&QTcpSocket::readyRead,this,[=](){
+            QByteArray data=m_TcpSocket->readAll();
             qDebug()<<"来自客户端的请求"<<data;
 
             receiveHandle(data);
         });
-        connect(tcpSocket,&QTcpSocket::disconnected,this,[=](){
-            tcpSocket->close();
-            tcpSocket->deleteLater();
+        connect(m_TcpSocket,&QTcpSocket::disconnected,this,[=](){
+            m_TcpSocket->close();
+            m_TcpSocket->deleteLater();
             qDebug()<<"已和客户端断开连接";
-            isConnect=false;
+            IsConnect=false;
         });
 
     });
@@ -56,9 +70,9 @@ void NetLive2D::initConnect()
 
 void NetLive2D::sendHandle(QString strHandle)
 {
-    if(tcpSocket==nullptr){return ;}
+    if(m_TcpSocket==nullptr){return ;}
     QString msg=strHandle;
-    tcpSocket->write(msg.toUtf8());
+    m_TcpSocket->write(msg.toUtf8());
     qDebug()<<"服务器端发送信息"<<msg;
 }
 

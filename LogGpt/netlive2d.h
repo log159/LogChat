@@ -12,12 +12,14 @@
 
 #include "configlive2d.h"
 #include "configwindow.h"
+#include "configfileio.h"
+#include "configconstway.h"
 
 class NetLive2D : public QObject
 {
     Q_OBJECT
 private:
-    static bool isConnect;
+    static bool IsConnect;
 public:
     NetLive2D(QObject *parent = nullptr);
 
@@ -31,8 +33,8 @@ private:
     void initConnect();
     void receiveHandle(QString strHandle);
 private:
-    QTcpServer* tcpServer=nullptr;
-    QTcpSocket* tcpSocket=nullptr;
+    QTcpServer* m_TcpServer=nullptr;
+    QTcpSocket* m_TcpSocket=nullptr;
 
 signals:
     void myMousePass();

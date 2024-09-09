@@ -4,6 +4,8 @@
 #include <QString>
 #include <QDebug>
 
+#include "global.h"
+
 
 class ModelConfigItem
 {
@@ -63,7 +65,11 @@ public:
     inline void setModelDescription(const QString& str){m_ModelDescription=str;}
 
 public:
+
     static void printInformation(ModelConfigItem& modItem);
+
+private:
+    void init();
 
 };
 

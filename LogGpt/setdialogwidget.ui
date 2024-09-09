@@ -19,8 +19,8 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_11">
-   <item row="0" column="0">
+  <layout class="QHBoxLayout" name="horizontalLayout_25">
+   <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="minimumSize">
       <size>
@@ -29,7 +29,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab_deploy">
       <attribute name="title">
@@ -55,8 +55,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>825</width>
-            <height>568</height>
+            <width>859</width>
+            <height>589</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_9">
@@ -157,14 +157,21 @@
                  <item>
                   <widget class="QLabel" name="label_vits_selfrule">
                    <property name="text">
-                    <string>Vits自定义Url:</string>
+                    <string>Vits 自定义Url:</string>
                    </property>
                   </widget>
                  </item>
                  <item>
                   <widget class="QLabel" name="label_baidu_set">
                    <property name="text">
-                    <string>百度翻译配置:</string>
+                    <string>百度翻译 配置:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_live2d">
+                   <property name="text">
+                    <string>Live2d 配置(重启生效):</string>
                    </property>
                   </widget>
                  </item>
@@ -467,6 +474,41 @@
                    </layout>
                   </widget>
                  </item>
+                 <item>
+                  <widget class="QFrame" name="frame_vits_5">
+                   <property name="frameShape">
+                    <enum>QFrame::StyledPanel</enum>
+                   </property>
+                   <property name="frameShadow">
+                    <enum>QFrame::Raised</enum>
+                   </property>
+                   <layout class="QHBoxLayout" name="horizontalLayout_21">
+                    <property name="leftMargin">
+                     <number>11</number>
+                    </property>
+                    <item>
+                     <widget class="QLabel" name="label_live2d_address">
+                      <property name="text">
+                       <string>地址:</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="lineEdit_live2d_address"/>
+                    </item>
+                    <item>
+                     <widget class="QLabel" name="label_ive2d_port">
+                      <property name="text">
+                       <string>端口:</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="lineEdit_live2d_port"/>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
                 </layout>
                </widget>
               </item>
@@ -496,8 +538,8 @@
       <attribute name="title">
        <string>启用设置</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout_8">
-       <item row="0" column="1">
+      <layout class="QVBoxLayout" name="verticalLayout_9">
+       <item>
         <widget class="QFrame" name="frame_5">
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
@@ -505,7 +547,10 @@
          <property name="frameShadow">
           <enum>QFrame::Raised</enum>
          </property>
-         <layout class="QGridLayout" name="gridLayout_7">
+         <layout class="QHBoxLayout" name="horizontalLayout_26">
+          <property name="spacing">
+           <number>0</number>
+          </property>
           <property name="leftMargin">
            <number>0</number>
           </property>
@@ -518,10 +563,7 @@
           <property name="bottomMargin">
            <number>0</number>
           </property>
-          <property name="spacing">
-           <number>0</number>
-          </property>
-          <item row="0" column="0">
+          <item>
            <widget class="QFrame" name="frame_3">
             <property name="minimumSize">
              <size>
@@ -541,46 +583,74 @@
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
             </property>
-            <layout class="QVBoxLayout" name="verticalLayout">
-             <item>
-              <widget class="QLabel" name="label_config_enable">
-               <property name="text">
-                <string>启用设定角色:</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_sound_enable">
-               <property name="text">
-                <string>启用VITS语音:</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_baidu_enable">
-               <property name="text">
-                <string>启用百度翻译:</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_baidu_show_enable">
-               <property name="text">
-                <string>启用翻译后的语言显示:</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_voice_input">
-               <property name="text">
-                <string>启用语音输入</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
+            <widget class="QLabel" name="label_config_enable">
+             <property name="geometry">
+              <rect>
+               <x>12</x>
+               <y>12</y>
+               <width>98</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>启用设定角色:</string>
+             </property>
+            </widget>
+            <widget class="QLabel" name="label_sound_enable">
+             <property name="geometry">
+              <rect>
+               <x>12</x>
+               <y>64</y>
+               <width>100</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>启用VITS语音:</string>
+             </property>
+            </widget>
+            <widget class="QLabel" name="label_baidu_enable">
+             <property name="geometry">
+              <rect>
+               <x>12</x>
+               <y>116</y>
+               <width>98</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>启用百度翻译:</string>
+             </property>
+            </widget>
+            <widget class="QLabel" name="label_baidu_show_enable">
+             <property name="geometry">
+              <rect>
+               <x>12</x>
+               <y>168</y>
+               <width>158</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>启用翻译后的语言显示:</string>
+             </property>
+            </widget>
+            <widget class="QLabel" name="label_voice_input">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>210</y>
+               <width>276</width>
+               <height>44</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>启用语音输入</string>
+             </property>
+            </widget>
            </widget>
           </item>
-          <item row="0" column="1">
+          <item>
            <widget class="QFrame" name="frame">
             <property name="frameShape">
              <enum>QFrame::StyledPanel</enum>
@@ -588,11 +658,11 @@
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
             </property>
-            <layout class="QVBoxLayout" name="verticalLayout_9">
+            <layout class="QVBoxLayout" name="verticalLayout">
              <item>
               <widget class="QFrame" name="frame_config_enable">
                <property name="frameShape">
-                <enum>QFrame::StyledPanel</enum>
+                <enum>QFrame::NoFrame</enum>
                </property>
                <property name="frameShadow">
                 <enum>QFrame::Raised</enum>
@@ -618,7 +688,7 @@
              <item>
               <widget class="QFrame" name="frame_sound_enable">
                <property name="frameShape">
-                <enum>QFrame::StyledPanel</enum>
+                <enum>QFrame::NoFrame</enum>
                </property>
                <property name="frameShadow">
                 <enum>QFrame::Raised</enum>
@@ -644,7 +714,7 @@
              <item>
               <widget class="QFrame" name="frame_baidu_enable">
                <property name="frameShape">
-                <enum>QFrame::StyledPanel</enum>
+                <enum>QFrame::NoFrame</enum>
                </property>
                <property name="frameShadow">
                 <enum>QFrame::Raised</enum>
@@ -670,7 +740,7 @@
              <item>
               <widget class="QFrame" name="frame_baidu_show_enable">
                <property name="frameShape">
-                <enum>QFrame::StyledPanel</enum>
+                <enum>QFrame::NoFrame</enum>
                </property>
                <property name="frameShadow">
                 <enum>QFrame::Raised</enum>
@@ -695,7 +765,7 @@
              </item>
              <item>
               <widget class="QFrame" name="horizontalFrame">
-               <layout class="QHBoxLayout" name="horizontalLayout_21">
+               <layout class="QHBoxLayout" name="horizontalLayout_24">
                 <property name="leftMargin">
                  <number>9</number>
                 </property>
@@ -731,7 +801,7 @@
          </layout>
         </widget>
        </item>
-       <item row="1" column="1">
+       <item>
         <spacer name="verticalSpacer_2">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -764,8 +834,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>825</width>
-            <height>568</height>
+            <width>802</width>
+            <height>620</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_6">
@@ -778,6 +848,21 @@
               <enum>QFrame::Raised</enum>
              </property>
              <layout class="QGridLayout" name="gridLayout_5">
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <property name="spacing">
+               <number>0</number>
+              </property>
               <item row="0" column="0">
                <widget class="QFrame" name="frame_label_information">
                 <property name="frameShape">
@@ -1067,44 +1152,182 @@
          <property name="frameShadow">
           <enum>QFrame::Raised</enum>
          </property>
-         <layout class="QGridLayout" name="gridLayout_3">
-          <item row="0" column="0">
-           <widget class="QFrame" name="frame_4">
+         <layout class="QVBoxLayout" name="verticalLayout_15">
+          <item>
+           <widget class="QFrame" name="frame_12">
             <property name="frameShape">
              <enum>QFrame::StyledPanel</enum>
             </property>
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
             </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_16">
+            <layout class="QHBoxLayout" name="horizontalLayout_2">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
              <item>
-              <widget class="QLabel" name="label_voice">
-               <property name="text">
-                <string>音频缓存:</string>
+              <widget class="QFrame" name="frame_10">
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
                </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_11">
+                <item>
+                 <widget class="QLabel" name="label_voice">
+                  <property name="text">
+                   <string>音频缓存:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_voicesave">
+                  <property name="text">
+                   <string>音频合成:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_live2dsave">
+                  <property name="text">
+                   <string>Live2d模型:</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_voiceway"/>
-             </item>
-             <item>
-              <widget class="QPushButton" name="pushButton_voicefind">
-               <property name="text">
-                <string>浏览</string>
+              <widget class="QFrame" name="frame_11">
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
                </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="pushButton_voiceclear">
-               <property name="text">
-                <string>清除</string>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
                </property>
+               <layout class="QVBoxLayout" name="verticalLayout_14">
+                <property name="spacing">
+                 <number>0</number>
+                </property>
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+                <item>
+                 <widget class="QFrame" name="frame_4">
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_16">
+                   <item>
+                    <widget class="QLineEdit" name="lineEdit_voiceway"/>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="pushButton_voicefind">
+                     <property name="text">
+                      <string>浏览</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="pushButton_voiceclear">
+                     <property name="text">
+                      <string>清除</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QFrame" name="frame_8">
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_22">
+                   <item>
+                    <widget class="QLineEdit" name="lineEdit_voicesaveway"/>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="pushButton_voicesavefind">
+                     <property name="text">
+                      <string>浏览</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="pushButton_voicesaveclear">
+                     <property name="text">
+                      <string>清除</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QFrame" name="frame_9">
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_23">
+                   <item>
+                    <widget class="QLineEdit" name="lineEdit_live2dsaveway"/>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="pushButton_live2dsavefind">
+                     <property name="text">
+                      <string>浏览</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="pushButton_live2dsaveclear">
+                     <property name="text">
+                      <string>无用</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+               </layout>
               </widget>
              </item>
             </layout>
            </widget>
           </item>
-          <item row="1" column="0">
+          <item>
            <spacer name="verticalSpacer">
             <property name="orientation">
              <enum>Qt::Vertical</enum>

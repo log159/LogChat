@@ -95,10 +95,23 @@ void SetDialogWidget::init()
     if(Config::get_USER(::EnUser::ENABLE_LATERLANGUAGE).toInt()!=0){ui->radioButton_baidu_show_enable_yes->setChecked(true);}
     else {ui->radioButton_baidu_show_enable_no->setChecked(true);}
 
+    ui->lineEdit_live2d_address->setText(ConfigFileIO::getOtherConfig(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::CONFIG_UNITY_WAY),"SERVERS","ADDRESS"));
+    ui->lineEdit_live2d_port->setText(ConfigFileIO::getOtherConfig(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::CONFIG_UNITY_WAY),"SERVERS","PORT"));
+
 
     QString voicewaystr=ConfigConstWay::get_TRUE_WAY(ConfigConstWay::OUTPUT_WAV_WAY);
     voicewaystr.chop(QString("/%1.wav").size());
     ui->lineEdit_voiceway->setText(voicewaystr);
+    ui->lineEdit_voiceway->setReadOnly(true);
+
+    QString voicesaveway=ConfigConstWay::get_TRUE_WAY(ConfigConstWay::OUTPUT_SAVEWAV_WAY);
+    voicesaveway.chop(QString("/%1.wav").size());
+    ui->lineEdit_voicesaveway->setText(voicesaveway);
+    ui->lineEdit_voicesaveway->setReadOnly(true);
+
+    QString live2dsaveway=ConfigConstWay::get_TRUE_WAY(ConfigConstWay::UNITY_MODELS_WAY);
+    ui->lineEdit_live2dsaveway->setText(live2dsaveway);
+    ui->lineEdit_live2dsaveway->setReadOnly(true);
 
     QString vits_selfrule_text=Config::get_URL(EnUrl::URL_VITSSELF_RULEURL);
     ui->lineEdit_vits_selfrule->setText(vits_selfrule_text);
@@ -184,6 +197,7 @@ void SetDialogWidget::initConnect()
             Config::set_USER(::EnUser::ENABLE_SOUND,QString::number(0));
         }
     });
+
     QObject::connect(ui->radioButton_voice_inout_enable_yes, &QRadioButton::toggled, [&](){
         qDebug()<<"启用语音输入";
         if (ui->radioButton_voice_inout_enable_yes->isChecked()) {
@@ -194,8 +208,6 @@ void SetDialogWidget::initConnect()
             Config::set_USER(::EnUser::ENABLE_VOICE_INPUT,QString::number(0));
         }
     });
-
-
 
     CurrentIndexChanged currentIndexChanged_baidu_from=&QComboBox::currentIndexChanged;
     QObject::connect(ui->comboBox_baidu_from,currentIndexChanged_baidu_from,this,[=](int index){
@@ -243,9 +255,7 @@ void SetDialogWidget::initConnect()
         if (!dir.exists()) {
             qDebug() << "Directory does not exist!";
         }
-        QStringList files = dir.entryList(QDir::Files); // 获取所有文件的列表
-
-        // 删除文件
+        QStringList files = dir.entryList(QDir::Files);
         for (const QString &file : files) {
             QFile::remove(dirPath + "/" + file);
             if (QFile::exists(dirPath + "/" + file)) {
@@ -254,6 +264,40 @@ void SetDialogWidget::initConnect()
         }
         QMessageBox::warning(this,"True","已清除缓存");
     });
+
+
+    connect(ui->pushButton_voicesavefind,&QPushButton::clicked,[=](){
+        QUrl directoryUrl = QUrl::fromLocalFile(ui->lineEdit_voicesaveway->text());
+        if (QDesktopServices::openUrl(directoryUrl)) {
+            qDebug() << "File explorer opened successfully.";
+        } else {
+            qDebug() << "Failed to open file explorer.";
+        }
+    });
+    connect(ui->pushButton_voicesaveclear,&QPushButton::clicked,[=](){
+        QString dirPath=ui->lineEdit_voicesaveway->text();
+        QDir dir(dirPath);
+        if (!dir.exists()) {
+            qDebug() << "Directory does not exist!";
+        }
+        QStringList files = dir.entryList(QDir::Files);
+        for (const QString &file : files) {
+            QFile::remove(dirPath + "/" + file);
+            if (QFile::exists(dirPath + "/" + file)) {
+                qDebug() << "Failed to delete file:" << file;
+            }
+        }
+        QMessageBox::warning(this,"True","已清除缓存");
+    });
+    connect(ui->pushButton_live2dsavefind,&QPushButton::clicked,[=](){
+        QUrl directoryUrl = QUrl::fromLocalFile(ui->lineEdit_live2dsaveway->text());
+        if (QDesktopServices::openUrl(directoryUrl)) {
+            qDebug() << "File explorer opened successfully.";
+        } else {
+            qDebug() << "Failed to open file explorer.";
+        }
+    });
+
 
     connect(ui->pushButton_getspeakers,&QPushButton::clicked,[=](){
         NetworkManager* networkManager  =new NetworkManager(this);
@@ -290,5 +334,9 @@ void SetDialogWidget::closeEvent(QCloseEvent *event)
 
     Config::set_URL(::EnUrl::URL_CHATGPT_BASEURL,ui->lineEdit_gpt_url->text());
     Config::set_URL(::EnUrl::URL_DEEPSEEK_BASEURL,ui->lineEdit_deepseek_url->text());
+
+
+    ConfigFileIO::setOtherConfig(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::CONFIG_UNITY_WAY),"SERVERS","ADDRESS",ui->lineEdit_live2d_address->text());
+    ConfigFileIO::setOtherConfig(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::CONFIG_UNITY_WAY),"SERVERS","PORT",ui->lineEdit_live2d_port->text());
 
 }

@@ -10,6 +10,7 @@
 #include <QTextStream>
 #include <QJsonDocument>
 #include <QDebug>
+#include <QDir>
 
 #include "singletonbase.h"
 #include "global.h"
@@ -30,6 +31,8 @@ public:
     static void setFileInformation(const QString& path,const QString& str);
     static void setFileInformation(const QString& path,const QJsonObject& js);
 
+    static void copyDirectory(const QString &sourceDir, const QString &destinationDir);
+
     //举例 base=EnIks::LLM_CHATGPT id="123" key="abc114514" secret="zxc332211" 没有或不需要则留空字符串 保存到配置文件
     static void setIksConfig(const ::EnIks& baseName,const QString& id=NULLVALUE,const QString& key=NULLVALUE,const QString& secret=NULLVALUE);
     //通过EnIks枚举获取到ID,KEY,SECRET数据
@@ -43,6 +46,13 @@ public:
     static void setUserConfig(const ::EnUser& keyName = ::EnUser::NULL_MARK,const QString& value = "");
 
     static QString getUserConfig(const ::EnUser& keyName = ::EnUser::NULL_MARK);
+
+
+    static void setOtherConfig(const QString& path,const QString& baseName,const QString& keyName,const QString& value);
+
+    static QString getOtherConfig(const QString& path,const QString& baseName,const QString& keyName);
+
+
 
 private:
 

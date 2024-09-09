@@ -10,11 +10,11 @@ const QString ConfigConstWay::XFXH_DEMO_WAY             ="/xfxhapi/demo.exe";
 const QString ConfigConstWay::DEEPSEEK_DEMO_WAY         ="/deepseekapi/dist/deepseek.exe";
 const QString ConfigConstWay::UNITY_DEMO_WAY            ="/unity2d/L2dUnityDemo.exe";
 const QString ConfigConstWay::UNITY_DEMO_WORK_WAY       ="/unity2d";
-const QString ConfigConstWay::UNITY_MODELS_WAY          ="/unity2d/model/Models";
-const QString ConfigConstWay::UNITY_STARTMODELPATH_WAY  ="/unity2d/model/STARTMODELPATH.txt";
-const QString ConfigConstWay::UNITY_MODELLIST_WAY       ="/unity2d/model/MODELLIST.txt";
-const QString ConfigConstWay::UNITY_MODELCONFIGLIST_WAY ="/unity2d/model/MODELCONFIGLIST.txt";
+const QString ConfigConstWay::UNITY_MODELS_WAY          ="/unity2d/Model/Models";
+const QString ConfigConstWay::UNITY_STARTMODELPATH_WAY  ="/unity2d/Model/STARTMODELPATH.txt";
+const QString ConfigConstWay::UNITY_MODELCONFIGLIST_WAY ="/unity2d/Model/MODELCONFIGLIST.txt";
 const QString ConfigConstWay::CONFIGURATION_WAY         ="/config/configuration.ini";
+const QString ConfigConstWay::CONFIG_UNITY_WAY          ="/unity2d/config.ini";
 
 const QString ConfigConstWay::get_TRUE_WAY(const QString &path)
 {
