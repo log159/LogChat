@@ -3,27 +3,29 @@
 预览:
 ![屏幕截图 2024-08-17 194250](https://github.com/user-attachments/assets/793a8da1-ef0d-4db6-8c05-5a6f49c101d6)
 
-
+---
 支持的聊天模型:
 - ChatGPT
 - 讯飞星火
-
+- DeepSeek
+---
 支持的技术:
 - LLM
 - TTS
 - STT
 - Live2D
-
+---
 ## 源代码架构
 
-1. **UI设计：** 使用Qt Creator进行界面设计
-2. **ChatGPT API**
-3. **讯飞星火大模型官方Windows SDK**
-4. **VITS-simple-api**
-5. **GPT-SoVits**
-6. **百度翻译API**
-7. **百度语音识别API**
-8. **Live2D基于Unity**
+- **UI设计：** 使用Qt Creator进行界面设计
+- **ChatGPT API**
+- **讯飞星火大模型官方Windows SDK**
+- **DeepSeek API**
+- **VITS-simple-api**
+- **GPT-SoVits**
+- **百度翻译API**
+- **百度语音识别API**
+- **Live2D基于Unity**
 
 ## 发布使用说明
 
@@ -36,11 +38,13 @@
 7. 运行`LogChat.exe`。
 
 ## 目前以及未来实现的功能
- - [x] LLM-ChatGPT[gpt-3.5-turbo]
+ - [x] LLM-ChatGPT
  - [x] LLM-讯飞星火语言大模型[general,generalv2,generalv3,generalv3.5]
+ - [x] LLM-DeepSeek
  - [ ] LLM-ChatGML[ChatGML3]
+
  - [ ] LLM-百度千帆大模型
- - [ ] LLM-DeepSeek
+ - [ ] LLM-Ollama
  - [ ] LLM-其它Ai平台的反代理方式
  - [x] TTS-VITS
  - [x] TTS-GPT-SoVits
@@ -67,10 +71,11 @@
   - (自己随便训练的,支持中日英三语)[薄荷](https://www.bilibili.com/video/BV1wy411B7uE)
 - **其他文档及VITS常见问题**：[Luna Docs](https://luna.docs.ie.cx/)
 - **OpenAI官网**：[访问OpenAI](https://openai.com/)
-- **OpenAI API文档**：[API参考](https://platform.openai.com/docs/api-reference/introduction)
+- **OpenAI API文档**：[API文档](https://platform.openai.com/docs/api-reference/introduction)
 - **百度翻译API文档**：[API文档](https://fanyi-api.baidu.com/doc/11)
 - **百度语音识别API文档**：[API文档](https://ai.baidu.com/ai-doc/SPEECH/Jlbxdezuf)
-- **讯飞星火API**：[官方网站](https://xinghuo.xfyun.cn/sparkapi)
+- **讯飞星火API文档**：[API文档](https://www.xfyun.cn/doc/spark/WindowsSDK.html)
+- **DeepSeek API文档**：[API文档](https://platform.deepseek.com/api-docs/zh-cn/)
 - **Live2D SDK手册**：[SDK文档](https://docs.live2d.com/zh-CHS/cubism-sdk-manual/top/)
 - **Live2D中文文档**：[GitHub资源](https://github.com/gtf35/live2d_unity_sdk_chinese_document)
 - **可用的Live2D(转自B站)**：
