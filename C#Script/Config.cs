@@ -26,11 +26,11 @@ public class Config : MonoBehaviour
     /// <summary>
     /// 基本信息
     /// </summary>
-    public static string ModelPath  = null;
+    public static string ModelPath = null;
     public static string DirectoryPath = null;
     public static string PersonName = "";
-    public static string ModelName  = "Model";
-    public static int    ModelId    = 0;
+    public static string ModelName = "Model";
+    public static int ModelId = 0;
 
     /// <summary>
     /// 布尔参数
@@ -42,16 +42,41 @@ public class Config : MonoBehaviour
     /// <summary>
     /// 常量信息
     /// </summary>
-    //鼠标追踪控件名数组
+    //鼠标追踪控件 CubismLookParameter
     public static readonly string[] NeedAddCubismLookParameterObjectStrings = {
             "ParamAngleX","ParamAngleY","ParamAngleZ",
             "ParamBodyAngleX","ParamBodyAngleY","ParamBodyAngleZ",
-            "ParamEyeBallX","ParamEyeBallY"
+            "ParamEyeBallX","ParamEyeBallY",
+            "PARAM_ANGLE_X","PARAM_ANGLE_Y","PARAM_ANGLE_Z",
+            "PARAM_BODY_ANGLE_X","PARAM_BODY_ANGLE_Y","PARAM_BODY_ANGLE_Z",
+            "PARAM_EYE_BALL_X","PARAM_EYE_BALL_Y",
+    };
+
+    public static readonly Dictionary<string, List<string>> keyValueParameters = new Dictionary<string, List<string>>
+    {
+        {"PAX", new List<string> { "ParamAngleX", "PARAM_ANGLE_X" }},
+        {"PAY", new List<string> { "ParamAngleY", "PARAM_ANGLE_Y" }},
+        {"PAZ", new List<string> { "ParamAngleZ", "PARAM_ANGLE_Z" }},
+        {"PBAX", new List<string> { "ParamBodyAngleX", "PARAM_BODY_ANGLE_X" }},
+        {"PBAY", new List<string> { "ParamBodyAngleY", "PARAM_BODY_ANGLE_Y" }},
+        {"PBAZ", new List<string> { "ParamBodyAngleZ", "PARAM_BODY_ANGLE_Z" }},
+        {"PEBX", new List<string> { "ParamEyeBallX", "PARAM_EYE_BALL_X" }},
+        {"PEBY", new List<string> { "ParamEyeBallY", "PARAM_EYE_BALL_Y" }},
+    };
+    //口型同步控件 CubismMouthParameter
+    public static readonly string[] NeedAddCubismMouthParameterObjectStrings ={
+        "ParamMouthOpenY","PARAM_MOUTH_OPEN_Y",
+    };
+    //自动眨眼控件 CubismEyeBlinkParameter
+    public static readonly string[] NeedAddCubismEyeBlinkParameterObjectStrings ={
+        "ParamEyeLOpen","ParamEyeROpen",
+        "PARAM_EYE_L_OPEN","PARAM_EYE_R_OPEN",
     };
 
     /// <summary>
     /// Config信息
     /// </summary>
+
     // 人物看向鼠标速度参数
     public static ParamItem DampingItem = new ParamItem("Damping", 0.15f, new PointF(0f, 2f));
     // 模型缩放参数

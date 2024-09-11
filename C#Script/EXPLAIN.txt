@@ -1,6 +1,6 @@
 Unity中对象树结构
 ----------------------------------
-Camera
+Camera/*设置背景为rgba(0,0,0,0)*/
 Live2D
     Target
     Video

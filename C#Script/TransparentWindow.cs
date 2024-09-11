@@ -1,3 +1,5 @@
+//#define IS_TRANSPARENT
+
 using UnityEngine;
 using System.Collections;
 using System;
@@ -133,16 +135,12 @@ public class TransparentWindow : MonoBehaviour
 
     bool istop = true;
 
-    /*
+#if IS_TRANSPARENT
     void Awake()
     {
-
-
         ResWidth = Screen.currentResolution.width;
         ResHeight = Screen.currentResolution.height;
-
         Screen.fullScreen = true;
-
         switch (WinStyle)
         {
             case enumWinStyle.WinTop:
@@ -166,22 +164,15 @@ public class TransparentWindow : MonoBehaviour
         currentY = Screen.currentResolution.height / 2 - Screen.height / 2;
         Application.runInBackground = true;
         hwnd = GetActiveWindow();
-
-
         SetWindowLong(hwnd, GWL_EXSTYLE, GetWindowLong(hwnd, GWL_EXSTYLE) | WS_EX_TOPMOST | WS_EX_TRANSPARENT | WS_EX_LAYERED);
         SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_BORDER & ~WS_CAPTION);
-
         SetWindowPos(hwnd, -1, currentX, currentY, ResWidth, ResHeight, SWP_SHOWWINDOW);
-
         var margins = new MARGINS() { cxLeftWidth = -1 };
         DwmExtendFrameIntoClientArea(hwnd, ref margins);
-
-
     }
 
     private void SetWindowTopApha(bool isTop, bool isApha)
     {
-
         isWinTop = isTop;
         isWinApha = isApha;
         int intExTemp = GetWindowLong(hwnd, GWL_EXSTYLE);
@@ -205,10 +196,7 @@ public class TransparentWindow : MonoBehaviour
 
         var margins = new MARGINS() { cxLeftWidth = -1 };
         DwmExtendFrameIntoClientArea(hwnd, ref margins);
-
         SetWindowPos(hwnd, dialogHwnd.ToInt32(), 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-
-
     }
     void OnApplicationQuit()
     {
@@ -219,50 +207,20 @@ public class TransparentWindow : MonoBehaviour
 
     void Update()
     {
-        if (MouseInformation.ChangeColor.r == 0 && MouseInformation.ChangeColor.g == 0 && MouseInformation.ChangeColor.b == 0)
-        {
-            if (mouseEnter == true) { return; }
+        if (MouseInformation.ChangeColor.r == 0 && MouseInformation.ChangeColor.g == 0 && MouseInformation.ChangeColor.b == 0){
+            if (mouseEnter == true) return;
             mouseEnter = true;
         }
-        else
-        {
-            if (mouseEnter == false) { return; }
+        else{
+            if (mouseEnter == false) return; 
             mouseEnter = false;
         }
         UpdateWindowStyle();
     }
-    public void UpdateWindowStyle()
-    {
-        if (MouseInformation.ChangeColor.r == 0 && MouseInformation.ChangeColor.g == 0 && MouseInformation.ChangeColor.b == 0)
-        {
-            if (WinStyle == enumWinStyle.WinTop)
-                SetWindowTopApha(true, true);
-            else if (WinStyle == enumWinStyle.WinApha)
-                SetWindowTopApha(false, true);
-            else if (WinStyle == enumWinStyle.WinTopApha)
-                SetWindowTopApha(true, true);
-            else if (WinStyle == enumWinStyle.WinNoTopNoApha)
-                SetWindowTopApha(false, true);
-        }
-        else
-        {
-            if (WinStyle == enumWinStyle.WinTop)
-                SetWindowTopApha(true, false);
-            else if (WinStyle == enumWinStyle.WinApha)
-                SetWindowTopApha(false, true);
-            else if (WinStyle == enumWinStyle.WinTopApha)
-                SetWindowTopApha(true, true);
-            else if (WinStyle == enumWinStyle.WinNoTopNoApha)
-                SetWindowTopApha(false, false);
-        }
 
-    }
 
-    public void SetWinStyle(enumWinStyle enumWinStyle)
-    {
-        WinStyle = enumWinStyle;
-    }
 
+    //SetSize是废弃的接口
     public void SetSize(int size)
     {
         // 检查窗口句柄是否有效
@@ -305,13 +263,46 @@ public class TransparentWindow : MonoBehaviour
     {
         ShowWindow(hwnd, SW_RESTORE);
     }
-    /// <summary>
-    /// Hide TaskBar
-    /// </summary>
     public void HideTaskBar()
     {
         ShowWindow(hwnd, SW_HIDE);
     }
 
-    */
+#endif
+
+    public void SetWinStyle(enumWinStyle enumWinStyle)
+    {
+        WinStyle = enumWinStyle;
+    }
+
+    public void UpdateWindowStyle()
+    {
+#if IS_TRANSPARENT
+        if (MouseInformation.ChangeColor.r == 0 && MouseInformation.ChangeColor.g == 0 && MouseInformation.ChangeColor.b == 0)
+        {
+            if (WinStyle == enumWinStyle.WinTop)
+                SetWindowTopApha(true, true);
+            else if (WinStyle == enumWinStyle.WinApha)
+                SetWindowTopApha(false, true);
+            else if (WinStyle == enumWinStyle.WinTopApha)
+                SetWindowTopApha(true, true);
+            else if (WinStyle == enumWinStyle.WinNoTopNoApha)
+                SetWindowTopApha(false, true);
+        }
+        else
+        {
+            if (WinStyle == enumWinStyle.WinTop)
+                SetWindowTopApha(true, false);
+            else if (WinStyle == enumWinStyle.WinApha)
+                SetWindowTopApha(false, true);
+            else if (WinStyle == enumWinStyle.WinTopApha)
+                SetWindowTopApha(true, true);
+            else if (WinStyle == enumWinStyle.WinNoTopNoApha)
+                SetWindowTopApha(false, false);
+        }
+#endif
+
+    }
+
+
 }

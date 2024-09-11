@@ -170,9 +170,7 @@ public class Model : MonoBehaviour
         //读取Json 文件
         this.Live2dModel3Json = CubismModel3Json.LoadAtPath(Config.ModelPath, BuiltInLoadAtPath);
         if (Live2dModel3Json != null)
-        {
             Live2dCubismModel = Live2dModel3Json.ToModel();
-        }
         else
         {
             Application.Quit();
@@ -185,43 +183,26 @@ public class Model : MonoBehaviour
 
         OpeningLive2dModelList.Add(this.Live2dObject);
         if (Live2dObject == null)
-        {
             throw new Exception("Object is null");
-        }
-
         Live2dObjectTransform = Live2dObject.transform;
         //Parameters Object
         this.Live2dParameters = Live2dObject.transform.Find("Parameters").gameObject;
         if (Live2dParameters == null)
-        {
             Debug.Log("Parameters is null");
-        }
         else
-        {
             this.Live2dParametersTransforms = this.Live2dParameters.GetComponentsInChildren<Transform>();
-        }
         //Parts Object
         this.Live2dParts = Live2dObject.transform.Find("Parts").gameObject;
         if (Live2dParts == null)
-        {
             Debug.Log("Parts is null");
-        }
         else
-        {
             this.Live2dPartsTransforms = this.Live2dParts.GetComponentsInChildren<Transform>();
-        }
         //Drawables Object
         this.Live2dDrawables = Live2dObject.transform.Find("Drawables").gameObject;
         if (Live2dDrawables == null)
-        {
             Debug.Log("Drawables is null");
-        }
         else
-        {
             this.Live2dDrawablesTransforms = this.Live2dDrawables.GetComponentsInChildren<Transform>();
-        }
-
-
     }
 
     /// <summary>
@@ -236,7 +217,7 @@ public class Model : MonoBehaviour
         string strParametersListJson = "";
         string strDrawingListJson = "";
         Vector3 vector3 = new Vector3();
-        //控件物理位置
+        //控件偏移
         for (int i = 0; i < cubismModel.Parameters.Length; ++i)
         {
             CubismParameter cubismParameter = cubismModel.Parameters[i];
@@ -291,31 +272,26 @@ public class Model : MonoBehaviour
         if (Live2dObject == null) { return; }
         //设置默认挂载脚本
         AddComponentFunction();
-
         //设置模型大小
         SetModelSize(new Vector3(Config.ScaleProportionItem.Param, Config.ScaleProportionItem.Param,1));
-
-
         //设置图层正确显示
         Live2dObject.GetComponent<CubismRenderController>().SortingMode = CubismSortingMode.BackToFrontOrder;
-        //Live2dObject.GetComponent<CubismRenderController>().SortingOrder = (Config.ModelId - 1) * 500;
+        //Live2dObject.GetComponent<CubismRenderController>().SortingOrder = (Config.ModelId - 1) * 500;//多个Model设置渲染优先级
 
         //控件视线跟踪固定参数
         Live2dObject.GetComponent<CubismLookController>().BlendMode = CubismParameterBlendMode.Override;
         Live2dObject.GetComponent<CubismEyeBlinkController>().BlendMode = CubismParameterBlendMode.Override;
         Live2dObject.GetComponent<CubismMouthController>().BlendMode = CubismParameterBlendMode.Override;
         Live2dObject.GetComponent<CubismAudioMouthInput>().SamplingQuality = CubismAudioSamplingQuality.Maximum;
-
-        TransformParamAngleX = Live2dParameters.transform.Find("ParamAngleX");
-        TransformParamAngleY = Live2dParameters.transform.Find("ParamAngleY");
-        TransformParamAngleZ = Live2dParameters.transform.Find("ParamAngleZ");
-
-        TransformParamBodyAngleX = Live2dParameters.transform.Find("ParamBodyAngleX");
-        TransformParamBodyAngleY = Live2dParameters.transform.Find("ParamBodyAngleY");
-        TransformParamBodyAngleZ = Live2dParameters.transform.Find("ParamBodyAngleZ");
-
-        TransformParamEyeBallX = Live2dParameters.transform.Find("ParamEyeBallX");
-        TransformParamEyeBallY = Live2dParameters.transform.Find("ParamEyeBallY");
+        // 使用这个方法  
+        FindTransform("PAX", out TransformParamAngleX);
+        FindTransform("PAY", out TransformParamAngleY);
+        FindTransform("PAZ", out TransformParamAngleZ);
+        FindTransform("PBAX", out TransformParamBodyAngleX);
+        FindTransform("PBAY", out TransformParamBodyAngleY);
+        FindTransform("PBAZ", out TransformParamBodyAngleZ);
+        FindTransform("PEBX", out TransformParamEyeBallX);
+        FindTransform("PEBY", out TransformParamEyeBallY);
 
         if (TransformParamAngleX != null)TransformParamAngleX.gameObject.GetComponent<CubismLookParameter>().Axis = CubismLookAxis.X;
         if (TransformParamAngleY != null) TransformParamAngleY.gameObject.GetComponent<CubismLookParameter>().Axis = CubismLookAxis.Y;
@@ -327,8 +303,6 @@ public class Model : MonoBehaviour
 
         if (TransformParamEyeBallX != null) TransformParamEyeBallX.gameObject.GetComponent<CubismLookParameter>().Axis = CubismLookAxis.X;
         if (TransformParamEyeBallY != null) TransformParamEyeBallY.gameObject.GetComponent<CubismLookParameter>().Axis = CubismLookAxis.Y;
-
-
 
         //变化时更新模型参数
         UpdateModelCondition();
@@ -437,7 +411,6 @@ public class Model : MonoBehaviour
         SetModelTransformRotation(new Vector3(Config.RotationRXItem.Param,Config.RotationRYItem.Param,Config.RotationRZItem.Param));
 
         gameObject.transform.Find("Target").GetComponent<LookMouse>().SetLookMouse(Config.IsLookMouse);
-        
 
         //更新视线追踪参数
         if (TransformParamAngleX != null) TransformParamAngleX.gameObject.GetComponent<CubismLookParameter>().Factor = Config.ParamAngleItem.Param;
@@ -465,7 +438,6 @@ public class Model : MonoBehaviour
         //设置音频参数
         if(Live2dObject.GetComponent<CubismAudioMouthInput>() != null) Live2dObject.GetComponent<CubismAudioMouthInput>().Gain = Config.GainItem.Param;
         if(Live2dObject.GetComponent<CubismAudioMouthInput>() !=null ) Live2dObject.GetComponent<CubismAudioMouthInput>().Smoothing= Config.SmoothingItem.Param;
-
     }
 
     /// <summary>
@@ -497,10 +469,7 @@ public class Model : MonoBehaviour
                     paramItem.BlendToValue(CubismParameterBlendMode.Override, paramTuple.Item2);
                 }
             }
-
-
         }
-
         if (DrawItemsList.Count > 0)
         {
             Tuple<string, float> paramTuple = DrawItemsList[0];
@@ -515,16 +484,9 @@ public class Model : MonoBehaviour
 
                     }
                 }
-
-
             }
-
-
         }
-
     }
-
-
 
     /// <summary>
     /// 默认挂载脚本或物体
@@ -543,7 +505,7 @@ public class Model : MonoBehaviour
         if (Live2dObject.GetComponent<CubismLookController>() == null) Live2dObject.AddComponent<CubismLookController>();
         if (Live2dObject.GetComponent<CubismEyeBlinkController>() == null) Live2dObject.AddComponent<CubismEyeBlinkController>();
 
-        
+
         foreach (string itemname in Config.NeedAddCubismLookParameterObjectStrings)
         {
             Transform transformItem = Live2dParameters.transform.Find(itemname);
@@ -554,26 +516,25 @@ public class Model : MonoBehaviour
             }
         }
         //张嘴
-        Transform transformParamMouthOpenY = Live2dParameters.transform.Find("ParamMouthOpenY");
-        if(transformParamMouthOpenY != null)
+        foreach(string item  in Config.NeedAddCubismMouthParameterObjectStrings)
         {
-            if(transformParamMouthOpenY.gameObject.GetComponent<CubismMouthParameter>()==null)
-                transformParamMouthOpenY.gameObject.AddComponent<CubismMouthParameter>();
+            Transform transformParamMouthOpenY = Live2dParameters.transform.Find(item);
+            if (transformParamMouthOpenY != null)
+            {
+                if (transformParamMouthOpenY.gameObject.GetComponent<CubismMouthParameter>() == null)
+                    transformParamMouthOpenY.gameObject.AddComponent<CubismMouthParameter>();
+            }
         }
         //眨眼
-        Transform TransformParamEyeLOpen= Live2dParameters.transform.Find("ParamEyeLOpen");
-        if(TransformParamEyeLOpen != null)
+        foreach (string item in Config.NeedAddCubismEyeBlinkParameterObjectStrings)
         {
-            if (TransformParamEyeLOpen.gameObject.GetComponent<CubismEyeBlinkParameter>() == null)
-                TransformParamEyeLOpen.gameObject.AddComponent<CubismEyeBlinkParameter>();
+            Transform TransformParamEyeOpen = Live2dParameters.transform.Find(item);
+            if (TransformParamEyeOpen != null)
+            {
+                if (TransformParamEyeOpen.gameObject.GetComponent<CubismEyeBlinkParameter>() == null)
+                    TransformParamEyeOpen.gameObject.AddComponent<CubismEyeBlinkParameter>();
+            }
         }
-        Transform TransformParamEyeROpen = Live2dParameters.transform.Find("ParamEyeROpen");
-        if (TransformParamEyeROpen != null)
-        {
-            if (TransformParamEyeROpen.gameObject.GetComponent<CubismEyeBlinkParameter>() == null)
-                TransformParamEyeROpen.gameObject.AddComponent<CubismEyeBlinkParameter>();
-        }
-
 
         //默认挂载的控件
         Transform transformTarget = gameObject.transform.Find("Target");
@@ -586,14 +547,25 @@ public class Model : MonoBehaviour
         {
             Live2dObject.GetComponent<CubismAudioMouthInput>().AudioInput = transformAudioInput.gameObject.GetComponent<AudioSource>();
         }
-
     }
-
-
-
-
     /// <summary>
-    /// 通过json加载模型信息的回调
+    /// 工具函数获取需要鼠标跟踪的控件
+    /// </summary>
+    void FindTransform(string key, out Transform result)
+    {
+        result = null;
+        if (Config.keyValueParameters.TryGetValue(key, out var parameters))
+        {
+            foreach (var item in parameters)
+            {
+                result = Live2dParameters.transform.Find(item);
+                if (result != null)
+                    break;
+            }
+        }
+    }
+    /// <summary>
+    /// 通过json加载模型信息
     /// </summary>
     private static object BuiltInLoadAtPath(Type assetType,string absolutePath)
     {

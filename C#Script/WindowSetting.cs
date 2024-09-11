@@ -13,8 +13,8 @@ public class WindowSetting : MonoBehaviour
             TransparentWindow transparentWindow = cameraObject.GetComponent<TransparentWindow>();
             if (transparentWindow != null)
             {
-                //transparentWindow.SetWinStyle(enumWinStyle);
-                //transparentWindow.UpdateWindowStyle();
+                transparentWindow.SetWinStyle(enumWinStyle);
+                transparentWindow.UpdateWindowStyle();
             }
 
         }
