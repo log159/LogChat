@@ -30,8 +30,9 @@ Audio->
 NetWork->
     -SocketBehaviour
 ----------------------------------
-Windows 透过/置顶选项:
-取消以下脚本对应位置注释
+Windows 透过/置顶/窗口透明选项:
+//#define IS_TRANSPARENT
+取消注释再生成即可（之后不要在Unity执行，构建到指定目录）
     -TransparentWindow
     -WindowSetting
 Unity 快速加载(跳过启动图标)选项:
