@@ -22,7 +22,7 @@ void AboutSoftwareDialogWidget::init()
     setWindowFlags((windowFlags() & ~Qt::WindowContextHelpButtonHint) | Qt::WindowStaysOnTopHint);
 
     QString information_str=
-"#LogChat Version-7.5\n"
+"#LogChat Version-7.5.1\n"
 "- 一个开源免费的Chat客户端！\n"
 "- GitHub:https://github.com/log159/LogChat\n"
 "#版本记录"
@@ -60,8 +60,18 @@ void AboutSoftwareDialogWidget::init()
 "- UI优化\n"
 "- 清理WAV缓存\n"
 "- 文本语音合成，长文本可分段合成\n"
+"-#7.5.1\n"
+"- 文本语音分段合成可应用到聊天选项，大大降低TTS延迟\n"
+"- 新增讯飞星火大模型v3.5\n"
+"- 新增deepseek大模型\n"
+"- 完善chatgpt其它大模型列表选项\n"
+"- l2d的渲染兼容至5-r.2版本\n"
+"- 增加自定义Vits Url请求格式“{{text}}”替换为目标文本\n"
+"- vits获取人物列表&测试vits端连接\n"
+"- 使得LLM请求可以强行终止\n"
+"- l2d交互可更改tcp端口\n"
 
-"#End 有Bug欢迎反馈！\n";
+"#-----End 有Bug欢迎反馈！-----\n";
 
     QFont font;
     font.setPixelSize(20);

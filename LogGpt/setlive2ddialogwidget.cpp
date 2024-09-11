@@ -258,7 +258,7 @@ void SetLive2DDialogWidget::initConnect()
             return ;
         }
         ChangeLive2DWidget widget;
-        QString filePath=ui->lineEdit_way->text();
+        QString filePath=ConfigConstWay::get_TRUE_WAY(ui->lineEdit_way->text());
         int index=filePath.size()-1;
         for (;index>=0;--index) {
             if(filePath[index]==QChar('\\')||filePath[index]==QChar('/')){
@@ -266,7 +266,7 @@ void SetLive2DDialogWidget::initConnect()
             }
         }
 
-        QString directoryPath = ui->lineEdit_way->text().mid(0,index);
+        QString directoryPath = filePath.mid(0,index);
         qDebug()<<"open file path"<<directoryPath;
         widget.refresh(directoryPath);
         connect(&widget,&ChangeLive2DWidget::sendhandle,[=](QString handleStr){

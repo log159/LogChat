@@ -112,47 +112,47 @@ void ChangeLive2DWidget::refresh(const QString &path)
 
     }
 
-    {
-        QMap<QString,QVector<int>>::iterator it=m_PartItemsMap.begin();
-            for(;it!=m_PartItemsMap.end();++it){
+//    {
+//        QMap<QString,QVector<int>>::iterator it=m_PartItemsMap.begin();
+//            for(;it!=m_PartItemsMap.end();++it){
 
-    //            //控件添加
-                QListWidgetItem* item = new QListWidgetItem();
-                Live2DAnimationItemsWidget* widget=new Live2DAnimationItemsWidget;
+//    //            //控件添加
+//                QListWidgetItem* item = new QListWidgetItem();
+//                Live2DAnimationItemsWidget* widget=new Live2DAnimationItemsWidget;
 
-                widget->resize(ui->listWidget_harmonic->size().width(),widget->height());
-                ui->listWidget_harmonic->addItem(item);
-                item->setSizeHint(widget->size());
-                ui->listWidget_harmonic->setItemWidget(item,widget);
-                ui->listWidget_harmonic->scrollToBottom();
+//                widget->resize(ui->listWidget_harmonic->size().width(),widget->height());
+//                ui->listWidget_harmonic->addItem(item);
+//                item->setSizeHint(widget->size());
+//                ui->listWidget_harmonic->setItemWidget(item,widget);
+//                ui->listWidget_harmonic->scrollToBottom();
 
-                widget->setName(it.key());
+//                widget->setName(it.key());
 
-                if(m_ValueExplainMap[it.key()]!=""){
-                    widget->setExplain(m_ValueExplainMap[it.key()]);
-                }
-                QVector<int>v=m_HarmCoverMap[it.key()];
-                if(v.size()>=3){
-                    widget->setRule(v[0]);
-                    widget->setSpeed(v[1]);
-                    widget->setUseful(v[2]!=0?true:false);
+//                if(m_ValueExplainMap[it.key()]!=""){
+//                    widget->setExplain(m_ValueExplainMap[it.key()]);
+//                }
+//                QVector<int>v=m_HarmCoverMap[it.key()];
+//                if(v.size()>=3){
+//                    widget->setRule(v[0]);
+//                    widget->setSpeed(v[1]);
+//                    widget->setUseful(v[2]!=0?true:false);
 
-                }
+//                }
 
-    //            SendPassByPart sendPass=&Live2DPartItemsWidget::sendPass;
-    //            connect(widget,sendPass,[=](ModelPartItem passItem){
-    //                qDebug()<<"chagngelive2dwidget: "<<passItem.getName();
+//    //            SendPassByPart sendPass=&Live2DPartItemsWidget::sendPass;
+//    //            connect(widget,sendPass,[=](ModelPartItem passItem){
+//    //                qDebug()<<"chagngelive2dwidget: "<<passItem.getName();
 
-    //            });
+//    //            });
 
-    //            connect(widget,&Live2DPartItemsWidget::sendHandle,[=](QString handleStr){
-    //                emit sendhandle(handleStr);
-    //            });
+//    //            connect(widget,&Live2DPartItemsWidget::sendHandle,[=](QString handleStr){
+//    //                emit sendhandle(handleStr);
+//    //            });
 
-    //        }
-            ui->listWidget_harmonic->scrollToTop();
-        }
-    }
+//    //        }
+//            ui->listWidget_harmonic->scrollToTop();
+//        }
+//    }
 
 
      connect(ui->pushButton_save_parameter,&QPushButton::clicked,[=](){

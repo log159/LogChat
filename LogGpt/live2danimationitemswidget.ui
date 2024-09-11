@@ -22,6 +22,9 @@
        <height>0</height>
       </size>
      </property>
+     <property name="text">
+      <string/>
+     </property>
     </widget>
    </item>
    <item row="0" column="1">

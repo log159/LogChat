@@ -7,18 +7,24 @@
 #include <QMediaContent>
 #include <QDebug>
 
+#include "config.h"
+
 class AudioPlayer : public QObject
 {
     Q_OBJECT
+private:
+    QMediaPlayer* m_Player;
 public:
     AudioPlayer(const QUrl &audioUrl, QObject *parent = nullptr);
     ~AudioPlayer();
 
+private:
+    void initConnect();
+
 private slots:
     void onMediaStatusChanged(QMediaPlayer::MediaStatus status);
 
-private:
-    QMediaPlayer *player;
+
 signals:
     void endof();
 };

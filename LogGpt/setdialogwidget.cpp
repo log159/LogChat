@@ -116,6 +116,17 @@ void SetDialogWidget::init()
     QString vits_selfrule_text=Config::get_URL(EnUrl::URL_VITSSELF_RULEURL);
     ui->lineEdit_vits_selfrule->setText(vits_selfrule_text);
 
+    if(Config::get_USER(::EnUser::ENABLE_SELFVOLUME).toInt()!=0)
+        ui->pushButton_audiovolume->setText("自定义的");
+    else
+        ui->pushButton_audiovolume->setText("跟随系统");
+
+    ui->horizontalSlider_audiovolume->setValue(Config::get_USER(::EnUser::AUDIOVOLUME).toInt());
+    ui->horizontalSlider_audiovolume->setRange(0,100);
+
+    ui->lineEdit_audiovolume->setReadOnly(true);
+    ui->lineEdit_audiovolume->setText(QString::number(ui->horizontalSlider_audiovolume->value()));
+
     QFile file(":/main.qss");
     if(file.open(QFile::ReadOnly)){
         QString styleSheet = QLatin1String(file.readAll());
@@ -308,6 +319,27 @@ void SetDialogWidget::initConnect()
             }
         });
         networkManager->fetchUrl(QUrl(QString("http://%1:%2/voice/speakers").arg(ui->lineEdit_vits_address->text()).arg(ui->lineEdit_vits_port->text())));
+    });
+
+    SliderMoved sliderMovedAudiovolume=&QSlider::sliderMoved;
+    QObject::connect(ui->horizontalSlider_audiovolume,sliderMovedAudiovolume,this,[=](int value){
+        Config::set_USER(::EnUser::AUDIOVOLUME,QString::number(value));
+        qDebug()<<"Audio音量: "<<QString::number(value);
+        ui->lineEdit_audiovolume->setText(QString::number(value));
+
+    });
+
+    QObject::connect(ui->pushButton_audiovolume,&QPushButton::clicked,[=](){
+        int en = Config::get_USER(::EnUser::ENABLE_SELFVOLUME).toInt();
+        if(en!=0){
+            ui->pushButton_audiovolume->setText("跟随系统");
+            Config::set_USER(::EnUser::ENABLE_SELFVOLUME,QString::number(0));
+        }
+        else {
+            ui->pushButton_audiovolume->setText("自定义的");
+            Config::set_USER(::EnUser::ENABLE_SELFVOLUME,QString::number(1));
+        }
+        qDebug()<<ui->pushButton_audiovolume->text();
     });
 }
 

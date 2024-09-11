@@ -23,6 +23,7 @@ class SetDialogWidget : public QDialog
 {
     Q_OBJECT
     typedef void(QComboBox::*CurrentIndexChanged)(int);
+    typedef void (QSlider::*SliderMoved)(int);
 private:
     const int WIDTH      =1000;
     const int HEIGHT     =600;

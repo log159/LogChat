@@ -54,7 +54,8 @@ enum EnUser{
     ENABLE_BAIDUFANYI,          /*是否启用百度翻译*/
     ENABLE_LATERLANGUAGE,       /*是否启用翻译后的语言用来显示*/
     ENABLE_RESERVE,             /*是否保留上下文记忆*/
-    LLM_MODEL_ID,               /*LLM模型ID 0 chatgpt 1讯飞星火*/
+    ENABLE_SELFVOLUME,          /*是否启用自定义音量用来播放音频*/
+    LLM_MODEL_ID,               /*LLM模型ID 0 chatgpt 1讯飞星火 2DeepSeek*/
     XFXH_MODEL_ID,              /*讯飞星火模型ID*/
     CHATGPT_MODEL_ID,           /*ChatGpt模型ID*/
     VITS_ID,                    /*vits模型ID*/
@@ -69,6 +70,7 @@ enum EnUser{
     CHARACTERGENDER,            /*角色性别*/
     AUDIOSYNTHESIS,             /*音频合成规则*/
     AUDIOBREAKSTR,              /*音频分割字符串*/
+    AUDIOVOLUME,                 /*vits端播放音量*/
 };
 
 static      QMap<EnUser,QString>UserM={
@@ -84,6 +86,7 @@ static      QMap<EnUser,QString>UserM={
     {ENABLE_BAIDUFANYI,"ENABLE_BAIDUFANYI"},
     {ENABLE_LATERLANGUAGE,"ENABLE_LATERLANGUAGE"},
     {ENABLE_RESERVE,"ENABLE_RESERVE"},
+    {ENABLE_SELFVOLUME,"ENABLE_SELFVOLUME"},
     {LLM_MODEL_ID,"LLM_MODEL_ID"},
     {XFXH_MODEL_ID,"XFXH_MODEL_ID"},
     {CHATGPT_MODEL_ID,"CHATGPT_MODEL_ID"},
@@ -99,6 +102,7 @@ static      QMap<EnUser,QString>UserM={
     {CHARACTERGENDER,"CHARACTERGENDER"},
     {AUDIOSYNTHESIS,"AUDIOSYNTHESIS"},
     {AUDIOBREAKSTR,"AUDIOBREAKSTR"},
+    {AUDIOVOLUME,"AUDIOVOLUME"}
 };
 
 static const QVector<QString>           VITS_MODEL_V        ={"vits","gpt-sovits","self-vits"};

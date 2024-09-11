@@ -1,14 +1,25 @@
 #include "audioplayer.h"
 
 
-AudioPlayer::AudioPlayer(const QUrl &audioUrl, QObject *parent) : QObject(parent), player(new QMediaPlayer(this)) {
-    player->setMedia(QMediaContent(audioUrl));
-    connect(player, &QMediaPlayer::mediaStatusChanged, this, &AudioPlayer::onMediaStatusChanged);
-    player->play();
+AudioPlayer::AudioPlayer(const QUrl &audioUrl, QObject *parent) : QObject(parent), m_Player(new QMediaPlayer(this)) {
+
+    initConnect();
+    m_Player->setMedia(QMediaContent(audioUrl));
+    if(Config::get_USER(::EnUser::ENABLE_SELFVOLUME).toInt()!=0){
+        int value=Config::get_USER(::EnUser::AUDIOVOLUME).toInt();
+        if(0<=value && value<=100)
+            m_Player->setVolume(value);
+    }
+    m_Player->play();
 }
 AudioPlayer::~AudioPlayer() {
-    player->stop();
+    m_Player->stop();
     qDebug()<<"------------------音频端析构------------------";
+}
+
+void AudioPlayer::initConnect()
+{
+    connect(m_Player, &QMediaPlayer::mediaStatusChanged, this, &AudioPlayer::onMediaStatusChanged);
 }
 
 void AudioPlayer::onMediaStatusChanged(QMediaPlayer::MediaStatus status) {
