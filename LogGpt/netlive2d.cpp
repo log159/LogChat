@@ -122,8 +122,6 @@ void NetLive2D::sendHandle(QString strHandle)
 
 
 #ifdef IS_CUSTOMER
-
-
 void NetLive2D::startListen()
 {
     if(m_TcpSocket!=nullptr){
