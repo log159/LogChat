@@ -1,6 +1,11 @@
 #ifndef NETLIVE2D_H
 #define NETLIVE2D_H
 
+//新的方式 Unity端作为服务器
+#define IS_CUSTOMER
+//旧的方式 C++端作为服务器
+//#define IS_SERVER
+
 #include <QObject>
 #include <QTcpServer>
 #include <QTcpSocket>
@@ -9,6 +14,7 @@
 #include <QDebug>
 #include <QRegularExpression>
 #include <QTimer>
+#include <QSharedPointer>
 
 #include "configlive2d.h"
 #include "configwindow.h"
@@ -20,27 +26,29 @@ class NetLive2D : public QObject
     Q_OBJECT
 private:
     static bool IsConnect;
+private:
+#ifdef IS_SERVER
+    QTcpServer* m_TcpServer;
+#endif
+    QTcpSocket* m_TcpSocket;
 public:
-    NetLive2D(QObject *parent = nullptr);
+
+    static NetLive2D* getInstance();
 
     void startListen();
     static bool getIsConnect();
-    static void setIsConnect(bool value);
+    static void setIsConnect(bool bo);
 
-private:
+public:
 
-    void init();
-    void initConnect();
     void receiveHandle(QString strHandle);
-private:
-    QTcpServer* m_TcpServer=nullptr;
-    QTcpSocket* m_TcpSocket=nullptr;
+    void sendHandle(QString strHandle);
+
 
 signals:
     void myMousePass();
 
 public slots:
-    void sendHandle(QString);
 };
 
 #endif // NETLIVE2D_H

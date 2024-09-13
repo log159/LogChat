@@ -48,7 +48,6 @@ private:
 
     PushAndReceiveWidget* m_PushAndReceiveWidget    =nullptr;
     SetSelectWidget*      m_SetSelectWidget         =nullptr;
-    NetLive2D*            m_NetLive2D               =nullptr;
 public:
     QSharedPointer<GalDialog> new_GalDialog; //新窗口
 public:

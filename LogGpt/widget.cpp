@@ -29,14 +29,7 @@ void Widget::init()
     m_SetSelectWidget->move(-m_SetSelectWidget->width(),0);
     m_SetSelectWidget->show();
 
-    //与live2D通信的类
-    m_NetLive2D=new NetLive2D(this);
-    m_NetLive2D->startListen();
-
-
     m_PushAndReceiveWidget->setFocus();
-
-
 }
 
 void Widget::initConnect()
@@ -48,7 +41,7 @@ void Widget::initConnect()
     SendAudio sendAudio=&PushAndReceiveWidget::sendAudio;
     connect(m_PushAndReceiveWidget,sendAudio,[=](QString audioPath){
         QString handleStr="Audio:"+audioPath+";";
-        m_NetLive2D->sendHandle(handleStr);
+        NetLive2D::getInstance()->sendHandle(handleStr);
     });
 
     connect(m_SetSelectWidget,&SetSelectWidget::setWidgetShow,[=](){
@@ -66,7 +59,7 @@ void Widget::initConnect()
         SetLive2DDialogWidget dialog;
         SendModelHandle sendModelHandle=&SetLive2DDialogWidget::sendModelHandle;
         connect(&dialog,sendModelHandle,[=](QString modelHadle){
-            this->m_NetLive2D->sendHandle(modelHadle);
+            NetLive2D::getInstance()->sendHandle(modelHadle);
 
         });
         dialog.exec();
@@ -76,7 +69,7 @@ void Widget::initConnect()
 
         new_GalDialog.reset(new GalDialog);
         /*发送句柄事件，通知unity，galdialog有更高的优先级*/
-        m_NetLive2D->sendHandle("Hwnd:dialog,"+QString::number(static_cast<int>(new_GalDialog.get()->winId()))+";");
+        NetLive2D::getInstance()->sendHandle("Hwnd:dialog,"+QString::number(static_cast<int>(new_GalDialog.get()->winId()))+";");
 
         /*移动窗口到对应位置，如果未启用模型默认为屏幕中心*/
         new_GalDialog->move(int(ConfigLive2d::getModelX()-new_GalDialog->width()/2.f),int(ConfigLive2d::getModelY()-new_GalDialog->height()/2.f));
@@ -105,7 +98,7 @@ void Widget::initConnect()
         m_SetSelectWidget->setCanPass();
     });
 
-    connect(m_NetLive2D,&NetLive2D::myMousePass,this,[=](){
+    connect(NetLive2D::getInstance()->getInstance(),&NetLive2D::myMousePass,this,[=](){
         emit m_SetSelectWidget->setGalDialogShow();
 
     });

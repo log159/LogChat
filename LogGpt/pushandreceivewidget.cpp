@@ -148,6 +148,7 @@ void PushAndReceiveWidget::initConnect()
             m_RankTextList.pop_front();
         }
         //音频列表顺序播放 用Chat端播放
+
         if(SetLive2DDialogWidget::live2DIsOpen==false){
 
             if(true==CanSound && !m_RankAudioList.isEmpty()){
@@ -335,8 +336,6 @@ void PushAndReceiveWidget::paintEvent(QPaintEvent *event)
     painter.setPen(Qt::NoPen);
     painter.drawRect(0,0,this->width(),this->height());
 
-
-
 }
 
 
@@ -514,7 +513,7 @@ void PushAndReceiveWidget::handle_bot_sound(const QString &str)
 {
     m_RankTextList.clear();
     m_RankAudioList.clear();
-    emit sendAudio("null");
+    m_RankAudioList.push_front("null");
 
     TempText = str;
     CanSend=true;

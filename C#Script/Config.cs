@@ -90,7 +90,6 @@ public class Config : MonoBehaviour
     public static ParamItem RotationRZItem = new ParamItem("Rotation", 0f, new PointF(MIN, MAX));
 
 
-
     //主轴物理参数
     public static ParamItem ParamAngleItem = new ParamItem("ParamAngle", 30f, new PointF(0f, 30f));
     //身体轴物理参数

@@ -1,4 +1,5 @@
 #define IS_LOGCHAT
+//#define IS_LIVE2D_API
 
 using System;
 using System.Collections;

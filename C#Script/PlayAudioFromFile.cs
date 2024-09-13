@@ -76,8 +76,11 @@ public class PlayAudioFromFile : MonoBehaviour
         {
             if (AudioPathsList.Count > 0)
             {
+                Debug.Log("当前正在播放: "+ AudioPathsList[0]);
                 yield return StartCoroutine(LoadAndPlayAudioFile(AudioPathsList[0], audioSource));
-                AudioPathsList.RemoveAt(0);
+                if(AudioPathsList.Count>=1) {
+                    AudioPathsList.RemoveAt(0);
+                }
             }
             else
             {

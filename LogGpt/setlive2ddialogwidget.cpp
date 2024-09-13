@@ -159,23 +159,26 @@ void SetLive2DDialogWidget::initConnect()
             return;
         }
         SetLive2DDialogWidget::live2DIsOpen=true;
-        m_Live2dProcess=new QProcess(ConfigWindow::_WindowPointer);
+        if(m_Live2dProcess==nullptr)
+            m_Live2dProcess=new QProcess(ConfigWindow::_WindowPointer);
         qDebug()<<"live2d base window pointer : "<<ConfigWindow::_WindowPointer;
         m_Live2dProcess->setWorkingDirectory(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::UNITY_DEMO_WORK_WAY));
         m_Live2dProcess->start(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::UNITY_DEMO_WAY));
-            //检查外部进程是否成功启动
+        //检查外部进程是否成功启动
         if (!m_Live2dProcess->waitForStarted()) {
             qDebug() << "Failed to start the process";
             return;
         }
         else {
+            //创建通信用套接字
+            NetLive2D::getInstance()->startListen();
             //同步刷新Ui
             updateForUi();
             QTimer* timer=new QTimer(this);
             connect(timer,&QTimer::timeout,this,[=](){
                 if(NetLive2D::getIsConnect()){
                     //同步配置数据
-                    QTimer::singleShot(300,this,[=](){updateForUnity();});
+                    QTimer::singleShot(500,this,[=](){updateForUnity();});
                     timer->stop();
                     timer->deleteLater();
                 }
@@ -189,10 +192,15 @@ void SetLive2DDialogWidget::initConnect()
 
         SetLive2DDialogWidget::live2DIsOpen=false;
         SetLive2DDialogWidget::m_Live2dOpenId=-1;
-        if(m_Live2dProcess!=nullptr){
-            delete m_Live2dProcess;
-            m_Live2dProcess=nullptr;
+        //尝试优雅得退出
+        if (m_Live2dProcess->state() == QProcess::Running) {
+            m_Live2dProcess->terminate(); // 请求终止
+            m_Live2dProcess->waitForFinished(5000); // 等待5秒
+            if (m_Live2dProcess->state() == QProcess::Running) {
+                m_Live2dProcess->kill(); // 强制终止
+            }
         }
+
         updateModelChange();
     });
 
