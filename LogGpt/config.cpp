@@ -188,6 +188,11 @@ const QString Config::get_USER(const ::EnUser &key)
     return ConfigFileIO::getUserConfig(key);
 }
 
+QString Config::get_OTHER(const QString &path, const QString &baseName, const QString &keyName)
+{
+    return ConfigFileIO::getOtherConfig(path,baseName,keyName);
+}
+
 void Config::set_IKS(const ::EnIks &iks, const QString &id, const QString &key, const QString &secret)
 {
     ConfigFileIO::setIksConfig(iks,id,key,secret);
@@ -201,6 +206,11 @@ void Config::set_URL(const ::EnUrl &urlName, const QString &url)
 void Config::set_USER(const ::EnUser &key, const QString &value)
 {
     ConfigFileIO::setUserConfig(key,value);
+}
+
+void Config::set_OTHER(const QString &path, const QString &baseName, const QString &keyName, const QString &value)
+{
+    ConfigFileIO::setOtherConfig(path,baseName,keyName,value);
 }
 
 const QString Config::get_GPTSOVITS_URL()

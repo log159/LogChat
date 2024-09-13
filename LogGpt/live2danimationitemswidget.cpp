@@ -51,10 +51,13 @@ void Live2DAnimationItemsWidget::init()
     QRegExpValidator* validator=new QRegExpValidator(QRegExp("[0-9]{1,2}|100"));
     ui->lineEdit_speed->setValidator(validator);
     ui->lineEdit_speed->setText(QString::number(0)+" %");
-
     ui->lineEdit_name->setReadOnly(true);
     ui->lineEdit_explain->setReadOnly(true);
 
+    RangeSlider* rangeSliderThre = new RangeSlider(Qt::Horizontal, RangeSlider::Option::DoubleHandles, nullptr);
+    QHBoxLayout* rangeSliderWidgetSpaceLayout = new QHBoxLayout();
+    rangeSliderWidgetSpaceLayout->addWidget(rangeSliderThre);
+    ui->widget_rangeslider->setLayout(rangeSliderWidgetSpaceLayout);
 
 
 

@@ -39,8 +39,8 @@ void SetLive2DDialogWidget::init()
 
 
      ui->listWidget_model->setEditTriggers(QAbstractItemView::NoEditTriggers);         //禁止编辑
-     ui->listWidget_model->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);       //禁用水平滑动条
      ui->listWidget_model->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);   //平滑效果
+     ui->listWidget_model->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);       //禁用水平滑动条
 
 
      for(int i=0;i<Config::get_LIVE2DMODELCONFIG_V().size();++i){
@@ -106,18 +106,17 @@ void SetLive2DDialogWidget::init()
 
      initLineEdit();
 
-     QFile file(":/main.qss");
-     if(file.open(QFile::ReadOnly)){
-         QString styleSheet = QLatin1String(file.readAll());
-         this->setStyleSheet(styleSheet);
-         file.close();
-     }
-
      if(SetLive2DDialogWidget::live2DIsOpen){
          if(SetLive2DDialogWidget::m_Live2dOpenId>=0){
              updateForUi();
              updateModelChange();
          }
+     }
+     QFile file(":/main.qss");
+     if(file.open(QFile::ReadOnly)){
+         QString styleSheet = QLatin1String(file.readAll());
+         this->setStyleSheet(styleSheet);
+         file.close();
      }
 }
 
@@ -160,10 +159,11 @@ void SetLive2DDialogWidget::initConnect()
         }
         SetLive2DDialogWidget::live2DIsOpen=true;
         if(m_Live2dProcess==nullptr)
-            m_Live2dProcess=new QProcess(ConfigWindow::_WindowPointer);
-        qDebug()<<"live2d base window pointer : "<<ConfigWindow::_WindowPointer;
+            m_Live2dProcess=new QProcess(ConfigWindow::getWindowPointer());
+        qDebug()<<"live2d base window pointer : "<<ConfigWindow::getWindowPointer();
         m_Live2dProcess->setWorkingDirectory(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::UNITY_DEMO_WORK_WAY));
         m_Live2dProcess->start(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::UNITY_DEMO_WAY));
+//
         //检查外部进程是否成功启动
         if (!m_Live2dProcess->waitForStarted()) {
             qDebug() << "Failed to start the process";
@@ -275,7 +275,6 @@ void SetLive2DDialogWidget::initConnect()
         }
 
         QString directoryPath = filePath.mid(0,index);
-        qDebug()<<"open file path"<<directoryPath;
         widget.refresh(directoryPath);
         connect(&widget,&ChangeLive2DWidget::sendhandle,[=](QString handleStr){
             emit sendModelHandle(handleStr);

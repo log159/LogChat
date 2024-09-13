@@ -368,7 +368,7 @@ void SetDialogWidget::closeEvent(QCloseEvent *event)
     Config::set_URL(::EnUrl::URL_DEEPSEEK_BASEURL,ui->lineEdit_deepseek_url->text());
 
 
-    ConfigFileIO::setOtherConfig(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::CONFIG_UNITY_WAY),"SERVERS","ADDRESS",ui->lineEdit_live2d_address->text());
-    ConfigFileIO::setOtherConfig(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::CONFIG_UNITY_WAY),"SERVERS","PORT",ui->lineEdit_live2d_port->text());
+    Config::set_OTHER(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::CONFIG_UNITY_WAY),"SERVERS","ADDRESS",ui->lineEdit_live2d_address->text());
+    Config::set_OTHER(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::CONFIG_UNITY_WAY),"SERVERS","PORT",ui->lineEdit_live2d_port->text());
 
 }

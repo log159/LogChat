@@ -90,8 +90,8 @@ void ConfigFileIO::setIksConfig(const ::EnIks &baseName, const QString &id, cons
     setting->setValue("IKS/"+::IksM[baseName]+"/id",id);
     setting->setValue("IKS/"+::IksM[baseName]+"/key",key);
     setting->setValue("IKS/"+::IksM[baseName]+"/secret",secret);
-    // 生成文件
     setting->sync();
+    setting->deleteLater();
 }
 
 IKS ConfigFileIO::getIksConfig(const ::EnIks &baseName)
@@ -105,11 +105,12 @@ IKS ConfigFileIO::getIksConfig(const ::EnIks &baseName)
         iks.id = setting->value("IKS/"+::IksM[baseName]+"/id",NULLVALUE).toString();
         iks.key= setting->value("IKS/"+::IksM[baseName]+"/key",NULLVALUE).toString();
         iks.secret=setting->value("IKS/"+::IksM[baseName]+"/secret",NULLVALUE).toString();
+        setting->deleteLater();
         return iks;
     }
     else {
-        // 生成文件
         setting->sync();
+        setting->deleteLater();
         return iks;
     }
 }
@@ -120,8 +121,8 @@ void ConfigFileIO::setUrlConfig(const ::EnUrl &urlName, const QString &url)
     QSettings *setting = new QSettings(fileName , QSettings::IniFormat);
     setting->setIniCodec(QTextCodec::codecForName("UTF-8"));
     setting->setValue("URL/"+UrlM[urlName],url);
-
     setting->sync();
+    setting->deleteLater();
 }
 
 const QString ConfigFileIO::getUrlConfig(const ::EnUrl &urlName)
@@ -132,10 +133,12 @@ const QString ConfigFileIO::getUrlConfig(const ::EnUrl &urlName)
     if(QFile::exists(fileName))
     {
         QString data = setting->value("URL/"+UrlM[urlName],NULLVALUE).toString();
+        setting->deleteLater();
         return data;
     }
     else {
         setting->sync();
+        setting->deleteLater();
         return NULLVALUE;
     }
 }
@@ -149,6 +152,7 @@ void ConfigFileIO::setUserConfig(const ::EnUser &keyName, const QString &value)
         setting->setValue("USER/"+::UserM[keyName],value);
     }
     setting->sync();
+    setting->deleteLater();
 }
 
 QString ConfigFileIO::getUserConfig(const ::EnUser &keyName)
@@ -163,12 +167,15 @@ QString ConfigFileIO::getUserConfig(const ::EnUser &keyName)
     if(QFile::exists(fileName))
     {
         QString data = setting->value("USER/"+::UserM[keyName]).toString();
+        setting->deleteLater();
         return data;
     }
     else {
         setting->sync();
+        setting->deleteLater();
         return NULLVALUE;
     }
+
 }
 
 void ConfigFileIO::setOtherConfig(const QString& path,const QString &baseName, const QString &keyName, const QString &value)
@@ -178,6 +185,7 @@ void ConfigFileIO::setOtherConfig(const QString& path,const QString &baseName, c
     setting->setIniCodec(QTextCodec::codecForName("UTF-8"));
     setting->setValue(baseName+"/"+keyName,value);
     setting->sync();
+    setting->deleteLater();
 }
 
 QString ConfigFileIO::getOtherConfig(const QString& path,const QString &baseName, const QString &keyName)
@@ -188,12 +196,40 @@ QString ConfigFileIO::getOtherConfig(const QString& path,const QString &baseName
     if(QFile::exists(fileName))
     {
         QString data = setting->value(baseName+"/"+keyName,NULLVALUE).toString();
+        setting->deleteLater();
         return data;
     }
     else {
         setting->sync();
+        setting->deleteLater();
         return NULLVALUE;
     }
+
+}
+
+QMap<QString, QString> ConfigFileIO::getOtherBaseAllConfig(const QString &path, const QString &baseName)
+{
+    QMap<QString,QString>paramMap;
+    QSettings* setting=new QSettings(path, QSettings::IniFormat);
+    setting->setIniCodec(QTextCodec::codecForName("UTF-8"));
+    setting->beginGroup(baseName);
+    QStringList keys = setting->allKeys();
+    for (const QString& key : keys) {
+        paramMap.insert(key, setting->value(key).toString());
+    }
+    setting->deleteLater();
+    return paramMap;
+}
+
+void ConfigFileIO::setOtherBaseAllConfig(const QString &path, const QString &baseName, QMap<QString, QString> data)
+{
+    QSettings* setting=new QSettings(path, QSettings::IniFormat);
+    setting->setIniCodec(QTextCodec::codecForName("UTF-8"));
+    setting->beginGroup(baseName);
+    for (auto it = data.begin(); it != data.end(); ++it) {
+        setting->setValue(it.key(), it.value());
+    }
+    setting->endGroup();
 }
 
 

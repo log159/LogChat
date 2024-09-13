@@ -53,11 +53,16 @@ public:
     static const ::IKS get_IKS(const ::EnIks& iks);
     static const QString get_URL(const ::EnUrl& urlName);
     static const QString get_USER(const ::EnUser& key);
+    static QString get_OTHER(const QString& path,const QString& baseName,const QString& keyName);
 public:
     //设置配置信息
     static void set_IKS(const ::EnIks& iks, const QString &id, const QString &key, const QString &secret);
     static void set_URL(const ::EnUrl& urlName,const QString& url);
     static void set_USER(const ::EnUser& key,const QString& value);
+    static void set_OTHER(const QString& path,const QString& baseName,const QString& keyName,const QString& value);
+
+
+
 public:
     static const QString get_VITS_URL();
     static const QString get_GPTSOVITS_URL();

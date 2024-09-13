@@ -11,6 +11,7 @@
 #include <QJsonDocument>
 #include <QDebug>
 #include <QDir>
+#include <QMap>
 
 #include "singletonbase.h"
 #include "global.h"
@@ -47,10 +48,15 @@ public:
 
     static QString getUserConfig(const ::EnUser& keyName = ::EnUser::NULL_MARK);
 
-
+    //完全自定义的ini设置
     static void setOtherConfig(const QString& path,const QString& baseName,const QString& keyName,const QString& value);
-
+    //完全自定义的ini获取
     static QString getOtherConfig(const QString& path,const QString& baseName,const QString& keyName);
+
+    //获取自定义的ini的Base下所有的键值对
+    static QMap<QString,QString> getOtherBaseAllConfig(const QString& path,const QString& baseName);
+    //设置自定义的ini的Base下所有的键值对
+    static void setOtherBaseAllConfig(const QString& path,const QString& baseName,QMap<QString,QString>data);
 
 
 

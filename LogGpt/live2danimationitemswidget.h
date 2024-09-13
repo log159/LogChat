@@ -5,6 +5,9 @@
 #include <QRegExpValidator>
 #include <QString>
 #include <QRegExp>
+#include <QHBoxLayout>
+
+#include "rangeslider.h"
 
 namespace Ui {
 class Live2DAnimationItemsWidget;

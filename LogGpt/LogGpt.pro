@@ -57,6 +57,7 @@ SOURCES += \
         pushandreceivewidget.cpp \
         qaudiocapture.cpp \
         qhttppost.cpp \
+        rangeslider.cpp \
         regexpchar.cpp \
         selfvits.cpp \
         setcompounddialogwidget.cpp \
@@ -108,6 +109,7 @@ HEADERS += \
         pushandreceivewidget.h \
         qaudiocapture.h \
         qhttppost.h \
+        rangeslider.h \
         regexpchar.h \
         selfvits.h \
         setcompounddialogwidget.h \

@@ -20,11 +20,11 @@ MainWidget::~MainWidget()
 
 void MainWidget::init()
 {
-    ConfigWindow::_WindowPointer=this;
+    ConfigWindow::setWindowPointer(this);
 
     this->setWindowFlags(Qt::FramelessWindowHint);
     this->setAttribute(Qt::WA_TranslucentBackground);
-    this->setWindowTitle(ConfigWindow::_WindowTitle);
+    this->setWindowTitle(ConfigWindow::WindowTitle);
     this->setWindowIcon(QIcon(":/res/u77.svg"));
     this->setMouseTracking(true);
     m_FuncWidget=new Widget(this);
@@ -52,7 +52,7 @@ void MainWidget::init()
     //最小化到托盘
     m_Tray= new QSystemTrayIcon(this);                //初始化托盘对象tray
     m_Tray->setIcon(QIcon(QPixmap(":/res/u77.svg"))); //设定托盘图标，引号内是自定义的png图片路径
-    m_Tray->setToolTip(ConfigWindow::_WindowTitle);   //提示文字
+    m_Tray->setToolTip(ConfigWindow::WindowTitle);   //提示文字
     m_Tray->show();                                   //让托盘图标显示在系统托盘上
 
     //创建菜单项动作

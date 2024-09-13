@@ -13,28 +13,32 @@
 class ConfigWindow:public SingletonBase{
 
 public:
-    static QWidget*         _WindowPointer;
-    static const QString    _WindowTitle;
-    static const int        _StaticMinWidth;
-    static const int        _StaticMinHeight;
+
+    static const QString    WindowTitle;
+    static const int        StaticMinWidth;
+    static const int        StaticMinHeight;
 
 private:
-    static int _StaticPosX;
-    static int _StaticPosY;
-    static int _StaticWidth;
-    static int _StaticHeight;
-    static int _DesktopWidth;
-    static int _DesktopHeight;
-    static int _WindowTransparent;
+    static QWidget* WindowPointer;
+    static int      StaticPosX;
+    static int      StaticPosY;
+    static int      StaticWidth;
+    static int      StaticHeight;
+    static int      DesktopWidth;
+    static int      DesktopHeight;
+    static int      WindowTransparent;
 public:
 
     static void init();
+
+    static void setWindowPointer(QWidget* ptr);
     static void setStaticPosX(int x);
     static void setStaticPosY(int y);
     static void setStaticWidth(int w);
     static void setStaticHeight(int h);
     static void setWindowTransparent(int a);
 
+    static QWidget* getWindowPointer();
     static int getStaticPosX();
     static int getStaticPosY();
     static int getStaticWidth();

@@ -14,26 +14,55 @@ ChangeLive2DWidget::~ChangeLive2DWidget()
 {
     delete ui;
 }
+void ChangeLive2DWidget::init()
+{
+    this->resize(WIDTH,HEIGHT);
+    this->setWindowTitle("模型修改");
+    this->setWindowIcon(QIcon(":/res/u77.svg"));
+    setWindowFlags((windowFlags() & ~Qt::WindowContextHelpButtonHint) | Qt::WindowStaysOnTopHint);
 
+    QVector<QListWidget*> wlsList;
+    wlsList.push_back(ui->listWidget_parameter);
+    wlsList.push_back(ui->listWidget_drawing);
+    wlsList.push_back(ui->listWidget_harmonic);
+
+    for(auto& val:wlsList){
+        val->setEditTriggers(QAbstractItemView::NoEditTriggers);         //禁止编辑
+        val->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);       //禁用水平滑动条
+        val->setSelectionMode(QAbstractItemView::NoSelection);           //禁止选中
+        val->setFocusPolicy(Qt::NoFocus);                                //禁止获取焦点
+        val->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);   //平滑效果
+        val->setAttribute(Qt::WA_TranslucentBackground);
+    }
+
+    QFile file(":/main.qss");
+    if(file.open(QFile::ReadOnly)){
+        QString styleSheet = QLatin1String(file.readAll());
+        this->setStyleSheet(styleSheet);
+        file.close();
+    }
+
+}
 void ChangeLive2DWidget::refresh(const QString &path)
 {
     if(path.size()<=3){
         return;
     }
 
-
-
     initValueExplainMap(path);
-    initPartsItemMap(path);
-    initDrawsItemMap(path);
-    initPartsCoverMap(path);
-    initDrawsCovermap(path);
-    initHarmCoverMap(path);
+    initParameterItemsMap(path);
+    initDrawableItemsMap(path);
+//    initParameterCoverMap(path);
+//    initDrawCovermap(path);
+//    initHarmCoverMap(path);
 
+
+
+    //控件偏移
     {
 
-        QMap<QString,QVector<int>>::iterator it=m_PartItemsMap.begin();
-        for(;it!=m_PartItemsMap.end();++it){
+        QMap<QString,QVector<int>>::iterator it=m_ParameterItemsMap.begin();
+        for(;it!=m_ParameterItemsMap.end();++it){
 
             //控件添加
             QListWidgetItem* item = new QListWidgetItem();
@@ -54,8 +83,8 @@ void ChangeLive2DWidget::refresh(const QString &path)
             if(m_ValueExplainMap[it.key()]!=""){
                 widget->setExplain(m_ValueExplainMap[it.key()]);
             }
-            if(m_PartCoverMap.contains(it.key())){
-                widget->setValue(m_PartCoverMap[it.key()]);
+            if(m_ParameterCoverMap.contains(it.key())){
+                widget->setValue(m_ParameterCoverMap[it.key()]);
             }
 
             SendPassByPart sendPass=&Live2DPartItemsWidget::sendPass;
@@ -72,10 +101,11 @@ void ChangeLive2DWidget::refresh(const QString &path)
         ui->listWidget_parameter->scrollToTop();
     }
 
+    //控件渲染
     {
 
-        QMap<QString,bool>::iterator it=m_DrawItemsMap.begin();
-        for(;it!=m_DrawItemsMap.end();++it){
+        QMap<QString,bool>::iterator it=m_DrawableItemsMap.begin();
+        for(;it!=m_DrawableItemsMap.end();++it){
 
             //控件添加
             QListWidgetItem* item = new QListWidgetItem();
@@ -93,8 +123,8 @@ void ChangeLive2DWidget::refresh(const QString &path)
             ui->listWidget_drawing->setItemWidget(item,widget);
             ui->listWidget_drawing->scrollToBottom();
 
-            if(m_DrawsCoverMap.contains(it.key())){
-                widget->setValue(m_DrawsCoverMap[it.key()]);
+            if(m_DrawableCoverMap.contains(it.key())){
+                widget->setValue(m_DrawableCoverMap[it.key()]);
             }
 
             SendPassByDraw sendPass=&Live2DDrawItemsWidget::sendPass;
@@ -112,47 +142,50 @@ void ChangeLive2DWidget::refresh(const QString &path)
 
     }
 
-//    {
-//        QMap<QString,QVector<int>>::iterator it=m_PartItemsMap.begin();
-//            for(;it!=m_PartItemsMap.end();++it){
+    //控件谐波
 
-//    //            //控件添加
-//                QListWidgetItem* item = new QListWidgetItem();
-//                Live2DAnimationItemsWidget* widget=new Live2DAnimationItemsWidget;
+    {
+//        ui->listWidget_harmonic->set
+        QMap<QString,QVector<int>>::iterator it=m_ParameterItemsMap.begin();
+            for(;it!=m_ParameterItemsMap.end();++it){
 
-//                widget->resize(ui->listWidget_harmonic->size().width(),widget->height());
-//                ui->listWidget_harmonic->addItem(item);
-//                item->setSizeHint(widget->size());
-//                ui->listWidget_harmonic->setItemWidget(item,widget);
-//                ui->listWidget_harmonic->scrollToBottom();
+    //            //控件添加
+                QListWidgetItem* item = new QListWidgetItem();
+                Live2DAnimationItemsWidget* widget=new Live2DAnimationItemsWidget;
 
-//                widget->setName(it.key());
+                widget->resize(ui->listWidget_harmonic->size().width(),widget->height());
+                ui->listWidget_harmonic->addItem(item);
+                item->setSizeHint(widget->size());
+                ui->listWidget_harmonic->setItemWidget(item,widget);
+                ui->listWidget_harmonic->scrollToBottom();
 
-//                if(m_ValueExplainMap[it.key()]!=""){
-//                    widget->setExplain(m_ValueExplainMap[it.key()]);
-//                }
-//                QVector<int>v=m_HarmCoverMap[it.key()];
-//                if(v.size()>=3){
-//                    widget->setRule(v[0]);
-//                    widget->setSpeed(v[1]);
-//                    widget->setUseful(v[2]!=0?true:false);
+                widget->setName(it.key());
 
-//                }
+                if(m_ValueExplainMap[it.key()]!=""){
+                    widget->setExplain(m_ValueExplainMap[it.key()]);
+                }
+                QVector<int>v=m_HarmCoverMap[it.key()];
+                if(v.size()>=3){
+                    widget->setRule(v[0]);
+                    widget->setSpeed(v[1]);
+                    widget->setUseful(v[2]!=0?true:false);
 
-//    //            SendPassByPart sendPass=&Live2DPartItemsWidget::sendPass;
-//    //            connect(widget,sendPass,[=](ModelPartItem passItem){
-//    //                qDebug()<<"chagngelive2dwidget: "<<passItem.getName();
+                }
 
-//    //            });
+    //            SendPassByPart sendPass=&Live2DPartItemsWidget::sendPass;
+    //            connect(widget,sendPass,[=](ModelPartItem passItem){
+    //                qDebug()<<"chagngelive2dwidget: "<<passItem.getName();
 
-//    //            connect(widget,&Live2DPartItemsWidget::sendHandle,[=](QString handleStr){
-//    //                emit sendhandle(handleStr);
-//    //            });
+    //            });
 
-//    //        }
-//            ui->listWidget_harmonic->scrollToTop();
-//        }
-//    }
+    //            connect(widget,&Live2DPartItemsWidget::sendHandle,[=](QString handleStr){
+    //                emit sendhandle(handleStr);
+    //            });
+
+    //        }
+            ui->listWidget_harmonic->scrollToTop();
+        }
+    }
 
 
      connect(ui->pushButton_save_parameter,&QPushButton::clicked,[=](){
@@ -236,37 +269,23 @@ void ChangeLive2DWidget::refresh(const QString &path)
 
 }
 
-void ChangeLive2DWidget::initPartsCoverMap(const QString &path)
+void ChangeLive2DWidget::initParameterCoverMap(const QString &path)
 {
-    if(path.size()<=3){
-        return;
-    }
-    QFile file(path+"/PARAMETERCHANGELIST.txt");
-    if(!file.open(QIODevice::ReadOnly|QIODevice::Text)){
-        qDebug()<<"Part Item File Open Fail!";
-        return;
-    }
-    QTextStream in(&file);
-    in.setCodec("UTF-8");
-
-    while (in.atEnd()==false){
-        QString read_str = in.readLine();
-
-        int index = read_str.indexOf(":");
-        if (index == -1||read_str.indexOf("]")==-1||read_str.indexOf("[")==-1)
-        {
+    QString file_path(path+"/"+ConfigFileName);
+    QString read_str = ConfigFileIO::getOtherConfig(file_path,"INITLIST",ItemM[PARAMETERCHANGELIST]);
+    QStringList lines = read_str.split('\n', QString::SkipEmptyParts);
+    for (const QString& line : lines) {
+        QString read_line = line;
+        int index = read_line.indexOf(":");
+        if (index == -1||read_line.indexOf("]")==-1||read_line.indexOf("[")==-1)
             break;
-        }
-
-        QString itemId=read_str.mid(1, index-2);
-        QString itemvalue = read_str.mid(index + 2, read_str.size() - index - 4);
-        m_PartCoverMap[itemId]=itemvalue.toInt();
-
+        QString itemId=read_line.mid(1, index-2);
+        QString itemvalue = read_line.mid(index + 2, read_line.size() - index - 4);
+        m_ParameterCoverMap[itemId]=itemvalue.toInt();
     }
-    file.close();
 }
 
-void ChangeLive2DWidget::initDrawsCovermap(const QString &path)
+void ChangeLive2DWidget::initDrawableCovermap(const QString &path)
 {
     if(path.size()<=3){
         return;
@@ -290,7 +309,7 @@ void ChangeLive2DWidget::initDrawsCovermap(const QString &path)
 
         QString itemId=read_str.mid(1, index-2);
         QString itemvalue = read_str.mid(index + 2, read_str.size() - index - 4);
-        m_DrawsCoverMap[itemId]=itemvalue.toInt()>0?true:false;
+        m_DrawableCoverMap[itemId]=itemvalue.toInt()>0?true:false;
 
     }
     file.close();
@@ -336,109 +355,51 @@ void ChangeLive2DWidget::initHarmCoverMap(const QString &path)
     return;
 }
 
-void ChangeLive2DWidget::init()
+
+
+void ChangeLive2DWidget::initParameterItemsMap(const QString &path)
 {
-    this->resize(WIDTH,HEIGHT);
-    this->setWindowTitle("模型修改");
-    this->setWindowIcon(QIcon(":/res/u77.svg"));
-    setWindowFlags((windowFlags() & ~Qt::WindowContextHelpButtonHint) | Qt::WindowStaysOnTopHint);
-
-
-    QFile file(":/main.qss");
-    if(file.open(QFile::ReadOnly)){
-        QString styleSheet = QLatin1String(file.readAll());
-        this->setStyleSheet(styleSheet);
-        file.close();
-    }
-
-}
-
-void ChangeLive2DWidget::initPartsItemMap(const QString &path)
-{
-    QFile file(path+"/PARAMETERLIST.txt");
-    if(!file.open(QIODevice::ReadOnly|QIODevice::Text)){
-        qDebug()<<"Part Item File Open Fail!";
+    m_ParameterItemsMap.clear();
+    QString file_path=path+"/"+ConfigFileName;
+    QMap<QString,QString> read_map = ConfigFileIO::getOtherBaseAllConfig(file_path,ItemM[PARAMETERLIST]);
+    if(read_map.isEmpty())
         return;
+
+    QRegExp re("(-?\\d+),(-?\\d+),(-?\\d+)");
+    for (QMap<QString,QString>::iterator it=read_map.begin();it!=read_map.end();++it) {
+        if (re.indexIn(it.value()) != -1) {
+            int num1 = re.cap(1).toInt();
+            int num2 = re.cap(2).toInt();
+            int num3 = re.cap(3).toInt();
+            QVector<int> v={0,0,0};
+            v[0]=num1;v[1]=num2;v[2]=num3;
+            m_ParameterItemsMap[it.key()]=v;
+        }
     }
-    QTextStream in(&file);
-    in.setCodec("UTF-8");
-    QString read_str = in.readAll();
-    file.close();
-
-
-    m_PartItemsMap.clear();
-
-    // 按行拆分文件内容
-    QStringList lines = read_str.split('\n', QString::SkipEmptyParts);
-    // 创建一个 QMap 以存储键值对
-    QMap<QString, QString> keyValueMap;
-
-    for (const QString& line : lines) {
-
-            // 使用正则表达式提取Name和三个浮点数
-               QRegExp regex("\\[([^\\]]+)\\]:\\[(-?\\d+),(-?\\d+),(-?\\d+)\\];");
-               int pos = regex.indexIn(line);
-               if (pos != -1) {
-                   QString name = regex.cap(1);
-                   int num1 = regex.cap(2).toInt();
-                   int num2 = regex.cap(3).toInt();
-                   int num3 = regex.cap(4).toInt();
-                   QVector<int> v={0,0,0};
-                   v[0]=num1;v[1]=num2;v[2]=num3;
-                   m_PartItemsMap[name]=v;
-               } else {
-                   qDebug() << "String does not match the pattern.";
-               }
-
-    }
-
     return;
 
 }
 
-void ChangeLive2DWidget::initDrawsItemMap(const QString &path)
+void ChangeLive2DWidget::initDrawableItemsMap(const QString &path)
 {
-    QFile file(path+"/DRAWINGLIST.txt");
-    if(!file.open(QIODevice::ReadOnly|QIODevice::Text)){
-        qDebug()<<"Part Item File Open Fail!";
+    m_DrawableItemsMap.clear();
+    QString file_path=path+"/"+ConfigFileName;
+    QMap<QString,QString> read_map = ConfigFileIO::getOtherBaseAllConfig(file_path,ItemM[DRAWABLELIST]);
+    if(read_map.isEmpty())
         return;
+    QRegExp re("(-?\\d+)");
+    for (QMap<QString,QString>::iterator it=read_map.begin();it!=read_map.end();++it) {
+        if (re.indexIn(it.value()) != -1) {
+            int num = re.cap(1).toInt();
+            m_DrawableItemsMap[it.key()]=num>0?true:false;
+        }
     }
-    QTextStream in(&file);
-    in.setCodec("UTF-8");
-    QString read_str = in.readAll();
-    file.close();
-
-    m_DrawItemsMap.clear();
-
-    // 按行拆分文件内容
-    QStringList lines = read_str.split('\n', QString::SkipEmptyParts);
-    // 创建一个 QMap 以存储键值对
-    QMap<QString, QString> keyValueMap;
-
-    for (const QString& line : lines) {
-
-            // 使用正则表达式提取Name和浮点数
-               QRegExp regex("\\[([^\\]]+)\\]:\\[(-?\\d+)\\];");
-               int pos = regex.indexIn(line);
-               if (pos != -1) {
-                   QString name = regex.cap(1);
-                   int num = regex.cap(2).toInt();
-                   m_DrawItemsMap[name]=num>0?true:false;
-               } else {
-                   qDebug() << "String does not match the pattern.";
-               }
-
-    }
-
     return;
-
 }
 
 
 void ChangeLive2DWidget::initValueExplainMap(const QString &path)
 {
-
-
     QDir directory(path); // 替换为你的目录路径
     QStringList filter;
     filter << "*.cdi3.json"; // 筛选条件，只保留以 .cdi3.json 结尾的文件
@@ -452,48 +413,34 @@ void ChangeLive2DWidget::initValueExplainMap(const QString &path)
 
     QFile file(path+"/"+files[0]);
     if(!file.open(QIODevice::ReadOnly|QIODevice::Text)){
-        qDebug()<<"Part Item File Open Fail!";
+        qDebug()<<__FUNCTION__<<"File Open Fail!";
         return;
     }
     QTextStream in(&file);
     in.setCodec("UTF-8");
     QString read_str = in.readAll();
     file.close();
-
-
     QString json_str=read_str;
     QString idStr="\"Id\":";
     QString nameStr="\"Name\":";
-
     json_str=json_str.replace("\n", "");
     json_str=json_str.replace("\t","");
     json_str=json_str.replace(" ","");
-
-
     int index=0;
     while(index!=-1) {
         index=json_str.indexOf(idStr,index);
         if(index==-1){break;}
         index=index+idStr.size()+1;
-
         int endIndex=index;
         endIndex=json_str.indexOf("\"",index);
         QString idText=json_str.mid(index,endIndex-index);
-
         index=json_str.indexOf(nameStr,index);
-        if(index==-1){
-            break;
-        }
+        if(index==-1)break;
         index=index+nameStr.size()+1;
         endIndex=index;
         endIndex=json_str.indexOf("\"",index);
-
         QString nameText=json_str.mid(index,endIndex-index);
-
         m_ValueExplainMap[idText]=nameText;
-
     }
-
-
 }
 
