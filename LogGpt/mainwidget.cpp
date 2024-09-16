@@ -14,8 +14,8 @@ MainWidget::MainWidget(QWidget *parent) : QWidget(parent)
 
 MainWidget::~MainWidget()
 {
-    qDebug()<<"MainWidget析构";
     SetLive2DDialogWidget::closeProcess();
+    qDebug()<<"MainWidget析构";
 }
 
 void MainWidget::init()

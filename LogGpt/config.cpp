@@ -14,24 +14,7 @@ void Config::init()
     init_LIVE2DMODELCONFIG_V();
 }
 
-//QMap<QString, QString> Config::parseJsonToQMap(const QString &jsonString) {
-//    QMap<QString, QString> resultMap;
-//    QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonString.toUtf8());
 
-//    if (!jsonDoc.isObject()) {
-//        qWarning() << "Invalid JSON object";
-//        return resultMap;
-//    }
-//    QJsonObject jsonObj = jsonDoc.object();
-
-//    for (QJsonObject::const_iterator it = jsonObj.constBegin(); it != jsonObj.constEnd(); ++it) {
-//        QString key = it.key();
-//        QString value = it.value().toString();
-//        resultMap.insert(key, value);
-//    }
-
-//    return resultMap;
-//}
 
 void Config::init_LIVE2DMODELCONFIG_V()
 {
@@ -193,6 +176,11 @@ QString Config::get_OTHER(const QString &path, const QString &baseName, const QS
     return ConfigFileIO::getOtherConfig(path,baseName,keyName);
 }
 
+QMap<QString, QString> Config::get_OTHER_BASE(const QString &path, const QString &baseName)
+{
+    return ConfigFileIO::getOtherBaseAllConfig(path,baseName);
+}
+
 void Config::set_IKS(const ::EnIks &iks, const QString &id, const QString &key, const QString &secret)
 {
     ConfigFileIO::setIksConfig(iks,id,key,secret);
@@ -211,6 +199,11 @@ void Config::set_USER(const ::EnUser &key, const QString &value)
 void Config::set_OTHER(const QString &path, const QString &baseName, const QString &keyName, const QString &value)
 {
     ConfigFileIO::setOtherConfig(path,baseName,keyName,value);
+}
+
+void Config::set_OTHER_BASE(const QString &path, const QString &baseName, QMap<QString, QString> data)
+{
+    ConfigFileIO::setOtherBaseAllConfig(path,baseName,data);
 }
 
 const QString Config::get_GPTSOVITS_URL()
@@ -245,3 +238,5 @@ void Config::set_LIVE2DMODELCONFIG_V(QVector<ModelConfigItem> &modV)
     Config::LIVE2DMODELCONFIG_V=modV;
     output_LIVE2DMODELCONFIG_V(modV);
 }
+
+

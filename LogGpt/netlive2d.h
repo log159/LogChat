@@ -36,6 +36,7 @@ public:
     static NetLive2D* getInstance();
 
     void startListen();
+    void stopListen();
     static bool getIsConnect();
     static void setIsConnect(bool bo);
 

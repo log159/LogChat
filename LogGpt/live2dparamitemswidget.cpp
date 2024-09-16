@@ -1,14 +1,15 @@
-#include "live2dpartitemswidget.h"
-#include "ui_live2dpartitemswidget.h"
+#include "live2dparamitemswidget.h"
+#include "ui_live2dparamitemswidget.h"
 
-Live2DPartItemsWidget::Live2DPartItemsWidget(QWidget *parent) :
+
+Live2DParamItemsWidget::Live2DParamItemsWidget(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::Live2DPartItemsWidget)
+    ui(new Ui::Live2DParamItemsWidget)
 {
     ui->setupUi(this);
 }
 
-void Live2DPartItemsWidget::init(const ChangeConfigItem& modItem)
+void Live2DParamItemsWidget::init(const ChangeConfigItem& modItem)
 {
     this->resize(WIDTH,HEIGHT);
     this->setModelItem(modItem);
@@ -33,27 +34,27 @@ void Live2DPartItemsWidget::init(const ChangeConfigItem& modItem)
     initConnect();
 }
 
-Live2DPartItemsWidget::~Live2DPartItemsWidget()
+Live2DParamItemsWidget::~Live2DParamItemsWidget()
 {
     delete ui;
 }
 
-QString Live2DPartItemsWidget::getName() const
+QString Live2DParamItemsWidget::getName() const
 {
     return m_ChangeConfigItem.getName();
 }
 
-void Live2DPartItemsWidget::setText(const QString &str)
+void Live2DParamItemsWidget::setText(const QString &str)
 {
     ui->lineEdit_name->setText(str);
 }
 
-void Live2DPartItemsWidget::setExplain(const QString &str)
+void Live2DParamItemsWidget::setExplain(const QString &str)
 {
     ui->lineEdit_explain->setText(str);
 }
 
-void Live2DPartItemsWidget::setValue(int val)
+void Live2DParamItemsWidget::setValue(int val)
 {
     int vl=qAbs(int(val)/100);
     int vr1=qAbs(int(val)/10%10);
@@ -67,12 +68,12 @@ void Live2DPartItemsWidget::setValue(int val)
     ui->horizontalSlider_value->setValue(int(val));
 }
 
-int Live2DPartItemsWidget::getValue() const
+int Live2DParamItemsWidget::getValue() const
 {
     return ui->horizontalSlider_value->value();
 }
 
-void Live2DPartItemsWidget::resetValue()
+void Live2DParamItemsWidget::resetValue()
 {
     int vl=qAbs(int(m_ChangeConfigItem.getDefaultValue())/100);
     int vr1=qAbs(int(m_ChangeConfigItem.getDefaultValue())/10%10);
@@ -87,17 +88,17 @@ void Live2DPartItemsWidget::resetValue()
 
 }
 
-bool Live2DPartItemsWidget::isDefault()const
+bool Live2DParamItemsWidget::isDefault()const
 {
     return ui->horizontalSlider_value->value()==m_ChangeConfigItem.getDefaultValue();
 
 }
 
-void Live2DPartItemsWidget::mousePressEvent(QMouseEvent *event)
+void Live2DParamItemsWidget::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton)
     {
-        qDebug() << "Pass Live2D Part Name："<<m_ChangeConfigItem.getName();
+        qDebug() << "Pass Live2D Param Name："<<m_ChangeConfigItem.getName();
 
         QWidget::mousePressEvent(event);
     }
@@ -107,7 +108,7 @@ void Live2DPartItemsWidget::mousePressEvent(QMouseEvent *event)
     }
 }
 
-void Live2DPartItemsWidget::initConnect()
+void Live2DParamItemsWidget::initConnect()
 {
     SliderChange slider=&QSlider::sliderMoved;
     connect(ui->horizontalSlider_value,slider,this,[=](int value){

@@ -21,10 +21,10 @@
      </property>
      <widget class="QWidget" name="tab_parameter">
       <attribute name="title">
-       <string>控件</string>
+       <string>控件协调</string>
       </attribute>
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <item>
+      <layout class="QGridLayout" name="gridLayout_6">
+       <item row="0" column="0">
         <widget class="QGroupBox" name="groupBox_parameter">
          <property name="minimumSize">
           <size>
@@ -33,9 +33,9 @@
           </size>
          </property>
          <property name="title">
-          <string>控件协调</string>
+          <string>控件协调列表</string>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout">
+         <layout class="QVBoxLayout" name="verticalLayout_5">
           <item>
            <widget class="QListWidget" name="listWidget_parameter">
             <property name="frameShape">
@@ -86,13 +86,77 @@
        </item>
       </layout>
      </widget>
+     <widget class="QWidget" name="tab_part">
+      <attribute name="title">
+       <string>透明调度</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="0" column="0">
+        <widget class="QGroupBox" name="groupBox_part">
+         <property name="title">
+          <string>透明调度列表</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <item>
+           <widget class="QListWidget" name="listWidget_part">
+            <property name="frameShape">
+             <enum>QFrame::NoFrame</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QFrame" name="frame_4">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout">
+             <property name="spacing">
+              <number>7</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QPushButton" name="pushButton_save_part">
+               <property name="text">
+                <string>保存</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButton_reset_part">
+               <property name="text">
+                <string>重置</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
      <widget class="QWidget" name="tab">
       <attribute name="title">
-       <string>渲染</string>
+       <string>渲染控制</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_4">
        <item row="0" column="0">
-        <widget class="QGroupBox" name="groupBox_drawing">
+        <widget class="QGroupBox" name="groupBox_drawable">
          <property name="minimumSize">
           <size>
            <width>200</width>
@@ -100,11 +164,11 @@
           </size>
          </property>
          <property name="title">
-          <string>渲染控制</string>
+          <string>渲染控制列表</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
-           <widget class="QListWidget" name="listWidget_drawing">
+           <widget class="QListWidget" name="listWidget_drawable">
             <property name="frameShape">
              <enum>QFrame::NoFrame</enum>
             </property>
@@ -132,14 +196,14 @@
               <number>0</number>
              </property>
              <item>
-              <widget class="QPushButton" name="pushButton_save_drawing">
+              <widget class="QPushButton" name="pushButton_save_drawable">
                <property name="text">
                 <string>保存</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="pushButton_reset_drawing">
+              <widget class="QPushButton" name="pushButton_reset_drawable">
                <property name="text">
                 <string>重置</string>
                </property>
@@ -155,7 +219,7 @@
      </widget>
      <widget class="QWidget" name="tab_animation">
       <attribute name="title">
-       <string>谐波</string>
+       <string>谐波内容</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout">
        <item row="0" column="0">
@@ -167,7 +231,7 @@
           </size>
          </property>
          <property name="title">
-          <string>谐波列表</string>
+          <string>谐波内容列表</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_3">
           <item>

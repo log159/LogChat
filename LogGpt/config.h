@@ -40,13 +40,10 @@ public:
     static QVector<ModelConfigItem> get_LIVE2DMODELCONFIG_V();
 
 private:
-    //init操作
+    //init l2d初始化通用配置信息
     static void init_LIVE2DMODELCONFIG_V();
     //修改文件配置
     static void output_LIVE2DMODELCONFIG_V(QVector<ModelConfigItem>& modV);
-    //其它操作
-//    static QMap<QString, QString> parseJsonToQMap(const QString &jsonString);
-
 
 public:
     //获取配置信息
@@ -54,14 +51,15 @@ public:
     static const QString get_URL(const ::EnUrl& urlName);
     static const QString get_USER(const ::EnUser& key);
     static QString get_OTHER(const QString& path,const QString& baseName,const QString& keyName);
+    static QMap<QString,QString> get_OTHER_BASE(const QString& path,const QString& baseName);
+
 public:
     //设置配置信息
     static void set_IKS(const ::EnIks& iks, const QString &id, const QString &key, const QString &secret);
     static void set_URL(const ::EnUrl& urlName,const QString& url);
     static void set_USER(const ::EnUser& key,const QString& value);
     static void set_OTHER(const QString& path,const QString& baseName,const QString& keyName,const QString& value);
-
-
+    static void set_OTHER_BASE(const QString& path,const QString& baseName,QMap<QString,QString>data);
 
 public:
     static const QString get_VITS_URL();
@@ -73,7 +71,6 @@ public:
     static void          set_XFXH_QUESTION(const QString& str);
     static void          set_UNITY_STARTMODELPATH(const QString& str);
     static void          set_LIVE2DMODELCONFIG_V(QVector<ModelConfigItem>& modV);
-
 };
 
 #endif // CONFIG_H

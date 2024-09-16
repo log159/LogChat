@@ -223,6 +223,14 @@ QMap<QString, QString> ConfigFileIO::getOtherBaseAllConfig(const QString &path, 
 
 void ConfigFileIO::setOtherBaseAllConfig(const QString &path, const QString &baseName, QMap<QString, QString> data)
 {
+    {
+        QSettings clearGroupSetting(path, QSettings::IniFormat);
+        clearGroupSetting.setIniCodec(QTextCodec::codecForName("UTF-8"));
+        clearGroupSetting.beginGroup(baseName);
+        clearGroupSetting.remove("");
+        clearGroupSetting.endGroup();
+    }
+
     QSettings* setting=new QSettings(path, QSettings::IniFormat);
     setting->setIniCodec(QTextCodec::codecForName("UTF-8"));
     setting->beginGroup(baseName);
@@ -230,6 +238,7 @@ void ConfigFileIO::setOtherBaseAllConfig(const QString &path, const QString &bas
         setting->setValue(it.key(), it.value());
     }
     setting->endGroup();
+    setting->deleteLater();
 }
 
 

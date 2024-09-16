@@ -141,8 +141,8 @@ void NetLive2D::startListen()
         m_TcpSocket->connectToHost(serverAddress, port); // Connect to the server
 
         if (m_TcpSocket->waitForConnected(5000)) { // Wait for up to 5 seconds
-            qDebug() << "客户端成功连接到服务器" << serverAddress.toString() << ":" << port;
             IsConnect = true;
+            qDebug() << "客户端成功连接到服务器" << serverAddress.toString() << ":" << port;
         } else {
             qDebug() << "客户端无法连接到服务器" << serverAddress.toString() << ":" << port;
         }
@@ -157,13 +157,21 @@ void NetLive2D::startListen()
 
         connect(m_TcpSocket, &QTcpSocket::disconnected, this, [=]() {
             m_TcpSocket->close();
-            qDebug() << "已与服务器断开连接";
             IsConnect = false;
+            qDebug() << "已与服务器断开连接";
         });
 
     } else {
         qDebug() << "无效的服务器地址:" << serverAddress.toString();
     }
+
+}
+
+void NetLive2D::stopListen()
+{
+    qDebug()<<"尝试与服务器断开连接";
+    if(m_TcpSocket!=nullptr)
+        m_TcpSocket->disconnectFromHost();
 
 }
 

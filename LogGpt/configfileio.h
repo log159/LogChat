@@ -55,7 +55,7 @@ public:
 
     //获取自定义的ini的Base下所有的键值对
     static QMap<QString,QString> getOtherBaseAllConfig(const QString& path,const QString& baseName);
-    //设置自定义的ini的Base下所有的键值对
+    //设置自定义的ini的Base下所有的键值对(这个方法会在写入新的键值对组前清除原来的组)
     static void setOtherBaseAllConfig(const QString& path,const QString& baseName,QMap<QString,QString>data);
 
 

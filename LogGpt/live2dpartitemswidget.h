@@ -8,7 +8,7 @@
 #include <QSlider>
 #include <QString>
 
-#include "modelpartitem.h"
+#include "changeconfigitem.h"
 
 namespace Ui {
 class Live2DPartItemsWidget;
@@ -23,14 +23,15 @@ private:
     const int HEIGHT     =50;
 private:
 
-    ModelPartItem m_ModelPartItem;
+    const QString m_HandleStr="Part:%1,%2;";
+    ChangeConfigItem m_ChangeConfigItem;
 public:
     explicit Live2DPartItemsWidget(QWidget *parent = nullptr);
-    void init(const ModelPartItem& modItem);
+    void init(const ChangeConfigItem& modItem);
     ~Live2DPartItemsWidget();
 
-    inline const ModelPartItem& getModelItem()const{return m_ModelPartItem;}
-    inline void setModelItem(const ModelPartItem& modItem){m_ModelPartItem=modItem;}
+    inline const ChangeConfigItem& getModelItem()const{return m_ChangeConfigItem;}
+    inline void setModelItem(const ChangeConfigItem& modItem){m_ChangeConfigItem=modItem;}
     QString getName()const;
     void setText(const QString& str);
     void setExplain(const QString& str);
@@ -44,7 +45,7 @@ private:
     void initConnect();
 
 signals:
-    void sendPass(ModelPartItem);
+    void sendPass(ChangeConfigItem);
     void sendHandle(QString);
 
 private:

@@ -95,8 +95,8 @@ void SetDialogWidget::init()
     if(Config::get_USER(::EnUser::ENABLE_LATERLANGUAGE).toInt()!=0){ui->radioButton_baidu_show_enable_yes->setChecked(true);}
     else {ui->radioButton_baidu_show_enable_no->setChecked(true);}
 
-    ui->lineEdit_live2d_address->setText(ConfigFileIO::getOtherConfig(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::CONFIG_UNITY_WAY),"SERVERS","ADDRESS"));
-    ui->lineEdit_live2d_port->setText(ConfigFileIO::getOtherConfig(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::CONFIG_UNITY_WAY),"SERVERS","PORT"));
+    ui->lineEdit_live2d_address->setText(Config::get_OTHER(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::CONFIG_UNITY_WAY),"SERVERS","ADDRESS"));
+    ui->lineEdit_live2d_port->setText(Config::get_OTHER(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::CONFIG_UNITY_WAY),"SERVERS","PORT"));
 
 
     QString voicewaystr=ConfigConstWay::get_TRUE_WAY(ConfigConstWay::OUTPUT_WAV_WAY);

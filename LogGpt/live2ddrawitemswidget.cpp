@@ -8,7 +8,7 @@ Live2DDrawItemsWidget::Live2DDrawItemsWidget(QWidget *parent) :
     ui->setupUi(this);
 }
 
-void Live2DDrawItemsWidget::init(const ModelPartItem &modItem)
+void Live2DDrawItemsWidget::init(const ChangeConfigItem &modItem)
 {
     this->resize(WIDTH,HEIGHT);
     this->setModelItem(modItem);
@@ -34,7 +34,7 @@ Live2DDrawItemsWidget::~Live2DDrawItemsWidget()
 
 QString Live2DDrawItemsWidget::getName() const
 {
-    return m_ModelPartItem.getName();
+    return m_ChangeConfigItem.getName();
 }
 
 void Live2DDrawItemsWidget::setText(const QString &str)
@@ -72,7 +72,7 @@ bool Live2DDrawItemsWidget::isDefault()const
 void Live2DDrawItemsWidget::mousePressEvent(QMouseEvent *event)
 {
     if(event->button()==Qt::LeftButton){
-        qDebug() << "Pass Live2D partItem Name："<<m_ModelPartItem.getName();
+        qDebug() << "Pass Live2D Draw Name："<<m_ChangeConfigItem.getName();
         QWidget::mousePressEvent(event);
     }
     else{
@@ -87,8 +87,8 @@ void Live2DDrawItemsWidget::initConnect()
     connect(ui->horizontalSlider_value,slider,this,[=](int value){
 
         ui->lineEdit_value->setText(QString::number(value));
-        QString handleStr="Draw:%1,%2;";
-        handleStr=handleStr.arg(m_ModelPartItem.getName()).arg(QString::number(value));
+        QString handleStr=this->m_HandleStr;
+        handleStr=handleStr.arg(m_ChangeConfigItem.getName()).arg(QString::number(value));
         emit sendHandle(handleStr);
 
     });
@@ -97,8 +97,8 @@ void Live2DDrawItemsWidget::initConnect()
         ui->horizontalSlider_value->setValue(1);
         ui->lineEdit_value->setText("1");
 
-        QString handleStr="Draw:%1,%2;";
-        handleStr=handleStr.arg(m_ModelPartItem.getName()).arg(1);
+        QString handleStr=this->m_HandleStr;
+        handleStr=handleStr.arg(m_ChangeConfigItem.getName()).arg(1);
         emit sendHandle(handleStr);
     });
 

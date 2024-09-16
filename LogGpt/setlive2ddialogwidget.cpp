@@ -24,9 +24,19 @@ SetLive2DDialogWidget::~SetLive2DDialogWidget()
 
 void SetLive2DDialogWidget::closeProcess()
 {
-    if(m_Live2dProcess!=nullptr){
-        delete m_Live2dProcess;
-        m_Live2dProcess=nullptr;
+    if(m_Live2dProcess==nullptr)return;
+    SetLive2DDialogWidget::live2DIsOpen=false;
+    SetLive2DDialogWidget::m_Live2dOpenId=-1;
+    NetLive2D::getInstance()->stopListen();
+    //尝试优雅的退出
+    if (m_Live2dProcess->state() == QProcess::Running) {
+        m_Live2dProcess->terminate(); // 请求终止
+        m_Live2dProcess->waitForFinished(5000); // 等待5秒
+        if (m_Live2dProcess->state() == QProcess::Running) {
+            m_Live2dProcess->kill(); // 强制终止
+            delete m_Live2dProcess;
+            m_Live2dProcess=nullptr;
+        }
     }
 }
 
@@ -174,6 +184,8 @@ void SetLive2DDialogWidget::initConnect()
             NetLive2D::getInstance()->startListen();
             //同步刷新Ui
             updateForUi();
+
+            //这个同步操作有延迟会在之后重构
             QTimer* timer=new QTimer(this);
             connect(timer,&QTimer::timeout,this,[=](){
                 if(NetLive2D::getIsConnect()){
@@ -189,18 +201,7 @@ void SetLive2DDialogWidget::initConnect()
 
     //退出模型
     connect(ui->pushButton_quit,&QPushButton::clicked,this,[=](){
-
-        SetLive2DDialogWidget::live2DIsOpen=false;
-        SetLive2DDialogWidget::m_Live2dOpenId=-1;
-        //尝试优雅得退出
-        if (m_Live2dProcess->state() == QProcess::Running) {
-            m_Live2dProcess->terminate(); // 请求终止
-            m_Live2dProcess->waitForFinished(5000); // 等待5秒
-            if (m_Live2dProcess->state() == QProcess::Running) {
-                m_Live2dProcess->kill(); // 强制终止
-            }
-        }
-
+        closeProcess();
         updateModelChange();
     });
 
@@ -559,11 +560,6 @@ void SetLive2DDialogWidget::updateForUnity()
     if(SetLive2DDialogWidget::m_Live2dOpenId==-1){return;}
     if(NetLive2D::getIsConnect()==false){return;}
 
-    //Item位置初始化
-    QTimer::singleShot(1,this,[=](){emit sendModelHandle("InitItems:self;");});
-    //Item渲染初始化
-    QTimer::singleShot(2,this,[=](){emit sendModelHandle("InitItems:appoint;");});
-
     QTimer::singleShot(5,this,[=](){
         if(ui->radioButton_look_enable_yes->isChecked())sendConfigHandle("IsLookMouse",100);
         else sendConfigHandle("IsLookMouse",0);
@@ -603,12 +599,8 @@ void SetLive2DDialogWidget::updateModelChange()
     for(int i=0;i<ui->listWidget_model->count();++i){
         QListWidgetItem* listWidgetItem=ui->listWidget_model->item(i);
         Live2DListItemsWidget* live2DListItemsWidget = static_cast<Live2DListItemsWidget*>(ui->listWidget_model->itemWidget(listWidgetItem));
-        if(i==m_Live2dOpenId){
-            live2DListItemsWidget->setChangeIs();
-        }
-        else{
-            live2DListItemsWidget->setChangeNo();
-        }
+        if(i==m_Live2dOpenId)live2DListItemsWidget->setChangeIs();
+        else live2DListItemsWidget->setChangeNo();
     }
 
 }

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Live2DPartItemsWidget</class>
- <widget class="QWidget" name="Live2DPartItemsWidget">
+ <class>Live2DParamItemsWidget</class>
+ <widget class="QWidget" name="Live2DParamItemsWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>806</width>
+    <width>810</width>
     <height>46</height>
    </rect>
   </property>
@@ -41,7 +41,7 @@
      </property>
      <property name="sizeHint" stdset="0">
       <size>
-       <width>40</width>
+       <width>70</width>
        <height>20</height>
       </size>
      </property>

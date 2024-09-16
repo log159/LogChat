@@ -30,6 +30,7 @@ SOURCES += \
         audioplayer.cpp \
         baiduapi.cpp \
         botitemswidget.cpp \
+        changeconfigitem.cpp \
         changelive2dwidget.cpp \
         chatgptapi.cpp \
         config.cpp \
@@ -45,13 +46,13 @@ SOURCES += \
         live2danimationitemswidget.cpp \
         live2ddrawitemswidget.cpp \
         live2dlistitemswidget.cpp \
+        live2dparamitemswidget.cpp \
         live2dpartitemswidget.cpp \
         llmbase.cpp \
         llmfactory.cpp \
         main.cpp \
         mainwidget.cpp \
         modelconfigitem.cpp \
-        modelpartitem.cpp \
         netlive2d.cpp \
         networkmanager.cpp \
         pushandreceivewidget.cpp \
@@ -83,6 +84,7 @@ HEADERS += \
         audioplayer.h \
         baiduapi.h \
         botitemswidget.h \
+        changeconfigitem.h \
         changelive2dwidget.h \
         chatgptapi.h \
         config.h \
@@ -98,12 +100,12 @@ HEADERS += \
         live2danimationitemswidget.h \
         live2ddrawitemswidget.h \
         live2dlistitemswidget.h \
+        live2dparamitemswidget.h \
         live2dpartitemswidget.h \
         llmbase.h \
         llmfactory.h \
         mainwidget.h \
         modelconfigitem.h \
-        modelpartitem.h \
         netlive2d.h \
         networkmanager.h \
         pushandreceivewidget.h \
@@ -140,6 +142,7 @@ FORMS += \
         live2danimationitemswidget.ui \
         live2ddrawitemswidget.ui \
         live2dlistitemswidget.ui \
+        live2dparamitemswidget.ui \
         live2dpartitemswidget.ui \
         pushandreceivewidget.ui \
         setcompounddialogwidget.ui \

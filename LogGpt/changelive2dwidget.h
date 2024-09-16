@@ -14,23 +14,20 @@
 #include <QTimer>
 
 #include "config.h"
-#include "modelpartitem.h"
+#include "changeconfigitem.h"
+#include "live2dparamitemswidget.h"
 #include "live2dpartitemswidget.h"
 #include "live2ddrawitemswidget.h"
 #include "live2danimationitemswidget.h"
 
-enum EnItem{
-    PARAMETERLIST,
-    PARAMETERCHANGELIST,
-    DRAWABLELIST,
-    DRAWABLECHANGELIST
-};
-static QMap<EnItem,QString>ItemM{
-    {PARAMETERLIST,"PARAMETERLIST"},
-    {PARAMETERCHANGELIST,"PARAMETERCHANGELIST"},
-    {DRAWABLELIST,"DRAWABLELIST"},
-    {DRAWABLECHANGELIST,"DRAWABLECHANGELIST"}
-};
+
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QMap>
+#include <QString>
+#include <QFile>
+#include <QDebug>
 
 namespace Ui {
 class ChangeLive2DWidget;
@@ -39,8 +36,9 @@ class ChangeLive2DWidget;
 class ChangeLive2DWidget : public QDialog
 {
     Q_OBJECT
-    typedef void (Live2DPartItemsWidget::*SendPassByPart)(ModelPartItem);
-    typedef void (Live2DDrawItemsWidget::*SendPassByDraw)(ModelPartItem);
+    typedef void (Live2DParamItemsWidget::*SendPassByParam)(ChangeConfigItem);
+    typedef void (Live2DPartItemsWidget::*SendPassByPart)(ChangeConfigItem);
+    typedef void (Live2DDrawItemsWidget::*SendPassByDraw)(ChangeConfigItem);
 
 private:
 //    struct defaultHarmItem{
@@ -55,13 +53,15 @@ private:
 
 private:
 
-
-    QMap<QString,QVector<int>>  m_ParameterItemsMap;    //PARAMETERLIST
-    QMap<QString,bool>          m_DrawableItemsMap;         //DRAWINGLIST
+    QString                     m_FilePath  ="";        //存储路径
     QMap<QString,QString>       m_ValueExplainMap;      //"*.cdi3.json"
+    QMap<QString,QVector<int>>  m_ParameterItemsMap;    //PARAMETERLIST
+    QMap<QString,QVector<int>>  m_PartItemsMap;         //PARTLIST
+    QMap<QString,bool>          m_DrawableItemsMap;     //DRAWABLELIST
     QMap<QString,int>           m_ParameterCoverMap;    //PARAMETERCHANGELIST
-    QMap<QString,bool>          m_DrawableCoverMap;        //DRAWINGCHANGELIST
-    QMap<QString,QVector<int>>  m_HarmCoverMap;         //HARMONICCHANGELIST
+    QMap<QString,int>           m_PartCoverMap;         //PARTCHANGELIST
+    QMap<QString,bool>          m_DrawableCoverMap;     //DRAWABLECHANGELIST
+//    QMap<QString,QVector<int>>  m_HarmCoverMap;       //HARMONICCHANGELIST
 
 public:
     explicit ChangeLive2DWidget(QWidget *parent = nullptr);
@@ -71,12 +71,26 @@ public:
 
 private:
     void init();
-    void initValueExplainMap(const QString& path);
-    void initParameterItemsMap(const QString& path);
-    void initDrawableItemsMap(const QString& path);
-    void initParameterCoverMap(const QString& path="");
-    void initDrawableCovermap(const QString& path="");
-    void initHarmCoverMap(const QString& path="");
+
+    void initValueExplainMap();
+    void initParameterItemsMap();
+    void initPartItemsMap();
+    void initDrawableItemsMap();
+    void initParameterCoverMap();
+    void initPartCovermap();
+    void initDrawableCovermap();
+    void initHarmCoverMap();
+
+    void initUiParameterList();
+    void initUiPartList();
+    void initUiDrawableList();
+    void initUiConnectParameterList();
+    void initUiConnectPartList();
+    void initUiConnectDrawableList();
+
+
+    //解析cdi3.json
+    QMap<QString, QString> parseCdi3Json(const QString& jsonStr);
 signals:
     void sendhandle(QString);
 
