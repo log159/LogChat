@@ -16,13 +16,16 @@ public class FileOperate : MonoBehaviour
         string[] strs = File.ReadAllLines(path);
         return strs[0];
     }
-    public static string GetModelPath()
-    {
-        return "";
-    }
+    //读取 INI 文件
     public static Dictionary<string, Dictionary<string, string>> ParseIniFile(string filePath)
     {
         Dictionary<string, Dictionary<string, string>> iniData = new Dictionary<string, Dictionary<string, string>>();
+
+        if (!FileExists(filePath))
+        {
+            Debug.Log("文件不存在");
+            return iniData;
+        }
 
         using (StreamReader reader = new StreamReader(filePath))
         {
@@ -54,5 +57,43 @@ public class FileOperate : MonoBehaviour
         return iniData;
     }
 
+    // 保存 INI 文件
+    public static void WriteIniFile(Dictionary<string, Dictionary<string, string>>data,string filePath)
+    {
+        if (!FileExists(filePath))
+        {
+            FileStream fs = File.Create(filePath);
+            fs.Close();
+        }
+        Dictionary<string, Dictionary<string, string>> willData = ParseIniFile(filePath);
+        foreach (var kvp in data)
+        {
+            if (willData.ContainsKey(kvp.Key))
+                foreach (var innerKvp in kvp.Value)
+                    willData[kvp.Key][innerKvp.Key] = innerKvp.Value;
+            else
+                willData[kvp.Key] = new Dictionary<string, string>(kvp.Value);
+        }
+        StringBuilder sb = new StringBuilder();
+        foreach (var section in willData)
+        {
+            sb.AppendLine($"[{section.Key}]");
+            foreach (var keyValue in section.Value)
+            {
+                sb.AppendLine($"{keyValue.Key}={keyValue.Value}");
+            }
+        }
+        File.WriteAllText(filePath, sb.ToString(), Encoding.UTF8);
+    }
 
+    //写文件
+    public static void WriteAllText(string filePath,string data)
+    {
+        File.WriteAllText(filePath, data, Encoding.UTF8);
+    }
+    //判断文件存在
+    public static bool FileExists(string filePath)
+    {
+        return File.Exists(filePath);
+    }
 }

@@ -16,7 +16,6 @@ Live2D->
     -Model
     -Config
     -MouseInformation
-    -FileOperate
     -Loom
     -ExplainLoom
 /*鼠标跟踪组件*/

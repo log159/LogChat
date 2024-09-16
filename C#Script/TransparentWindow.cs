@@ -1,4 +1,4 @@
-//#define IS_TRANSPARENT
+#define IS_TRANSPARENT
 
 using UnityEngine;
 using System.Collections;
@@ -138,6 +138,11 @@ public class TransparentWindow : MonoBehaviour
 #if IS_TRANSPARENT
     void Awake()
     {
+        SetWindowInit();
+    }
+
+    private void SetWindowInit()
+    {
         ResWidth = Screen.currentResolution.width;
         ResHeight = Screen.currentResolution.height;
         Screen.fullScreen = true;
@@ -170,7 +175,6 @@ public class TransparentWindow : MonoBehaviour
         var margins = new MARGINS() { cxLeftWidth = -1 };
         DwmExtendFrameIntoClientArea(hwnd, ref margins);
     }
-
     private void SetWindowTopApha(bool isTop, bool isApha)
     {
         isWinTop = isTop;
@@ -207,6 +211,7 @@ public class TransparentWindow : MonoBehaviour
 
     void Update()
     {
+
         if (MouseInformation.ChangeColor.r == 0 && MouseInformation.ChangeColor.g == 0 && MouseInformation.ChangeColor.b == 0){
             if (mouseEnter == true) return;
             mouseEnter = true;
@@ -217,8 +222,6 @@ public class TransparentWindow : MonoBehaviour
         }
         UpdateWindowStyle();
     }
-
-
 
     //SetSize是废弃的接口
     public void SetSize(int size)
