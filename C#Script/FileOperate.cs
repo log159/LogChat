@@ -96,4 +96,12 @@ public class FileOperate : MonoBehaviour
     {
         return File.Exists(filePath);
     }
+
+    //文件名提取
+    public static string GetFileNameWithoutExtension(string filePath)
+    {
+        string fileNameWithExtension = Path.GetFileName(filePath);
+        string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(fileNameWithExtension);
+        return fileNameWithoutExtension;
+    }
 }

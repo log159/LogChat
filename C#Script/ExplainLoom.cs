@@ -1,6 +1,7 @@
 #define IS_LOGCHAT
-#define IS_LIVE2D_API
 
+using Live2D.Cubism.Framework.Expression;
+using Live2D.Cubism.Framework.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,7 +17,6 @@ public class ExplainLoom : MonoBehaviour
     static bool LeftMouseDown = false;
     static bool RightMouseDown = false;
     static PointF RelativePosition = new PointF(0f, 0f);
-
     // 消息处理主循环
     void Update()
     {
@@ -25,6 +25,7 @@ public class ExplainLoom : MonoBehaviour
 
         //Tcp 通信消息
         TcpEvent();
+
     }
 
     private void MouseEvent()
@@ -63,17 +64,17 @@ public class ExplainLoom : MonoBehaviour
             Config.PositionYItem.Param = RelativePosition.Y + MouseInformation.WorldY;
 
             Model model = GetComponent<Model>();
-            if(model!=null)
+            if (model != null)
                 model.UpdateModelCondition();
         }
         if (RightMouseDown)
         {
 #if IS_LOGCHAT
             Vector2 posv2 = new Vector2(Config.PositionXItem.Param, Config.PositionYItem.Param);
-                posv2 = Camera.main.WorldToScreenPoint(posv2);
-                string posStr = "Pos:" + posv2.x.ToString() + "," + posv2.y.ToString() + "," + MouseInformation.TrueX.ToString() + "," + MouseInformation.TrueY.ToString() + ";";
-                SocketBehaviour.Singleton.Send(posStr);
-                RightMouseDown = false;
+            posv2 = Camera.main.WorldToScreenPoint(posv2);
+            string posStr = "Pos:" + posv2.x.ToString() + "," + posv2.y.ToString() + "," + MouseInformation.TrueX.ToString() + "," + MouseInformation.TrueY.ToString() + ";";
+            SocketBehaviour.Singleton.Send(posStr);
+            RightMouseDown = false;
 #endif
         }
     }
@@ -103,12 +104,31 @@ public class ExplainLoom : MonoBehaviour
     }
     private void HandleRequest(string key, string value)
     {
-        //模型切换初始化
+        handleInit(key, value);
+        handleAudio(key, value);
+        handleWindow(key, value);
+#if IS_LOGCHAT
+        handleHwnd(key, value);
+#endif
+        handleConfig(key, value);
+        handleParam(key, value);
+        handlePart(key, value);
+        handleDraw(key, value);
+        handleExp(key, value);
+        handleInitItems(key, value);
+    }
+
+    //模型切换初始化
+    void handleInit(string key, string value) {
         if (key == "Init")
         {
-            GetComponent<Model>().InitModel();
+            Model model = GetComponent<Model>();
+            if (model != null)
+                model.InitModel();
         }
-        //音频播放
+    }
+    //音频播放
+    void handleAudio(string key, string value) {
         if (key == "Audio")
         {
             if (value.Substring(0, 4) == "null")
@@ -116,7 +136,10 @@ public class ExplainLoom : MonoBehaviour
             else
                 PlayAudioFromFile.AddAudioPathsList(value);
         }
-        //Window信息
+    }
+    //Window信息
+    void handleWindow(string key, string value)
+    {
         if (key == "Window")
         {
             GameObject cameraObject = GameObject.Find("Camera");
@@ -139,9 +162,10 @@ public class ExplainLoom : MonoBehaviour
                 }
             }
         }
-
-#if IS_LOGCHAT
-        //置顶优先级例外窗口
+    }
+    //置顶优先级例外窗口
+    void handleHwnd(string key,string value)
+    {
         if (key == "Hwnd")
         {
             string[] parts = value.Split(',');
@@ -166,8 +190,9 @@ public class ExplainLoom : MonoBehaviour
                 }
             }
         }
-#endif
-        //参数信息修改
+    }
+    //参数信息修改
+    void handleConfig(string key,string value) {
         if (key == "Config")
         {
             string[] parts = value.Split(',');
@@ -195,19 +220,19 @@ public class ExplainLoom : MonoBehaviour
                         case "X":
                             Config.PositionXItem.SetParam(itemval / 100); break;
                         //位置Y
-                        case "Y": 
+                        case "Y":
                             Config.PositionYItem.SetParam(itemval / 100); break;
                         //旋转RZ
-                        case "RX": 
+                        case "RX":
                             Config.RotationRXItem.SetParam(itemval); break;
                         //旋转RZ
                         case "RY":
                             Config.RotationRYItem.SetParam(itemval); break;
                         //旋转RZ
-                        case "RZ": 
+                        case "RZ":
                             Config.RotationRZItem.SetParam(itemval); break;
                         // 模型大小参数
-                        case "ScaleScaleProportion": 
+                        case "ScaleProportion":
                             Config.ScaleProportionItem.SetParam(itemval); break;
                         //平均眨眼周期参数
                         case "Mean":
@@ -219,10 +244,10 @@ public class ExplainLoom : MonoBehaviour
                         case "Timescale":
                             Config.TimescaleItem.SetParam(itemval); break;
                         //音频增益参数
-                        case "Gain": 
+                        case "Gain":
                             Config.GainItem.SetParam(itemval); break;
                         //音频平滑参数
-                        case "Smoothing": 
+                        case "Smoothing":
                             Config.SmoothingItem.SetParam(itemval); break;
                         //其它参数
                         default: break;
@@ -233,8 +258,10 @@ public class ExplainLoom : MonoBehaviour
                 else { Debug.LogError("Failed to parse value as float."); }
             }
         }
-
-        //控件偏移
+    }
+    //控件偏移
+    void handleParam(string key,string value)
+    {
         if (key == "Param")
         {
             string[] parts = value.Split(',');
@@ -252,8 +279,11 @@ public class ExplainLoom : MonoBehaviour
                 else { Debug.LogError("Failed to parse value as float."); }
             }
         }
-        //控件透明
-        if(key == "Part") 
+    }
+    //控件透明
+    void handlePart(string key, string value)
+    {
+        if (key == "Part")
         {
             string[] parts = value.Split(',');
             if (parts.Length != 2) { Debug.LogError("Input string does not contain expected format."); }
@@ -270,8 +300,10 @@ public class ExplainLoom : MonoBehaviour
                 else { Debug.LogError("Failed to parse value as float."); }
             }
         }
-
-        //控件渲染
+    }
+    //控件渲染
+    void handleDraw(string key, string value)
+    {
         if (key == "Draw")
         {
             string[] parts = value.Split(',');
@@ -288,11 +320,41 @@ public class ExplainLoom : MonoBehaviour
                 else { Debug.LogError("Failed to parse value as float."); }
             }
         }
-        //控件初始化状态
+    }
+    //模型表情
+    void handleExp(string key, string value)
+    {
+        if (key == "Exp")
+        {
+            string[] parts = value.Split(',');
+            if (parts.Length != 2) { Debug.LogError("Input string does not contain expected format."); }
+            else
+            {
+                string itemname = parts[0].Trim();
+                int itemval;
+                if (int.Parse(itemname) == 0) { }
+                else
+                {
+                    if (int.TryParse(parts[1].Trim(), out itemval))
+                    {
+                        Model model = GetComponent<Model>();
+                        if (model != null) model.SendExpression(itemval);
+                    }
+                    else { Debug.LogError("Failed to parse value as int."); }
+                }
+
+            }
+        }
+    }
+    //控件初始化状态
+
+    void handleInitItems(string key, string value)
+    {
         if (key == "InitItems")
         {
             Model model = GetComponent<Model>();
-            if(model != null) {
+            if (model != null)
+            {
                 string valueStr = value;
                 if (valueStr == "parameters")
                     model.InitModelParameters();
@@ -300,9 +362,19 @@ public class ExplainLoom : MonoBehaviour
                     model.InitModelParts();
                 else if (valueStr == "drawables")
                     model.InitModelDrawables();
-                else { }
+                else if (valueStr == "parameters_self")
+                    model.InitSelfModelParameters();
+                else if (valueStr == "parts_self")
+                    model.InitSelfModelParts();
+                else if (valueStr == "drawables_self")
+                    model.InitSelfModelDrawables();
+                else if (valueStr == "all_self") { 
+                    model.InitSelfModelParameters();
+                    model.InitSelfModelParts();
+                    model.InitSelfModelDrawables();
+                }
+
             }
         }
     }
-
 }

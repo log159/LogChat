@@ -1,5 +1,7 @@
-//#define IS_CUSTOMER
 #define IS_SERVER
+#define IS_LOGCHAT
+
+//#define IS_CUSTOMER
 
 using System;
 using System.IO;
@@ -74,7 +76,9 @@ public class SocketBehaviour : MonoBehaviour
         {
             connectedClients.Add(clientSocket);
             Debug.Log("Client connected: " + clientSocket.RemoteEndPoint.ToString());
+#if IS_LOGCHAT
             SocketBehaviour.Singleton.Send("Hwnd:" + TransparentWindow.hwnd.ToString() + ";");
+#endif
             // 开始接收该客户端的数据
             Receive(clientSocket);
         }

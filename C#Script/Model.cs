@@ -7,8 +7,6 @@ using System.IO;
 using Live2D.Cubism.Rendering;
 using Live2D.Cubism;
 using Live2D.Cubism.Framework;
-using JetBrains.Annotations;
-using static UnityEngine.UIElements.UxmlAttributeDescription;
 using Live2D.Cubism.Framework.LookAt;
 using Unity.VisualScripting;
 using Live2D.Cubism.Framework.Pose;
@@ -23,6 +21,8 @@ using System.Data.Common;
 using System.Text.RegularExpressions;
 using System.Linq;
 using Live2D.Cubism.Framework.Physics;
+using Live2D.Cubism.Framework.Motion;
+using Live2D.Cubism.Samples.OriginalWorkflow.Expression;
 
 public class Model : MonoBehaviour
 {
@@ -66,6 +66,10 @@ public class Model : MonoBehaviour
     //Draws List
     private static List<Tuple<string, float>> DrawItemsList = new List<Tuple<string, float>>();
 
+    //Animation List
+    //private static List<Tuple<string,>>
+    static int ExpressionIndex = -1;
+
 
     //public information
     //GameObject Transform
@@ -75,44 +79,52 @@ public class Model : MonoBehaviour
     {
         InitModel();
 
-        return;
-        var json = "d:\\a unity\\l2dunitydemo\\model\\models\\hiyori\\hiyori.model3.json";
-        //string json = ((TextAsset)Resources.Load<TextAsset>("path/to/file")).text;
 
-        CubismModel3Json model3Json = CubismModel3Json.LoadAtPath(json);
-        // .moc3
-        string mocPath = model3Json.FileReferences.Moc;
+        ////debug--------------------------------
 
-        // textures
-        for (var i = 0; i < model3Json.FileReferences.Textures.Length; i++)
-        {
-            string texturePath = model3Json.FileReferences.Textures[i];
-        }
-
-        // .physics3.json
-        string physicsPath = model3Json.FileReferences.Physics;
-
-        // .userdata3.json
-        string userdataPath = model3Json.FileReferences.UserData;
-
-        // Initialize
-        CubismModel model = model3Json.ToModel();
-
-        // Original Workflow
-        CubismModel modelForOW = model3Json.ToModel(true);
+        //Debug.Log("POSE :"+Live2dModel3Json.Pose3Json.ToString()) ;
+        //
+        //Live2dObject.transform.GetComponent<CubismFadeController>().CubismFadeMotionList=
 
 
-        {
-            //string json2 = ((TextAsset)Resources.Load<TextAsset>("path/to/file")).text;
+        //string motion3Json = System.IO.File.ReadAllText("D:\\Model\\Hiyori\\motions\\Hiyori_m02.motion3.json");
+        //Debug.Log(motion3Json);
+        //CubismMotion3Json cubismMotion3Json = CubismMotion3Json.LoadFrom(motion3Json);
+        //AnimationClip animationClip = cubismMotion3Json.ToAnimationClip();
 
-            //CubismMotion3Json motion3Json = CubismMotion3Json.LoadFrom(json2);
+        //Live2dObject.transform.GetComponent<CubismMotionController>().PlayAnimation(animationClip, isLoop: false, priority: CubismMotionPriority.PriorityNormal);
 
-            ////// Initialize
-            //AnimationClip animationClip = motion3Json.ToAnimationClip();
+        //// Original Workflow
 
-            //// Original Workflow
-            //var animationClipForOW = motion3Json.ToAnimationClip(true, true, true, pose3Json);
-        }
+        //
+        //var json = "D:\\a unity\\l2dunitydemo\\model\\models\\hiyori\\hiyori.model3.json";
+        ////string json = ((TextAsset)Resources.Load<TextAsset>("path/to/file")).text;
+
+        //CubismModel3Json model3Json = CubismModel3Json.LoadAtPath(json);
+        //// .moc3
+        //string mocPath = model3Json.FileReferences.Moc;
+
+        //// textures
+        //for (var i = 0; i < model3Json.FileReferences.Textures.Length; i++)
+        //{
+        //    string texturePath = model3Json.FileReferences.Textures[i];
+        //}
+
+        //// .physics3.json
+        //string physicsPath = model3Json.FileReferences.Physics;
+
+        //// .userdata3.json
+        //string userdataPath = model3Json.FileReferences.UserData;
+
+        //// Initialize
+        //CubismModel model = model3Json.ToModel();
+
+        //// Original Workflow
+        //CubismModel modelForOW = model3Json.ToModel(true);
+
+
+        //{
+        //    //string json2 = ((TextAsset)Resources.Load<TextAsset>("path/to/file")).text;
 
 
 
@@ -182,12 +194,16 @@ public class Model : MonoBehaviour
             InitJsonFunction();
             //脚本及参数初始化
             InitModelFunction();
-            //生成模型的谐波控件列表
+            //生成模型的三种控件列表
             InitModelHarmonic();
+            //生成模型的表情和动画列表
+            InitModelAnimation();
+
             //根据谐波控件列表初始化控件参数
             InitSelfModelParameters();
             InitSelfModelParts();
             InitSelfModelDrawables();
+
         }
         catch(Exception e)
         {
@@ -280,7 +296,40 @@ public class Model : MonoBehaviour
         Debug.Log("ini path:"+iniPath);
         FileOperate.WriteIniFile(data,iniPath);
     }
+    private void InitModelAnimation()
+    {
+        // 获取文件夹路径
+        string directoryPath = Config.DirectoryPath; // 更改为你实际的文件夹路径
+        // 获取所有 .exp3.json 文件，包括子目录
+        string[] files = Directory.GetFiles(directoryPath, "*.exp3.json", SearchOption.AllDirectories);
+        //表情信息初始化
+        TextAsset[] textAssets;
+        textAssets = new TextAsset[files.Length];
+        CubismExpressionController cubismExpressionController = Live2dObject.GetComponent<CubismExpressionController>();
+        if (cubismExpressionController == null) return;
+        cubismExpressionController.ExpressionsList = (CubismExpressionList)ScriptableObject.CreateInstance("CubismExpressionList");
+        cubismExpressionController.ExpressionsList.CubismExpressionObjects = new CubismExpressionData[0];
+        for (int i = 0; i < files.Length; i++)
+        {
+            string json = File.ReadAllText(files[i]);
+            textAssets[i] = new TextAsset(json);
+            CubismExp3Json cubismExp3Json = CubismExp3Json.LoadFrom(json);
+            CubismExpressionData cubismExpressionData = CubismExpressionData.CreateInstance(cubismExp3Json);
+            int index = cubismExpressionController.ExpressionsList.CubismExpressionObjects.Length;
+            Array.Resize(ref cubismExpressionController.ExpressionsList.CubismExpressionObjects, index + 1);
+            cubismExpressionController.ExpressionsList.CubismExpressionObjects[index] = cubismExpressionData;
+        }
 
+        Dictionary<string, string> expressionDic = new();
+        for(int i=0;i<files.Length;i++)
+            expressionDic[FileOperate.GetFileNameWithoutExtension(files[i])]=i.ToString();
+        Dictionary<string, Dictionary<string, string>> data = new();
+        data.Add(Config.BaseExpression, expressionDic);
+        string iniPath = directoryPath + Config.ModelConfigFileName;
+        Debug.Log("ini path:" + iniPath);
+        FileOperate.WriteIniFile(data, iniPath);
+
+    }
 
     /// <summary>
     /// 初始化模型脚本以及参数信息
@@ -325,7 +374,6 @@ public class Model : MonoBehaviour
         UpdateModelCondition();
     }
 
-
     // 设置模型大小
     private void SetModelSize(Vector3 vector3)
     {
@@ -355,6 +403,15 @@ public class Model : MonoBehaviour
 
         DrawItemsList.Add(Tuple.Create(itemName, value));
     }
+
+    public void SendExpression(int index)
+    {
+        ExpressionIndex=index;
+        if (Live2dObject == null) return;
+        Debug.Log("设置表情编号: "+ ExpressionIndex.ToString());
+        Live2dObject.GetComponent<CubismExpressionPreview>().ChangeExpression(ExpressionIndex);
+
+    }
     /// <summary>
     /// 初始模型控件协调
     /// </summary>
@@ -362,13 +419,11 @@ public class Model : MonoBehaviour
     {
         CubismModel cubismModel = Live2dObject.FindCubismModel();
         if (cubismModel == null) return;
-
-        for(int i=0;i< ParamItemsDic.Count; ++i)
+        for(int i=0;i< cubismModel.Parameters.Length; ++i)
         {
-            KeyValuePair<string, float> item= ParamItemsDic.ElementAt(i);
-            CubismParameter cubismParameter = cubismModel.Parameters.FindById(item.Key);
-            if (cubismParameter == null) continue;
-            AddParameterDic(item.Key, cubismParameter.DefaultValue);
+            CubismParameter cubismParameter = cubismModel.Parameters[i];
+            if (cubismParameter.Value != cubismParameter.DefaultValue)
+                AddParameterDic(cubismParameter.name, cubismParameter.DefaultValue);
         }
 
     }
@@ -381,8 +436,8 @@ public class Model : MonoBehaviour
         for (int i = 0; i < cubismModel.Parts.Length; ++i)
         {
             CubismPart cubismPart = cubismModel.Parts[i];
-            cubismPart.Opacity = 1.0f;
-            AddPartList(cubismPart.name,1.0f);
+            if(cubismPart.Opacity!=1.0f)
+                AddPartList(cubismPart.name,1.0f);
         }
     }
 
@@ -409,8 +464,20 @@ public class Model : MonoBehaviour
         Dictionary<string, Dictionary<string, string>> dataDic = FileOperate.ParseIniFile(filePath);
         if(!dataDic.ContainsKey(Config.BaseParameterChange))return;
         Dictionary<string, string> parameterDic = dataDic[Config.BaseParameterChange];
-        foreach (KeyValuePair<string, string> item in parameterDic)
-            AddParameterDic(item.Key, float.Parse(item.Value) / 100f);
+
+        CubismModel cubismModel = Live2dObject.FindCubismModel();
+        if (cubismModel == null) return;
+        for (int i = 0; i < cubismModel.Parameters.Length; ++i)
+        {
+            CubismParameter cubismParameter = cubismModel.Parameters[i];
+            if (parameterDic.ContainsKey(cubismParameter.name))
+            {
+                AddParameterDic(cubismParameter.name, float.Parse(parameterDic[cubismParameter.name]) / 100f);
+                continue;
+            }
+            if (cubismParameter.Value != cubismParameter.DefaultValue)
+                AddParameterDic(cubismParameter.name, cubismParameter.DefaultValue);
+        }
     }
     /// <summary>
     /// 自定义控件透明度初始化
@@ -421,8 +488,19 @@ public class Model : MonoBehaviour
         Dictionary<string, Dictionary<string, string>> dataDic = FileOperate.ParseIniFile(filePath);
         if (!dataDic.ContainsKey(Config.BasePartChange)) return;
         Dictionary<string, string> partDic = dataDic[Config.BasePartChange];
-        foreach (KeyValuePair<string, string> item in partDic)
-            AddPartList(item.Key, float.Parse(item.Value) / 100f);
+        CubismModel cubismModel = Live2dObject.FindCubismModel();
+        if (cubismModel == null) return;
+        for (int i = 0; i < cubismModel.Parts.Length; ++i)
+        {
+            CubismPart cubismPart = cubismModel.Parts[i];
+            if (partDic.ContainsKey(cubismPart.name))
+            {
+                AddPartList(cubismPart.name, float.Parse(partDic[cubismPart.name]) / 100f);
+                continue;
+            }
+            if (cubismPart.Opacity != 1.0f)
+                AddPartList(cubismPart.name, 1.0f);
+        }
     }
 
     /// <summary>
@@ -438,7 +516,30 @@ public class Model : MonoBehaviour
             AddDrawableList(item.Key,float.Parse(item.Value));
     }
 
-  
+
+    //private void Update()
+    //{
+    //    //test debug
+    //    if (Live2dObject.GetComponent<CubismExpressionController>() == null)
+    //    {
+    //        return;
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.C))
+    //    {
+    //        ExpressionIndex++;
+    //        if (ExpressionIndex >= Live2dObject.GetComponent<CubismExpressionController>().ExpressionsList.CubismExpressionObjects.Length)
+    //        {
+    //            ExpressionIndex = -1;
+    //        }
+    //        Live2dObject.GetComponent<CubismExpressionController>().CurrentExpressionIndex = ExpressionIndex;
+
+    //        //int size = Live2dObject.GetComponent<CubismExpressionController>().PlayingExpressions[ExpressionIndex].Blend.Length;
+    //        //for (int i = 0; i < size; ++i)
+    //        //{
+    //        //    Debug.Log("--blend-->" + Live2dObject.GetComponent<CubismExpressionController>().PlayingExpressions[0].Blend[i]);
+    //        //}
+    //    }
+    //}
 
     private void LateUpdate()
     {
@@ -537,13 +638,15 @@ public class Model : MonoBehaviour
         if (Live2dObject.GetComponent<CubismPoseController>() == null) Live2dObject.AddComponent<CubismPoseController>();
         if (Live2dObject.GetComponent<CubismParameterStore>() == null) Live2dObject.AddComponent<CubismParameterStore>();
         if (Live2dObject.GetComponent<CubismExpressionController>() == null) Live2dObject.AddComponent<CubismExpressionController>();
-        if (Live2dObject.GetComponent<CubismFadeController>() == null) Live2dObject.AddComponent<CubismFadeController>();
         if (Live2dObject.GetComponent<CubismAutoEyeBlinkInput>() == null) Live2dObject.AddComponent<CubismAutoEyeBlinkInput>();
         if (Live2dObject.GetComponent<CubismMouthController>() == null) Live2dObject.AddComponent<CubismMouthController>();
         if (Live2dObject.GetComponent<CubismAudioMouthInput>() == null) Live2dObject.AddComponent<CubismAudioMouthInput>();
         if (Live2dObject.GetComponent<CubismLookController>() == null) Live2dObject.AddComponent<CubismLookController>();
         if (Live2dObject.GetComponent<CubismEyeBlinkController>() == null) Live2dObject.AddComponent<CubismEyeBlinkController>();
         if (Live2dObject.GetComponent<CubismPhysicsController>() == null) Live2dObject.AddComponent<CubismPhysicsController>();
+        //if (Live2dObject.GetComponent<CubismMotionController>() == null) Live2dObject.AddComponent<CubismMotionController>();
+        //if (Live2dObject.GetComponent<CubismFadeController>() == null) Live2dObject.AddComponent<CubismFadeController>();
+        if (Live2dObject.GetComponent<CubismExpressionPreview>() == null) Live2dObject.AddComponent <CubismExpressionPreview>();
 
         foreach (string itemname in Config.NeedAddCubismLookParameterObjectStrings)
         {
@@ -638,8 +741,8 @@ public class Model : MonoBehaviour
 
         while (OpeningLive2dModelList.Count > 0)
         {
-            GameObject lt = OpeningLive2dModelList[0];
-            Destroy(lt);
+            GameObject obj = OpeningLive2dModelList[0];
+            Destroy(obj);
             OpeningLive2dModelList.RemoveAt(0);
         }
         OpeningLive2dModelList.Clear();
