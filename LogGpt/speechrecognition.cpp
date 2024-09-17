@@ -52,7 +52,7 @@ QString speechRecognition::speechIdentify(QString client_id, QString client_secr
     }
     else
     {
-        QMessageBox::warning(NULL,"语音识别","请求识别");
+        QMessageBox::warning(nullptr,"语音识别","请求识别");
     }
     return "";
 }

@@ -30,10 +30,11 @@ void SetLive2DDialogWidget::closeProcess()
     NetLive2D::getInstance()->stopListen();
     //尝试优雅的退出
     if (m_Live2dProcess->state() == QProcess::Running) {
-        m_Live2dProcess->terminate(); // 请求终止
-        m_Live2dProcess->waitForFinished(5000); // 等待5秒
+        m_Live2dProcess->terminate();
+        m_Live2dProcess->waitForFinished(1000);
+        //杀死进程
         if (m_Live2dProcess->state() == QProcess::Running) {
-            m_Live2dProcess->kill(); // 强制终止
+            m_Live2dProcess->kill();
             delete m_Live2dProcess;
             m_Live2dProcess=nullptr;
         }
@@ -277,7 +278,7 @@ void SetLive2DDialogWidget::initConnect()
 
         QString directoryPath = filePath.mid(0,index);
         widget.refresh(directoryPath);
-        connect(&widget,&ChangeLive2DWidget::sendhandle,[=](QString handleStr){
+        connect(&widget,&ChangeLive2DWidget::sendHandle,[=](QString handleStr){
             emit sendModelHandle(handleStr);
         });
 
@@ -313,7 +314,7 @@ void SetLive2DDialogWidget::initConnect()
     connect(ui->radioButton_wintopapha, &QRadioButton::clicked, [&](){sendWindowHandle("wintopapha");});
     connect(ui->radioButton_winnotopnoapha, &QRadioButton::clicked, [&](){sendWindowHandle("winnotopnoapha");});
     //模型缩放比例
-    connect(ui->horizontalSlider_zoom_model_size,slider,this,[=](int value){sendConfigHandle("ScaleScaleProportion",value);setLineEditText(ui->lineEdit_zoom_model_size,value);});
+    connect(ui->horizontalSlider_zoom_model_size,slider,this,[=](int value){sendConfigHandle("ScaleProportion",value);setLineEditText(ui->lineEdit_zoom_model_size,value);});
     //X坐标
     connect(ui->horizontalSlider_zoom_model_X,slider,this,[=](int value){sendConfigHandle("X",value);setLineEditText(ui->lineEdit_zoom_model_X,value);});
     //Y坐标
@@ -343,7 +344,7 @@ void SetLive2DDialogWidget::initConnect()
 
     connect(ui->pushButton_zoom_model_size,&QPushButton::clicked,[&](){
         ui->horizontalSlider_zoom_model_size->setValue(LIVE2DPARAMINIT_M["model_size"]);
-        sendConfigHandle("ScaleScaleProportion",ui->horizontalSlider_zoom_model_size->value());
+        sendConfigHandle("ScaleProportion",ui->horizontalSlider_zoom_model_size->value());
         initLineEdit();
     });
     connect(ui->pushButton_zoom_model_X,&QPushButton::clicked,[&](){ui->horizontalSlider_zoom_model_X->setValue(
@@ -501,20 +502,19 @@ void SetLive2DDialogWidget::sendWindowHandle(const QString &str)
 
 void SetLive2DDialogWidget::initLineEdit()
 {
-     ui->lineEdit_zoom_model_size->setText(QString::number(ui->horizontalSlider_zoom_model_size->value()/100)+"."+QString::number(ui->horizontalSlider_zoom_model_size->value()/10%10));
-     ui->lineEdit_zoom_model_X->setText(QString::number(ui->horizontalSlider_zoom_model_X->value()/100)+"."+QString::number(qAbs(ui->horizontalSlider_zoom_model_X->value()/10%10)));
-     ui->lineEdit_zoom_model_Y->setText(QString::number(ui->horizontalSlider_zoom_model_Y->value()/100)+"."+QString::number(qAbs(ui->horizontalSlider_zoom_model_Y->value()/10%10)));
-     ui->lineEdit_zoom_model_RX->setText(QString::number(ui->horizontalSlider_zoom_model_RX->value()/100)+"."+QString::number(qAbs(ui->horizontalSlider_zoom_model_RX->value()/10%10)));
-     ui->lineEdit_zoom_model_RY->setText(QString::number(ui->horizontalSlider_zoom_model_RY->value()/100)+"."+QString::number(qAbs(ui->horizontalSlider_zoom_model_RY->value()/10%10)));
-     ui->lineEdit_zoom_model_RZ->setText(QString::number(ui->horizontalSlider_zoom_model_RZ->value()/100)+"."+QString::number(qAbs(ui->horizontalSlider_zoom_model_RZ->value()/10%10)));
+     ui->lineEdit_zoom_model_size->setText(Transformation::IntToStringF2(ui->horizontalSlider_zoom_model_size->value()));
+     ui->lineEdit_zoom_model_X->setText(Transformation::IntToStringF2(ui->horizontalSlider_zoom_model_X->value()));
+     ui->lineEdit_zoom_model_Y->setText(Transformation::IntToStringF2(ui->horizontalSlider_zoom_model_Y->value()));
+     ui->lineEdit_zoom_model_RX->setText(Transformation::IntToStringF2(ui->horizontalSlider_zoom_model_RX->value()));
+     ui->lineEdit_zoom_model_RY->setText(Transformation::IntToStringF2(ui->horizontalSlider_zoom_model_RY->value()));
+     ui->lineEdit_zoom_model_RZ->setText(Transformation::IntToStringF2(ui->horizontalSlider_zoom_model_RZ->value()));
 
-     ui->lineEdit_zoom_mouse_speed->setText(QString::number(ui->horizontalSlider_zoom_mouse_speed->value()/100)+"."+QString::number(ui->horizontalSlider_zoom_mouse_speed->value()/10%10));
-     ui->lineEdit_zoom_eye_time->setText(QString::number(ui->horizontalSlider_zoom_eye_time->value()/100)+"."+QString::number(ui->horizontalSlider_zoom_eye_time->value()/10%10));
-     ui->lineEdit_zoom_eye_deviation->setText(QString::number(ui->horizontalSlider_zoom_eye_deviation->value()/100)+"."+QString::number(ui->horizontalSlider_zoom_eye_deviation->value()/10%10));
-     ui->lineEdit_zoom_eye_speed->setText(QString::number(ui->horizontalSlider_zoom_eye_speed->value()/100)+"."+QString::number(ui->horizontalSlider_zoom_eye_speed->value()/10%10));
-     ui->lineEdit_zoom_audio_add->setText(QString::number(ui->horizontalSlider_zoom_audio_add->value()/100)+"."+QString::number(ui->horizontalSlider_zoom_audio_add->value()/10%10));
-     ui->lineEdit_zoom_audio_smooth->setText(QString::number(ui->horizontalSlider_zoom_audio_smooth->value()/100)+"."+QString::number(ui->horizontalSlider_zoom_audio_smooth->value()/10%10));
-
+     ui->lineEdit_zoom_mouse_speed->setText(Transformation::IntToStringF2(ui->horizontalSlider_zoom_mouse_speed->value()));
+     ui->lineEdit_zoom_eye_time->setText(Transformation::IntToStringF2(ui->horizontalSlider_zoom_eye_time->value()));
+     ui->lineEdit_zoom_eye_deviation->setText( Transformation::IntToStringF2(ui->horizontalSlider_zoom_eye_deviation->value()));
+     ui->lineEdit_zoom_eye_speed->setText(Transformation::IntToStringF2(ui->horizontalSlider_zoom_eye_speed->value()));
+     ui->lineEdit_zoom_audio_add->setText( Transformation::IntToStringF2(ui->horizontalSlider_zoom_audio_add->value()));
+     ui->lineEdit_zoom_audio_smooth->setText(Transformation::IntToStringF2(ui->horizontalSlider_zoom_audio_smooth->value()));
 }
 
 
@@ -573,7 +573,7 @@ void SetLive2DDialogWidget::updateForUnity()
         else {};
     });
 
-    QTimer::singleShot(15,this,[=](){sendConfigHandle("ScaleScaleProportion",ui->horizontalSlider_zoom_model_size->value());});
+    QTimer::singleShot(15,this,[=](){sendConfigHandle("ScaleProportion",ui->horizontalSlider_zoom_model_size->value());});
     QTimer::singleShot(20,this,[=](){sendConfigHandle("X",ui->horizontalSlider_zoom_model_X->value());});
     QTimer::singleShot(25,this,[=](){sendConfigHandle("Y",ui->horizontalSlider_zoom_model_Y->value());});
     QTimer::singleShot(30,this,[=](){sendConfigHandle("Damping",ui->horizontalSlider_zoom_mouse_speed->value());});
@@ -591,7 +591,7 @@ void SetLive2DDialogWidget::updateForUnity()
 
 void SetLive2DDialogWidget::setLineEditText(QLineEdit *lineEdit, int value)
 {
-    lineEdit->setText(QString::number(value/100)+"."+QString::number(qAbs(value/10%10)));
+    lineEdit->setText(Transformation::IntToStringF2(value));
 }
 
 void SetLive2DDialogWidget::updateModelChange()

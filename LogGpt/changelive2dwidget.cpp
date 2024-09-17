@@ -23,13 +23,15 @@ void ChangeLive2DWidget::init()
 
     QVector<QListWidget*> wlsList;
     wlsList.push_back(ui->listWidget_parameter);
+    wlsList.push_back(ui->listWidget_part);
+    wlsList.push_back(ui->listWidget_expression);
+    wlsList.push_back(ui->listWidget_motion);
     wlsList.push_back(ui->listWidget_drawable);
     wlsList.push_back(ui->listWidget_harmonic);
 
     for(auto& val:wlsList){
         val->setEditTriggers(QAbstractItemView::NoEditTriggers);         //禁止编辑
         val->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);       //禁用水平滑动条
-        val->setSelectionMode(QAbstractItemView::NoSelection);           //禁止选中
         val->setFocusPolicy(Qt::NoFocus);                                //禁止获取焦点
         val->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);   //平滑效果
         val->setAttribute(Qt::WA_TranslucentBackground);
@@ -45,18 +47,17 @@ void ChangeLive2DWidget::init()
 }
 void ChangeLive2DWidget::refresh(const QString &path)
 {
-    if(path.size()<=3){
-        return;
-    }
-
     this->m_FilePath=path;
+
     initValueExplainMap();
     initParameterItemsMap();
     initPartItemsMap();
+    initExpressionItemsMap();
     initDrawableItemsMap();
     initParameterCoverMap();
     initPartCovermap();
     initDrawableCovermap();
+
 //    initHarmCoverMap(path);
 
 
@@ -64,10 +65,12 @@ void ChangeLive2DWidget::refresh(const QString &path)
     initUiParameterList();
     initUiPartList();
     initUiDrawableList();
+    initUiExpression();
 
-    initUiConnectParameterList();
-    initUiConnectPartList();
-    initUiConnectDrawableList();
+    initUiConnectParameterButton();
+    initUiConnectPartButton();
+    initUiConnectDrawableButton();
+    initUiConnectExpressionButton();
 
 
 //    //控件谐波
@@ -241,7 +244,7 @@ void ChangeLive2DWidget::initUiParameterList()
             qDebug()<<"chagngelive2dwidget: "<<passItem.getName();
         });
         connect(widget,&Live2DParamItemsWidget::sendHandle,[=](QString handleStr){
-            emit sendhandle(handleStr);
+            emit sendHandle(handleStr);
         });
     }
     ui->listWidget_parameter->scrollToTop();
@@ -276,7 +279,7 @@ void ChangeLive2DWidget::initUiPartList()
             qDebug()<<"chagngelive2dwidget: "<<passItem.getName();
         });
         connect(widget,&Live2DPartItemsWidget::sendHandle,[=](QString handleStr){
-            emit sendhandle(handleStr);
+            emit sendHandle(handleStr);
         });
     }
     ui->listWidget_part->scrollToTop();
@@ -312,14 +315,43 @@ void ChangeLive2DWidget::initUiDrawableList()
         });
 
         connect(widget,&Live2DDrawItemsWidget::sendHandle,[=](QString handleStr){
-            emit sendhandle(handleStr);
+            emit sendHandle(handleStr);
         });
 
     }
     ui->listWidget_drawable->scrollToTop();
 }
 
-void ChangeLive2DWidget::initUiConnectParameterList()
+void ChangeLive2DWidget::initUiExpression()
+{
+    QMap<QString,int>::iterator it=m_ExpressionItemsMap.begin();
+    for(;it!=m_ExpressionItemsMap.end();++it){
+
+        //控件添加
+        QListWidgetItem* item = new QListWidgetItem();
+        Live2dExpAndMotItemsWidget* widget=new Live2dExpAndMotItemsWidget;
+        widget->init(QPair<QString,int>(it.key(),it.value()));
+        widget->resize(ui->listWidget_expression->size().width(),widget->height());
+        ui->listWidget_expression->addItem(item);
+        item->setSizeHint(widget->size());
+        ui->listWidget_expression->setItemWidget(item,widget);
+        ui->listWidget_expression->scrollToBottom();
+        QString key=it.key();
+
+        SendPassByExpMot sendPass=&Live2dExpAndMotItemsWidget::sendPass;
+        connect(widget,sendPass,[=](QPair<QString,int> data){
+            qDebug()<<"chagngelive2dwidget: "<<data.first;
+        });
+
+        connect(widget,&Live2dExpAndMotItemsWidget::sendHandle,[=](QString handleStr){
+            emit sendHandle(handleStr);
+        });
+
+    }
+    ui->listWidget_expression->scrollToTop();
+}
+
+void ChangeLive2DWidget::initUiConnectParameterButton()
 {
     connect(ui->pushButton_save_parameter,&QPushButton::clicked,[=](){
         QMap<QString,QString>changeM;
@@ -340,11 +372,11 @@ void ChangeLive2DWidget::initUiConnectParameterList()
             QListWidgetItem* listWidgetItem=ui->listWidget_parameter->item(i);
             (static_cast<Live2DParamItemsWidget*>(ui->listWidget_parameter->itemWidget(listWidgetItem)))->resetValue();
         }
-        emit sendhandle("InitItems:parameters;");
+        emit sendHandle("InitItems:parameters;");
     });
 }
 
-void ChangeLive2DWidget::initUiConnectPartList()
+void ChangeLive2DWidget::initUiConnectPartButton()
 {
     connect(ui->pushButton_save_part,&QPushButton::clicked,[=](){
         QMap<QString,QString>changeM;
@@ -365,11 +397,11 @@ void ChangeLive2DWidget::initUiConnectPartList()
             QListWidgetItem* listWidgetItem=ui->listWidget_part->item(i);
             (static_cast<Live2DPartItemsWidget*>(ui->listWidget_part->itemWidget(listWidgetItem)))->resetValue();
         }
-        emit sendhandle("InitItems:parts;");
+        emit sendHandle("InitItems:parts;");
     });
 }
 
-void ChangeLive2DWidget::initUiConnectDrawableList()
+void ChangeLive2DWidget::initUiConnectDrawableButton()
 {
     connect(ui->pushButton_save_drawable,&QPushButton::clicked,[=](){
         QMap<QString,QString>changeM;
@@ -392,7 +424,14 @@ void ChangeLive2DWidget::initUiConnectDrawableList()
             (static_cast<Live2DDrawItemsWidget*>(ui->listWidget_drawable->itemWidget(listWidgetItem)))->resetValue();
 
         }
-        emit sendhandle("InitItems:drawables;");
+        emit sendHandle("InitItems:drawables;");
+    });
+}
+
+void ChangeLive2DWidget::initUiConnectExpressionButton()
+{
+    connect(ui->pushButton_expression_reset,&QPushButton::clicked,[=](){
+        emit sendHandle("InitItems:parameters_self;");
     });
 }
 
@@ -455,6 +494,23 @@ void ChangeLive2DWidget::initDrawableItemsMap()
         if (re.indexIn(it.value()) != -1) {
             int num = re.cap(1).toInt();
             m_DrawableItemsMap[it.key()]=num>0?true:false;
+        }
+    }
+    return;
+}
+
+void ChangeLive2DWidget::initExpressionItemsMap()
+{
+    m_ExpressionItemsMap.clear();
+    QString file_path=this->m_FilePath+"/"+ConfigFileName;
+    QMap<QString,QString> read_map = Config::get_OTHER_BASE(file_path,ItemM[::EXPRESSIONLIST]);
+    if(read_map.isEmpty())
+        return;
+    QRegExp re("(-?\\d+)");
+    for (QMap<QString,QString>::iterator it=read_map.begin();it!=read_map.end();++it) {
+        if (re.indexIn(it.value()) != -1) {
+            int num = re.cap(1).toInt();
+            m_ExpressionItemsMap[it.key()]=num;
         }
     }
     return;

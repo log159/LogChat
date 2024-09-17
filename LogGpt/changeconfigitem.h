@@ -4,6 +4,8 @@
 #include <QString>
 #include <QDebug>
 
+#include "transformation.h"
+
 class ChangeConfigItem
 {
 

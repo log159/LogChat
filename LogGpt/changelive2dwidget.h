@@ -18,6 +18,7 @@
 #include "live2dparamitemswidget.h"
 #include "live2dpartitemswidget.h"
 #include "live2ddrawitemswidget.h"
+#include "live2dexpandmotitemswidget.h"
 #include "live2danimationitemswidget.h"
 
 
@@ -39,12 +40,8 @@ class ChangeLive2DWidget : public QDialog
     typedef void (Live2DParamItemsWidget::*SendPassByParam)(ChangeConfigItem);
     typedef void (Live2DPartItemsWidget::*SendPassByPart)(ChangeConfigItem);
     typedef void (Live2DDrawItemsWidget::*SendPassByDraw)(ChangeConfigItem);
+    typedef void (Live2dExpAndMotItemsWidget::*SendPassByExpMot)(QPair<QString,int>);
 
-private:
-//    struct defaultHarmItem{
-//        int
-
-//    }
 
 private:
     const int WIDTH                         =900;
@@ -58,6 +55,8 @@ private:
     QMap<QString,QVector<int>>  m_ParameterItemsMap;    //PARAMETERLIST
     QMap<QString,QVector<int>>  m_PartItemsMap;         //PARTLIST
     QMap<QString,bool>          m_DrawableItemsMap;     //DRAWABLELIST
+    QMap<QString,int>           m_ExpressionItemsMap;   //EXPRESSIONLIST
+//    QMap<QString,int>           m_MotionItemsMap;       //MOTIONLIST
     QMap<QString,int>           m_ParameterCoverMap;    //PARAMETERCHANGELIST
     QMap<QString,int>           m_PartCoverMap;         //PARTCHANGELIST
     QMap<QString,bool>          m_DrawableCoverMap;     //DRAWABLECHANGELIST
@@ -76,6 +75,7 @@ private:
     void initParameterItemsMap();
     void initPartItemsMap();
     void initDrawableItemsMap();
+    void initExpressionItemsMap();
     void initParameterCoverMap();
     void initPartCovermap();
     void initDrawableCovermap();
@@ -84,15 +84,17 @@ private:
     void initUiParameterList();
     void initUiPartList();
     void initUiDrawableList();
-    void initUiConnectParameterList();
-    void initUiConnectPartList();
-    void initUiConnectDrawableList();
+    void initUiExpression();
+    void initUiConnectParameterButton();
+    void initUiConnectPartButton();
+    void initUiConnectDrawableButton();
+    void initUiConnectExpressionButton();
 
 
     //解析cdi3.json
     QMap<QString, QString> parseCdi3Json(const QString& jsonStr);
 signals:
-    void sendhandle(QString);
+    void sendHandle(QString);
 
 private:
     Ui::ChangeLive2DWidget *ui;

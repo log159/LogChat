@@ -45,6 +45,7 @@ SOURCES += \
         listitemswidget.cpp \
         live2danimationitemswidget.cpp \
         live2ddrawitemswidget.cpp \
+        live2dexpandmotitemswidget.cpp \
         live2dlistitemswidget.cpp \
         live2dparamitemswidget.cpp \
         live2dpartitemswidget.cpp \
@@ -70,6 +71,7 @@ SOURCES += \
         setselectwidget.cpp \
         speechrecognition.cpp \
         timeinformation.cpp \
+        transformation.cpp \
         useritemswidget.cpp \
         usertextedit.cpp \
         vitsapi.cpp \
@@ -99,6 +101,7 @@ HEADERS += \
         listitemswidget.h \
         live2danimationitemswidget.h \
         live2ddrawitemswidget.h \
+        live2dexpandmotitemswidget.h \
         live2dlistitemswidget.h \
         live2dparamitemswidget.h \
         live2dpartitemswidget.h \
@@ -124,6 +127,7 @@ HEADERS += \
         singletonbase.h \
         speechrecognition.h \
         timeinformation.h \
+        transformation.h \
         useritemswidget.h \
         usertextedit.h \
         vitsapi.h \
@@ -141,6 +145,7 @@ FORMS += \
         listitemswidget.ui \
         live2danimationitemswidget.ui \
         live2ddrawitemswidget.ui \
+        live2dexpandmotitemswidget.ui \
         live2dlistitemswidget.ui \
         live2dparamitemswidget.ui \
         live2dpartitemswidget.ui \

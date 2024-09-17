@@ -2,7 +2,6 @@
 #define LIVE2DPARAMITEMSWIDGET_H
 
 #include <QWidget>
-#include <QPainter>
 #include <QMouseEvent>
 #include <QDebug>
 #include <QSlider>

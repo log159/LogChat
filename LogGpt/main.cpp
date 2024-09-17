@@ -27,7 +27,6 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-
     Config::init();
     ConfigWindow::init();
     ConfigLive2d::init();

@@ -26,6 +26,7 @@
 #include "changelive2dwidget.h"
 #include "netlive2d.h"
 #include "timeinformation.h"
+#include "transformation.h"
 
 class ModelConfigItem;
 
