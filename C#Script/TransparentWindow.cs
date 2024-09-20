@@ -135,9 +135,12 @@ public class TransparentWindow : MonoBehaviour
 
     bool istop = true;
 
+
 #if IS_TRANSPARENT
     private void Awake()
     {
+        Application.targetFrameRate = 120;
+
         SetWindowInit();
     }
     private void SetWindowInit()

@@ -32,7 +32,7 @@ public class ExplainLoom : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            print("鼠标左键被按下！");
+            Debug.Log("鼠标左键被按下！");
             if (MouseInformation.ChangeColor.r == 0 && MouseInformation.ChangeColor.g == 0 && MouseInformation.ChangeColor.b == 0) { LeftMouseDown = false; }
             else LeftMouseDown = true;
 
@@ -42,19 +42,19 @@ public class ExplainLoom : MonoBehaviour
         }
         if (Input.GetMouseButtonUp(0))
         {
-            print("鼠标左键被松开！");
+            Debug.Log("鼠标左键被松开！");
             LeftMouseDown = false;
         }
         if (Input.GetMouseButtonDown(1))
         {
-            print("鼠标右键被按下！");
+            Debug.Log("鼠标右键被按下！");
             if (MouseInformation.ChangeColor.r == 0 && MouseInformation.ChangeColor.g == 0 && MouseInformation.ChangeColor.b == 0) { RightMouseDown = false; }
             else { RightMouseDown = true; }
 
         }
         if (Input.GetMouseButtonUp(1))
         {
-            print("鼠标右键被松开！");
+            Debug.Log("鼠标右键被松开！");
             RightMouseDown = false;
         }
         //Debug.Log(MouseInformation.ChangeColor.r +"  " +MouseInformation.ChangeColor.g+"   "+ MouseInformation.ChangeColor.b);
@@ -115,6 +115,7 @@ public class ExplainLoom : MonoBehaviour
         handlePart(key, value);
         handleDraw(key, value);
         handleExp(key, value);
+        handleAnimation(key, value);
         handleInitItems(key, value);
     }
 
@@ -346,6 +347,33 @@ public class ExplainLoom : MonoBehaviour
             }
         }
     }
+
+    //模型动作
+    void handleAnimation(string key, string value)
+    {
+        if (key == "Mot")
+        {
+            string[] parts = value.Split(',');
+            if (parts.Length != 2) { Debug.LogError("Input string does not contain expected format."); }
+            else
+            {
+                string itemname = parts[0].Trim();
+                int itemval;
+                if (int.Parse(itemname) == 0) { }
+                else
+                {
+                    if (int.TryParse(parts[1].Trim(), out itemval))
+                    {
+                        Model model = GetComponent<Model>();
+                        if (model != null) model.SendAnimation(itemval);
+                    }
+                    else { Debug.LogError("Failed to parse value as int."); }
+                }
+
+            }
+        }
+    }
+
     //控件初始化状态
 
     void handleInitItems(string key, string value)

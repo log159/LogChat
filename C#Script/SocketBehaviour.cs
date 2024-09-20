@@ -40,7 +40,7 @@ public class SocketBehaviour : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        string pathini = System.Environment.CurrentDirectory + "\\config.ini";
+        string pathini = System.Environment.CurrentDirectory + "/config.ini";
 
         Dictionary<string, Dictionary<string, string>> dicini = FileOperate.ParseIniFile(pathini);
         host = dicini["SERVERS"]["ADDRESS"];

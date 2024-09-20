@@ -32,6 +32,7 @@ public class Config : MonoBehaviour
     public static readonly string BasePartChange = "PARTCHANGELIST";
     public static readonly string BaseDrawableChange = "DRAWABLECHANGELIST";
     public static readonly string BaseExpression = "EXPRESSIONLIST";
+    public static readonly string BaseMotion = "MOTIONLIST";
 
 
     /// <summary>
