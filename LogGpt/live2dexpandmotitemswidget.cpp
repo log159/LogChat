@@ -27,6 +27,12 @@ void Live2dExpAndMotItemsWidget::init(const QPair<QString, int> &data)
     initConnect();
 }
 
+void Live2dExpAndMotItemsWidget::setHandleName(Live2dExpAndMotItemsWidget::EN en)
+{
+    if(en==EN::EXP)m_HandleName="Exp";
+    else if(en==EN::MOT)m_HandleName="Mot";
+}
+
 void Live2dExpAndMotItemsWidget::mousePressEvent(QMouseEvent *event)
 {
     if(event->button()==Qt::LeftButton){
@@ -41,7 +47,7 @@ void Live2dExpAndMotItemsWidget::mousePressEvent(QMouseEvent *event)
 void Live2dExpAndMotItemsWidget::initConnect()
 {
     connect(ui->pushButton_lookat,&QPushButton::clicked,[=](){
-        QString handleStr=this->m_HandleStr;
+        QString handleStr=this->m_HandleName+this->m_HandleStr;
         handleStr=handleStr.arg("1").arg(m_Data.second);
         emit sendHandle(handleStr);
     });

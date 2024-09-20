@@ -24,9 +24,9 @@ void ChangeLive2DWidget::init()
     QVector<QListWidget*> wlsList;
     wlsList.push_back(ui->listWidget_parameter);
     wlsList.push_back(ui->listWidget_part);
+    wlsList.push_back(ui->listWidget_drawable);
     wlsList.push_back(ui->listWidget_expression);
     wlsList.push_back(ui->listWidget_motion);
-    wlsList.push_back(ui->listWidget_drawable);
     wlsList.push_back(ui->listWidget_harmonic);
 
     for(auto& val:wlsList){
@@ -52,8 +52,9 @@ void ChangeLive2DWidget::refresh(const QString &path)
     initValueExplainMap();
     initParameterItemsMap();
     initPartItemsMap();
-    initExpressionItemsMap();
     initDrawableItemsMap();
+    initExpressionItemsMap();
+    InitMotionItemsMap();
     initParameterCoverMap();
     initPartCovermap();
     initDrawableCovermap();
@@ -65,7 +66,8 @@ void ChangeLive2DWidget::refresh(const QString &path)
     initUiParameterList();
     initUiPartList();
     initUiDrawableList();
-    initUiExpression();
+    initUiExpressionList();
+    initUiMotionList();
 
     initUiConnectParameterButton();
     initUiConnectPartButton();
@@ -322,7 +324,7 @@ void ChangeLive2DWidget::initUiDrawableList()
     ui->listWidget_drawable->scrollToTop();
 }
 
-void ChangeLive2DWidget::initUiExpression()
+void ChangeLive2DWidget::initUiExpressionList()
 {
     QMap<QString,int>::iterator it=m_ExpressionItemsMap.begin();
     for(;it!=m_ExpressionItemsMap.end();++it){
@@ -331,11 +333,42 @@ void ChangeLive2DWidget::initUiExpression()
         QListWidgetItem* item = new QListWidgetItem();
         Live2dExpAndMotItemsWidget* widget=new Live2dExpAndMotItemsWidget;
         widget->init(QPair<QString,int>(it.key(),it.value()));
+        widget->setHandleName(Live2dExpAndMotItemsWidget::EN::EXP);
         widget->resize(ui->listWidget_expression->size().width(),widget->height());
         ui->listWidget_expression->addItem(item);
         item->setSizeHint(widget->size());
         ui->listWidget_expression->setItemWidget(item,widget);
         ui->listWidget_expression->scrollToBottom();
+        QString key=it.key();
+
+        SendPassByExpMot sendPass=&Live2dExpAndMotItemsWidget::sendPass;
+        connect(widget,sendPass,[=](QPair<QString,int> data){
+            qDebug()<<"chagngelive2dwidget: "<<data.first;
+        });
+
+        connect(widget,&Live2dExpAndMotItemsWidget::sendHandle,[=](QString handleStr){
+            emit sendHandle(handleStr);
+        });
+
+    }
+    ui->listWidget_expression->scrollToTop();
+}
+
+void ChangeLive2DWidget::initUiMotionList()
+{
+    QMap<QString,int>::iterator it=m_MotionItemsMap.begin();
+    for(;it!=m_MotionItemsMap.end();++it){
+
+        //控件添加
+        QListWidgetItem* item = new QListWidgetItem();
+        Live2dExpAndMotItemsWidget* widget=new Live2dExpAndMotItemsWidget;
+        widget->init(QPair<QString,int>(it.key(),it.value()));
+        widget->setHandleName(Live2dExpAndMotItemsWidget::EN::MOT);
+        widget->resize(ui->listWidget_motion->size().width(),widget->height());
+        ui->listWidget_motion->addItem(item);
+        item->setSizeHint(widget->size());
+        ui->listWidget_motion->setItemWidget(item,widget);
+        ui->listWidget_motion->scrollToBottom();
         QString key=it.key();
 
         SendPassByExpMot sendPass=&Live2dExpAndMotItemsWidget::sendPass;
@@ -431,12 +464,16 @@ void ChangeLive2DWidget::initUiConnectDrawableButton()
 void ChangeLive2DWidget::initUiConnectExpressionButton()
 {
     connect(ui->pushButton_expression_reset,&QPushButton::clicked,[=](){
-        emit sendHandle("InitItems:parameters_self;");
+        emit sendHandle("InitItems:all_self;");
     });
 }
 
-
-
+void ChangeLive2DWidget::initUiConnectMotionButton()
+{
+    connect(ui->pushButton_motion_reset,&QPushButton::clicked,[=](){
+        emit sendHandle("InitItems:all_self;");
+    });
+}
 void ChangeLive2DWidget::initParameterItemsMap()
 {
     m_ParameterItemsMap.clear();
@@ -511,6 +548,23 @@ void ChangeLive2DWidget::initExpressionItemsMap()
         if (re.indexIn(it.value()) != -1) {
             int num = re.cap(1).toInt();
             m_ExpressionItemsMap[it.key()]=num;
+        }
+    }
+    return;
+}
+
+void ChangeLive2DWidget::InitMotionItemsMap()
+{
+    m_MotionItemsMap.clear();
+    QString file_path=this->m_FilePath+"/"+ConfigFileName;
+    QMap<QString,QString> read_map = Config::get_OTHER_BASE(file_path,ItemM[::MOTIONLIST]);
+    if(read_map.isEmpty())
+        return;
+    QRegExp re("(-?\\d+)");
+    for (QMap<QString,QString>::iterator it=read_map.begin();it!=read_map.end();++it) {
+        if (re.indexIn(it.value()) != -1) {
+            int num = re.cap(1).toInt();
+            m_MotionItemsMap[it.key()]=num;
         }
     }
     return;

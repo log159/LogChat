@@ -56,7 +56,7 @@ private:
     QMap<QString,QVector<int>>  m_PartItemsMap;         //PARTLIST
     QMap<QString,bool>          m_DrawableItemsMap;     //DRAWABLELIST
     QMap<QString,int>           m_ExpressionItemsMap;   //EXPRESSIONLIST
-//    QMap<QString,int>           m_MotionItemsMap;       //MOTIONLIST
+    QMap<QString,int>           m_MotionItemsMap;       //MOTIONLIST
     QMap<QString,int>           m_ParameterCoverMap;    //PARAMETERCHANGELIST
     QMap<QString,int>           m_PartCoverMap;         //PARTCHANGELIST
     QMap<QString,bool>          m_DrawableCoverMap;     //DRAWABLECHANGELIST
@@ -76,6 +76,7 @@ private:
     void initPartItemsMap();
     void initDrawableItemsMap();
     void initExpressionItemsMap();
+    void InitMotionItemsMap();
     void initParameterCoverMap();
     void initPartCovermap();
     void initDrawableCovermap();
@@ -84,11 +85,13 @@ private:
     void initUiParameterList();
     void initUiPartList();
     void initUiDrawableList();
-    void initUiExpression();
+    void initUiExpressionList();
+    void initUiMotionList();
     void initUiConnectParameterButton();
     void initUiConnectPartButton();
     void initUiConnectDrawableButton();
     void initUiConnectExpressionButton();
+    void initUiConnectMotionButton();
 
 
     //解析cdi3.json

@@ -28,7 +28,7 @@ void SetLive2DDialogWidget::closeProcess()
     SetLive2DDialogWidget::live2DIsOpen=false;
     SetLive2DDialogWidget::m_Live2dOpenId=-1;
     NetLive2D::getInstance()->stopListen();
-    //尝试优雅的退出
+//    //尝试优雅的退出
     if (m_Live2dProcess->state() == QProcess::Running) {
         m_Live2dProcess->terminate();
         m_Live2dProcess->waitForFinished(1000);
@@ -173,8 +173,8 @@ void SetLive2DDialogWidget::initConnect()
             m_Live2dProcess=new QProcess(ConfigWindow::getWindowPointer());
         qDebug()<<"live2d base window pointer : "<<ConfigWindow::getWindowPointer();
         m_Live2dProcess->setWorkingDirectory(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::UNITY_DEMO_WORK_WAY));
+//        m_Live2dProcess->startDetached(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::UNITY_DEMO_WAY),QStringList(),ConfigConstWay::get_TRUE_WAY(ConfigConstWay::UNITY_DEMO_WORK_WAY));
         m_Live2dProcess->start(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::UNITY_DEMO_WAY));
-//
         //检查外部进程是否成功启动
         if (!m_Live2dProcess->waitForStarted()) {
             qDebug() << "Failed to start the process";
