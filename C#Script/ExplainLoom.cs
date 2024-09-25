@@ -332,11 +332,16 @@ public class ExplainLoom : MonoBehaviour
             if (parts.Length != 2) { Debug.LogError("Input string does not contain expected format."); }
             else
             {
+
                 string itemname = parts[0].Trim();
-                int itemval;
-                if (int.Parse(itemname) == 0) { }
+                if (int.Parse(itemname) == 0) {
+
+                    Model model = GetComponent<Model>();
+                    if (model != null) model.SendExpression(parts[1]);
+                }
                 else
                 {
+                    int itemval;
                     if (int.TryParse(parts[1].Trim(), out itemval))
                     {
                         Model model = GetComponent<Model>();
@@ -344,7 +349,6 @@ public class ExplainLoom : MonoBehaviour
                     }
                     else { Debug.LogError("Failed to parse value as int."); }
                 }
-
             }
         }
     }
@@ -359,10 +363,13 @@ public class ExplainLoom : MonoBehaviour
             else
             {
                 string itemname = parts[0].Trim();
-                int itemval;
-                if (int.Parse(itemname) == 0) { }
+                if (int.Parse(itemname) == 0) {
+                    Model model = GetComponent<Model>();
+                    if (model != null) model.SendMotion(parts[1]);
+                }
                 else
                 {
+                    int itemval;
                     if (int.TryParse(parts[1].Trim(), out itemval))
                     {
                         Model model = GetComponent<Model>();
@@ -370,7 +377,6 @@ public class ExplainLoom : MonoBehaviour
                     }
                     else { Debug.LogError("Failed to parse value as int."); }
                 }
-
             }
         }
     }

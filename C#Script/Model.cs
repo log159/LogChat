@@ -72,6 +72,12 @@ public class Model : MonoBehaviour
     private static List<Tuple<string, float>> PartItemsList = new List<Tuple<string, float>>();
     //Draws List
     private static List<Tuple<string, float>> DrawItemsList = new List<Tuple<string, float>>();
+    //Expression Dictionary Record
+    private static Dictionary<int, string> ExpRecordDic = new Dictionary<int, string>();
+    //Motion Dictionary Record
+    private static Dictionary<int, string> MotRecordDic = new Dictionary<int, string>();
+
+
 #if PRIMORDIAL
     /*在官方的 Expression 表情播放存在叠加且无法恢复的问题于是弃用*/
     //Expression Index
@@ -81,13 +87,9 @@ public class Model : MonoBehaviour
 #else
     /*改用自定义的 Expression 表情播放状态列表*/
     //Compromise Expression Dictionary
-    private static Dictionary<int, string> ExpRecordDic = new Dictionary<int, string>();
     private static Dictionary<int, CubismExpressionData> ExpItemsDic = new Dictionary<int, CubismExpressionData>();
     //Compromise Motion Dictionary
-    private static Dictionary<int, string> MotRecordDic = new Dictionary<int, string>();
     private static Dictionary<int, Dictionary<string,Dictionary<string, Keyframe[]>>> MotItemsDic = new Dictionary<int, Dictionary<string,Dictionary<string, Keyframe[]>>>();
-
-
 #endif
 
     void Awake()
@@ -427,6 +429,16 @@ public class Model : MonoBehaviour
         expression.AddExpressionItemDic(expressionItemList);
 #endif
     }
+    //根据NAME播放表情
+    public void SendExpression(string name)
+    {
+        int index = -1;
+        foreach (KeyValuePair<int, string> item in ExpRecordDic)
+            if (item.Value == name){index = item.Key;break;}
+        if (index == -1) { Debug.Log("没有对应Exp名称"); return; }
+        SendExpression(index);
+    }
+
     //根据ID播放动画
     public void SendMotion(int index)
     {
@@ -444,7 +456,15 @@ public class Model : MonoBehaviour
         motion.AddMotionItem(MotItemsDic[index]);
 #endif
     }
-
+    //根据NAME播放动画
+    public void SendMotion(string name)
+    {
+        int index = -1;
+        foreach (KeyValuePair<int, string> item in MotRecordDic)
+            if (item.Value == name) { index = item.Key; break; }
+        if (index == -1) { Debug.Log("没有对应Mot名称"); return; }
+        SendMotion(index);
+    }
     /// <summary>
     /// 初始模型控件协调
     /// </summary>
@@ -854,13 +874,13 @@ public class Model : MonoBehaviour
         PartItemsDic.Clear();
         PartItemsList.Clear();
         DrawItemsList.Clear();
-
+        ExpRecordDic.Clear();
+        MotRecordDic.Clear();
 #if PRIMORDIAL
 #else
         ExpItemsDic.Clear();
         MotItemsDic.Clear();
-        ExpRecordDic.Clear();
-        MotRecordDic.Clear();
+
 #endif
         Resources.UnloadUnusedAssets();
 

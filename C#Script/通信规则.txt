@@ -1,0 +1,29 @@
+from qt to unity
+
+Init:null(type == auto)[初始化模型];
+
+Audio:way(type == string)[新的音频加入播放列表]/null(type== string)[正在播放的音频列表清除];
+
+Config:key(type == string)[参数名],value(type == float)[参数值];
+
+Window: wintop(type == face)[置顶不透过]/winapha(type == face)[不置顶透过]/wintopapha(type == face)[置顶透过]/winnotopnoapha(type == face)[不置顶不透过];
+
+Param:key(type == string)[参数名],value(type == int)[参数值设置为实际值的100倍];
+
+Part:key(type == string)[参数名],value(type == int)[参数值设置为实际值的100倍];
+
+Draw:key(type == string)[参数名],value(type == int)[参数值只有0(不渲染)和1(渲染)];
+
+InitItems:parameters(type == face)[偏移初始化]/parts(type == face)[透明度初始化]/drawables(type == face)[渲染初始化]/parameters_self(type == face)[偏移初始化_根据保存值]/parts_self(type == face)[透明度初始化_根据保存值]/drawables_self(type == face)[渲染初始化_根据保存值];
+
+Hwnd:dialog(type == face)[占位/传其它值窗口句柄会被修改为0],value(type == HWND/int)[窗口句柄值];
+
+Exp:enable(type == int range {0,1})[0,用动画名称请求 1,用序号请求],value(type == int)[表情序号]/value(type == string)[表情名称];
+
+Mot:enable(type == int range {0,1})[0,用动画名称请求 1,用序号请求],value(type == int)[动作序号]/value(type == string)[动作名称];
+
+from unity to qt
+
+Pos:modelX(type == int)[modelX坐标],modelY(type == int)[modelY坐标],mouseX(type == int)[最后一次触发右键菜单事件的X坐标],mouseY(type == int)[最后一次触发右键菜单事件的X坐标];
+
+Hwnd:句柄;
