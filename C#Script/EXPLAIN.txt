@@ -18,6 +18,8 @@ Live2D->
     -MouseInformation
     -Loom
     -ExplainLoom
+    -Expression
+    -Motion
 /*鼠标跟踪组件*/
 Target->
     -LookMouse

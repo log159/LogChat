@@ -46,7 +46,7 @@ void SetLive2DDialogWidget::init()
     this->resize(WIDTH,HEIGHT);
     this->setWindowTitle("Live2D");
     this->setWindowIcon(QIcon(":/res/u77.svg"));
-    setWindowFlags((windowFlags() & ~Qt::WindowContextHelpButtonHint) | Qt::WindowStaysOnTopHint);
+    setWindowFlags((windowFlags() & ~Qt::WindowContextHelpButtonHint));
 
 
      ui->listWidget_model->setEditTriggers(QAbstractItemView::NoEditTriggers);         //禁止编辑
@@ -155,17 +155,8 @@ void SetLive2DDialogWidget::initConnect()
             sendModelHandle("Init:null;");
             //同步刷新Ui
             updateForUi();
-            //同步配置数据
-            QTimer* timer=new QTimer(this);
-            connect(timer,&QTimer::timeout,this,[=](){
-                if(NetLive2D::getIsConnect()){
-                    //同步配置数据
-                    QTimer::singleShot(100,this,[=](){updateForUnity();});
-                    timer->stop();
-                    timer->deleteLater();
-                }
-            });
-            timer->start(10);
+
+
             return;
         }
         SetLive2DDialogWidget::live2DIsOpen=true;
@@ -186,17 +177,7 @@ void SetLive2DDialogWidget::initConnect()
             //同步刷新Ui
             updateForUi();
 
-            //这个同步操作有延迟会在之后重构
-            QTimer* timer=new QTimer(this);
-            connect(timer,&QTimer::timeout,this,[=](){
-                if(NetLive2D::getIsConnect()){
-                    //同步配置数据
-                    QTimer::singleShot(500,this,[=](){updateForUnity();});
-                    timer->stop();
-                    timer->deleteLater();
-                }
-            });
-            timer->start(10);
+
         }
     });
 
@@ -435,8 +416,6 @@ void SetLive2DDialogWidget::initConnect()
         modelConfigItem.setAudioSmooth(ui->horizontalSlider_zoom_audio_smooth->value());
         modelConfigItem.setModelDescription(ui->textEdit_explain->toPlainText());
 
-
-
         QVector<ModelConfigItem> modV=Config::get_LIVE2DMODELCONFIG_V();
         for (int i=0;i<modV.size();++i) {
             if(modV.at(i).getModelId()==SetLive2DDialogWidget::m_Live2dOpenId){
@@ -452,6 +431,30 @@ void SetLive2DDialogWidget::initConnect()
         QListWidgetItem* listWidgetItem=ui->listWidget_model->item(SetLive2DDialogWidget::m_Live2dOpenId);
         (static_cast<Live2DListItemsWidget*>(ui->listWidget_model->itemWidget(listWidgetItem)))->setText(modelConfigItem.getModelName());
 
+        //最后同步到对应文件夹下的ini
+        QString filePath=ConfigConstWay::get_TRUE_WAY(ui->lineEdit_way->text());
+        int index=filePath.size()-1;
+        for (;index>=0;--index) {
+            if(filePath[index]==QChar('\\')||filePath[index]==QChar('/')){
+                break;
+            }
+        }
+        QString configModelUserFilePath =filePath.mid(0,index)+"/"+::ConfigModelUserFileName;
+
+        QMap<QString,QString>changeUserM;
+        changeUserM["look_enable"]=(modelConfigItem.getLookEnable()==true?"1":"0");
+        changeUserM["win_topapha"]=QString::number(modelConfigItem.getTopApha());
+        changeUserM["model_size"]=QString::number(modelConfigItem.getModelSize());
+        changeUserM["model_x"]=QString::number(modelConfigItem.getModelX());
+        changeUserM["model_y"]=QString::number(modelConfigItem.getModelY());
+        changeUserM["mouse_speed"]=QString::number(modelConfigItem.getMouseSpeed());
+        changeUserM["eye_time"]=QString::number(modelConfigItem.getEyeTime());
+        changeUserM["eye_deviation"]=QString::number(modelConfigItem.getEyeDeviation());
+        changeUserM["eye_speed"]=QString::number(modelConfigItem.getEyeSpeed());
+        changeUserM["audio_add"]=QString::number(modelConfigItem.getAudioAdd());
+        changeUserM["audio_smooth"]=QString::number(modelConfigItem.getAudioSmooth());
+        //保存到配置
+        Config::set_OTHER_BASE(configModelUserFilePath,::ItemM[::EnItem::USER],changeUserM);
     });
 
 
@@ -554,40 +557,40 @@ void SetLive2DDialogWidget::updateForUi()
 
 }
 
-void SetLive2DDialogWidget::updateForUnity()
-{
+//void SetLive2DDialogWidget::updateForUnity()
+//{
 
-    if(SetLive2DDialogWidget::m_Live2dOpenId==-1){return;}
-    if(NetLive2D::getIsConnect()==false){return;}
+//    if(SetLive2DDialogWidget::m_Live2dOpenId==-1){return;}
+//    if(NetLive2D::getIsConnect()==false){return;}
 
-    QTimer::singleShot(5,this,[=](){
-        if(ui->radioButton_look_enable_yes->isChecked())sendConfigHandle("IsLookMouse",100);
-        else sendConfigHandle("IsLookMouse",0);
-    });
+//    QTimer::singleShot(5,this,[=](){
+//        if(ui->radioButton_look_enable_yes->isChecked())sendConfigHandle("IsLookMouse",100);
+//        else sendConfigHandle("IsLookMouse",0);
+//    });
 
-    QTimer::singleShot(10,this,[=](){
-        if(ui->radioButton_wintop->isChecked())sendWindowHandle("wintop");
-        else if(ui->radioButton_winapha->isChecked())sendWindowHandle("winapha");
-        else if(ui->radioButton_wintopapha->isChecked())sendWindowHandle("wintopapha");
-        else if(ui->radioButton_winnotopnoapha->isChecked())sendWindowHandle("winnotopnoapha");
-        else {};
-    });
+//    QTimer::singleShot(10,this,[=](){
+//        if(ui->radioButton_wintop->isChecked())sendWindowHandle("wintop");
+//        else if(ui->radioButton_winapha->isChecked())sendWindowHandle("winapha");
+//        else if(ui->radioButton_wintopapha->isChecked())sendWindowHandle("wintopapha");
+//        else if(ui->radioButton_winnotopnoapha->isChecked())sendWindowHandle("winnotopnoapha");
+//        else {};
+//    });
 
-    QTimer::singleShot(15,this,[=](){sendConfigHandle("ScaleProportion",ui->horizontalSlider_zoom_model_size->value());});
-    QTimer::singleShot(20,this,[=](){sendConfigHandle("X",ui->horizontalSlider_zoom_model_X->value());});
-    QTimer::singleShot(25,this,[=](){sendConfigHandle("Y",ui->horizontalSlider_zoom_model_Y->value());});
-    QTimer::singleShot(30,this,[=](){sendConfigHandle("Damping",ui->horizontalSlider_zoom_mouse_speed->value());});
-    QTimer::singleShot(35,this,[=](){sendConfigHandle("Mean",ui->horizontalSlider_zoom_eye_time->value());});
-    QTimer::singleShot(40,this,[=](){sendConfigHandle("MaximumDeviation",ui->horizontalSlider_zoom_eye_deviation->value());});
-    QTimer::singleShot(45,this,[=](){sendConfigHandle("Timescale",ui->horizontalSlider_zoom_eye_speed->value());});
-    QTimer::singleShot(50,this,[=](){sendConfigHandle("Gain",ui->horizontalSlider_zoom_audio_add->value());});
-    QTimer::singleShot(55,this,[=](){sendConfigHandle("Smoothing",ui->horizontalSlider_zoom_audio_smooth->value());});
-
-
+//    QTimer::singleShot(15,this,[=](){sendConfigHandle("ScaleProportion",ui->horizontalSlider_zoom_model_size->value());});
+//    QTimer::singleShot(20,this,[=](){sendConfigHandle("X",ui->horizontalSlider_zoom_model_X->value());});
+//    QTimer::singleShot(25,this,[=](){sendConfigHandle("Y",ui->horizontalSlider_zoom_model_Y->value());});
+//    QTimer::singleShot(30,this,[=](){sendConfigHandle("Damping",ui->horizontalSlider_zoom_mouse_speed->value());});
+//    QTimer::singleShot(35,this,[=](){sendConfigHandle("Mean",ui->horizontalSlider_zoom_eye_time->value());});
+//    QTimer::singleShot(40,this,[=](){sendConfigHandle("MaximumDeviation",ui->horizontalSlider_zoom_eye_deviation->value());});
+//    QTimer::singleShot(45,this,[=](){sendConfigHandle("Timescale",ui->horizontalSlider_zoom_eye_speed->value());});
+//    QTimer::singleShot(50,this,[=](){sendConfigHandle("Gain",ui->horizontalSlider_zoom_audio_add->value());});
+//    QTimer::singleShot(55,this,[=](){sendConfigHandle("Smoothing",ui->horizontalSlider_zoom_audio_smooth->value());});
 
 
 
-}
+
+
+//}
 
 void SetLive2DDialogWidget::setLineEditText(QLineEdit *lineEdit, int value)
 {

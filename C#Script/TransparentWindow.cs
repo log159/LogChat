@@ -1,3 +1,4 @@
+/*这个宏定义后会使得程序无法在Unity编辑器调试，导出后直接运行看到窗口透明效果*/
 #define IS_TRANSPARENT
 
 using UnityEngine;

@@ -1,3 +1,4 @@
+/*其它*/
 #define IS_LOGCHAT
 
 using Live2D.Cubism.Framework.Expression;
@@ -365,7 +366,7 @@ public class ExplainLoom : MonoBehaviour
                     if (int.TryParse(parts[1].Trim(), out itemval))
                     {
                         Model model = GetComponent<Model>();
-                        if (model != null) model.SendAnimation(itemval);
+                        if (model != null) model.SendMotion(itemval);
                     }
                     else { Debug.LogError("Failed to parse value as int."); }
                 }

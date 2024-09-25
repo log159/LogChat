@@ -1,6 +1,31 @@
 #include "changelive2dwidget.h"
 #include "ui_changelive2dwidget.h"
 
+
+#define CONNECT_CURRENT(C,T,L)\
+connect(C,T,[=](int index){\
+QString newItemText=C->itemText(index);\
+bool exists = false;\
+for (int i = 0; i < L->count(); ++i){\
+QListWidgetItem *item = L->item(i);\
+if (item->text() == newItemText) {exists = true;break;}}\
+if (!exists)L->addItem(newItemText);});
+
+
+
+
+#define CONNECT_REMOVE(P,L)\
+connect(P,&QPushButton::clicked,[=](){\
+QListWidgetItem* selectedItem = L->currentItem();\
+if (selectedItem != nullptr) {delete L->takeItem(L->row(selectedItem));}});
+
+#define CONNECT_SAVE(L,T,E)\
+for(int i = 0; i < L->count(); ++i){\
+QListWidgetItem *item = L->item(i);\
+if(item != nullptr)\
+T[item->text()]|=static_cast<size_t>(E);}
+
+
 ChangeLive2DWidget::ChangeLive2DWidget(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ChangeLive2DWidget)
@@ -19,7 +44,7 @@ void ChangeLive2DWidget::init()
     this->resize(WIDTH,HEIGHT);
     this->setWindowTitle("模型修改");
     this->setWindowIcon(QIcon(":/res/u77.svg"));
-    setWindowFlags((windowFlags() & ~Qt::WindowContextHelpButtonHint) | Qt::WindowStaysOnTopHint);
+    setWindowFlags((windowFlags() & ~Qt::WindowContextHelpButtonHint));
 
     QVector<QListWidget*> wlsList;
     wlsList.push_back(ui->listWidget_parameter);
@@ -36,6 +61,7 @@ void ChangeLive2DWidget::init()
         val->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);   //平滑效果
         val->setAttribute(Qt::WA_TranslucentBackground);
     }
+
 
     QFile file(":/main.qss");
     if(file.open(QFile::ReadOnly)){
@@ -62,7 +88,6 @@ void ChangeLive2DWidget::refresh(const QString &path)
 //    initHarmCoverMap(path);
 
 
-
     initUiParameterList();
     initUiPartList();
     initUiDrawableList();
@@ -75,6 +100,55 @@ void ChangeLive2DWidget::refresh(const QString &path)
     initUiConnectExpressionButton();
 
 
+    for(QMap<QString,int>::iterator it=m_ExpressionItemsMap.begin();it!=m_ExpressionItemsMap.end();++it){
+        ui->comboBox_exp_start->addItem(it.key());
+        ui->comboBox_exp_react->addItem(it.key());
+        ui->comboBox_exp_wait->addItem(it.key());
+    }
+    for(QMap<QString,int>::iterator it=m_MotionItemsMap.begin();it!=m_MotionItemsMap.end();++it){
+        ui->comboBox_mot_start->addItem(it.key());
+        ui->comboBox_mot_react->addItem(it.key());
+        ui->comboBox_mot_wait->addItem(it.key());
+    }
+
+    Activated activated=&QComboBox::activated;
+
+
+    CONNECT_CURRENT(ui->comboBox_exp_start,activated,ui->listWidget_exp_start);
+    CONNECT_CURRENT(ui->comboBox_exp_wait,activated,ui->listWidget_exp_wait);
+    CONNECT_CURRENT(ui->comboBox_exp_react,activated,ui->listWidget_exp_react);
+    CONNECT_CURRENT(ui->comboBox_mot_start,activated,ui->listWidget_mot_start);
+    CONNECT_CURRENT(ui->comboBox_mot_wait,activated,ui->listWidget_mot_wait);
+    CONNECT_CURRENT(ui->comboBox_mot_react,activated,ui->listWidget_mot_react);
+
+    CONNECT_REMOVE(ui->pushButton_exp_start_remove,ui->listWidget_exp_start);
+    CONNECT_REMOVE(ui->pushButton_exp_wait_remove,ui->listWidget_exp_wait);
+    CONNECT_REMOVE(ui->pushButton_exp_react_remove,ui->listWidget_exp_react);
+    CONNECT_REMOVE(ui->pushButton_mot_start_remove,ui->listWidget_mot_start);
+    CONNECT_REMOVE(ui->pushButton_mot_wait_remove,ui->listWidget_mot_wait);
+    CONNECT_REMOVE(ui->pushButton_mot_react_remove,ui->listWidget_mot_react);
+
+
+    connect(ui->pushButton_saveshift,&QPushButton::clicked,[=](){
+        QMap<QString,int>expM;
+        QMap<QString,int>motM;
+        QMap<QString,QString>expDataM;
+        QMap<QString,QString>motDataM;
+        CONNECT_SAVE(ui->listWidget_exp_start,expM,ShiftEn::START);
+        CONNECT_SAVE(ui->listWidget_exp_wait,expM,ShiftEn::WAIT);
+        CONNECT_SAVE(ui->listWidget_exp_react,expM,ShiftEn::REACT);
+        CONNECT_SAVE(ui->listWidget_mot_start,motM,ShiftEn::START);
+        CONNECT_SAVE(ui->listWidget_mot_wait,motM,ShiftEn::WAIT);
+        CONNECT_SAVE(ui->listWidget_mot_react,motM,ShiftEn::REACT);
+
+        for(auto it=expM.begin();it!=expM.end();++it)
+            expDataM[it.key()]=QString::number(it.value());
+        for(auto it=motM.begin();it!=motM.end();++it)
+            motDataM[it.key()]=QString::number(it.value());
+        QString configModelUserFilePath=this->m_FilePath+"/"+::ConfigModelUserFileName;
+        Config::set_OTHER_BASE(configModelUserFilePath,::ItemM[::EnItem::EXPRESSIONSHIFT],expDataM);
+        Config::set_OTHER_BASE(configModelUserFilePath,::ItemM[::EnItem::MOTIONSHIFT],motDataM);
+    });
 //    //控件谐波
 //    {
 ////        ui->listWidget_harmonic->set
@@ -118,20 +192,12 @@ void ChangeLive2DWidget::refresh(const QString &path)
 //            ui->listWidget_harmonic->scrollToTop();
 //        }
 //    }
-
-
-
-
-
-
-
-
 }
 
 void ChangeLive2DWidget::initParameterCoverMap()
 {
     m_ParameterCoverMap.clear();
-    QString file_path=this->m_FilePath+"/"+ConfigFileName;
+    QString file_path=this->m_FilePath+"/"+::ConfigModelUserFileName;
     QMap<QString,QString> read_map = Config::get_OTHER_BASE(file_path,ItemM[::PARAMETERCHANGELIST]);
     if(read_map.isEmpty())
         return;
@@ -148,7 +214,7 @@ void ChangeLive2DWidget::initParameterCoverMap()
 void ChangeLive2DWidget::initPartCovermap()
 {
     m_PartCoverMap.clear();
-    QString file_path=this->m_FilePath+"/"+ConfigFileName;
+    QString file_path=this->m_FilePath+"/"+::ConfigModelUserFileName;
     QMap<QString,QString> read_map = Config::get_OTHER_BASE(file_path,ItemM[::PARTCHANGELIST]);
     if(read_map.isEmpty())
         return;
@@ -164,7 +230,7 @@ void ChangeLive2DWidget::initPartCovermap()
 void ChangeLive2DWidget::initDrawableCovermap()
 {
     m_DrawableCoverMap.clear();
-    QString file_path=this->m_FilePath+"/"+ConfigFileName;
+    QString file_path=this->m_FilePath+"/"+::ConfigModelUserFileName;
     QMap<QString,QString> read_map = Config::get_OTHER_BASE(file_path,ItemM[::DRAWABLECHANGELIST]);
     if(read_map.isEmpty())
         return;
@@ -397,7 +463,7 @@ void ChangeLive2DWidget::initUiConnectParameterButton()
                 changeM[item_name]=QString::number(item_value);
             }
         }
-        Config::set_OTHER_BASE(this->m_FilePath+"/"+ConfigFileName,::ItemM[::EnItem::PARAMETERCHANGELIST],changeM);
+        Config::set_OTHER_BASE(this->m_FilePath+"/"+::ConfigModelUserFileName,::ItemM[::EnItem::PARAMETERCHANGELIST],changeM);
     });
 
     connect(ui->pushButton_reset_parameter,&QPushButton::clicked,[=](){
@@ -422,7 +488,7 @@ void ChangeLive2DWidget::initUiConnectPartButton()
                 changeM[item_name]=QString::number(item_value);
             }
         }
-        Config::set_OTHER_BASE(this->m_FilePath+"/"+ConfigFileName,::ItemM[::EnItem::PARTCHANGELIST],changeM);
+        Config::set_OTHER_BASE(this->m_FilePath+"/"+::ConfigModelUserFileName,::ItemM[::EnItem::PARTCHANGELIST],changeM);
     });
 
     connect(ui->pushButton_reset_part,&QPushButton::clicked,[=](){
@@ -447,7 +513,7 @@ void ChangeLive2DWidget::initUiConnectDrawableButton()
                 changeM[item_name]=QString::number(item_value);
             }
         }
-        Config::set_OTHER_BASE(this->m_FilePath+"/"+ConfigFileName,::ItemM[::EnItem::DRAWABLECHANGELIST],changeM);
+        Config::set_OTHER_BASE(this->m_FilePath+"/"+::ConfigModelUserFileName,::ItemM[::EnItem::DRAWABLECHANGELIST],changeM);
     });
 
     connect(ui->pushButton_reset_drawable,&QPushButton::clicked,[=](){
@@ -477,7 +543,7 @@ void ChangeLive2DWidget::initUiConnectMotionButton()
 void ChangeLive2DWidget::initParameterItemsMap()
 {
     m_ParameterItemsMap.clear();
-    QString file_path=this->m_FilePath+"/"+ConfigFileName;
+    QString file_path=this->m_FilePath+"/"+::ConfigModelUserFileName;
     QMap<QString,QString> read_map = Config::get_OTHER_BASE(file_path,ItemM[::PARAMETERLIST]);
     if(read_map.isEmpty())
         return;
@@ -500,7 +566,7 @@ void ChangeLive2DWidget::initParameterItemsMap()
 void ChangeLive2DWidget::initPartItemsMap()
 {
     m_PartItemsMap.clear();
-    QString file_path=this->m_FilePath+"/"+ConfigFileName;
+    QString file_path=this->m_FilePath+"/"+::ConfigModelUserFileName;
     QMap<QString,QString> read_map = Config::get_OTHER_BASE(file_path,ItemM[::PARTLIST]);
     if(read_map.isEmpty())
         return;
@@ -522,7 +588,7 @@ void ChangeLive2DWidget::initPartItemsMap()
 void ChangeLive2DWidget::initDrawableItemsMap()
 {
     m_DrawableItemsMap.clear();
-    QString file_path=this->m_FilePath+"/"+ConfigFileName;
+    QString file_path=this->m_FilePath+"/"+::ConfigModelUserFileName;
     QMap<QString,QString> read_map = Config::get_OTHER_BASE(file_path,ItemM[::DRAWABLELIST]);
     if(read_map.isEmpty())
         return;
@@ -539,7 +605,7 @@ void ChangeLive2DWidget::initDrawableItemsMap()
 void ChangeLive2DWidget::initExpressionItemsMap()
 {
     m_ExpressionItemsMap.clear();
-    QString file_path=this->m_FilePath+"/"+ConfigFileName;
+    QString file_path=this->m_FilePath+"/"+::ConfigModelUserFileName;
     QMap<QString,QString> read_map = Config::get_OTHER_BASE(file_path,ItemM[::EXPRESSIONLIST]);
     if(read_map.isEmpty())
         return;
@@ -556,7 +622,7 @@ void ChangeLive2DWidget::initExpressionItemsMap()
 void ChangeLive2DWidget::InitMotionItemsMap()
 {
     m_MotionItemsMap.clear();
-    QString file_path=this->m_FilePath+"/"+ConfigFileName;
+    QString file_path=this->m_FilePath+"/"+::ConfigModelUserFileName;
     QMap<QString,QString> read_map = Config::get_OTHER_BASE(file_path,ItemM[::MOTIONLIST]);
     if(read_map.isEmpty())
         return;

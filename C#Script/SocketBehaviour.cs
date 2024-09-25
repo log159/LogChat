@@ -1,6 +1,9 @@
+/*作为服务器*/
 #define IS_SERVER
+/*其它*/
 #define IS_LOGCHAT
 
+/*作为客户端*/
 //#define IS_CUSTOMER
 
 using System;

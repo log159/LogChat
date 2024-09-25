@@ -134,7 +134,7 @@ static const QMap<QString,bool>         LIVE2DENABLEINIT_M  ={
     {"look_enable",true}
 };//全部Live2D ENABLE默认值
 static const QMap<QString,int>          LIVE2DPARAMINIT_M= {
-    {"model_size",300},
+    {"model_size",500},
     {"model_x",0},
     {"model_y",0},
     {"model_rx",0},
@@ -163,9 +163,13 @@ enum EnItem{
     PARTLIST,
     PARTCHANGELIST,
     EXPRESSIONLIST,
-    MOTIONLIST
+    MOTIONLIST,
+    USER,
+    EXPRESSIONSHIFT,
+    MOTIONSHIFT
+
 };
-static QMap<EnItem,QString>ItemM{
+static QMap<EnItem,QString>             ItemM={
     {PARAMETERLIST,"PARAMETERLIST"},
     {PARAMETERCHANGELIST,"PARAMETERCHANGELIST"},
     {DRAWABLELIST,"DRAWABLELIST"},
@@ -173,7 +177,13 @@ static QMap<EnItem,QString>ItemM{
     {PARTLIST,"PARTLIST"},
     {PARTCHANGELIST,"PARTCHANGELIST"},
     {EXPRESSIONLIST,"EXPRESSIONLIST"},
-    {MOTIONLIST,"MOTIONLIST"}
-
+    {MOTIONLIST,"MOTIONLIST"},
+    {USER,"USER"},
+    {EXPRESSIONSHIFT,"EXPRESSIONSHIFT"},
+    {MOTIONSHIFT,"MOTIONSHIFT"}
 };
+
+const QString ConfigModelUserFileName    ="ModelConfig.ini";
+
+
 #endif // GLOBAL_H

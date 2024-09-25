@@ -12,6 +12,12 @@
 #include <QVector>
 #include <QDir>
 #include <QTimer>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QDebug>
+#include <QString>
+#include <QComboBox>
 
 #include "config.h"
 #include "changeconfigitem.h"
@@ -20,15 +26,6 @@
 #include "live2ddrawitemswidget.h"
 #include "live2dexpandmotitemswidget.h"
 #include "live2danimationitemswidget.h"
-
-
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonArray>
-#include <QMap>
-#include <QString>
-#include <QFile>
-#include <QDebug>
 
 namespace Ui {
 class ChangeLive2DWidget;
@@ -42,11 +39,16 @@ class ChangeLive2DWidget : public QDialog
     typedef void (Live2DDrawItemsWidget::*SendPassByDraw)(ChangeConfigItem);
     typedef void (Live2dExpAndMotItemsWidget::*SendPassByExpMot)(QPair<QString,int>);
 
+    typedef void (QComboBox::*Activated)(int);
+    enum ShiftEn{
+        START   =1,/*启动项*/
+        WAIT    =2,/*等待项*/
+        REACT   =4,/*响应项*/
+    };
 
 private:
     const int WIDTH                         =900;
     const int HEIGHT                        =600;
-    const QString ConfigFileName            ="ModelConfig.ini";
 
 private:
 

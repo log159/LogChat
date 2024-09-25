@@ -8,12 +8,11 @@ public class Expression : MonoBehaviour
 {
     private Model model = null;
     private Dictionary<string,ExpressionItem> expressionItemDic = new Dictionary<string, ExpressionItem>();
-    private void Start()
-    {
-        model = GetComponent<Model>();
-    }
+
     public void AddExpressionItemDic(List<ExpressionItem> expressionItemList)
     {
+        this.model = GetComponent<Model>();
+        if (model == null) return;
         //旧的动画全部变为LEAVE属性
         foreach (KeyValuePair<string, ExpressionItem> paramPair in expressionItemDic)
             paramPair.Value.mark = ExpressionItem.MARK.LEAVE;
@@ -32,7 +31,7 @@ public class Expression : MonoBehaviour
             float nextValue = expressionItem.value;
             if (ExpressionItem.MARK.ENTER== expressionItem.mark){
                 Debug.Log(expressionItem.targetValue+" "+ expressionItem.value);
-                float speed = distance / (paramPair.Value.intime / Time.deltaTime);
+                float speed = distance / (paramPair.Value.inTime / Time.deltaTime);
                 if (expressionItem.targetValue >= expressionItem.value) nextValue += speed;
                 else nextValue -= speed;
                 if (Mathf.Abs(expressionItem.targetValue - nextValue) <= speed){
@@ -45,7 +44,7 @@ public class Expression : MonoBehaviour
             //向initialValue刷新
             else if(ExpressionItem.MARK.LEAVE== expressionItem.mark)
             {
-                float speed = distance / (paramPair.Value.outtime / Time.deltaTime);
+                float speed = distance / (paramPair.Value.outTime / Time.deltaTime);
 
                 if (expressionItem.initialValue >= expressionItem.value) nextValue += speed;
                 else nextValue -= speed;

@@ -6,8 +6,8 @@ using UnityEngine;
 public class Config : MonoBehaviour
 {
 
-    const float MAX = 99999f;
-    const float MIN = -99999f;
+    const float MAX = 99999999f;
+    const float MIN = -99999999f;
 
     private static Config instance = null;
     public static Config Instance
@@ -25,6 +25,7 @@ public class Config : MonoBehaviour
     /// 常量信息
     /// </summary>
     public static readonly string ModelConfigFileName = "ModelConfig.ini";
+    public static readonly string BaseUser = "USER";
     public static readonly string BaseParameter  = "PARAMETERLIST";
     public static readonly string BasePart = "PARTLIST";
     public static readonly string BaseDrawable = "DRAWABLELIST";
@@ -100,7 +101,6 @@ public class Config : MonoBehaviour
     public static ParamItem RotationRXItem = new ParamItem("Rotation", 0f, new PointF(MIN, MAX));
     public static ParamItem RotationRYItem = new ParamItem("Rotation", 0f, new PointF(MIN, MAX));
     public static ParamItem RotationRZItem = new ParamItem("Rotation", 0f, new PointF(MIN, MAX));
-
 
     //看向鼠标主轴物理参数
     public static ParamItem ParamAngleItem = new ParamItem("ParamAngle", 30f, new PointF(0f, 30f));

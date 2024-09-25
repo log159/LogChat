@@ -31,7 +31,7 @@ public class LookMouse : MonoBehaviour, ICubismLookTarget
 
     public bool IsActive()
     {
-        return true;
+        return IsLookMouse;
     }
 
 }

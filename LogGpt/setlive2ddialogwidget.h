@@ -63,7 +63,7 @@ private:
     void sendWindowHandle(const QString& str);
     void initLineEdit();
     void updateForUi();
-    void updateForUnity();
+//    void updateForUnity();
     void setLineEditText(QLineEdit* lineEdit,int value);
     void updateModelChange();
 

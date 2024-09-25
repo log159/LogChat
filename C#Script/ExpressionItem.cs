@@ -14,7 +14,7 @@ public class ExpressionItem
     public float    initialValue;
     public float    targetValue;
     public float    value;
-    public float    intime;
-    public float    outtime;
+    public float    inTime;
+    public float    outTime;
     public MARK     mark = MARK.ENTER;
 }
