@@ -1,6 +1,4 @@
 using Live2D.Cubism.Framework.Json;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using Unity.VisualScripting;
@@ -11,9 +9,33 @@ using UnityEngine.UIElements;
 public class Motion : MonoBehaviour
 {
     private Model model = null;
-    private Dictionary<string, MotionItem> parameterItemsDic = new Dictionary<string, MotionItem>();
-    private Dictionary<string, MotionItem> partItemsDic=new Dictionary<string, MotionItem>();
+    private Dictionary<string, MotionItem> parameterItemsDic    = new Dictionary<string, MotionItem>();
+    private Dictionary<string, MotionItem> partItemsDic         =new Dictionary<string, MotionItem>();
 
+    private List<Dictionary<string, Dictionary<string, Keyframe[]>>> waitMotItemDicList = new List<Dictionary<string, Dictionary<string, Keyframe[]>>>();
+    private List<Dictionary<string, Dictionary<string, Keyframe[]>>> reactMotItemDicList = new List<Dictionary<string, Dictionary<string, Keyframe[]>>>();
+
+    public void AddWaitMotionItemList(Dictionary<string, Dictionary<string, Keyframe[]>> motItemDic)
+    {
+        waitMotItemDicList.Add(motItemDic);
+    }
+    public void AddReactMotionItemList(Dictionary<string, Dictionary<string, Keyframe[]>> motItemDic)
+    {
+        reactMotItemDicList.Add(motItemDic);
+    }
+    public void SendReactMotion()
+    {
+        if(reactMotItemDicList.Count > 0)
+            AddMotionItem(reactMotItemDicList[Random.Range(0, reactMotItemDicList.Count)]);
+    }
+
+    public void Clear()
+    {
+        parameterItemsDic.Clear();
+        partItemsDic.Clear();
+        waitMotItemDicList.Clear();
+        reactMotItemDicList.Clear ();
+    }
     public void AddMotionItem(Dictionary<string,Dictionary<string, Keyframe[]>> motItemDic)
     {
         this.model = GetComponent<Model>();
@@ -43,15 +65,29 @@ public class Motion : MonoBehaviour
                 partItemsDic[item.Key] = motionItem;
             }
         }
-
     }
+    private static List<string> endParameterItemList = new List<string>();
+    private static List<string> endPartItemList = new List<string>();
     private void Update()
     {
+        this.model = GetComponent<Model>();
         if (model == null) return;
+        endParameterItemList.Clear();
+        endPartItemList.Clear();
+        if(parameterItemsDic.Count==0 && partItemsDic.Count == 0)
+        {
+            Debug.Log("待机动画");
+            //添加待机动画
+            if(waitMotItemDicList.Count>0)
+                AddMotionItem(waitMotItemDicList[Random.Range(0, waitMotItemDicList.Count)]);
+        }
 
         foreach (KeyValuePair<string, MotionItem> item in parameterItemsDic)
         {
-            if (parameterItemsDic[item.Key].free == true) continue;
+            if (parameterItemsDic[item.Key].free == true) {
+                endParameterItemList.Add(item.Key);
+                continue; 
+            }
             int index = -1;
             Keyframe[] keyframeArr = item.Value.keyframeArr;
             for (int i = item.Value.lastIndex; i < keyframeArr.Length; ++i)
@@ -77,10 +113,12 @@ public class Motion : MonoBehaviour
             float value = a * MotionItem.addTime + b;
             model.AddParameterDic(item.Key, value);
         }
-
         foreach (KeyValuePair<string, MotionItem> item in partItemsDic)
         {
-            if (partItemsDic[item.Key].free == true) continue;
+            if (partItemsDic[item.Key].free == true) {
+                endPartItemList.Add(item.Key);
+                continue; 
+            }
             int index = -1;
             Keyframe[] keyframeArr = item.Value.keyframeArr;
             for (int i = item.Value.lastIndex; i < keyframeArr.Length; ++i)
@@ -106,7 +144,12 @@ public class Motion : MonoBehaviour
             float value = a * MotionItem.addTime + b;
             model.AddPartDic(item.Key, value);
         }
-
+        //移除完成的Parameter动画
+        foreach (string key in endParameterItemList)
+            parameterItemsDic.Remove(key);
+        //移除完成的Part动画
+        foreach (string key in endPartItemList)
+            partItemsDic.Remove(key);
         MotionItem.addTime += Time.deltaTime;
     }
 }

@@ -45,8 +45,8 @@ private:
     const int WIDTH      =1200;
     const int HEIGHT     =800;
 private:
-    static QProcess*   m_Live2dProcess;
-    static int         m_Live2dOpenId;
+    static QProcess*   live2dProcess;
+    static int         live2dOpenId;
     int                m_Live2dPassId   =-1;
 
 public:
@@ -63,7 +63,6 @@ private:
     void sendWindowHandle(const QString& str);
     void initLineEdit();
     void updateForUi();
-//    void updateForUnity();
     void setLineEditText(QLineEdit* lineEdit,int value);
     void updateModelChange();
 

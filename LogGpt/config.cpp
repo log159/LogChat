@@ -60,6 +60,7 @@ void Config::init_LIVE2DMODELCONFIG_V()
         modelConfigItem.setFilePath(keyValueMap["file_path"]);
         modelConfigItem.setLookEnable(bool(keyValueMap["look_enable"].toInt()));
         modelConfigItem.setTopApha(keyValueMap["win_topapha"].toInt());
+        modelConfigItem.setFps(keyValueMap["win_fps"].toInt());
         modelConfigItem.setModelSize(keyValueMap["model_size"].toInt());
         modelConfigItem.setModelX(keyValueMap["model_x"].toInt());
         modelConfigItem.setModelY(keyValueMap["model_y"].toInt());
@@ -86,13 +87,14 @@ void Config::output_LIVE2DMODELCONFIG_V(QVector<ModelConfigItem>& modV)
     QString data="";
     for(int i=0;i<dataModV.size();++i){
         dataModV[i].setModelId(i);//id对齐
-        QString dataItem=QString("{\n\t%1:%2,\n\t%3:%4,\n\t%5:%6,\n\t%7:%8,\n\t%9:%10,\n\t%11:%12,\n\t%13:%14,\n\t%15:%16,\n\t%17:%18,\n\t%19:%20,\n\t%21:%22,\n\t%23:%24,\n\t%25:%26,\n\t%27:%28,\n\t%29:%30,\n};\n");
+        QString dataItem=QString("{\n\t%1:%2,\n\t%3:%4,\n\t%5:%6,\n\t%7:%8,\n\t%9:%10,\n\t%11:%12,\n\t%13:%14,\n\t%15:%16,\n\t%17:%18,\n\t%19:%20,\n\t%21:%22,\n\t%23:%24,\n\t%25:%26,\n\t%27:%28,\n\t%29:%30,\n\t%31:%32,\n};\n");
 
         dataItem= dataItem.arg("model_id").arg(QString::number(dataModV[i].getModelId()))
                 .arg("model_name").arg(dataModV[i].getModelName())
                 .arg("file_path").arg(dataModV[i].getFilePath())
                 .arg("look_enable").arg(QString::number(int(dataModV[i].getLookEnable())))
                 .arg("win_topapha").arg(QString::number(int(dataModV[i].getTopApha())))
+                .arg("win_fps").arg(QString::number(int(dataModV[i].getFps())))
                 .arg("model_size").arg(QString::number(int(dataModV[i].getModelSize())))
                 .arg("model_x").arg(QString::number(int(dataModV[i].getModelX())))
                 .arg("model_y").arg(QString::number(int(dataModV[i].getModelY())))
@@ -161,7 +163,7 @@ const QString Config::get_CHARACTERCONFIG()
     QString character_str= Config::get_USER(::EnUser::CHARACTER_CONFIG);
 
     character_str.replace("{{user}}",username);
-    character_str.replace("{{char}}",charactername);
+    character_str.replace("{{character}}",charactername);
 
     return character_str;
 }

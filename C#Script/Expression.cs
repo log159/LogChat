@@ -8,8 +8,29 @@ public class Expression : MonoBehaviour
 {
     private Model model = null;
     private Dictionary<string,ExpressionItem> expressionItemDic = new Dictionary<string, ExpressionItem>();
+    private List<List<ExpressionItem>> waitExpItemDicList = new List<List<ExpressionItem>>();
+    private List<List<ExpressionItem>> reactExpItemDicList = new List<List<ExpressionItem>>();
+    public void AddWaitExpressionItemList(List<ExpressionItem> expressionItemList)
+    {
+        waitExpItemDicList.Add(expressionItemList);
+    }
+    public void AddReactExpressionItemList(List<ExpressionItem> expressionItemList)
+    {
+        reactExpItemDicList.Add(expressionItemList);
+    }
+    public void SendReactMotion()
+    {
+        if (reactExpItemDicList.Count > 0)
+            AddExpressionItem(reactExpItemDicList[Random.Range(0, reactExpItemDicList.Count)]);
+    }
+    public void Clear()
+    {
+        expressionItemDic.Clear();
+        waitExpItemDicList.Clear();
+        reactExpItemDicList.Clear();
+    }
 
-    public void AddExpressionItemDic(List<ExpressionItem> expressionItemList)
+    public void AddExpressionItem(List<ExpressionItem> expressionItemList)
     {
         this.model = GetComponent<Model>();
         if (model == null) return;
@@ -20,17 +41,26 @@ public class Expression : MonoBehaviour
         for (int i = 0; i < expressionItemList.Count; i++)
             expressionItemDic[expressionItemList[i].name] = expressionItemList[i];
     }
-    void Update()
+    private static List<string> endItemList = new List<string>();
+
+    private void Update()
     {
-        if (expressionItemDic.Count <= 0 || model == null) return;
-        List<string>endItemList = new List<string>();
+        this.model = GetComponent<Model>();
+        if (model == null) return;
+        endItemList.Clear();
+        if (expressionItemDic.Count == 0)
+        {
+            //添加待机表情
+            if (waitExpItemDicList.Count > 0)
+                AddExpressionItem(waitExpItemDicList[Random.Range(0, waitExpItemDicList.Count)]);
+        }
+
         foreach (KeyValuePair<string, ExpressionItem> paramPair in expressionItemDic) {
             float distance = Mathf.Abs(paramPair.Value.initialValue - paramPair.Value.targetValue);
             ExpressionItem expressionItem = paramPair.Value;
             //向targetValue刷新
             float nextValue = expressionItem.value;
             if (ExpressionItem.MARK.ENTER== expressionItem.mark){
-                Debug.Log(expressionItem.targetValue+" "+ expressionItem.value);
                 float speed = distance / (paramPair.Value.inTime / Time.deltaTime);
                 if (expressionItem.targetValue >= expressionItem.value) nextValue += speed;
                 else nextValue -= speed;

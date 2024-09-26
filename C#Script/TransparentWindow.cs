@@ -1,5 +1,5 @@
 /*这个宏定义后会使得程序无法在Unity编辑器调试，导出后直接运行看到窗口透明效果*/
-//#define IS_TRANSPARENT
+#define IS_TRANSPARENT
 
 using UnityEngine;
 using System.Collections;
@@ -136,11 +136,16 @@ public class TransparentWindow : MonoBehaviour
 
     bool istop = true;
 
+    public void SetFps(int fps) {
+        if (fps < 30) fps = 30;
+        if (fps > 120) fps = 120;
+        Application.targetFrameRate = fps;
+    }
 
 #if IS_TRANSPARENT
     private void Awake()
     {
-        Application.targetFrameRate = 120;
+        SetFps(120);
 
         SetWindowInit();
     }

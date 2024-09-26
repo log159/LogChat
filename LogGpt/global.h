@@ -70,7 +70,7 @@ enum EnUser{
     CHARACTERGENDER,            /*角色性别*/
     AUDIOSYNTHESIS,             /*音频合成规则*/
     AUDIOBREAKSTR,              /*音频分割字符串*/
-    AUDIOVOLUME,                 /*vits端播放音量*/
+    AUDIOVOLUME,                /*vits端播放音量*/
 };
 
 static      QMap<EnUser,QString>UserM={
@@ -146,7 +146,8 @@ static const QMap<QString,int>          LIVE2DPARAMINIT_M= {
     {"eye_speed",1000},
     {"audio_add",1000},
     {"audio_smooth",100},
-    {"win_topapha",0}
+    {"win_topapha",0},
+    {"win_fps",120}
 };//全部Live2D PARAM默认值
 static       QMap<QString,QString>      LIVE2DSTRING_M={
     {"model_name","null"},

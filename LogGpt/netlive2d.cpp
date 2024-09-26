@@ -177,6 +177,7 @@ void NetLive2D::stopListen()
 
 void NetLive2D::sendHandle(QString strHandle)
 {
+    if(IsConnect==false)return;
     if(m_TcpSocket == nullptr) { return; }
     QString msg = strHandle;
     m_TcpSocket->write(msg.toUtf8()); // Send message to the server

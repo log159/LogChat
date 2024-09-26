@@ -31,14 +31,10 @@ using Live2D.Cubism.Samples.OriginalWorkflow.Expression;
 using System.Reflection;
 using static ExpressionItem;
 using UnityEngine.UIElements;
-using UnityEditor;
+using Unity.Properties;
 
 public class Model : MonoBehaviour
 {
-    /// <summary>
-    /// 成员属性
-    /// </summary>
-    
     //Json File
     private CubismModel3Json Live2dModel3Json = null;
     //public GameObject Transform
@@ -76,7 +72,6 @@ public class Model : MonoBehaviour
     private static Dictionary<int, string> ExpRecordDic = new Dictionary<int, string>();
     //Motion Dictionary Record
     private static Dictionary<int, string> MotRecordDic = new Dictionary<int, string>();
-
 
 #if PRIMORDIAL
     /*在官方的 Expression 表情播放存在叠加且无法恢复的问题于是弃用*/
@@ -141,11 +136,10 @@ public class Model : MonoBehaviour
             InitSelfModelDrawables();
             //根据用户的配置初始化参数
             InitSelfModelUser();
-            //设置默认动画效果
-            //SendMotion(1);
+            //初始化启动动画列表
+            InitSelfModelShift();
             //根据Config刷新脚本参数
             UpdateModelCondition();
-
 
         }
         catch(Exception e)
@@ -376,8 +370,13 @@ public class Model : MonoBehaviour
 
     public void InitModelUser()
     {
+        /*生成过就不覆盖之后的*/
+        string filePath = Config.DirectoryPath + Config.ModelConfigFileName;
+        Dictionary<string, Dictionary<string, string>> dataDic = FileOperate.ParseIniFile(filePath);
+        if (dataDic.ContainsKey(Config.BaseUser)) return;
         Dictionary<string, string> userDic = new();
         userDic["look_enable"] = "1";
+        userDic["win_fps"] = "120";
         userDic["win_topapha"] = "0";
         userDic["model_size"] = "500";
         userDic["model_x"] = "0";
@@ -388,10 +387,6 @@ public class Model : MonoBehaviour
         userDic["eye_speed"] = "1000";
         userDic["audio_add"] = "1000";
         userDic["audio_smooth"] = "100";
-        /*生成过就不覆盖之后的*/
-        string filePath = Config.DirectoryPath + Config.ModelConfigFileName;
-        Dictionary<string, Dictionary<string, string>> dataDic = FileOperate.ParseIniFile(filePath);
-        if (dataDic.ContainsKey(Config.BaseUser)) return;
         Dictionary<string, Dictionary<string, string>> data = new();
         data.Add(Config.BaseUser, userDic);
         string iniPath = Config.DirectoryPath + Config.ModelConfigFileName;
@@ -413,30 +408,47 @@ public class Model : MonoBehaviour
         Expression expression = GetComponent<Expression>();
         if (expression == null) return;
         Debug.Log("播放表情: " + ExpRecordDic.ToString());
-        List<ExpressionItem> expressionItemList = new List<ExpressionItem>();
-        for (int i = 0; i < cubismExpressionData.Parameters.Length; ++i)
-        {
-            CubismExpressionData.SerializableExpressionParameter sep = cubismExpressionData.Parameters[i];
-            ExpressionItem expressionItem = new ExpressionItem();
-            expressionItem.name = sep.Id;
-            expressionItem.initialValue = Live2dCubismModel.Parameters.FindById(sep.Id).Value;
-            expressionItem.value = expressionItem.initialValue;
-            expressionItem.targetValue = sep.Value;
-            expressionItem.inTime = (cubismExpressionData.FadeInTime==0f ? 0.5f : cubismExpressionData.FadeInTime);
-            expressionItem.outTime = (cubismExpressionData.FadeOutTime == 0f ? 0.5f : cubismExpressionData.FadeOutTime);
-            expressionItemList.Add(expressionItem);
-        }
-        expression.AddExpressionItemDic(expressionItemList);
+        List<ExpressionItem> expressionItemList = CubismExpressionDataToItemList(cubismExpressionData);
+        expression.AddExpressionItem(expressionItemList);
 #endif
     }
+
     //根据NAME播放表情
     public void SendExpression(string name)
     {
         int index = -1;
         foreach (KeyValuePair<int, string> item in ExpRecordDic)
-            if (item.Value == name){index = item.Key;break;}
+            if (item.Value == name) { index = item.Key; break; }
         if (index == -1) { Debug.Log("没有对应Exp名称"); return; }
         SendExpression(index);
+    }
+
+    //根据ID添加表情
+    public void AddExpressionShift(int index,Config.ShiftEn en)
+    {
+#if PRIMORDIAL
+#else
+        if (index < 0 || !ExpItemsDic.ContainsKey(index)) return;
+        CubismExpressionData cubismExpressionData = ExpItemsDic[index];
+        Expression expression = GetComponent<Expression>();
+        if (expression == null) return;
+        Debug.Log("添加表情到就绪列表: " + ExpRecordDic.ToString());
+        List<ExpressionItem> expressionItemList = CubismExpressionDataToItemList(cubismExpressionData);
+        if (en == Config.ShiftEn.WAIT)
+            expression.AddWaitExpressionItemList(expressionItemList);
+        else if(en == Config.ShiftEn.REACT)
+            expression.AddReactExpressionItemList(expressionItemList);
+#endif
+    }
+
+    //根据NAME添加表情
+    public void AddExpressionShift(string name, Config.ShiftEn en)
+    {
+        int index = -1;
+        foreach (KeyValuePair<int, string> item in ExpRecordDic)
+            if (item.Value == name) { index = item.Key; break; }
+        if (index == -1) { Debug.Log("没有对应Exp名称"); return; }
+        AddExpressionShift(index, en);
     }
 
     //根据ID播放动画
@@ -465,6 +477,49 @@ public class Model : MonoBehaviour
         if (index == -1) { Debug.Log("没有对应Mot名称"); return; }
         SendMotion(index);
     }
+    //根据ID添加动画
+    public void AddMotionShift(int index, Config.ShiftEn en)
+    {
+#if PRIMORDIAL
+#else
+        if (index < 0 || !MotItemsDic.ContainsKey(index)) return;
+        Motion motion = GetComponent<Motion>();
+        if (motion == null) return;
+        Debug.Log("添加动画: " + MotRecordDic[index]);
+        if (en == Config.ShiftEn.WAIT)
+            motion.AddWaitMotionItemList(MotItemsDic[index]);
+        else if (en == Config.ShiftEn.REACT)
+            motion.AddReactMotionItemList(MotItemsDic[index]);
+#endif
+    }
+    //根据NAME添加动画
+    public void AddMotionShift(string name, Config.ShiftEn en)
+    {
+        int index = -1;
+        foreach (KeyValuePair<int, string> item in MotRecordDic)
+            if (item.Value == name) { index = item.Key; break; }
+        if (index == -1) { Debug.Log("没有对应Mot名称"); return; }
+        AddMotionShift(index, en);
+    }
+
+    //响应表情和动画
+    public void SendReactShift()
+    {
+        SendReactMotionShift();
+        SendReactExpressionShift();
+    }
+
+    public void SendReactMotionShift()
+    {
+        Motion motion = GetComponent<Motion>();
+        if (motion != null)motion.SendReactMotion();
+    }
+    public void SendReactExpressionShift()
+    {
+        Expression expression = GetComponent<Expression>();
+        if (expression != null)expression.SendReactMotion();
+    }
+
     /// <summary>
     /// 初始模型控件协调
     /// </summary>
@@ -515,8 +570,11 @@ public class Model : MonoBehaviour
         Dictionary<string, Dictionary<string, string>> dataDic = FileOperate.ParseIniFile(filePath);
         if (!dataDic.ContainsKey(Config.BaseUser)) return;
         Dictionary<string, string> userDic = dataDic[Config.BaseUser];
+        //参数
         if (int.Parse(userDic["look_enable"]) == 1)Config.IsLookMouse = true;
         else Config.IsLookMouse = false;
+        if (userDic.ContainsKey("win_fps"))
+            WindowSetting.SetWindowFps(int.Parse(userDic["win_fps"]));
         if (int.Parse(userDic["win_topapha"]) == 0)
             WindowSetting.SetWindowTopApha(TransparentWindow.enumWinStyle.WinTop);
         else if (int.Parse(userDic["win_topapha"]) == 1)
@@ -535,6 +593,50 @@ public class Model : MonoBehaviour
         Config.GainItem.SetParam(float.Parse(userDic["audio_add"])/100f);
         Config.SmoothingItem.SetParam(float.Parse(userDic["audio_smooth"])/100f);
     }
+    /// <summary>
+    /// 表情和动画的启动、待机、响应设定
+    /// </summary>
+    public void InitSelfModelShift()
+    {
+        string filePath = Config.DirectoryPath + Config.ModelConfigFileName;
+        Dictionary<string, Dictionary<string, string>> dataDic = FileOperate.ParseIniFile(filePath);
+        List<string>startExpList = new List<string>();
+        List<string>startMotionList = new List<string>();
+        //表情动画就绪
+        if (dataDic.ContainsKey(Config.BaseExpressionShift))
+        {
+            foreach (KeyValuePair<string, string> item in dataDic[Config.BaseExpressionShift])
+            {
+                int value = int.Parse(item.Value);
+                if (Config.ShiftEn.START == ((Config.ShiftEn)value & Config.ShiftEn.START))
+                    startExpList.Add(item.Key);
+                if (Config.ShiftEn.WAIT == ((Config.ShiftEn)value & Config.ShiftEn.WAIT))
+                    AddExpressionShift(item.Key, Config.ShiftEn.WAIT);
+                if (Config.ShiftEn.REACT == ((Config.ShiftEn)value & Config.ShiftEn.REACT))
+                    AddExpressionShift(item.Key, Config.ShiftEn.REACT);
+            }
+        }
+        //动作动画就绪
+        if (dataDic.ContainsKey(Config.BaseMotionShift))
+        {
+            foreach (KeyValuePair<string, string> item in dataDic[Config.BaseMotionShift])
+            {
+                int value = int.Parse(item.Value);
+                if (Config.ShiftEn.START == ((Config.ShiftEn)value & Config.ShiftEn.START))
+                    startMotionList.Add(item.Key);
+                if (Config.ShiftEn.WAIT == ((Config.ShiftEn)value & Config.ShiftEn.WAIT))
+                    AddMotionShift(item.Key, Config.ShiftEn.WAIT);
+                if (Config.ShiftEn.REACT == ((Config.ShiftEn)value & Config.ShiftEn.REACT))
+                    AddMotionShift(item.Key, Config.ShiftEn.REACT);
+            }
+        }
+        //播放一个启动动画
+        if (startExpList.Count > 0)
+            SendExpression(startExpList[UnityEngine.Random.Range(0, startExpList.Count)]);
+        if(startMotionList.Count > 0)
+            SendMotion(startMotionList[UnityEngine.Random.Range(0, startMotionList.Count)]);
+    }
+
 
     /// <summary>
     /// 自定义控件协调初始化
@@ -862,7 +964,6 @@ public class Model : MonoBehaviour
         Destroy(TransformParamEyeBallX);
         Destroy(TransformParamEyeBallY);
 
-
         while (OpeningLive2dModelList.Count > 0)
         {
             GameObject obj = OpeningLive2dModelList[0];
@@ -880,10 +981,31 @@ public class Model : MonoBehaviour
 #else
         ExpItemsDic.Clear();
         MotItemsDic.Clear();
-
+        if(GetComponent<Motion>()!=null) GetComponent<Motion>().Clear();
+        if(GetComponent<Expression>()!=null) GetComponent<Expression>().Clear();
 #endif
         Resources.UnloadUnusedAssets();
+    }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    List<ExpressionItem> CubismExpressionDataToItemList(CubismExpressionData cubismExpressionData)
+    {
+        List<ExpressionItem> expressionItemList = new List<ExpressionItem>();
+        for (int i = 0; i < cubismExpressionData.Parameters.Length; ++i)
+        {
+            CubismExpressionData.SerializableExpressionParameter sep = cubismExpressionData.Parameters[i];
+            ExpressionItem expressionItem = new ExpressionItem();
+            expressionItem.name = sep.Id;
+            expressionItem.initialValue = Live2dCubismModel.Parameters.FindById(sep.Id).Value;
+            expressionItem.value = expressionItem.initialValue;
+            expressionItem.targetValue = sep.Value;
+            expressionItem.inTime = (cubismExpressionData.FadeInTime == 0f ? 0.5f : cubismExpressionData.FadeInTime);
+            expressionItem.outTime = (cubismExpressionData.FadeOutTime == 0f ? 0.5f : cubismExpressionData.FadeOutTime);
+            expressionItemList.Add(expressionItem);
+        }
+        return expressionItemList;
     }
 
     /// <summary>

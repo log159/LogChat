@@ -17,7 +17,7 @@
    <item row="0" column="0">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>5</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab_parameter">
       <attribute name="title">
@@ -581,9 +581,37 @@
         </widget>
        </item>
        <item>
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>PS:此页内容重启model生效</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QPushButton" name="pushButton_saveshift">
          <property name="text">
           <string>保存设定</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab">
+      <attribute name="title">
+       <string>动画过渡</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_14">
+       <item>
+        <widget class="QGroupBox" name="groupBox">
+         <property name="title">
+          <string>表情过渡</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_2">
+         <property name="title">
+          <string>动画过渡</string>
          </property>
         </widget>
        </item>

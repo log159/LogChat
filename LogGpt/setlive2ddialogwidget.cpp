@@ -2,9 +2,9 @@
 #include "ui_setlive2ddialogwidget.h"
 
 
-QProcess*   SetLive2DDialogWidget::     m_Live2dProcess =nullptr;
+QProcess*   SetLive2DDialogWidget::     live2dProcess =nullptr;
 bool        SetLive2DDialogWidget::     live2DIsOpen    =false;
-int         SetLive2DDialogWidget::     m_Live2dOpenId  =-1;
+int         SetLive2DDialogWidget::     live2dOpenId  =-1;
 
 SetLive2DDialogWidget::SetLive2DDialogWidget(QWidget *parent) :
     QDialog(parent),
@@ -24,19 +24,19 @@ SetLive2DDialogWidget::~SetLive2DDialogWidget()
 
 void SetLive2DDialogWidget::closeProcess()
 {
-    if(m_Live2dProcess==nullptr)return;
+    if(live2dProcess==nullptr)return;
     SetLive2DDialogWidget::live2DIsOpen=false;
-    SetLive2DDialogWidget::m_Live2dOpenId=-1;
+    SetLive2DDialogWidget::live2dOpenId=-1;
     NetLive2D::getInstance()->stopListen();
 //    //尝试优雅的退出
-    if (m_Live2dProcess->state() == QProcess::Running) {
-        m_Live2dProcess->terminate();
-        m_Live2dProcess->waitForFinished(1000);
+    if (live2dProcess->state() == QProcess::Running) {
+        live2dProcess->terminate();
+        live2dProcess->waitForFinished(1000);
         //杀死进程
-        if (m_Live2dProcess->state() == QProcess::Running) {
-            m_Live2dProcess->kill();
-            delete m_Live2dProcess;
-            m_Live2dProcess=nullptr;
+        if (live2dProcess->state() == QProcess::Running) {
+            live2dProcess->kill();
+            delete live2dProcess;
+            live2dProcess=nullptr;
         }
     }
 }
@@ -68,6 +68,8 @@ void SetLive2DDialogWidget::init()
         case 2:ui->radioButton_wintopapha->setChecked(true);break;
         case 3:ui->radioButton_winnotopnoapha->setChecked(true);break;
      }
+     //FPS
+     ui->horizontalSlider_fps->setRange(30,120);    //30-120
 
      //几何
      ui->horizontalSlider_zoom_model_size->setRange(10,10000);      //0.1-100
@@ -87,6 +89,7 @@ void SetLive2DDialogWidget::init()
      ui->horizontalSlider_zoom_audio_smooth->setRange(0,100);       //0-1
 
 
+     ui->horizontalSlider_fps->setValue(LIVE2DPARAMINIT_M["win_fps"]);
      ui->horizontalSlider_zoom_model_size->setValue(LIVE2DPARAMINIT_M["model_size"]);
      ui->horizontalSlider_zoom_model_X->setValue(LIVE2DPARAMINIT_M["model_x"]);
      ui->horizontalSlider_zoom_model_Y->setValue(LIVE2DPARAMINIT_M["model_y"]);
@@ -101,6 +104,7 @@ void SetLive2DDialogWidget::init()
      ui->horizontalSlider_zoom_audio_add->setValue(LIVE2DPARAMINIT_M["audio_add"]);
      ui->horizontalSlider_zoom_audio_smooth->setValue(LIVE2DPARAMINIT_M["audio_smooth"]);
 
+     ui->lineEdit_fps->setEnabled(false);
      ui->lineEdit_zoom_model_size->setEnabled(false);
      ui->lineEdit_zoom_model_X->setEnabled(false);
      ui->lineEdit_zoom_model_Y->setEnabled(false);
@@ -114,11 +118,10 @@ void SetLive2DDialogWidget::init()
      ui->lineEdit_zoom_audio_add->setEnabled(false);
      ui->lineEdit_zoom_audio_smooth->setEnabled(false);
 
-
      initLineEdit();
 
      if(SetLive2DDialogWidget::live2DIsOpen){
-         if(SetLive2DDialogWidget::m_Live2dOpenId>=0){
+         if(SetLive2DDialogWidget::live2dOpenId>=0){
              updateForUi();
              updateModelChange();
          }
@@ -148,26 +151,24 @@ void SetLive2DDialogWidget::initConnect()
         if(Config::get_LIVE2DMODELCONFIG_V()[m_Live2dPassId].getFilePath().size()<QString("model3.json").size()){
             QMessageBox::warning(this,"Error occurred","模型路径有误！");return ;
         }
-        m_Live2dOpenId=m_Live2dPassId;
+        live2dOpenId=m_Live2dPassId;
         updateModelChange();
         if(live2DIsOpen==true){
-            Config::set_UNITY_STARTMODELPATH(ConfigConstWay::get_TRUE_WAY(Config::get_LIVE2DMODELCONFIG_V()[SetLive2DDialogWidget::m_Live2dOpenId].getFilePath()));
+            Config::set_UNITY_STARTMODELPATH(ConfigConstWay::get_TRUE_WAY(Config::get_LIVE2DMODELCONFIG_V()[SetLive2DDialogWidget::live2dOpenId].getFilePath()));
             sendModelHandle("Init:null;");
             //同步刷新Ui
             updateForUi();
-
-
             return;
         }
         SetLive2DDialogWidget::live2DIsOpen=true;
-        if(m_Live2dProcess==nullptr)
-            m_Live2dProcess=new QProcess(ConfigWindow::getWindowPointer());
+        if(live2dProcess==nullptr)
+            live2dProcess=new QProcess(ConfigWindow::getWindowPointer());
         qDebug()<<"live2d base window pointer : "<<ConfigWindow::getWindowPointer();
-        m_Live2dProcess->setWorkingDirectory(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::UNITY_DEMO_WORK_WAY));
-//        m_Live2dProcess->startDetached(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::UNITY_DEMO_WAY),QStringList(),ConfigConstWay::get_TRUE_WAY(ConfigConstWay::UNITY_DEMO_WORK_WAY));
-        m_Live2dProcess->start(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::UNITY_DEMO_WAY));
+        live2dProcess->setWorkingDirectory(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::UNITY_DEMO_WORK_WAY));
+//        live2dProcess->startDetached(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::UNITY_DEMO_WAY),QStringList(),ConfigConstWay::get_TRUE_WAY(ConfigConstWay::UNITY_DEMO_WORK_WAY));
+        live2dProcess->start(ConfigConstWay::get_TRUE_WAY(ConfigConstWay::UNITY_DEMO_WAY));
         //检查外部进程是否成功启动
-        if (!m_Live2dProcess->waitForStarted()) {
+        if (!live2dProcess->waitForStarted()) {
             qDebug() << "Failed to start the process";
             return;
         }
@@ -176,8 +177,6 @@ void SetLive2DDialogWidget::initConnect()
             NetLive2D::getInstance()->startListen();
             //同步刷新Ui
             updateForUi();
-
-
         }
     });
 
@@ -244,7 +243,7 @@ void SetLive2DDialogWidget::initConnect()
 
     //修改模型
     connect(ui->pushButton_change,&QPushButton::clicked,this,[=](){
-        if(SetLive2DDialogWidget::live2DIsOpen==false||SetLive2DDialogWidget::m_Live2dOpenId==-1){
+        if(SetLive2DDialogWidget::live2DIsOpen==false||SetLive2DDialogWidget::live2dOpenId==-1){
             QMessageBox::warning(this,"Error occurred","请选择模型！");
             return ;
         }
@@ -294,6 +293,8 @@ void SetLive2DDialogWidget::initConnect()
     connect(ui->radioButton_winapha, &QRadioButton::clicked, [&](){sendWindowHandle("winapha");});
     connect(ui->radioButton_wintopapha, &QRadioButton::clicked, [&](){sendWindowHandle("wintopapha");});
     connect(ui->radioButton_winnotopnoapha, &QRadioButton::clicked, [&](){sendWindowHandle("winnotopnoapha");});
+    //FPS
+    connect(ui->horizontalSlider_fps,slider,this,[=](int value){sendModelHandle(QString("Config:Fps,%1;").arg(value));ui->lineEdit_fps->setText(QString::number(value));});
     //模型缩放比例
     connect(ui->horizontalSlider_zoom_model_size,slider,this,[=](int value){sendConfigHandle("ScaleProportion",value);setLineEditText(ui->lineEdit_zoom_model_size,value);});
     //X坐标
@@ -322,14 +323,19 @@ void SetLive2DDialogWidget::initConnect()
 
 
     //重置
+    connect(ui->pushButton_fps,&QPushButton::clicked,[&](){
+        ui->horizontalSlider_fps->setValue(LIVE2DPARAMINIT_M["win_fps"]);
+        sendModelHandle(QString("Config:Fps,%1;").arg(ui->horizontalSlider_fps->value()));
+        initLineEdit();
+    });
 
     connect(ui->pushButton_zoom_model_size,&QPushButton::clicked,[&](){
         ui->horizontalSlider_zoom_model_size->setValue(LIVE2DPARAMINIT_M["model_size"]);
         sendConfigHandle("ScaleProportion",ui->horizontalSlider_zoom_model_size->value());
         initLineEdit();
     });
-    connect(ui->pushButton_zoom_model_X,&QPushButton::clicked,[&](){ui->horizontalSlider_zoom_model_X->setValue(
-        LIVE2DPARAMINIT_M["model_x"]);
+    connect(ui->pushButton_zoom_model_X,&QPushButton::clicked,[&](){
+        ui->horizontalSlider_zoom_model_X->setValue(LIVE2DPARAMINIT_M["model_x"]);
         sendConfigHandle("X",ui->horizontalSlider_zoom_model_X->value());
         initLineEdit();
     });
@@ -388,13 +394,14 @@ void SetLive2DDialogWidget::initConnect()
 
     //保存配置
     connect(ui->pushButton_save,&QPushButton::clicked,[=](){
-        if(SetLive2DDialogWidget::m_Live2dOpenId==-1){
+        if(SetLive2DDialogWidget::live2dOpenId==-1){
+            qDebug()<<"并没有model打开";
             return;
         }
 
         //model初始化
-        ModelConfigItem modelConfigItem=Config::get_LIVE2DMODELCONFIG_V().at(SetLive2DDialogWidget::m_Live2dOpenId);
-        modelConfigItem.setModelId(SetLive2DDialogWidget::m_Live2dOpenId);
+        ModelConfigItem modelConfigItem=Config::get_LIVE2DMODELCONFIG_V().at(SetLive2DDialogWidget::live2dOpenId);
+        modelConfigItem.setModelId(SetLive2DDialogWidget::live2dOpenId);
         modelConfigItem.setModelName(ui->lineEdit_name->text());
         modelConfigItem.setFilePath(ui->lineEdit_way->text());
         modelConfigItem.setLookEnable(bool(ui->radioButton_look_enable_yes->isChecked()?1:0));
@@ -405,6 +412,7 @@ void SetLive2DDialogWidget::initConnect()
         else if(ui->radioButton_winnotopnoapha->isChecked())topapha=3;
         else {};
         modelConfigItem.setTopApha(topapha);
+        modelConfigItem.setFps(ui->horizontalSlider_fps->value());
         modelConfigItem.setModelSize(ui->horizontalSlider_zoom_model_size->value());
         modelConfigItem.setModelX(ui->horizontalSlider_zoom_model_X->value());
         modelConfigItem.setModelY(ui->horizontalSlider_zoom_model_Y->value());
@@ -418,7 +426,7 @@ void SetLive2DDialogWidget::initConnect()
 
         QVector<ModelConfigItem> modV=Config::get_LIVE2DMODELCONFIG_V();
         for (int i=0;i<modV.size();++i) {
-            if(modV.at(i).getModelId()==SetLive2DDialogWidget::m_Live2dOpenId){
+            if(modV.at(i).getModelId()==SetLive2DDialogWidget::live2dOpenId){
                 modV[i]=modelConfigItem;
                 break;
             }
@@ -427,8 +435,8 @@ void SetLive2DDialogWidget::initConnect()
         Config::set_LIVE2DMODELCONFIG_V(modV);
 
         //更新ui
-        qDebug()<<"更新ui id = "<<SetLive2DDialogWidget::m_Live2dOpenId;
-        QListWidgetItem* listWidgetItem=ui->listWidget_model->item(SetLive2DDialogWidget::m_Live2dOpenId);
+        qDebug()<<"更新ui id = "<<SetLive2DDialogWidget::live2dOpenId;
+        QListWidgetItem* listWidgetItem=ui->listWidget_model->item(SetLive2DDialogWidget::live2dOpenId);
         (static_cast<Live2DListItemsWidget*>(ui->listWidget_model->itemWidget(listWidgetItem)))->setText(modelConfigItem.getModelName());
 
         //最后同步到对应文件夹下的ini
@@ -443,6 +451,7 @@ void SetLive2DDialogWidget::initConnect()
 
         QMap<QString,QString>changeUserM;
         changeUserM["look_enable"]=(modelConfigItem.getLookEnable()==true?"1":"0");
+        changeUserM["win_fps"]=(QString::number(modelConfigItem.getFps()));
         changeUserM["win_topapha"]=QString::number(modelConfigItem.getTopApha());
         changeUserM["model_size"]=QString::number(modelConfigItem.getModelSize());
         changeUserM["model_x"]=QString::number(modelConfigItem.getModelX());
@@ -505,27 +514,28 @@ void SetLive2DDialogWidget::sendWindowHandle(const QString &str)
 
 void SetLive2DDialogWidget::initLineEdit()
 {
-     ui->lineEdit_zoom_model_size->setText(Transformation::IntToStringF2(ui->horizontalSlider_zoom_model_size->value()));
-     ui->lineEdit_zoom_model_X->setText(Transformation::IntToStringF2(ui->horizontalSlider_zoom_model_X->value()));
-     ui->lineEdit_zoom_model_Y->setText(Transformation::IntToStringF2(ui->horizontalSlider_zoom_model_Y->value()));
-     ui->lineEdit_zoom_model_RX->setText(Transformation::IntToStringF2(ui->horizontalSlider_zoom_model_RX->value()));
-     ui->lineEdit_zoom_model_RY->setText(Transformation::IntToStringF2(ui->horizontalSlider_zoom_model_RY->value()));
-     ui->lineEdit_zoom_model_RZ->setText(Transformation::IntToStringF2(ui->horizontalSlider_zoom_model_RZ->value()));
+    ui->lineEdit_fps->setText(QString::number(ui->horizontalSlider_fps->value()));
+    ui->lineEdit_zoom_model_size->setText(Transformation::IntToStringF2(ui->horizontalSlider_zoom_model_size->value()));
+    ui->lineEdit_zoom_model_X->setText(Transformation::IntToStringF2(ui->horizontalSlider_zoom_model_X->value()));
+    ui->lineEdit_zoom_model_Y->setText(Transformation::IntToStringF2(ui->horizontalSlider_zoom_model_Y->value()));
+    ui->lineEdit_zoom_model_RX->setText(Transformation::IntToStringF2(ui->horizontalSlider_zoom_model_RX->value()));
+    ui->lineEdit_zoom_model_RY->setText(Transformation::IntToStringF2(ui->horizontalSlider_zoom_model_RY->value()));
+    ui->lineEdit_zoom_model_RZ->setText(Transformation::IntToStringF2(ui->horizontalSlider_zoom_model_RZ->value()));
 
-     ui->lineEdit_zoom_mouse_speed->setText(Transformation::IntToStringF2(ui->horizontalSlider_zoom_mouse_speed->value()));
-     ui->lineEdit_zoom_eye_time->setText(Transformation::IntToStringF2(ui->horizontalSlider_zoom_eye_time->value()));
-     ui->lineEdit_zoom_eye_deviation->setText( Transformation::IntToStringF2(ui->horizontalSlider_zoom_eye_deviation->value()));
-     ui->lineEdit_zoom_eye_speed->setText(Transformation::IntToStringF2(ui->horizontalSlider_zoom_eye_speed->value()));
-     ui->lineEdit_zoom_audio_add->setText( Transformation::IntToStringF2(ui->horizontalSlider_zoom_audio_add->value()));
-     ui->lineEdit_zoom_audio_smooth->setText(Transformation::IntToStringF2(ui->horizontalSlider_zoom_audio_smooth->value()));
+    ui->lineEdit_zoom_mouse_speed->setText(Transformation::IntToStringF2(ui->horizontalSlider_zoom_mouse_speed->value()));
+    ui->lineEdit_zoom_eye_time->setText(Transformation::IntToStringF2(ui->horizontalSlider_zoom_eye_time->value()));
+    ui->lineEdit_zoom_eye_deviation->setText( Transformation::IntToStringF2(ui->horizontalSlider_zoom_eye_deviation->value()));
+    ui->lineEdit_zoom_eye_speed->setText(Transformation::IntToStringF2(ui->horizontalSlider_zoom_eye_speed->value()));
+    ui->lineEdit_zoom_audio_add->setText( Transformation::IntToStringF2(ui->horizontalSlider_zoom_audio_add->value()));
+    ui->lineEdit_zoom_audio_smooth->setText(Transformation::IntToStringF2(ui->horizontalSlider_zoom_audio_smooth->value()));
 }
 
 
 
 void SetLive2DDialogWidget::updateForUi()
 {
-    if(SetLive2DDialogWidget::m_Live2dOpenId==-1){return;}
-    ModelConfigItem passItem=Config::get_LIVE2DMODELCONFIG_V().at(SetLive2DDialogWidget::m_Live2dOpenId);
+    if(SetLive2DDialogWidget::live2dOpenId==-1){return;}
+    ModelConfigItem passItem=Config::get_LIVE2DMODELCONFIG_V().at(SetLive2DDialogWidget::live2dOpenId);
 
     ui->lineEdit_name->setText(passItem.getModelName());
     ui->lineEdit_way->setText(passItem.getFilePath());
@@ -538,6 +548,8 @@ void SetLive2DDialogWidget::updateForUi()
        case 2:ui->radioButton_wintopapha->setChecked(true);break;
        case 3:ui->radioButton_winnotopnoapha->setChecked(true);break;
     }
+
+    ui->horizontalSlider_fps->setValue(passItem.getFps());
 
     ui->horizontalSlider_zoom_model_size->setValue(passItem.getModelSize());
     ui->horizontalSlider_zoom_model_X->setValue(passItem.getModelX());
@@ -557,41 +569,6 @@ void SetLive2DDialogWidget::updateForUi()
 
 }
 
-//void SetLive2DDialogWidget::updateForUnity()
-//{
-
-//    if(SetLive2DDialogWidget::m_Live2dOpenId==-1){return;}
-//    if(NetLive2D::getIsConnect()==false){return;}
-
-//    QTimer::singleShot(5,this,[=](){
-//        if(ui->radioButton_look_enable_yes->isChecked())sendConfigHandle("IsLookMouse",100);
-//        else sendConfigHandle("IsLookMouse",0);
-//    });
-
-//    QTimer::singleShot(10,this,[=](){
-//        if(ui->radioButton_wintop->isChecked())sendWindowHandle("wintop");
-//        else if(ui->radioButton_winapha->isChecked())sendWindowHandle("winapha");
-//        else if(ui->radioButton_wintopapha->isChecked())sendWindowHandle("wintopapha");
-//        else if(ui->radioButton_winnotopnoapha->isChecked())sendWindowHandle("winnotopnoapha");
-//        else {};
-//    });
-
-//    QTimer::singleShot(15,this,[=](){sendConfigHandle("ScaleProportion",ui->horizontalSlider_zoom_model_size->value());});
-//    QTimer::singleShot(20,this,[=](){sendConfigHandle("X",ui->horizontalSlider_zoom_model_X->value());});
-//    QTimer::singleShot(25,this,[=](){sendConfigHandle("Y",ui->horizontalSlider_zoom_model_Y->value());});
-//    QTimer::singleShot(30,this,[=](){sendConfigHandle("Damping",ui->horizontalSlider_zoom_mouse_speed->value());});
-//    QTimer::singleShot(35,this,[=](){sendConfigHandle("Mean",ui->horizontalSlider_zoom_eye_time->value());});
-//    QTimer::singleShot(40,this,[=](){sendConfigHandle("MaximumDeviation",ui->horizontalSlider_zoom_eye_deviation->value());});
-//    QTimer::singleShot(45,this,[=](){sendConfigHandle("Timescale",ui->horizontalSlider_zoom_eye_speed->value());});
-//    QTimer::singleShot(50,this,[=](){sendConfigHandle("Gain",ui->horizontalSlider_zoom_audio_add->value());});
-//    QTimer::singleShot(55,this,[=](){sendConfigHandle("Smoothing",ui->horizontalSlider_zoom_audio_smooth->value());});
-
-
-
-
-
-//}
-
 void SetLive2DDialogWidget::setLineEditText(QLineEdit *lineEdit, int value)
 {
     lineEdit->setText(Transformation::IntToStringF2(value));
@@ -602,7 +579,7 @@ void SetLive2DDialogWidget::updateModelChange()
     for(int i=0;i<ui->listWidget_model->count();++i){
         QListWidgetItem* listWidgetItem=ui->listWidget_model->item(i);
         Live2DListItemsWidget* live2DListItemsWidget = static_cast<Live2DListItemsWidget*>(ui->listWidget_model->itemWidget(listWidgetItem));
-        if(i==m_Live2dOpenId)live2DListItemsWidget->setChangeIs();
+        if(i==live2dOpenId)live2DListItemsWidget->setChangeIs();
         else live2DListItemsWidget->setChangeNo();
     }
 

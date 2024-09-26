@@ -89,11 +89,13 @@ private:
     void initUiDrawableList();
     void initUiExpressionList();
     void initUiMotionList();
+    void initUiShiftList();
     void initUiConnectParameterButton();
     void initUiConnectPartButton();
     void initUiConnectDrawableButton();
     void initUiConnectExpressionButton();
     void initUiConnectMotionButton();
+    void initUiConnectShift();
 
 
     //解析cdi3.json

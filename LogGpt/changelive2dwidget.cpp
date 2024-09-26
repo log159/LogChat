@@ -11,13 +11,11 @@ QListWidgetItem *item = L->item(i);\
 if (item->text() == newItemText) {exists = true;break;}}\
 if (!exists)L->addItem(newItemText);});
 
-
-
-
 #define CONNECT_REMOVE(P,L)\
 connect(P,&QPushButton::clicked,[=](){\
 QListWidgetItem* selectedItem = L->currentItem();\
-if (selectedItem != nullptr) {delete L->takeItem(L->row(selectedItem));}});
+if (selectedItem != nullptr)\
+{delete L->takeItem(L->row(selectedItem));}});
 
 #define CONNECT_SAVE(L,T,E)\
 for(int i = 0; i < L->count(); ++i){\
@@ -93,62 +91,19 @@ void ChangeLive2DWidget::refresh(const QString &path)
     initUiDrawableList();
     initUiExpressionList();
     initUiMotionList();
+    initUiShiftList();
 
     initUiConnectParameterButton();
     initUiConnectPartButton();
     initUiConnectDrawableButton();
     initUiConnectExpressionButton();
+    initUiConnectMotionButton();
+    initUiConnectShift();
 
 
-    for(QMap<QString,int>::iterator it=m_ExpressionItemsMap.begin();it!=m_ExpressionItemsMap.end();++it){
-        ui->comboBox_exp_start->addItem(it.key());
-        ui->comboBox_exp_react->addItem(it.key());
-        ui->comboBox_exp_wait->addItem(it.key());
-    }
-    for(QMap<QString,int>::iterator it=m_MotionItemsMap.begin();it!=m_MotionItemsMap.end();++it){
-        ui->comboBox_mot_start->addItem(it.key());
-        ui->comboBox_mot_react->addItem(it.key());
-        ui->comboBox_mot_wait->addItem(it.key());
-    }
-
-    Activated activated=&QComboBox::activated;
 
 
-    CONNECT_CURRENT(ui->comboBox_exp_start,activated,ui->listWidget_exp_start);
-    CONNECT_CURRENT(ui->comboBox_exp_wait,activated,ui->listWidget_exp_wait);
-    CONNECT_CURRENT(ui->comboBox_exp_react,activated,ui->listWidget_exp_react);
-    CONNECT_CURRENT(ui->comboBox_mot_start,activated,ui->listWidget_mot_start);
-    CONNECT_CURRENT(ui->comboBox_mot_wait,activated,ui->listWidget_mot_wait);
-    CONNECT_CURRENT(ui->comboBox_mot_react,activated,ui->listWidget_mot_react);
 
-    CONNECT_REMOVE(ui->pushButton_exp_start_remove,ui->listWidget_exp_start);
-    CONNECT_REMOVE(ui->pushButton_exp_wait_remove,ui->listWidget_exp_wait);
-    CONNECT_REMOVE(ui->pushButton_exp_react_remove,ui->listWidget_exp_react);
-    CONNECT_REMOVE(ui->pushButton_mot_start_remove,ui->listWidget_mot_start);
-    CONNECT_REMOVE(ui->pushButton_mot_wait_remove,ui->listWidget_mot_wait);
-    CONNECT_REMOVE(ui->pushButton_mot_react_remove,ui->listWidget_mot_react);
-
-
-    connect(ui->pushButton_saveshift,&QPushButton::clicked,[=](){
-        QMap<QString,int>expM;
-        QMap<QString,int>motM;
-        QMap<QString,QString>expDataM;
-        QMap<QString,QString>motDataM;
-        CONNECT_SAVE(ui->listWidget_exp_start,expM,ShiftEn::START);
-        CONNECT_SAVE(ui->listWidget_exp_wait,expM,ShiftEn::WAIT);
-        CONNECT_SAVE(ui->listWidget_exp_react,expM,ShiftEn::REACT);
-        CONNECT_SAVE(ui->listWidget_mot_start,motM,ShiftEn::START);
-        CONNECT_SAVE(ui->listWidget_mot_wait,motM,ShiftEn::WAIT);
-        CONNECT_SAVE(ui->listWidget_mot_react,motM,ShiftEn::REACT);
-
-        for(auto it=expM.begin();it!=expM.end();++it)
-            expDataM[it.key()]=QString::number(it.value());
-        for(auto it=motM.begin();it!=motM.end();++it)
-            motDataM[it.key()]=QString::number(it.value());
-        QString configModelUserFilePath=this->m_FilePath+"/"+::ConfigModelUserFileName;
-        Config::set_OTHER_BASE(configModelUserFilePath,::ItemM[::EnItem::EXPRESSIONSHIFT],expDataM);
-        Config::set_OTHER_BASE(configModelUserFilePath,::ItemM[::EnItem::MOTIONSHIFT],motDataM);
-    });
 //    //控件谐波
 //    {
 ////        ui->listWidget_harmonic->set
@@ -530,15 +485,88 @@ void ChangeLive2DWidget::initUiConnectDrawableButton()
 void ChangeLive2DWidget::initUiConnectExpressionButton()
 {
     connect(ui->pushButton_expression_reset,&QPushButton::clicked,[=](){
-        emit sendHandle("InitItems:all_self;");
+        emit sendHandle("InitItems:parameters;");
     });
 }
 
 void ChangeLive2DWidget::initUiConnectMotionButton()
 {
     connect(ui->pushButton_motion_reset,&QPushButton::clicked,[=](){
-        emit sendHandle("InitItems:all_self;");
+        emit sendHandle("InitItems:parameters;");
     });
+}
+
+void ChangeLive2DWidget::initUiConnectShift()
+{
+    Activated activated=&QComboBox::activated;
+    CONNECT_CURRENT(ui->comboBox_exp_start,activated,ui->listWidget_exp_start);
+    CONNECT_CURRENT(ui->comboBox_exp_wait,activated,ui->listWidget_exp_wait);
+    CONNECT_CURRENT(ui->comboBox_exp_react,activated,ui->listWidget_exp_react);
+    CONNECT_CURRENT(ui->comboBox_mot_start,activated,ui->listWidget_mot_start);
+    CONNECT_CURRENT(ui->comboBox_mot_wait,activated,ui->listWidget_mot_wait);
+    CONNECT_CURRENT(ui->comboBox_mot_react,activated,ui->listWidget_mot_react);
+
+    CONNECT_REMOVE(ui->pushButton_exp_start_remove,ui->listWidget_exp_start);
+    CONNECT_REMOVE(ui->pushButton_exp_wait_remove,ui->listWidget_exp_wait);
+    CONNECT_REMOVE(ui->pushButton_exp_react_remove,ui->listWidget_exp_react);
+    CONNECT_REMOVE(ui->pushButton_mot_start_remove,ui->listWidget_mot_start);
+    CONNECT_REMOVE(ui->pushButton_mot_wait_remove,ui->listWidget_mot_wait);
+    CONNECT_REMOVE(ui->pushButton_mot_react_remove,ui->listWidget_mot_react);
+
+    connect(ui->pushButton_saveshift,&QPushButton::clicked,[=](){
+        QMap<QString,int>expM;
+        QMap<QString,int>motM;
+        QMap<QString,QString>expDataM;
+        QMap<QString,QString>motDataM;
+        CONNECT_SAVE(ui->listWidget_exp_start,expM,ShiftEn::START);
+        CONNECT_SAVE(ui->listWidget_exp_wait,expM,ShiftEn::WAIT);
+        CONNECT_SAVE(ui->listWidget_exp_react,expM,ShiftEn::REACT);
+        CONNECT_SAVE(ui->listWidget_mot_start,motM,ShiftEn::START);
+        CONNECT_SAVE(ui->listWidget_mot_wait,motM,ShiftEn::WAIT);
+        CONNECT_SAVE(ui->listWidget_mot_react,motM,ShiftEn::REACT);
+
+        for(auto it=expM.begin();it!=expM.end();++it)
+            expDataM[it.key()]=QString::number(it.value());
+        for(auto it=motM.begin();it!=motM.end();++it)
+            motDataM[it.key()]=QString::number(it.value());
+        QString configModelUserFilePath=this->m_FilePath+"/"+::ConfigModelUserFileName;
+        Config::set_OTHER_BASE(configModelUserFilePath,::ItemM[::EnItem::EXPRESSIONSHIFT],expDataM);
+        Config::set_OTHER_BASE(configModelUserFilePath,::ItemM[::EnItem::MOTIONSHIFT],motDataM);
+    });
+}
+
+void ChangeLive2DWidget::initUiShiftList()
+{
+    for(QMap<QString,int>::iterator it=m_ExpressionItemsMap.begin();it!=m_ExpressionItemsMap.end();++it){
+        ui->comboBox_exp_start->addItem(it.key());
+        ui->comboBox_exp_react->addItem(it.key());
+        ui->comboBox_exp_wait->addItem(it.key());
+    }
+    for(QMap<QString,int>::iterator it=m_MotionItemsMap.begin();it!=m_MotionItemsMap.end();++it){
+        ui->comboBox_mot_start->addItem(it.key());
+        ui->comboBox_mot_react->addItem(it.key());
+        ui->comboBox_mot_wait->addItem(it.key());
+    }
+    QString configModelUserFilePath=this->m_FilePath+"/"+::ConfigModelUserFileName;
+    QMap<QString,QString>expDataM=Config::get_OTHER_BASE(configModelUserFilePath,::ItemM[::EnItem::EXPRESSIONSHIFT]);
+    QMap<QString,QString>motDataM=Config::get_OTHER_BASE(configModelUserFilePath,::ItemM[::EnItem::MOTIONSHIFT]);
+
+    for (auto it=expDataM.begin();it!=expDataM.end();++it) {
+        if(expDataM[it.key()].toInt() & static_cast<int>(ShiftEn::START))
+            ui->listWidget_exp_start->addItem(it.key());
+        if(expDataM[it.key()].toInt() & static_cast<int>(ShiftEn::REACT))
+            ui->listWidget_exp_react->addItem(it.key());
+        if(expDataM[it.key()].toInt() & static_cast<int>(ShiftEn::WAIT))
+            ui->listWidget_exp_wait->addItem(it.key());
+    }
+    for (auto it=motDataM.begin();it!=motDataM.end();++it) {
+        if(motDataM[it.key()].toInt() & static_cast<int>(ShiftEn::START))
+            ui->listWidget_mot_start->addItem(it.key());
+        if(motDataM[it.key()].toInt() & static_cast<int>(ShiftEn::REACT))
+            ui->listWidget_mot_react->addItem(it.key());
+        if(motDataM[it.key()].toInt() & static_cast<int>(ShiftEn::WAIT))
+            ui->listWidget_mot_wait->addItem(it.key());
+    }
 }
 void ChangeLive2DWidget::initParameterItemsMap()
 {

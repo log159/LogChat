@@ -7,13 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>947</width>
-    <height>683</height>
+    <height>676</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout_6">
    <item>
     <widget class="QFrame" name="frame_button">
      <property name="minimumSize">
@@ -81,8 +81,24 @@
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
-     <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="1">
+     <layout class="QHBoxLayout" name="horizontalLayout_4">
+      <item>
+       <widget class="QListWidget" name="listWidget_model">
+        <property name="minimumSize">
+         <size>
+          <width>230</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>230</width>
+          <height>16777215</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QFrame" name="frame_model_control">
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
@@ -90,7 +106,7 @@
         <property name="frameShadow">
          <enum>QFrame::Raised</enum>
         </property>
-        <layout class="QVBoxLayout" name="verticalLayout_6">
+        <layout class="QVBoxLayout" name="verticalLayout">
          <item>
           <widget class="QFrame" name="frame_name">
            <property name="frameShape">
@@ -147,6 +163,13 @@
           </widget>
          </item>
          <item>
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>渲染控制 &gt; 嘴型随音频同步 &gt; 鼠标视线跟踪 &gt; 动画设定效果 &gt; 谐波 &gt; 透明调度 &gt; 控件协调</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QTabWidget" name="tabWidget_control">
            <property name="currentIndex">
             <number>0</number>
@@ -173,9 +196,16 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLabel" name="label_top_enable_2">
+                 <widget class="QLabel" name="label_top_enable">
                   <property name="text">
                    <string>选择窗口类型:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_fps">
+                  <property name="text">
+                   <string>调节帧率大小:</string>
                   </property>
                  </widget>
                 </item>
@@ -183,7 +213,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QFrame" name="frame_set_enable">
+              <widget class="QFrame" name="frame_set">
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
                </property>
@@ -218,7 +248,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QFrame" name="frame_top_enable_2">
+                 <widget class="QFrame" name="frame_top_enable">
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
                   </property>
@@ -251,6 +281,60 @@
                     <widget class="QRadioButton" name="radioButton_winnotopnoapha">
                      <property name="text">
                       <string>不置顶不透过</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QFrame" name="frame_fps">
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QGridLayout" name="gridLayout_26">
+                   <property name="leftMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <item row="0" column="2">
+                    <widget class="QPushButton" name="pushButton_fps">
+                     <property name="text">
+                      <string>重置</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="0">
+                    <widget class="QSlider" name="horizontalSlider_fps">
+                     <property name="minimumSize">
+                      <size>
+                       <width>100</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="1">
+                    <widget class="QLineEdit" name="lineEdit_fps">
+                     <property name="maximumSize">
+                      <size>
+                       <width>80</width>
+                       <height>100</height>
+                      </size>
                      </property>
                     </widget>
                    </item>
@@ -1084,22 +1168,6 @@
           </widget>
          </item>
         </layout>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QListWidget" name="listWidget_model">
-        <property name="minimumSize">
-         <size>
-          <width>230</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>230</width>
-          <height>16777215</height>
-         </size>
-        </property>
        </widget>
       </item>
      </layout>

@@ -15,6 +15,7 @@ private:
     QString     m_FilePath;
     bool        m_LookEnable;
     int         m_TopApha;
+    int         m_Fps;
     int         m_ModelSize;
     int         m_ModelX;
     int         m_ModelY;
@@ -35,6 +36,7 @@ public:
     inline const QString getFilePath()const{return m_FilePath;}
     inline bool getLookEnable()const{return m_LookEnable;}
     inline int getTopApha()const{return m_TopApha;}
+    inline int getFps()const{return m_Fps;}
     inline int getModelSize()const{return m_ModelSize;}
     inline int getModelX()const{return m_ModelX;}
     inline int getModelY()const{return m_ModelY;}
@@ -53,6 +55,7 @@ public:
     inline void setFilePath(const QString& str){m_FilePath=str;}
     inline void setLookEnable(bool bo){m_LookEnable=bo;}
     inline void setTopApha(int i){m_TopApha=i;}
+    inline void setFps(int i){m_Fps=i;}
     inline void setModelSize(int i){m_ModelSize=i;}
     inline void setModelX(int i){m_ModelX=i;}
     inline void setModelY(int i){m_ModelY=i;}

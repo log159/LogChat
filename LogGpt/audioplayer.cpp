@@ -11,6 +11,7 @@ AudioPlayer::AudioPlayer(const QUrl &audioUrl, QObject *parent) : QObject(parent
             m_Player->setVolume(value);
     }
     m_Player->play();
+
 }
 AudioPlayer::~AudioPlayer() {
     m_Player->stop();

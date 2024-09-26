@@ -12,6 +12,7 @@ void ModelConfigItem::printInformation(ModelConfigItem &modItem)
     modItem.getFilePath()<<"\n"<<
     modItem.getLookEnable()<<"\n"<<
     modItem.getTopApha()<<"\n"<<
+    modItem.getFps()<<"\n"<<
     modItem.getModelSize()<<"\n"<<
     modItem.getModelX()<<"\n"<<
     modItem.getModelY()<<"\n"<<
@@ -33,6 +34,7 @@ void ModelConfigItem::init()
     this->setFilePath(::LIVE2DSTRING_M["file_path"]);
     this->setLookEnable(::LIVE2DENABLEINIT_M["look_enable"]);
     this->setTopApha(::LIVE2DPARAMINIT_M["win_topapha"]);
+    this->setFps(::LIVE2DPARAMINIT_M["win_fps"]);
     this->setModelSize(::LIVE2DPARAMINIT_M["model_size"]);
     this->setModelX(::LIVE2DPARAMINIT_M["model_x"]);
     this->setModelY(::LIVE2DPARAMINIT_M["model_y"]);

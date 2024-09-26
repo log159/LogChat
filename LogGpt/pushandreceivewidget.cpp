@@ -130,7 +130,6 @@ void PushAndReceiveWidget::initConnect()
 {
     connect(m_AudioTimer,&QTimer::timeout,[&](){
         //这个循环是将合成的音频加入List
-
         if(true==CanSend && !m_RankTextList.isEmpty()){
             CanSend=false;
             VITSBase* vits = VITSFactory::getNew(this);
@@ -147,11 +146,10 @@ void PushAndReceiveWidget::initConnect()
             vits->start(m_RankTextList.front());
             m_RankTextList.pop_front();
         }
-        //音频列表顺序播放 用Chat端播放
-
+        //音频列表顺序播放 用LogChat端播放
         if(SetLive2DDialogWidget::live2DIsOpen==false){
-
             if(true==CanSound && !m_RankAudioList.isEmpty()){
+                qDebug()<<"Chat端播放音频: "<<m_RankAudioList.front();
                 CanSound=false;
                 AudioPlayer* sound=new AudioPlayer(QUrl(m_RankAudioList.front()),this);
                 connect(sound,&AudioPlayer::endof,[=](){
@@ -241,9 +239,6 @@ void PushAndReceiveWidget::updateListWidget()
         listWidgetItem->setSizeHint(QSize(size.width(),size.height()+20));
     }
 }
-
-
-
 
 void PushAndReceiveWidget::moveHistory()
 {
@@ -501,7 +496,6 @@ void PushAndReceiveWidget::add_bot_information(const QString &str)
     m_ListWidget->scrollToBottom();
     setAdapt();
 
-
     QTimer::singleShot(100,this,[=](){
         QScrollBar* scrollBar = m_ListWidget->verticalScrollBar();
         scrollBar->setValue(scrollBar->maximum());
@@ -513,7 +507,12 @@ void PushAndReceiveWidget::handle_bot_sound(const QString &str)
 {
     m_RankTextList.clear();
     m_RankAudioList.clear();
-    m_RankAudioList.push_front("null");
+
+    //发送表情和动画响应请求
+    if(NetLive2D::getIsConnect()){
+        m_RankAudioList.push_front("null");
+        NetLive2D::getInstance()->sendHandle("MotAndExp:null;");
+    }
 
     TempText = str;
     CanSend=true;

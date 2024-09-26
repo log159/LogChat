@@ -116,7 +116,8 @@ public class ExplainLoom : MonoBehaviour
         handlePart(key, value);
         handleDraw(key, value);
         handleExp(key, value);
-        handleAnimation(key, value);
+        handleMot(key, value);
+        handleExpAndMot(key, value);
         handleInitItems(key, value);
     }
 
@@ -213,6 +214,11 @@ public class ExplainLoom : MonoBehaviour
                         //人物是否看向鼠标
                         case "IsLookMouse":
                             Config.IsLookMouse = itemval > 0.5f ? true : false; break;
+                        //FPS帧率调控
+                        case "Fps":
+                            Config.FPS = int.Parse(parts[1]);
+                            WindowSetting.SetWindowFps(Config.FPS);
+                            break;
                         //浮点参数---------------------------------------------------------------------------------------------------
 
                         //人物看向鼠标速度参数
@@ -339,7 +345,7 @@ public class ExplainLoom : MonoBehaviour
                     Model model = GetComponent<Model>();
                     if (model != null) model.SendExpression(parts[1]);
                 }
-                else
+                else if(int.Parse(itemname) == 1)
                 {
                     int itemval;
                     if (int.TryParse(parts[1].Trim(), out itemval))
@@ -349,12 +355,17 @@ public class ExplainLoom : MonoBehaviour
                     }
                     else { Debug.LogError("Failed to parse value as int."); }
                 }
+                else if(int.Parse(itemname) == 2)
+                {
+                    Model model = GetComponent<Model>();
+                    if (model != null) model.SendReactExpressionShift();
+                }
             }
         }
     }
 
     //模型动作
-    void handleAnimation(string key, string value)
+    void handleMot(string key, string value)
     {
         if (key == "Mot")
         {
@@ -367,7 +378,7 @@ public class ExplainLoom : MonoBehaviour
                     Model model = GetComponent<Model>();
                     if (model != null) model.SendMotion(parts[1]);
                 }
-                else
+                else if (int.Parse(itemname) == 1)
                 {
                     int itemval;
                     if (int.TryParse(parts[1].Trim(), out itemval))
@@ -377,7 +388,21 @@ public class ExplainLoom : MonoBehaviour
                     }
                     else { Debug.LogError("Failed to parse value as int."); }
                 }
+                else if(int.Parse(itemname) == 2)
+                {
+                    Model model = GetComponent<Model>();
+                    if (model != null) model.SendReactMotionShift();
+                }
             }
+        }
+    }
+
+    void handleExpAndMot(string key,string value)
+    {
+        if(key== "MotAndExp")
+        {
+            Model model= GetComponent<Model>();
+            model.SendReactShift();
         }
     }
 

@@ -34,7 +34,15 @@ public class Config : MonoBehaviour
     public static readonly string BaseDrawableChange = "DRAWABLECHANGELIST";
     public static readonly string BaseExpression = "EXPRESSIONLIST";
     public static readonly string BaseMotion = "MOTIONLIST";
+    public static readonly string BaseExpressionShift ="EXPRESSIONSHIFT";
+    public static readonly string BaseMotionShift = "MOTIONSHIFT";
 
+    public enum ShiftEn
+    {
+        START = 1,  /*启动项*/
+        WAIT = 2,   /*等待项*/
+        REACT = 4,  /*响应项*/
+    }
 
     /// <summary>
     /// 基本信息
@@ -46,6 +54,12 @@ public class Config : MonoBehaviour
     public static int ModelId = 0;
 
     /// <summary>
+    /// 帧率
+    /// </summary>
+    public static int FPS = 120;
+
+
+    /// <summary>
     /// 布尔参数
     /// </summary>
     //是否看向鼠标
@@ -53,7 +67,7 @@ public class Config : MonoBehaviour
 
 
     /// <summary>
-    /// 常量信息
+    /// model常量信息
     /// </summary>
     //鼠标追踪控件 CubismLookParameter
     public static readonly string[] NeedAddCubismLookParameterObjectStrings = {

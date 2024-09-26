@@ -121,8 +121,8 @@ void SetDialogWidget::init()
     else
         ui->pushButton_audiovolume->setText("跟随系统");
 
-    ui->horizontalSlider_audiovolume->setValue(Config::get_USER(::EnUser::AUDIOVOLUME).toInt());
     ui->horizontalSlider_audiovolume->setRange(0,100);
+    ui->horizontalSlider_audiovolume->setValue(Config::get_USER(::EnUser::AUDIOVOLUME).toInt());
 
     ui->lineEdit_audiovolume->setReadOnly(true);
     ui->lineEdit_audiovolume->setText(QString::number(ui->horizontalSlider_audiovolume->value()));

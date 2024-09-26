@@ -22,7 +22,7 @@ void AboutSoftwareDialogWidget::init()
     setWindowFlags((windowFlags() & ~Qt::WindowContextHelpButtonHint) | Qt::WindowStaysOnTopHint);
 
     QString information_str=
-"#LogChat Version-7.5.1\n"
+"#LogChat Version-7.6.0\n"
 "- 一个开源免费的Chat客户端！\n"
 "- GitHub:https://github.com/log159/LogChat\n"
 "#版本记录"
@@ -70,6 +70,17 @@ void AboutSoftwareDialogWidget::init()
 "- vits获取人物列表&测试vits端连接\n"
 "- 使得LLM请求可以强行终止\n"
 "- l2d交互可更改tcp端口\n"
+"-#7.6.0\n"
+"- 可以调整Chat端音频音量\n"
+"- 修正图标,缩放不失真的Icon\n"
+"- Live2d可调整控件透明度\n"
+"- Live2d可以预览表情动画\n"
+"- Live2d可以预览动作动画\n"
+"- Live2d启动优化\n"
+"- 修复了Live2d初始化配置有概率不同步的bug\n"
+"- 修复了Live2d兼容性的一些问题\n"
+"- Live2d可以设置FPS帧率调节\n"
+"- 可设置Live2d启动、待机、响应三个状态的动画\n"
 
 "#-----End 有Bug欢迎反馈！-----\n";
 
