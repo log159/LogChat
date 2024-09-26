@@ -1,7 +1,7 @@
 # 一个开源免费的AI聊天客户端！
 
 预览:
-![屏幕截图 2024-08-17 194250](https://github.com/user-attachments/assets/793a8da1-ef0d-4db6-8c05-5a6f49c101d6)
+![屏幕截图 2024-09-26 231147](https://github.com/user-attachments/assets/69b7c163-575e-4ccf-b0f9-0ac06dea1a16)
 
 ---
 支持的聊天模型:
@@ -53,7 +53,7 @@
  - [x] Live2D-模型的几何位置，基本功能支持自定义
  - [x] Live2D-模型的控件偏移支持自定义
  - [x] Live2D-模型的控件渲染支持自定义
- - [ ] Live2D-模型的动画支持自定义
+ - [x] Live2D-模型的动画支持自定义
  - [ ] Live2D-模型的控件谐波支持自定义
  - [ ] Other-菜单项目[截图(编辑，OCR)，时钟，应用快捷启动器]
 
