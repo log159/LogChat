@@ -2,22 +2,15 @@
 
 > 支持 大语言模型-LLM / 语音识别-STT / 语音合成-TTS / Live2D 动画角色等，开箱即用，免环境部署！
 
----
-
 ## 🌈 项目预览
-
 ![AT](https://github.com/user-attachments/assets/3ccc4a8b-9a46-43ae-8afe-544b1eeb1e3e)
 
 ---
-
 ## 🧩 原理说明
 ![BA](https://github.com/user-attachments/assets/fa172513-bcf6-47a3-a14c-1debdad404e5)
 
-
 ---
-
 ## 📦 快速开始
-
 1. 解压并运行 `LogChat.exe`（请确保路径中无空格）  
 2. ChatGPT 使用需科学上网，或设置自定义代理 URL  
 3. TTS需要安装并运行 [VITS-simple-api](https://github.com/Artrajz/vits-simple-api/tree/main) 或 [GPT-SoVits](https://github.com/RVC-Boss/GPT-SoVITS)  
@@ -26,7 +19,6 @@
 6. GPT-SoVits转接api：[GitHub链接](https://github.com/jianchang512/gptsovits-api)（目前仅支持V1，其他版本请使用项目中的Self-VITS自定义配置）  
 
 ---
-
 ## 📋 已实现功能清单
 **✅ 聊天**：ChatGPT｜DeepSeek｜讯飞星火（v1~v3.5）  
 **✅ TTS**：VITS｜GPT-SoVits｜🔜 情绪/语速  
@@ -34,7 +26,7 @@
 **✅ Live2D**：导入｜位置｜控件渲染｜动画效果｜🔜 谐波支持  
 **🧰 待实现**：🔜 截图 / OCR
 
-
+---
 ## 📚 参考与依赖
 | 模块 | 链接 |
 |------|------|
@@ -49,43 +41,25 @@
 | 👧 Live2D SDK 文档中文翻译 | [GitHub](https://github.com/gtf35/live2d_unity_sdk_chinese_document) |
 
 ---
+### 🔄 GPT-SoVits 转接 API  
+[GitHub链接](https://github.com/jianchang512/gptsovits-api)（仅支持 V1，其他请用 Self-VITS 配置）
 
-### 🔄 GPT-SoVits 转接 API
+### 🧠 VITS-simple-api 可用模型  
+[MoeTTS](https://github.com/luoyily/MoeTTS)｜[Emotional-VITS](https://github.com/Ikaros-521/emotional-vits/releases)｜[TTSModels](https://github.com/CjangCjengh/TTSModels)
 
-- [GitHub链接](https://github.com/jianchang512/gptsovits-api)  （目前仅支持 V1，其他版本请使用 Self-VITS 自定义配置）
+### 🧠 GPT-SoVits (V1) 可用模型  
+[薄荷（中日英三语）](https://www.bilibili.com/video/BV1wy411B7uE)（自训模型）
 
----
-
-### 🧠 可用于 VITS-simple-api 的模型
-
-- [MoeTTS](https://github.com/luoyily/MoeTTS)
-- [Emotional-VITS](https://github.com/Ikaros-521/emotional-vits/releases)
-- [TTSModels](https://github.com/CjangCjengh/TTSModels)
-
----
-
-### 🧠 可用于 GPT-SoVits 的模型(V1)
-
-- [薄荷（支持中日英三语）](https://www.bilibili.com/video/BV1wy411B7uE)  （自己随便训练的）
+### 🎨 Live2D 模型资源（转载）  
+[亚托莉](https://www.bilibili.com/video/BV1zg4y1b7Yu)｜[丛雨](https://www.bilibili.com/video/BV1mb4y1i7xu)｜[娅萌工作室](https://www.bilibili.com/video/BV1kX4y1677W)
 
 ---
-
-## 🎨 可用 Live2D 模型资源（转载）
-
-- [亚托莉](https://www.bilibili.com/video/BV1zg4y1b7Yu)
-- [丛雨](https://www.bilibili.com/video/BV1mb4y1i7xu)
-- [娅萌工作室模型](https://www.bilibili.com/video/BV1kX4y1677W)
-
----
-
 ## 📬 联系与反馈
 
 欢迎提 Issue 或 PR，也可通过[ B 站私信 ](https://space.bilibili.com/3493110573172862)联系开发者！
 
 ---
-
 ## 🙌 贡献者名单
-
 <!-- readme: collaborators,contributors -start -->
 <table>
 <tr>
