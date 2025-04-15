@@ -119,6 +119,7 @@
 ## 📬 联系与反馈
 
 欢迎提 Issue 或 PR，也可通过 B 站私信联系开发者！
+- [BiliBili链接](https://space.bilibili.com/3493110573172862)
 
 ---
 ## 🙌 贡献者名单
