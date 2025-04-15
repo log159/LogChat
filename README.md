@@ -10,17 +10,6 @@
 
 ---
 
-## 🚀 支持的模型
-
-- 🧠 ChatGPT（官方API支持）
-- 🌟 讯飞星火（general / v2 / v3 / v3.5）
-- 🔎 DeepSeek
-- 🧪 ChatGLM3（计划中）
-- 🐲 百度千帆大模型（计划中）
-- 🖥️ Ollama（计划中）
-
----
-
 ## 🧩 架构说明
 
 - 🖥️ UI：基于 Qt Creator 开发界面
@@ -45,11 +34,9 @@
 ## 📋 已实现功能清单
 
 ### ✅ 聊天功能
-- ✅ ChatGPT 接入
+- ✅ ChatGPT
 - ✅ DeepSeek 支持
 - ✅ 讯飞星火模型（general v1~v3.5）
-- 🔜 ChatGLM3
-- 🔜 百度千帆 / Ollama / 反代理等
 
 ### ✅ TTS/语音合成
 - ✅ VITS-simple-api
@@ -67,9 +54,7 @@
 - 🔜 控件谐波支持
 
 ### 🧰 其他计划功能
-- 🔜 屏幕截图（OCR提取文字）
-- 🔜 时钟组件
-- 🔜 快捷启动器
+- 🔜 屏幕截图等（OCR提取文字）
 ## 📚 参考与依赖
 
 | 模块 | 链接 |
@@ -101,7 +86,7 @@
 
 ---
 
-### 🧠 可用于 GPT-SoVits 的模型
+### 🧠 可用于 GPT-SoVits 的模型(V1)
 
 - [薄荷（支持中日英三语）](https://www.bilibili.com/video/BV1wy411B7uE)  
   （自己随便训练的）
@@ -118,8 +103,7 @@
 
 ## 📬 联系与反馈
 
-欢迎提 Issue 或 PR，也可通过 B 站私信联系开发者！
-- [BiliBili链接](https://space.bilibili.com/3493110573172862)
+欢迎提 Issue 或 PR，也可通过[ B 站私信 ](https://space.bilibili.com/3493110573172862)联系开发者！
 
 ---
 ## 🙌 贡献者名单
