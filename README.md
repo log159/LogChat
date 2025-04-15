@@ -6,7 +6,7 @@
 
 ## 🌈 项目预览
 
-[![项目截图](https://github.com/user-attachments/assets/69b7c163-575e-4ccf-b0f9-0ac06dea1a16)](https://github.com/user-attachments/assets/69b7c163-575e-4ccf-b0f9-0ac06dea1a16)
+![AT](https://github.com/user-attachments/assets/3ccc4a8b-9a46-43ae-8afe-544b1eeb1e3e)
 
 ---
 
