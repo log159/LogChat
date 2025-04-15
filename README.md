@@ -1,4 +1,4 @@
-# 💬 LogChat — 一个轻量支持Live2d的智能AI聊天客户端!
+# 💬 LogChat / 对数聊天 — 一个轻量支持Live2d的智能AI聊天客户端!
 
 > 支持 ChatGPT / 讯飞星火 / DeepSeek / 百度语音识别 / TTS 合成 / Live2D 动画角色等，开箱即用，免环境部署！
 
@@ -82,9 +82,6 @@
 - 🔜 屏幕截图（OCR提取文字）
 - 🔜 时钟组件
 - 🔜 快捷启动器
-
----
-
 ## 📚 参考与依赖
 
 | 模块 | 链接 |
@@ -98,6 +95,28 @@
 | 🔊 GPT-SoVits | [GitHub](https://github.com/RVC-Boss/GPT-SoVITS) |
 | 👧 Live2D SDK 文档 | [官方](https://docs.live2d.com/zh-CHS/cubism-sdk-manual/top/) |
 | 👧 中文翻译文档 | [GitHub](https://github.com/gtf35/live2d_unity_sdk_chinese_document) |
+
+---
+
+### 🔄 GPT-SoVits 转接 API
+
+- [GitHub链接](https://github.com/jianchang512/gptsovits-api)  
+  （目前仅支持 V1，其他版本请使用 Self-VITS 自定义配置）
+
+---
+
+### 🧠 可用于 VITS-simple-api 的模型
+
+- [MoeTTS](https://github.com/luoyily/MoeTTS)
+- [Emotional-VITS](https://github.com/Ikaros-521/emotional-vits/releases)
+- [TTSModels](https://github.com/CjangCjengh/TTSModels)
+
+---
+
+### 🧠 可用于 GPT-SoVits 的模型
+
+- [薄荷（支持中日英三语）](https://www.bilibili.com/video/BV1wy411B7uE)  
+  （自己随便训练的）
 
 ---
 
