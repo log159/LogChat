@@ -116,6 +116,11 @@
 
 ---
 
+## 📬 联系与反馈
+
+欢迎提 Issue 或 PR，也可通过 B 站私信联系开发者！
+
+---
 ## 🙌 贡献者名单
 
 <!-- readme: collaborators,contributors -start -->
@@ -138,10 +143,4 @@
 </table>
 <!-- readme: collaborators,contributors -end -->
 
----
 
-## 📬 联系与反馈
-
-欢迎提 Issue 或 PR，也可通过 B 站私信联系开发者！
-
----
