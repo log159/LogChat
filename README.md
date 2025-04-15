@@ -45,11 +45,12 @@
 
 ## 📦 快速开始
 
-1. 解压并运行 `LogChat.exe`（请确保路径中无空格）
-2. ChatGPT 使用需科学上网，或设置自定义代理 URL
-3. TTS需要安装并运行 [VITS-simple-api](https://github.com/Artrajz/vits-simple-api/tree/main) 或 [GPT-SoVits](https://github.com/RVC-Boss/GPT-SoVITS)
-4. 如模型不支持语言，配置 [百度翻译 API](https://fanyi-api.baidu.com/)
-5. 语音识别需配置 [百度语音识别 API](https://ai.baidu.com/ai-doc/SPEECH/Jlbxdezuf)
+1. 解压并运行 `LogChat.exe`（请确保路径中无空格）  
+2. ChatGPT 使用需科学上网，或设置自定义代理 URL  
+3. TTS需要安装并运行 [VITS-simple-api](https://github.com/Artrajz/vits-simple-api/tree/main) 或 [GPT-SoVits](https://github.com/RVC-Boss/GPT-SoVITS)  
+4. 如模型不支持语言，配置 [百度翻译 API](https://fanyi-api.baidu.com/)  
+5. 语音识别需配置 [百度语音识别 API](https://ai.baidu.com/ai-doc/SPEECH/Jlbxdezuf)  
+6. GPT-SoVits转接api：[GitHub链接](https://github.com/jianchang512/gptsovits-api)（目前仅支持V1，其他版本请使用项目中的Self-VITS自定义配置）  
 
 ---
 
