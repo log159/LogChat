@@ -1,4 +1,4 @@
-# 💬 LogChat / 对数聊天 — 一个轻量支持Live2d的智能AI聊天客户端!
+# 💬 LogChat / 对数聊天 — 轻量支持Live2d的AI聊天客户端!
 
 > 支持 ChatGPT / 讯飞星火 / DeepSeek / 百度语音识别 / TTS 合成 / Live2D 动画角色等，开箱即用，免环境部署！
 
@@ -21,25 +21,13 @@
 
 ---
 
-## 🛠️ 技术支持组件
-
-- 💬 LLM：大语言模型聊天系统
-- 🗣️ TTS：VITS / GPT-SoVits 语音合成
-- 🎙️ STT：百度语音识别（中文普通话）
-- 👧 Live2D：支持角色动画、控件自定义、动作系统
-
----
-
 ## 🧩 架构说明
 
 - 🖥️ UI：基于 Qt Creator 开发界面
-- 🔗 接口：
-  - ChatGPT API / DeepSeek API / 讯飞SDK（Windows）
-  - 百度翻译 API / 百度语音识别 API
-- 🔊 TTS：
-  - VITS-simple-api / GPT-SoVits 接口联动
-- 🧍‍♀️ Live2D：
-  - Unity 驱动，支持模型导入和动画绑定
+- 💬 LLM：ChatGPT API / DeepSeek API / 讯飞SDK（Windows）
+- 🛠️ MT：百度翻译 API / 百度语音识别 API
+- 🔊 TTS：VITS-simple-api / GPT-SoVits 接口联动
+- 🧍‍♀️ Live2D：Unity 驱动，支持模型导入和动画绑定
 
 ---
 
