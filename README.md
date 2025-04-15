@@ -126,8 +126,7 @@
             <br />
             <sub><b>Log</b></sub>
         </a>
-    </td>
-</tr>
+    </td></tr>
 </table>
 <!-- readme: collaborators,contributors -end -->
 
