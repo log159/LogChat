@@ -1,6 +1,6 @@
 # 💬 LogChat / 对数聊天 — 轻量支持Live2d的AI聊天客户端!
 
-> 支持 ChatGPT / 讯飞星火 / DeepSeek / 百度语音识别 / TTS 合成 / Live2D 动画角色等，开箱即用，免环境部署！
+> 支持 大语言模型-LLM / 语音识别-STT / 语音合成-TTS / Live2D 动画角色等，开箱即用，免环境部署！
 
 ---
 
@@ -10,13 +10,9 @@
 
 ---
 
-## 🧩 架构说明
+## 🧩 原理说明
+![BA](https://github.com/user-attachments/assets/fa172513-bcf6-47a3-a14c-1debdad404e5)
 
-- 🖥️ UI：基于 Qt Creator 开发界面
-- 💬 LLM：ChatGPT API / DeepSeek API / 讯飞SDK（Windows）
-- 🛠️ MT：百度翻译 API / 百度语音识别 API
-- 🔊 TTS：VITS-simple-api / GPT-SoVits 接口联动
-- 🧍‍♀️ Live2D：Unity 驱动，支持模型导入和动画绑定
 
 ---
 
@@ -32,49 +28,31 @@
 ---
 
 ## 📋 已实现功能清单
+**✅ 聊天**：ChatGPT｜DeepSeek｜讯飞星火（v1~v3.5）  
+**✅ TTS**：VITS｜GPT-SoVits｜🔜 情绪/语速  
+**✅ STT**：百度语音识别（普通话）  
+**✅ Live2D**：导入｜位置｜控件渲染｜动画效果｜🔜 谐波支持  
+**🧰 待实现**：🔜 截图 / OCR
 
-### ✅ 聊天功能
-- ✅ ChatGPT
-- ✅ DeepSeek 支持
-- ✅ 讯飞星火模型（general v1~v3.5）
 
-### ✅ TTS/语音合成
-- ✅ VITS-simple-api
-- ✅ GPT-SoVits
-- 🔜 模型情绪调节、语速调节等高级功能
-
-### ✅ STT/语音识别
-- ✅ 百度语音识别（普通话）
-
-### ✅ Live2D 角色动画
-- ✅ 模型导入
-- ✅ 位置与偏移控制
-- ✅ 自定义控件渲染
-- ✅ 动画动作绑定
-- 🔜 控件谐波支持
-
-### 🧰 其他计划功能
-- 🔜 屏幕截图等（OCR提取文字）
 ## 📚 参考与依赖
-
 | 模块 | 链接 |
 |------|------|
 | 💬 ChatGPT API | [OpenAI](https://platform.openai.com/docs/api-reference/introduction) |
 | 💬 DeepSeek API | [官方文档](https://platform.deepseek.com/api-docs/zh-cn/) |
-| 🌟 讯飞星火 SDK | [Windows SDK 文档](https://www.xfyun.cn/doc/spark/WindowsSDK.html) |
+| 💬 讯飞星火 SDK | [Windows SDK 文档](https://www.xfyun.cn/doc/spark/WindowsSDK.html) |
 | 🗣️ 百度语音识别 | [文档](https://ai.baidu.com/ai-doc/SPEECH/Jlbxdezuf) |
 | 🌐 百度翻译 API | [文档](https://fanyi-api.baidu.com/doc/11) |
 | 🔊 VITS-simple-api | [GitHub](https://github.com/Artrajz/vits-simple-api/tree/v0.2.0) |
 | 🔊 GPT-SoVits | [GitHub](https://github.com/RVC-Boss/GPT-SoVITS) |
 | 👧 Live2D SDK 文档 | [官方](https://docs.live2d.com/zh-CHS/cubism-sdk-manual/top/) |
-| 👧 中文翻译文档 | [GitHub](https://github.com/gtf35/live2d_unity_sdk_chinese_document) |
+| 👧 Live2D SDK 文档中文翻译 | [GitHub](https://github.com/gtf35/live2d_unity_sdk_chinese_document) |
 
 ---
 
 ### 🔄 GPT-SoVits 转接 API
 
-- [GitHub链接](https://github.com/jianchang512/gptsovits-api)  
-  （目前仅支持 V1，其他版本请使用 Self-VITS 自定义配置）
+- [GitHub链接](https://github.com/jianchang512/gptsovits-api)  （目前仅支持 V1，其他版本请使用 Self-VITS 自定义配置）
 
 ---
 
@@ -88,8 +66,7 @@
 
 ### 🧠 可用于 GPT-SoVits 的模型(V1)
 
-- [薄荷（支持中日英三语）](https://www.bilibili.com/video/BV1wy411B7uE)  
-  （自己随便训练的）
+- [薄荷（支持中日英三语）](https://www.bilibili.com/video/BV1wy411B7uE)  （自己随便训练的）
 
 ---
 
@@ -106,6 +83,7 @@
 欢迎提 Issue 或 PR，也可通过[ B 站私信 ](https://space.bilibili.com/3493110573172862)联系开发者！
 
 ---
+
 ## 🙌 贡献者名单
 
 <!-- readme: collaborators,contributors -start -->
@@ -127,5 +105,4 @@
     </td></tr>
 </table>
 <!-- readme: collaborators,contributors -end -->
-
 
