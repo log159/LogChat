@@ -1,88 +1,114 @@
-# 一个开源免费的AI聊天客户端！
+# 💬 LogChat — 开源免费AI聊天客户端
 
-预览:
-![屏幕截图 2024-09-26 231147](https://github.com/user-attachments/assets/69b7c163-575e-4ccf-b0f9-0ac06dea1a16)
+> 支持 ChatGPT / 讯飞星火 / DeepSeek / 语音识别 / TTS 合成 / Live2D 动画角色等，开箱即用，免环境部署！
 
 ---
-支持的聊天模型:
-- ChatGPT
-- 讯飞星火
-- DeepSeek
+
+## 🌈 项目预览
+
+[![项目截图](https://github.com/user-attachments/assets/69b7c163-575e-4ccf-b0f9-0ac06dea1a16)](https://github.com/user-attachments/assets/69b7c163-575e-4ccf-b0f9-0ac06dea1a16)
+
 ---
-支持的技术:
-- LLM
-- TTS
-- STT
-- Live2D
+
+## 🚀 支持的模型
+
+- 🧠 ChatGPT（官方API支持）
+- 🌟 讯飞星火（general / generalv2 / v3 / v3.5）
+- 🔎 DeepSeek
+- 🧪 ChatGLM3（开发中）
+- 🐲 百度千帆大模型（计划中）
+- 🖥️ Ollama（计划中）
+
 ---
-## 源代码架构
 
-- **UI设计：** 使用Qt Creator进行界面设计
-- **ChatGPT API**
-- **讯飞星火大模型官方Windows SDK**
-- **DeepSeek API**
-- **VITS-simple-api**
-- **GPT-SoVits**
-- **百度翻译API**
-- **百度语音识别API**
-- **Live2D基于Unity**
+## 🛠️ 技术支持组件
 
-## 发布使用说明
+- 💬 LLM：大语言模型聊天系统
+- 🗣️ TTS：VITS / GPT-SoVits 语音合成
+- 🎙️ STT：百度语音识别（中文普通话）
+- 👧 Live2D：支持角色动画、控件自定义、动作系统
 
-1. 无需任何额外环境，直接可用于Windows系统，请确保安装路径中没有空格！
-2. 使用ChatGPT官方key需要科学上网，或通过自定义URL设置直连。
-3. 语音合成功能需要 [VITS-simple-api](https://github.com/Artrajz/vits-simple-api/tree/main)或[GPT-SoVits](https://github.com/RVC-Boss/GPT-SoVITS)
-4. 配置VITS模型并成功启动端口。
-5. 若VITS模型不支持对话语言，需要使用[百度翻译API](https://fanyi-api.baidu.com/)。
-6. 免科学上网使用此项目方式，获取base URL以及key：[GPT_API_free](https://github.com/chatanywhere/GPT_API_free)
-7. 运行`LogChat.exe`。
+---
 
-## 目前以及未来实现的功能
- - [x] LLM-ChatGPT
- - [x] LLM-讯飞星火语言大模型[general,generalv2,generalv3,generalv3.5]
- - [x] LLM-DeepSeek
- - [ ] LLM-ChatGML[ChatGML3]
+## 🧩 架构说明
 
- - [ ] LLM-百度千帆大模型
- - [ ] LLM-Ollama
- - [ ] LLM-其它Ai平台的反代理方式
- - [x] TTS-VITS
- - [x] TTS-GPT-SoVits
- - [x] STT-百度语音识别[中文普通话]
- - [x] Live2D-角色模型导入
- - [x] Live2D-模型的几何位置，基本功能支持自定义
- - [x] Live2D-模型的控件偏移支持自定义
- - [x] Live2D-模型的控件渲染支持自定义
- - [x] Live2D-模型的动画支持自定义
- - [ ] Live2D-模型的控件谐波支持自定义
- - [ ] Other-菜单项目[截图(编辑，OCR)，时钟，应用快捷启动器]
+- 🖥️ UI：基于 Qt Creator 开发界面
+- 🔗 接口：
+  - ChatGPT API / DeepSeek API / 讯飞SDK（Windows）
+  - 百度翻译 API / 百度语音识别 API
+- 🔊 TTS：
+  - VITS-simple-api / GPT-SoVits 接口联动
+- 🧍‍♀️ Live2D：
+  - Unity 驱动，支持模型导入和动画绑定
 
-## 借鉴与引用
+---
 
-- **Vits-simple-api**：[GitHub链接](https://github.com/Artrajz/vits-simple-api/tree/v0.2.0)
-- **Vits-simple-api配置**：[Bilibili视频](https://www.bilibili.com/video/BV1ku4y1R73r)
-- **可用于Vits-simple-api的模型**：
-  - [MoeTTS](https://github.com/luoyily/MoeTTS)
-  - [Emotional-VITS](https://github.com/Ikaros-521/emotional-vits/releases)
-  - [TTSModels](https://github.com/CjangCjengh/TTSModels)
-- **GPT-SoVits**：[GitHub链接](https://github.com/RVC-Boss/GPT-SoVITS)
-- **GPT-SoVits转接api**：[GitHub链接](https://github.com/jianchang512/gptsovits-api)
-- **可用于GPT-SoVits的模型**：
-  - (自己随便训练的,支持中日英三语)[薄荷](https://www.bilibili.com/video/BV1wy411B7uE)
-- **其他文档及VITS常见问题**：[Luna Docs](https://luna.docs.ie.cx/)
-- **OpenAI官网**：[访问OpenAI](https://openai.com/)
-- **OpenAI API文档**：[API文档](https://platform.openai.com/docs/api-reference/introduction)
-- **百度翻译API文档**：[API文档](https://fanyi-api.baidu.com/doc/11)
-- **百度语音识别API文档**：[API文档](https://ai.baidu.com/ai-doc/SPEECH/Jlbxdezuf)
-- **讯飞星火API文档**：[API文档](https://www.xfyun.cn/doc/spark/WindowsSDK.html)
-- **DeepSeek API文档**：[API文档](https://platform.deepseek.com/api-docs/zh-cn/)
-- **Live2D SDK手册**：[SDK文档](https://docs.live2d.com/zh-CHS/cubism-sdk-manual/top/)
-- **Live2D中文文档**：[GitHub资源](https://github.com/gtf35/live2d_unity_sdk_chinese_document)
-- **可用的Live2D(转自B站)**：
-  - [亚托莉](https://www.bilibili.com/video/BV1zg4y1b7Yu)
-  - [丛雨](https://www.bilibili.com/video/BV1mb4y1i7xu)
-  - [娅萌工作室](https://www.bilibili.com/video/BV1kX4y1677W)
-## 贡献者
+## 📦 快速开始
+
+1. 解压并运行 `LogChat.exe`（请确保路径中无空格）
+2. ChatGPT 使用需科学上网，或设置自定义代理 URL
+3. TTS需要安装并运行 [VITS-simple-api](https://github.com/Artrajz/vits-simple-api/tree/main) 或 [GPT-SoVits](https://github.com/RVC-Boss/GPT-SoVITS)
+4. 如模型不支持语言，配置 [百度翻译 API](https://fanyi-api.baidu.com/)
+5. 语音识别需配置 [百度语音识别 API](https://ai.baidu.com/ai-doc/SPEECH/Jlbxdezuf)
+
+---
+
+## 📋 已实现功能清单
+
+### ✅ 聊天功能
+- ✅ ChatGPT 接入
+- ✅ DeepSeek 支持
+- ✅ 讯飞星火模型（general v1~v3.5）
+- 🔜 ChatGLM3
+- 🔜 百度千帆 / Ollama / 反代理等
+
+### ✅ TTS/语音合成
+- ✅ VITS-simple-api
+- ✅ GPT-SoVits
+- 🔜 模型情绪调节、语速调节等高级功能
+
+### ✅ STT/语音识别
+- ✅ 百度语音识别（普通话）
+
+### ✅ Live2D 角色动画
+- ✅ 模型导入
+- ✅ 位置与偏移控制
+- ✅ 自定义控件渲染
+- ✅ 动画动作绑定
+- 🔜 控件谐波支持
+
+### 🧰 其他计划功能
+- 🔜 屏幕截图（OCR提取文字）
+- 🔜 时钟组件
+- 🔜 快捷启动器
+
+---
+
+## 📚 参考与依赖
+
+| 模块 | 链接 |
+|------|------|
+| 💬 ChatGPT API | [OpenAI](https://platform.openai.com/docs/api-reference/introduction) |
+| 💬 DeepSeek API | [官方文档](https://platform.deepseek.com/api-docs/zh-cn/) |
+| 🌟 讯飞星火 SDK | [Windows SDK 文档](https://www.xfyun.cn/doc/spark/WindowsSDK.html) |
+| 🗣️ 百度语音识别 | [文档](https://ai.baidu.com/ai-doc/SPEECH/Jlbxdezuf) |
+| 🌐 百度翻译 API | [文档](https://fanyi-api.baidu.com/doc/11) |
+| 🔊 VITS-simple-api | [GitHub](https://github.com/Artrajz/vits-simple-api/tree/v0.2.0) |
+| 🔊 GPT-SoVits | [GitHub](https://github.com/RVC-Boss/GPT-SoVITS) |
+| 👧 Live2D SDK 文档 | [官方](https://docs.live2d.com/zh-CHS/cubism-sdk-manual/top/) |
+| 👧 中文翻译文档 | [GitHub](https://github.com/gtf35/live2d_unity_sdk_chinese_document) |
+
+---
+
+## 🎨 可用 Live2D 模型资源（转载）
+
+- [亚托莉](https://www.bilibili.com/video/BV1zg4y1b7Yu)
+- [丛雨](https://www.bilibili.com/video/BV1mb4y1i7xu)
+- [娅萌工作室模型](https://www.bilibili.com/video/BV1kX4y1677W)
+
+---
+
+## 🙌 贡献者名单
 
 <!-- readme: collaborators,contributors -start -->
 <table>
@@ -100,7 +126,15 @@
             <br />
             <sub><b>Log</b></sub>
         </a>
-    </td></tr>
+    </td>
+</tr>
 </table>
 <!-- readme: collaborators,contributors -end -->
 
+---
+
+## 📬 联系与反馈
+
+欢迎提 Issue 或 PR，也可通过 B 站私信联系开发者！
+
+---
