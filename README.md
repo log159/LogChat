@@ -27,20 +27,6 @@
 **🧰 待实现**：🔜 截图 / OCR
 
 ---
-## 📚 参考与依赖
-| 模块 | 链接 |
-|------|------|
-| 💬 ChatGPT API | [OpenAI](https://platform.openai.com/docs/api-reference/introduction) |
-| 💬 DeepSeek API | [官方文档](https://platform.deepseek.com/api-docs/zh-cn/) |
-| 💬 讯飞星火 SDK | [Windows SDK 文档](https://www.xfyun.cn/doc/spark/WindowsSDK.html) |
-| 🗣️ 百度语音识别 | [文档](https://ai.baidu.com/ai-doc/SPEECH/Jlbxdezuf) |
-| 🌐 百度翻译 API | [文档](https://fanyi-api.baidu.com/doc/11) |
-| 🔊 VITS-simple-api | [GitHub](https://github.com/Artrajz/vits-simple-api/tree/v0.2.0) |
-| 🔊 GPT-SoVits | [GitHub](https://github.com/RVC-Boss/GPT-SoVITS) |
-| 👧 Live2D SDK 文档 | [官方](https://docs.live2d.com/zh-CHS/cubism-sdk-manual/top/) |
-| 👧 Live2D SDK 文档中文翻译 | [GitHub](https://github.com/gtf35/live2d_unity_sdk_chinese_document) |
-
----
 ### 🔄 GPT-SoVits 转接 API  
 [GitHub链接](https://github.com/jianchang512/gptsovits-api)（仅支持 V1，其他请用 Self-VITS 配置）
 
@@ -57,6 +43,20 @@
 ## 📬 联系与反馈
 
 欢迎提 Issue 或 PR，也可通过[ B 站私信 ](https://space.bilibili.com/3493110573172862)联系开发者！
+
+---
+## 📚 参考与依赖
+| 模块 | 链接 |
+|------|------|
+| 💬 ChatGPT API | [OpenAI](https://platform.openai.com/docs/api-reference/introduction) |
+| 💬 DeepSeek API | [官方文档](https://platform.deepseek.com/api-docs/zh-cn/) |
+| 💬 讯飞星火 SDK | [Windows SDK 文档](https://www.xfyun.cn/doc/spark/WindowsSDK.html) |
+| 🗣️ 百度语音识别 | [文档](https://ai.baidu.com/ai-doc/SPEECH/Jlbxdezuf) |
+| 🌐 百度翻译 API | [文档](https://fanyi-api.baidu.com/doc/11) |
+| 🔊 VITS-simple-api | [GitHub](https://github.com/Artrajz/vits-simple-api/tree/v0.2.0) |
+| 🔊 GPT-SoVits | [GitHub](https://github.com/RVC-Boss/GPT-SoVITS) |
+| 👧 Live2D SDK 文档 | [官方](https://docs.live2d.com/zh-CHS/cubism-sdk-manual/top/) |
+| 👧 Live2D SDK 文档中文翻译 | [GitHub](https://github.com/gtf35/live2d_unity_sdk_chinese_document) |
 
 ---
 ## 🙌 贡献者名单
