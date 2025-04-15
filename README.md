@@ -1,6 +1,6 @@
-# 💬 LogChat — 开源免费AI聊天客户端
+# 💬 LogChat — 一个轻量支持Live2d的智能AI聊天客户端!
 
-> 支持 ChatGPT / 讯飞星火 / DeepSeek / 语音识别 / TTS 合成 / Live2D 动画角色等，开箱即用，免环境部署！
+> 支持 ChatGPT / 讯飞星火 / DeepSeek / 百度语音识别 / TTS 合成 / Live2D 动画角色等，开箱即用，免环境部署！
 
 ---
 
@@ -13,9 +13,9 @@
 ## 🚀 支持的模型
 
 - 🧠 ChatGPT（官方API支持）
-- 🌟 讯飞星火（general / generalv2 / v3 / v3.5）
+- 🌟 讯飞星火（general / v2 / v3 / v3.5）
 - 🔎 DeepSeek
-- 🧪 ChatGLM3（开发中）
+- 🧪 ChatGLM3（计划中）
 - 🐲 百度千帆大模型（计划中）
 - 🖥️ Ollama（计划中）
 
