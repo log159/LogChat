@@ -22,7 +22,7 @@
 ## 📋 已实现功能清单
 **✅ 聊天**：ChatGPT｜DeepSeek｜讯飞星火（v1~v3.5）  
 **✅ 语言合成**：VITS｜GPT-SoVits｜🔜 情绪/语速  
-**✅ 语言识别**：百度语音识别（普通话）  
+**✅ 语音识别**：百度语音识别（中文普通话）  
 **✅ 虚拟形象**：导入｜位置｜控件渲染｜动画效果｜🔜 谐波支持  
 **🧰 待实现**：🔜 截图 / OCR
 
@@ -57,8 +57,8 @@
 - 🌐 百度翻译 API：[https://fanyi-api.baidu.com/doc/11](https://fanyi-api.baidu.com/doc/11) 
 - 🔊 VITS-simple-api：[https://github.com/Artrajz/vits-simple-api/tree/v0.2.0](https://github.com/Artrajz/vits-simple-api/tree/v0.2.0) 
 - 🔊 GPT-SoVits：[https://github.com/RVC-Boss/GPT-SoVITS](https://github.com/RVC-Boss/GPT-SoVITS) 
-- 👧 Live2D SDK 文档：[https://docs.live2d.com/zh-CHS/cubism-sdk-manual/top](https://docs.live2d.com/zh-CHS/cubism-sdk-manual/top) 
-- 👧 Live2D SDK 文档中文翻译：[https://github.com/gtf35/live2d_unity_sdk_chinese_document](https://github.com/gtf35/live2d_unity_sdk_chinese_document) 
+- 👧 Live2D Unity SDK 文档：[https://docs.live2d.com/zh-CHS/cubism-sdk-manual/top](https://docs.live2d.com/zh-CHS/cubism-sdk-manual/top) 
+- 👧 Live2D Unity SDK 文档中文翻译：[https://github.com/gtf35/live2d_unity_sdk_chinese_document](https://github.com/gtf35/live2d_unity_sdk_chinese_document) 
 
 ---
 ## 🙌 贡献者名单
