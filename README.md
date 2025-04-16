@@ -1,4 +1,4 @@
-# 💬 LogChat / 对数聊天 — 轻量支持Live2d的AI聊天客户端!
+# 💬 LogChat / 对数聊天 — 支持Live2d的AI聊天客户端!
 > 支持 大语言模型-LLM / 语音识别-STT / 语音合成-TTS / Live2D 动画角色等，开箱即用，免环境部署！
 
 ---
